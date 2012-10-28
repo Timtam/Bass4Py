@@ -4,12 +4,16 @@ import os.path as paths
 from win32api import GetModuleFileName
 from ctypes import *
 from ctypes.wintypes import *
+from constants import *
 from basschannel import *
 from bassplugin import *
 from bassstream import *
+from bassmusic import *
 BASS_DWORD_ERR =4294967295
 HSTREAM =DWORD
 HPLUGIN=DWORD
+HMUSIC=DWORD
+QWORD=c_longlong
 tDownloadProc = WINFUNCTYPE(None, c_void_p, DWORD, c_void_p)
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
@@ -106,6 +110,9 @@ class BASS(object):
   self.__bass_geteaxparameters = self.__bass.BASS_GetEAXParameters
   self.__bass_geteaxparameters.restype=BOOL
   self.__bass_geteaxparameters.argtypes=[POINTER(DWORD), POINTER(c_float), POINTER(c_float), POINTER(c_float)]
+  self.__bass_musicload = self.__bass.BASS_MusicLoad
+  self.__bass_musicload.restype=HMUSIC
+  self.__bass_musicload.argtypes=[BOOL, c_void_p, QWORD, DWORD, DWORD, DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   return self.__bass_init(device,frequency,flags,hwnd,clsid)
  def __ErrorGetCode(self):
@@ -235,6 +242,15 @@ class BASS(object):
    return 0
   else:
    return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
+ def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
+  if mem==0:
+   self.__bass_musicload.argtypes[1] =c_wchar_p
+  flags = flags&BASS_UNICODE
+  ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
+  if ret_==0:
+   return 0
+  else:
+   return BASSMUSIC(self.__bass, ret_) 
  Error = property(__ErrorGetCode)
  Version = property(__GetVersion)
  Device = property(__GetDevice)
