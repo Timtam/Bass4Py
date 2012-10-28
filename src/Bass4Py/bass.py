@@ -1,4 +1,5 @@
 import sys
+import types
 import os.path as paths
 from win32api import GetModuleFileName
 from ctypes import *
@@ -10,6 +11,8 @@ BASS_DWORD_ERR =4294967295
 HSTREAM =DWORD
 HPLUGIN=DWORD
 tDownloadProc = WINFUNCTYPE(None, c_void_p, DWORD, c_void_p)
+class bass_vector(Structure):
+ _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_deviceinfo(Structure):
  _fields_ = [("name", c_char_p), ("driver", c_char_p), ("flags", DWORD)]
 class bass_info(Structure):
@@ -83,6 +86,26 @@ class BASS(object):
   self.__bass_pluginload = self.__bass.BASS_PluginLoad
   self.__bass_pluginload.restype=HPLUGIN
   self.__bass_pluginload.argtypes=[c_char_p, DWORD]
+  self.__bass_set3dfactors = self.__bass.BASS_Set3DFactors
+  self.__bass_set3dfactors.restype=BOOL
+  self.__bass_set3dfactors.argtypes=[c_float, c_float, c_float]
+  self.__bass_get3dfactors = self.__bass.BASS_Get3DFactors
+  self.__bass_get3dfactors.restype=BOOL
+  self.__bass_get3dfactors.argtypes=[POINTER(c_float), POINTER(c_float), POINTER(c_float)]
+  self.__bass_set3dposition = self.__bass.BASS_Set3DPosition
+  self.__bass_set3dposition.restype=BOOL
+  self.__bass_set3dposition.argtypes=[POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector)]
+  self.__bass_get3dposition=self.__bass.BASS_Get3DPosition
+  self.__bass_get3dposition.restype=BOOL
+  self.__bass_get3dposition.argtypes=[POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector)]
+  self.__bass_apply3d = self.__bass.BASS_Apply3D
+  self.__bass_apply3d.restype=None
+  self.__bass_seteaxparameters = self.__bass.BASS_SetEAXParameters
+  self.__bass_seteaxparameters.restype=BOOL
+  self.__bass_seteaxparameters.argtypes=[c_int, c_float, c_float, c_float]
+  self.__bass_geteaxparameters = self.__bass.BASS_GetEAXParameters
+  self.__bass_geteaxparameters.restype=BOOL
+  self.__bass_geteaxparameters.argtypes=[POINTER(DWORD), POINTER(c_float), POINTER(c_float), POINTER(c_float)]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   return self.__bass_init(device,frequency,flags,hwnd,clsid)
  def __ErrorGetCode(self):
@@ -151,6 +174,67 @@ class BASS(object):
    return 0
   else:
    return BASSPLUGIN(self.__bass, ret_)
+ def Set3DFactors(self, distf, rollf, doppf):
+  return self.__bass_set3dfactors(distf, rollf, doppf)
+ def Get3DFactors(self):
+  distf=c_float(0)
+  rollf=c_float(0)
+  doppf=c_float(0)
+  ret_ =self.__bass_get3dfactors(distf, rollf, doppf)
+  if ret_==0:
+   return 0
+  else:
+   return {"distf":distf.value, "rollf":rollf.value, "doppf":doppf.value}
+ def Set3DPosition(self, pos=None, vel=None, front=None, top=None):
+  bpos =0
+  bvel =0
+  bfront =0
+  btop =0
+  if type(pos) == types.DictType:
+   bpos = bass_vector()
+   bpos.X = pos["X"]
+   bpos.Y = pos["Y"]
+   bpos.Y = pos["Y"]
+  if type(vel) ==types.DictType:
+   bvel = bass_vector()
+   bvel.X = vel["X"]
+   bvel.Y = vel["Y"]
+   bvel.Z = vel["Z"]
+  if type(front) ==types.DictType:
+   bfront = bass_vector()
+   bfront.X = front["X"]
+   bfront.Y = front["Y"]
+   bfront.Z = front["Z"]
+  if type(top) ==types.DictType:
+   btop = bass_vector()
+   btop.X = top["X"]
+   btop.Y = top["Y"]
+   btop.Z = top["Z"]
+  return self.__bass_set3dposition(bpos, bvel, bfront, btop)
+ def Get3DPosition(self):
+  pos = bass_vector()
+  vel = bass_vector()
+  front = bass_vector()
+  top = bass_vector()
+  ret_ = self.__bass_get3dposition(pos, vel, front, top)
+  if ret_==0:
+   return 0
+  else:
+   return {"pos":{"X":pos.X,"Y":pos.Y,"Z":pos.Z},"vel":{"X":vel.X,"Y":vel.Y,"Z":vel.Z},"front":{"X":front.X,"Y":front.Y,"Z":front.Z},"top":{"X":top.X,"Y":top.Y,"Z":top.Z}}
+ def Apply3D(self):
+  self.__bass_apply3d()
+ def SetEAXParameters(self, env, vol, decay, damp):
+  return self.__bass_seteaxparameters(env, vol, decay, damp)
+ def GetEAXParameters(self):
+  env=DWORD(0)
+  vol = c_float(0)
+  decay = c_float(0)
+  damp = c_float(0)
+  ret_ = self.__bass_geteaxparameters(env, vol, decay, damp)
+  if ret_==0:
+   return 0
+  else:
+   return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
  Error = property(__ErrorGetCode)
  Version = property(__GetVersion)
  Device = property(__GetDevice)
