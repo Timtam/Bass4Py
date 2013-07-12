@@ -1,9 +1,9 @@
 from basschannel import *
 class BASSSTREAM:
- def __init__(self, bass, stream):
-  self.__bass = bass
-  self.__stream = stream
+ def __init__(self, **kwargs):
+  self.__bass = kwargs['bass']
+  self.__stream = kwargs['stream']
 
  def __GetChannelObject(self):
-  return BASSCHANNEL(self.__bass, self.__stream)
+  return BASSCHANNEL(bass=self.__bass, stream=self.__stream)
  Channel = property(__GetChannelObject)

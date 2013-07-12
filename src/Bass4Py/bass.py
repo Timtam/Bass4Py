@@ -123,14 +123,16 @@ class BASS:
   self.__bass_musicload.restype=HMUSIC
   self.__bass_musicload.argtypes=[BOOL, c_void_p, QWORD, DWORD, DWORD, DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
-  return self.__bass_init(device,frequency,flags,hwnd,clsid)
+  result= self.__bass_init(device,frequency,flags,hwnd,clsid)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def __ErrorGetCode(self):
   return self.__bass_errorgetcode()
  def GetDeviceInfo(self, index=1):
   bret_ = bass_deviceinfo()
   sret_ = self.__bass_getdeviceinfo(index, bret_)
-  if sret_ ==0:
-   return 0
+  if self._Error:
+   raise BassExceptionError(self._Error)
   else:
    return {"name":bret_.name, "driver":bret_.driver, "flags":bret_.flags}
  def StreamCreateURL(self, url, offset=0, flags=0, function=None, user=0):
@@ -138,72 +140,95 @@ class BASS:
    function=dDownloadProc
   else:
    if type(function) !=type(dDownloadProc):
-    return 0
+    raise BassParameterError('You need to define a bass compatible callback function as function parameter.')
   ret_ = self.__bass_streamcreateurl(url, offset, flags, function, user)
-  if ret_ ==0:
-   return 0
+  if self._Error:
+   raise BassExceptionError(self._Error)
   else:
-   stream = BASSSTREAM(self.__bass, ret_)
+   stream = BASSSTREAM(bass=self.__bass, stream=ret_)
    return stream
  def SetConfig(self, option, value):
-  return self.__bass_setconfig(option, value)
+  result=self.__bass_setconfig(option, value)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def GetConfig(self, option):
-  return self.__bass_getconfig(option)
+  result=self.__bass_getconfig(option)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def __GetVersion(self):
-  return self.__bass_getversion()
+  dversion=self.__bass_getversion()
+  hversion=str(hex(dversion))
+  hversion=hversion[2:]
+  sversion=''
+  for i in range(1,4):
+   sversion+=str(int('0x%s'%(hversion[0:2].strip('0')), 16))+'.'
+   hversion=hversion[2:]
+  return sversion[0:-1]
  def SetDevice(self, device):
-  return self.__bass_setdevice(device)
+  result=self.__bass_setdevice(device)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def __GetDevice(self):
   ret_ = self.__bass_getdevice()
-  if ret_ ==BASS_DWORD_ERR:
-   return -1
-  else:
-   return ret_
+  if self._Error: raise BassExceptionError(self._Error)
+  return ret_
  def Free(self):
-  return self.__bass_free()
+  result=self.__bass_free()
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def GetDSoundObject(self, object):
   try:
-   return self.__bass_getdsoundobject(object)
+   result=self.__bass_getdsoundobject(object)
+   if self._Error: raise BassExceptionError(self._Error)
   except:
-   raise BassUnknownFunctionError('Unable to access the function GetDSoundObject. Make sure you\'re running Bass under a Windows operating system.')
+   raise BassUnknownFunctionError('GetDSoundObject')
  def __GetInfo(self):
   bret_ = bass_info()
   sret_ = self.__bass_getinfo(bret_)
-  if sret_ ==0:
-   return 0
-  else:
-   return {"flags":bret_.flags,"hwsize":bret_.hwsize,"hwfree":bret_.hwfree,"freesam":bret_.freesam,"free3d":bret_.free3d,"minrate":bret_.minrate,"maxrate":bret_.maxrate,"eax":bret_.eax,"minbuf":bret_.minbuf,"dsver":bret_.dsver,"latency":bret_.latency,"initflags":bret_.initflags,"speakers":bret_.speakers,"freq":bret_.freq}
+  if self._Error: raise BassExceptionError(self._Error)
+  return {"flags":bret_.flags,"hwsize":bret_.hwsize,"hwfree":bret_.hwfree,"freesam":bret_.freesam,"free3d":bret_.free3d,"minrate":bret_.minrate,"maxrate":bret_.maxrate,"eax":bret_.eax,"minbuf":bret_.minbuf,"dsver":bret_.dsver,"latency":bret_.latency,"initflags":bret_.initflags,"speakers":bret_.speakers,"freq":bret_.freq}
  def Update(self, length):
-  return self.__bass_update(length)
+  result=self.__bass_update(length)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def __GetCPU(self):
   return self.__bass_getcpu()
  def Start(self):
-  return self.__bass_start()
+  result=self.__bass_start()
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def Stop(self):
-  return self.__bass_stop()
+  result=self.__bass_stop()
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def Pause(self):
-  return self.__bass_pause()
+  result=self.__bass_pause()
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def SetVolume(self, volume):
-  return self.__bass_setvolume(volume)
+  result=self.__bass_setvolume(volume)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def GetVolume(self):
-  return self.__bass_getvolume()
+  result=self.__bass_getvolume()
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def PluginLoad(self, file, flags):
   ret_ = self.__bass_pluginload(file, flags)
-  if ret_ ==0:
-   return 0
-  else:
-   return BASSPLUGIN(self.__bass, ret_)
+  if self._Error:
+   raise BassExceptionError(self._Error)
+  return BASSPLUGIN(bass=self.__bass, plugin=ret_)
  def Set3DFactors(self, distf, rollf, doppf):
-  return self.__bass_set3dfactors(distf, rollf, doppf)
+  result=self.__bass_set3dfactors(distf, rollf, doppf)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def Get3DFactors(self):
   distf=c_float(0)
   rollf=c_float(0)
   doppf=c_float(0)
   ret_ =self.__bass_get3dfactors(distf, rollf, doppf)
-  if ret_==0:
-   return 0
-  else:
-   return {"distf":distf.value, "rollf":rollf.value, "doppf":doppf.value}
+  if self._Error: raise BassExceptionError(self._Error)
+  return {"distf":distf.value, "rollf":rollf.value, "doppf":doppf.value}
  def Set3DPosition(self, pos=None, vel=None, front=None, top=None):
   bpos =0
   bvel =0
@@ -213,7 +238,7 @@ class BASS:
    bpos = bass_vector()
    bpos.X = pos["X"]
    bpos.Y = pos["Y"]
-   bpos.Y = pos["Y"]
+   bpos.Z = pos["Z"]
   if type(vel) is dict:
    bvel = bass_vector()
    bvel.X = vel["X"]
@@ -229,47 +254,47 @@ class BASS:
    btop.X = top["X"]
    btop.Y = top["Y"]
    btop.Z = top["Z"]
-  return self.__bass_set3dposition(bpos, bvel, bfront, btop)
+  result=self.__bass_set3dposition(bpos, bvel, bfront, btop)
+  if self._Error: raise BassExceptionError(self._Error)
+  return result
  def Get3DPosition(self):
   pos = bass_vector()
   vel = bass_vector()
   front = bass_vector()
   top = bass_vector()
   ret_ = self.__bass_get3dposition(pos, vel, front, top)
-  if ret_==0:
-   return 0
-  else:
-   return {"pos":{"X":pos.X,"Y":pos.Y,"Z":pos.Z},"vel":{"X":vel.X,"Y":vel.Y,"Z":vel.Z},"front":{"X":front.X,"Y":front.Y,"Z":front.Z},"top":{"X":top.X,"Y":top.Y,"Z":top.Z}}
+  if self._Error: raise BassExceptionError(self._Error)
+  return {"pos":{"X":pos.X,"Y":pos.Y,"Z":pos.Z},"vel":{"X":vel.X,"Y":vel.Y,"Z":vel.Z},"front":{"X":front.X,"Y":front.Y,"Z":front.Z},"top":{"X":top.X,"Y":top.Y,"Z":top.Z}}
  def Apply3D(self):
   self.__bass_apply3d()
+  if self._Error: raise BassExceptionError(self._Error)
+  return 1
  def SetEAXParameters(self, env, vol, decay, damp):
   try:
-   return self.__bass_seteaxparameters(env, vol, decay, damp)
+   result=self.__bass_seteaxparameters(env, vol, decay, damp)
+   if self._Error: raise BassExceptionError(self._Error)
+   return result
   except:
-   raise BassUnknownFunctionError('Unable to detect function SetEAXParameters. Make sure you\'re running this package under a Windows operating system.')
+   raise BassUnknownFunctionError('SetEAXParameters')
  def GetEAXParameters(self):
   try:
    self.__bass_geteaxparameters
   except:
-   raise BassUnknownFunctionError('Unable to detect Function GetEAXParameters. Make sure you\'re running this package under a Windows operating system.')
+   raise BassUnknownFunctionError('GetEAXParameters')
   env=DWORD(0)
   vol = c_float(0)
   decay = c_float(0)
   damp = c_float(0)
   ret_ = self.__bass_geteaxparameters(env, vol, decay, damp)
-  if ret_==0:
-   return 0
-  else:
-   return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
+  if self._Error: raise BassExceptionError(self._Error)
+  return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
  def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
   if mem==0:
    self.__bass_musicload.argtypes[1] =c_wchar_p
   flags = flags&BASS_UNICODE
   ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
-  if ret_==0:
-   return 0
-  else:
-   return BASSMUSIC(self.__bass, ret_) 
+  if self._Error: raise BassExceptionError(self._Error)
+  return BASSMUSIC(bass=self.__bass, music=ret_) 
  def __GetBassLib(self, LibFolder):
   is_x64=sys.maxsize>2**32
   if platform.system()=='Windows':
@@ -299,7 +324,7 @@ class BASS:
    except:
     raise BassLibError('Unable to find library file: %s'%(os.path.join(path, Filename)))
    return lib
- Error = property(__ErrorGetCode)
+ _Error = property(__ErrorGetCode)
  Version = property(__GetVersion)
  Device = property(__GetDevice)
  Info = property(__GetInfo)

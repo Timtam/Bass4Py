@@ -5,6 +5,7 @@ except:
  BOOL=c_long
  DWORD=c_ulong
  WINFUNCTYPE=CFUNCTYPE
+from .exceptions import *
 HPLUGIN=DWORD
 class bass_pluginform(Structure):
     _fields_ = [
@@ -19,33 +20,32 @@ class bass_plugininfo(Structure):
         ("formats", POINTER(bass_pluginform))
     ]
 class BASSPLUGIN:
- def __init__(self, bass, plugin):
-  self.__bass = bass
-  self.__plugin = plugin
+ def __init__(self, **kwargs):
+  self.__bass = kwargs['bass']
+  self.__plugin = kwargs['plugin']
   self.__bass_pluginfree = self.__bass.BASS_PluginFree
   self.__bass_pluginfree.restype=BOOL
-  self.__bass_pluginfree.argtypes=[DWORD]
+  self.__bass_pluginfree.argtypes=[HPLUGIN]
   self.__bass_plugingetinfo = self.__bass.BASS_PluginGetInfo
   self.__bass_plugingetinfo.restype=c_void_p
   self.__bass_plugingetinfo.argtypes=[HPLUGIN]
- def Free(self):
-  return self.__bass_pluginfree(self.__plugin)
+ def __del__(self):
+  self.__bass_pluginfree(self.__plugin)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
  def __GetInfo(self):
   ret_ = self.__bass_plugingetinfo(self.__plugin)
-  if ret_==0:
-   return 0
-  else:
-   dret_ ={}
-   ret_ = cast(ret_, POINTER(bass_plugininfo))
-   ret_ = ret_.contents
-   dret_["version"] = ret_.version
-   formats =[]
-   for i in range(ret_.formatc):
-    form ={}
-    form["ctype"] = ret_.formats[i].ctype
-    form["name"] = ret_.formats[i].name
-    form["exts"] = ret_.formats[i].exts
-    formats.append(form)
-   dret_["formats"] = formats
-   return dret_
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  dret_ ={}
+  ret_ = cast(ret_, POINTER(bass_plugininfo))
+  ret_ = ret_.contents
+  dret_["version"] = ret_.version
+  formats =[]
+  for i in range(ret_.formatc):
+   form ={}
+   form["ctype"] = ret_.formats[i].ctype
+   form["name"] = ret_.formats[i].name
+   form["exts"] = ret_.formats[i].exts
+   formats.append(form)
+  dret_["formats"] = formats
+  return dret_
  Info = property(__GetInfo)

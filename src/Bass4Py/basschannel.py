@@ -1,4 +1,4 @@
 class BASSCHANNEL:
- def __init__(self, bass, stream):
-  self.__bass = bass
-  self.__stream = stream
+ def __init__(self, **kwargs):
+  self.__bass = kwargs['bass']
+  self.__stream = kwargs['stream']
