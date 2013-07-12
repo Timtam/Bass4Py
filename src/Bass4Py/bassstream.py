@@ -1,5 +1,5 @@
 from basschannel import *
-class BASSSTREAM(object):
+class BASSSTREAM:
  def __init__(self, bass, stream):
   self.__bass = bass
   self.__stream = stream

@@ -1,14 +1,20 @@
+import platform
 import sys
-import types
-import os.path as paths
-from win32api import GetModuleFileName
+import os.path
 from ctypes import *
-from ctypes.wintypes import *
+try:
+ from ctypes.wintypes import *
+except:
+ BOOL=c_long
+ DWORD=c_ulong
+ HWND=c_void_p
+ WINFUNCTYPE=CFUNCTYPE
 from constants import *
 from basschannel import *
 from bassplugin import *
 from bassstream import *
 from bassmusic import *
+from .exceptions import *
 BASS_DWORD_ERR =4294967295
 HSTREAM =DWORD
 HPLUGIN=DWORD
@@ -36,9 +42,9 @@ class bass_info(Structure):
         ("speakers", DWORD),
         ("freq", DWORD),
     ]
-class BASS(object):
- def __init__(self):
-  self.__bass = bassdll("bass.dll")
+class BASS:
+ def __init__(self, LibFolder=''):
+  self.__bass = self.__GetBassLib(LibFolder)
   self.__bass_init = self.__bass.BASS_Init
   self.__bass_init.restype = BOOL
   self.__bass_init.argtypes = [c_int, DWORD, DWORD, HWND, c_void_p]
@@ -65,9 +71,18 @@ class BASS(object):
   self.__bass_getdevice.restype=DWORD
   self.__bass_free = self.__bass.BASS_Free
   self.__bass_free.restype=BOOL
-  self.__bass_getdsoundobject = self.__bass.BASS_GetDSoundObject
-  self.__bass_getdsoundobject.restype=c_void_p
-  self.__bass_getdsoundobject.argtypes=[DWORD]
+  try:
+   self.__bass_getdsoundobject = self.__bass.BASS_GetDSoundObject
+   self.__bass_getdsoundobject.restype=c_void_p
+   self.__bass_getdsoundobject.argtypes=[DWORD]
+   self.__bass_seteaxparameters = self.__bass.BASS_SetEAXParameters
+   self.__bass_seteaxparameters.restype=BOOL
+   self.__bass_seteaxparameters.argtypes=[c_int, c_float, c_float, c_float]
+   self.__bass_geteaxparameters = self.__bass.BASS_GetEAXParameters
+   self.__bass_geteaxparameters.restype=BOOL
+   self.__bass_geteaxparameters.argtypes=[POINTER(DWORD), POINTER(c_float), POINTER(c_float), POINTER(c_float)]
+  except:
+   pass
   self.__bass_getinfo = self.__bass.BASS_GetInfo
   self.__bass_getinfo.restype = BOOL
   self.__bass_getinfo.argtypes =[POINTER(bass_info)]
@@ -104,12 +119,6 @@ class BASS(object):
   self.__bass_get3dposition.argtypes=[POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector)]
   self.__bass_apply3d = self.__bass.BASS_Apply3D
   self.__bass_apply3d.restype=None
-  self.__bass_seteaxparameters = self.__bass.BASS_SetEAXParameters
-  self.__bass_seteaxparameters.restype=BOOL
-  self.__bass_seteaxparameters.argtypes=[c_int, c_float, c_float, c_float]
-  self.__bass_geteaxparameters = self.__bass.BASS_GetEAXParameters
-  self.__bass_geteaxparameters.restype=BOOL
-  self.__bass_geteaxparameters.argtypes=[POINTER(DWORD), POINTER(c_float), POINTER(c_float), POINTER(c_float)]
   self.__bass_musicload = self.__bass.BASS_MusicLoad
   self.__bass_musicload.restype=HMUSIC
   self.__bass_musicload.argtypes=[BOOL, c_void_p, QWORD, DWORD, DWORD, DWORD]
@@ -153,7 +162,10 @@ class BASS(object):
  def Free(self):
   return self.__bass_free()
  def GetDSoundObject(self, object):
-  return self.__bass_getdsoundobject(object)
+  try:
+   return self.__bass_getdsoundobject(object)
+  except:
+   raise BassUnknownFunctionError('Unable to access the function GetDSoundObject. Make sure you\'re running Bass under a Windows operating system.')
  def __GetInfo(self):
   bret_ = bass_info()
   sret_ = self.__bass_getinfo(bret_)
@@ -197,22 +209,22 @@ class BASS(object):
   bvel =0
   bfront =0
   btop =0
-  if type(pos) == types.DictType:
+  if type(pos) is dict:
    bpos = bass_vector()
    bpos.X = pos["X"]
    bpos.Y = pos["Y"]
    bpos.Y = pos["Y"]
-  if type(vel) ==types.DictType:
+  if type(vel) is dict:
    bvel = bass_vector()
    bvel.X = vel["X"]
    bvel.Y = vel["Y"]
    bvel.Z = vel["Z"]
-  if type(front) ==types.DictType:
+  if type(front) is dict:
    bfront = bass_vector()
    bfront.X = front["X"]
    bfront.Y = front["Y"]
    bfront.Z = front["Z"]
-  if type(top) ==types.DictType:
+  if type(top) is dict:
    btop = bass_vector()
    btop.X = top["X"]
    btop.Y = top["Y"]
@@ -231,8 +243,15 @@ class BASS(object):
  def Apply3D(self):
   self.__bass_apply3d()
  def SetEAXParameters(self, env, vol, decay, damp):
-  return self.__bass_seteaxparameters(env, vol, decay, damp)
+  try:
+   return self.__bass_seteaxparameters(env, vol, decay, damp)
+  except:
+   raise BassUnknownFunctionError('Unable to detect function SetEAXParameters. Make sure you\'re running this package under a Windows operating system.')
  def GetEAXParameters(self):
+  try:
+   self.__bass_geteaxparameters
+  except:
+   raise BassUnknownFunctionError('Unable to detect Function GetEAXParameters. Make sure you\'re running this package under a Windows operating system.')
   env=DWORD(0)
   vol = c_float(0)
   decay = c_float(0)
@@ -251,27 +270,40 @@ class BASS(object):
    return 0
   else:
    return BASSMUSIC(self.__bass, ret_) 
+ def __GetBassLib(self, LibFolder):
+  is_x64=sys.maxsize>2**32
+  if platform.system()=='Windows':
+   Filename='bass%s.dll'%('_x64' if is_x64 else '')
+  elif platform.system()=='Linux':
+   Filename='libbass%s.so'%('_x64' if is_x64 else '')
+  else:
+   raise BassLibError('Unsupported environment: Unable to detect a possible Bass Library file.')
+  if LibFolder=='':
+   path = unicode(os.path.abspath(__file__))
+   bdir=os.path.isdir(path)
+   while not bdir:
+    path=os.path.abspath(path+'/..')
+    bdir=os.path.isdir(path)
+  else:
+   path=os.path.abspath(LibFolder)
+  if not os.path.exists(path): raise BassLibError('The given path doesn\'t exist: %s'%(path))
+  if platform.system()=='Windows':
+   try:
+    lib=windll.LoadLibrary(os.path.join(path, Filename))
+   except WindowsError:
+    raise BassLibError('Unable to find library: %s'%(os.path.join(path, Filename)))
+   return lib
+  elif platform.system()=='Linux':
+   try:
+    lib=CDLL(os.path.join(path, Filename))
+   except:
+    raise BassLibError('Unable to find library file: %s'%(os.path.join(path, Filename)))
+   return lib
  Error = property(__ErrorGetCode)
  Version = property(__GetVersion)
  Device = property(__GetDevice)
  Info = property(__GetInfo)
  CPU = property(__GetCPU)
-class BassDllError(Exception):
- def __init__(self, dll):
-  self.dll = dll
- def __str__(self):
-  return "Unable to find "+self.dll
 def fDownloadProc(handle, buffer, user):
  return True
 dDownloadProc = tDownloadProc(fDownloadProc)
-def bassdll(dll):
- try:
-  path = paths.join(paths.dirname(GetModuleFileName(0)), "lib")
-  dll = windll.LoadLibrary(paths.join(path, dll))
- except WindowsError:
-  try:
-   path = paths.join(paths.split(paths.realpath(__file__))[0], "lib")
-   dll = windll.LoadLibrary(paths.join(path, dll))
-  except WindowsError:
-   raise BassDllError(dll)
- return dll

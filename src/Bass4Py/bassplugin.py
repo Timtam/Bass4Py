@@ -1,5 +1,10 @@
 from ctypes import *
-from ctypes.wintypes import *
+try:
+ from ctypes.wintypes import *
+except:
+ BOOL=c_long
+ DWORD=c_ulong
+ WINFUNCTYPE=CFUNCTYPE
 HPLUGIN=DWORD
 class bass_pluginform(Structure):
     _fields_ = [
@@ -13,7 +18,7 @@ class bass_plugininfo(Structure):
         ("formatc", DWORD),
         ("formats", POINTER(bass_pluginform))
     ]
-class BASSPLUGIN(object):
+class BASSPLUGIN:
  def __init__(self, bass, plugin):
   self.__bass = bass
   self.__plugin = plugin

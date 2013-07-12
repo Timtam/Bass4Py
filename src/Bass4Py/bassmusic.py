@@ -1,8 +1,13 @@
 from ctypes import *
-from ctypes.wintypes import *
+try:
+ from ctypes.wintypes import *
+except:
+ BOOL=c_long
+ DWORD=c_ulong
+ WINFUNCTYPE=CFUNCTYPE
 from basschannel import *
 HMUSIC=DWORD
-class BASSMUSIC(object):
+class BASSMUSIC:
  def __init__(self, bass, music):
   self.__bass = bass
   self.__music = music
