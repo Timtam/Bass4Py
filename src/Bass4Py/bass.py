@@ -44,82 +44,82 @@ class bass_info(Structure):
     ]
 class BASS:
  def __init__(self, LibFolder=''):
-  self.__bass = self.__GetBassLib(LibFolder)
-  self.__bass_init = self.__bass.BASS_Init
+  self._bass = self.__GetBassLib(LibFolder)
+  self.__bass_init = self._bass.BASS_Init
   self.__bass_init.restype = BOOL
   self.__bass_init.argtypes = [c_int, DWORD, DWORD, HWND, c_void_p]
-  self.__bass_errorgetcode = self.__bass.BASS_ErrorGetCode
+  self.__bass_errorgetcode = self._bass.BASS_ErrorGetCode
   self.__bass_errorgetcode.restype = c_int
-  self.__bass_getdeviceinfo = self.__bass.BASS_GetDeviceInfo
+  self.__bass_getdeviceinfo = self._bass.BASS_GetDeviceInfo
   self.__bass_getdeviceinfo.restype=BOOL
   self.__bass_getdeviceinfo.argtypes=[DWORD, POINTER(bass_deviceinfo)]
-  self.__bass_streamcreateurl = self.__bass.BASS_StreamCreateURL
+  self.__bass_streamcreateurl = self._bass.BASS_StreamCreateURL
   self.__bass_streamcreateurl.restype = HSTREAM
   self.__bass_streamcreateurl.argtypes =[c_char_p, DWORD, DWORD, tDownloadProc, c_void_p]
-  self.__bass_setconfig = self.__bass.BASS_SetConfig
+  self.__bass_setconfig = self._bass.BASS_SetConfig
   self.__bass_setconfig.restype = BOOL
   self.__bass_setconfig.argtypes = [DWORD, DWORD]
-  self.__bass_getconfig = self.__bass.BASS_GetConfig
+  self.__bass_getconfig = self._bass.BASS_GetConfig
   self.__bass_getconfig.restype = DWORD
   self.__bass_getconfig.argtypes = [DWORD]
-  self.__bass_getversion = self.__bass.BASS_GetVersion
+  self.__bass_getversion = self._bass.BASS_GetVersion
   self.__bass_getversion.restype = DWORD
-  self.__bass_setdevice = self.__bass.BASS_SetDevice
+  self.__bass_setdevice = self._bass.BASS_SetDevice
   self.__bass_setdevice.restype = BOOL
   self.__bass_setdevice.argtypes = [DWORD]
-  self.__bass_getdevice = self.__bass.BASS_GetDevice
+  self.__bass_getdevice = self._bass.BASS_GetDevice
   self.__bass_getdevice.restype=DWORD
-  self.__bass_free = self.__bass.BASS_Free
+  self.__bass_free = self._bass.BASS_Free
   self.__bass_free.restype=BOOL
   try:
-   self.__bass_getdsoundobject = self.__bass.BASS_GetDSoundObject
+   self.__bass_getdsoundobject = self._bass.BASS_GetDSoundObject
    self.__bass_getdsoundobject.restype=c_void_p
    self.__bass_getdsoundobject.argtypes=[DWORD]
-   self.__bass_seteaxparameters = self.__bass.BASS_SetEAXParameters
+   self.__bass_seteaxparameters = self._bass.BASS_SetEAXParameters
    self.__bass_seteaxparameters.restype=BOOL
    self.__bass_seteaxparameters.argtypes=[c_int, c_float, c_float, c_float]
-   self.__bass_geteaxparameters = self.__bass.BASS_GetEAXParameters
+   self.__bass_geteaxparameters = self._bass.BASS_GetEAXParameters
    self.__bass_geteaxparameters.restype=BOOL
    self.__bass_geteaxparameters.argtypes=[POINTER(DWORD), POINTER(c_float), POINTER(c_float), POINTER(c_float)]
   except:
    pass
-  self.__bass_getinfo = self.__bass.BASS_GetInfo
+  self.__bass_getinfo = self._bass.BASS_GetInfo
   self.__bass_getinfo.restype = BOOL
   self.__bass_getinfo.argtypes =[POINTER(bass_info)]
-  self.__bass_update = self.__bass.BASS_Update
+  self.__bass_update = self._bass.BASS_Update
   self.__bass_update.restype=BOOL
   self.__bass_update.argtypes=[DWORD]
-  self.__bass_getcpu = self.__bass.BASS_GetCPU
+  self.__bass_getcpu = self._bass.BASS_GetCPU
   self.__bass_getcpu.restype=c_float
-  self.__bass_start = self.__bass.BASS_Start
+  self.__bass_start = self._bass.BASS_Start
   self.__bass_start.restype=BOOL
-  self.__bass_stop = self.__bass.BASS_Stop
+  self.__bass_stop = self._bass.BASS_Stop
   self.__bass_stop.restype=BOOL
-  self.__bass_pause = self.__bass.BASS_Pause
+  self.__bass_pause = self._bass.BASS_Pause
   self.__bass_pause.restype=BOOL
-  self.__bass_setvolume = self.__bass.BASS_SetVolume
+  self.__bass_setvolume = self._bass.BASS_SetVolume
   self.__bass_setvolume.restype=BOOL
   self.__bass_setvolume.argtypes=[c_float]
-  self.__bass_getvolume=self.__bass.BASS_GetVolume
+  self.__bass_getvolume=self._bass.BASS_GetVolume
   self.__bass_getvolume.restype=c_float
-  self.__bass_pluginload = self.__bass.BASS_PluginLoad
+  self.__bass_pluginload = self._bass.BASS_PluginLoad
   self.__bass_pluginload.restype=HPLUGIN
   self.__bass_pluginload.argtypes=[c_char_p, DWORD]
-  self.__bass_set3dfactors = self.__bass.BASS_Set3DFactors
+  self.__bass_set3dfactors = self._bass.BASS_Set3DFactors
   self.__bass_set3dfactors.restype=BOOL
   self.__bass_set3dfactors.argtypes=[c_float, c_float, c_float]
-  self.__bass_get3dfactors = self.__bass.BASS_Get3DFactors
+  self.__bass_get3dfactors = self._bass.BASS_Get3DFactors
   self.__bass_get3dfactors.restype=BOOL
   self.__bass_get3dfactors.argtypes=[POINTER(c_float), POINTER(c_float), POINTER(c_float)]
-  self.__bass_set3dposition = self.__bass.BASS_Set3DPosition
+  self.__bass_set3dposition = self._bass.BASS_Set3DPosition
   self.__bass_set3dposition.restype=BOOL
   self.__bass_set3dposition.argtypes=[POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector)]
-  self.__bass_get3dposition=self.__bass.BASS_Get3DPosition
+  self.__bass_get3dposition=self._bass.BASS_Get3DPosition
   self.__bass_get3dposition.restype=BOOL
   self.__bass_get3dposition.argtypes=[POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector), POINTER(bass_vector)]
-  self.__bass_apply3d = self.__bass.BASS_Apply3D
+  self.__bass_apply3d = self._bass.BASS_Apply3D
   self.__bass_apply3d.restype=None
-  self.__bass_musicload = self.__bass.BASS_MusicLoad
+  self.__bass_musicload = self._bass.BASS_MusicLoad
   self.__bass_musicload.restype=HMUSIC
   self.__bass_musicload.argtypes=[BOOL, c_void_p, QWORD, DWORD, DWORD, DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
@@ -145,7 +145,7 @@ class BASS:
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
-   stream = BASSSTREAM(bass=self.__bass, stream=ret_)
+   stream = BASSSTREAM(bass=self, stream=ret_)
    return stream
  def SetConfig(self, option, value):
   result=self.__bass_setconfig(option, value)
@@ -217,7 +217,7 @@ class BASS:
   ret_ = self.__bass_pluginload(file, flags)
   if self._Error:
    raise BassExceptionError(self._Error)
-  return BASSPLUGIN(bass=self.__bass, plugin=ret_)
+  return BASSPLUGIN(bass=self, plugin=ret_)
  def Set3DFactors(self, distf, rollf, doppf):
   result=self.__bass_set3dfactors(distf, rollf, doppf)
   if self._Error: raise BassExceptionError(self._Error)
@@ -289,12 +289,11 @@ class BASS:
   if self._Error: raise BassExceptionError(self._Error)
   return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
  def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
-  if mem==0:
+  if not mem:
    self.__bass_musicload.argtypes[1] =c_wchar_p
-  flags = flags&BASS_UNICODE
   ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
   if self._Error: raise BassExceptionError(self._Error)
-  return BASSMUSIC(bass=self.__bass, music=ret_) 
+  return BASSMUSIC(bass=self, music=ret_) 
  def __GetBassLib(self, LibFolder):
   is_x64=sys.maxsize>2**32
   if platform.system()=='Windows':

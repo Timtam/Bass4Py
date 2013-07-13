@@ -11,13 +11,13 @@ HMUSIC=DWORD
 class BASSMUSIC:
  def __init__(self, **kwargs):
   self.__bass = kwargs['bass']
-  self.__music = kwargs['music']
-  self.__bass_musicfree = self.__bass.BASS_MusicFree
+  self._music = kwargs['music']
+  self.__bass_musicfree = self.__bass._bass.BASS_MusicFree
   self.__bass_musicfree.restype=BOOL
-  self.__bass_musicload.argtypes=[HMUSIC]
+  self.__bass_musicfree.argtypes=[HMUSIC]
  def __del__(self):
-  self.__bass_musicfree(self.__music)
+  self.__bass_musicfree(self._music)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
  def __GetChannelObject(self):
-  return BASSCHANNEL(bass=self.__bass, stream=self.__music)
+  return BASSCHANNEL(bass=self.__bass, stream=self._music)
  Channel = property(__GetChannelObject)
