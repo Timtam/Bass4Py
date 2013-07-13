@@ -29,6 +29,9 @@ class BASSCHANNEL:
   self.__bass_channelsetposition=self.__bass._bass.BASS_ChannelSetPosition
   self.__bass_channelsetposition.restype=BOOL
   self.__bass_channelsetposition.argtypes=[DWORD,QWORD,DWORD]
+  self.__bass_channelgetlength=self.__bass._bass.BASS_ChannelGetLength
+  self.__bass_channelgetlength.restype=QWORD
+  self.__bass_channelgetlength.argtypes=[DWORD,DWORD]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -49,4 +52,9 @@ class BASSCHANNEL:
   if positionobject._stream!=self._stream: raise BassMatchingError('This position object doesn\'t match this channel object.')
   result=self.__bass_channelsetposition(self._stream,positionobject._pos_bytes,BASS_POS_BYTE)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+ def __GetLength(self):
+  result=self.__bass_channelgetlength(self._stream,BASS_POS_BYTE)
+  if self.__bass._Error:raise BassExceptionError(self.__bass._Error)
+  return BASSPOSITION(bass=self.__bass,stream=self._stream,pos=result)
  Position=property(__GetPosition,__SetPosition)
+ Length=property(__GetLength)
