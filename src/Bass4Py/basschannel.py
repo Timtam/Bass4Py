@@ -1,6 +1,8 @@
 from ctypes import *
 from .exceptions import *
 from .constants import *
+from basssample import *
+from bassplugin import *
 try:
  from ctypes.wintypes import *
 except:
@@ -20,7 +22,7 @@ class bass_channelinfo(Structure):
         ("origres", DWORD),
         ("plugin", DWORD),
         ("sample", DWORD),
-        ("filename", c_wchar_p),
+        ("filename", c_char_p),
     ]
 class BASSCHANNEL(object):
  def __init__(self, **kwargs):
@@ -63,11 +65,14 @@ class BASSCHANNEL(object):
   self.__bass_channelgetattribute.restype=BOOL
   self.__bass_channelgetattribute.argtypes=[DWORD,DWORD,POINTER(c_float)]
   self.__bass_channelgetdevice=self.__bass._bass.BASS_ChannelGetDevice
-  self.__bass_channelgetdevice=DWORD
+  self.__bass_channelgetdevice.restype=DWORD
   self.__bass_channelgetdevice.argtypes=[DWORD]
   self.__bass_channelsetdevice=self.__bass._bass.BASS_ChannelSetDevice
   self.__bass_channelsetdevice.restype=BOOL
   self.__bass_channelsetdevice.argtypes=[DWORD,DWORD]
+  self.__bass_channelgetinfo=self.__bass._bass.BASS_ChannelGetInfo
+  self.__bass_channelgetinfo.restype=BOOL
+  self.__bass_channelgetinfo.argtypes=[DWORD,POINTER(bass_channelinfo)]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -135,3 +140,11 @@ class BASSCHANNEL(object):
  def Device(self,device):
   result=self.__bass_channelsetdevice(self._stream,device)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+ @property
+ def Info(self):
+  bret_=bass_channelinfo()
+  result=self.__bass_channelgetinfo(self._stream,bret_)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  plugin=(BASSPLUGIN(bass=self.__bass,plugin=bret_.plugin) if bret_.plugin else 0)
+  sample=(BASSSAMPLE(bass=self.__bass,stream=bret_.sample) if bret_.sample else 0)
+  return {'freq':bret_.freq,'chans':bret_.chans,'flags':bret_.flags,'ctype':bret_.ctype,'origres':bret_.origres,'plugin':plugin,'sample':sample,'filename':bret_.filename}

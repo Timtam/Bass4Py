@@ -15,6 +15,7 @@ from bassplugin import *
 from bassstream import *
 from bassmusic import *
 from bassversion import *
+from basssample import *
 from .exceptions import *
 BASS_DWORD_ERR =4294967295
 HSTREAM =DWORD
