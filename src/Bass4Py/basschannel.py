@@ -10,7 +10,7 @@ except:
  WINFUNCTYPE=CFUNCTYPE
 from .bassposition import BASSPOSITION
 QWORD=c_longlong
-class BASSCHANNEL:
+class BASSCHANNEL(object):
  def __init__(self, **kwargs):
   self.__bass = kwargs['bass']
   self._stream = kwargs['stream']

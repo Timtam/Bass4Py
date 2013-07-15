@@ -42,7 +42,7 @@ class bass_info(Structure):
         ("speakers", DWORD),
         ("freq", DWORD),
     ]
-class BASS:
+class BASS(object):
  def __init__(self, LibFolder=''):
   self._bass = self.__GetBassLib(LibFolder)
   self.__bass_init = self._bass.BASS_Init
@@ -122,11 +122,15 @@ class BASS:
   self.__bass_musicload = self._bass.BASS_MusicLoad
   self.__bass_musicload.restype=HMUSIC
   self.__bass_musicload.argtypes=[BOOL, c_void_p, QWORD, DWORD, DWORD, DWORD]
+  self.__bass_streamcreatefile=self._bass.BASS_StreamCreateFile
+  self.__bass_streamcreatefile.restype=HSTREAM
+  self.__bass_streamcreatefile.argtypes=[BOOL,c_void_p,QWORD,QWORD,DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   result= self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def __ErrorGetCode(self):
+ @property
+ def _Error(self):
   return self.__bass_errorgetcode()
  def GetDeviceInfo(self, index=1):
   bret_ = bass_deviceinfo()
@@ -155,7 +159,8 @@ class BASS:
   result=self.__bass_getconfig(option)
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def __GetVersion(self):
+ @property
+ def Version(self):
   dversion=self.__bass_getversion()
   hversion=str(hex(dversion))
   hversion=hversion[2:]
@@ -164,14 +169,15 @@ class BASS:
    sversion+=str(int('0x%s'%(hversion[0:2].strip('0')), 16))+'.'
    hversion=hversion[2:]
   return sversion[0:-1]
- def SetDevice(self, device):
-  result=self.__bass_setdevice(device)
-  if self._Error: raise BassExceptionError(self._Error)
-  return result
- def __GetDevice(self):
+ @property
+ def Device(self):
   ret_ = self.__bass_getdevice()
   if self._Error: raise BassExceptionError(self._Error)
   return ret_
+ @Device.setter
+ def Device(self, device):
+  result=self.__bass_setdevice(device)
+  if self._Error: raise BassExceptionError(self._Error)
  def Free(self):
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
@@ -182,7 +188,8 @@ class BASS:
    if self._Error: raise BassExceptionError(self._Error)
   except:
    raise BassUnknownFunctionError('GetDSoundObject')
- def __GetInfo(self):
+ @property
+ def Info(self):
   bret_ = bass_info()
   sret_ = self.__bass_getinfo(bret_)
   if self._Error: raise BassExceptionError(self._Error)
@@ -191,7 +198,8 @@ class BASS:
   result=self.__bass_update(length)
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def __GetCPU(self):
+ @property
+ def CPU(self):
   return self.__bass_getcpu()
  def Start(self):
   result=self.__bass_start()
@@ -289,11 +297,17 @@ class BASS:
   if self._Error: raise BassExceptionError(self._Error)
   return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
  def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
-  if not mem:
-   self.__bass_musicload.argtypes[1] =c_wchar_p
+  if not mem: self.__bass_musicload.argtypes[1] =c_wchar_p
+  else: self.__bass_musicload.argtypes[1]=c_void_p
   ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSMUSIC(bass=self, music=ret_) 
+ def StreamCreateFile(self, mem, file,offset=0,length=0,flags=0):
+  if not mem: self.__bass_streamcreatefile.argtypes[1]=c_wchar_p
+  else: self.__bass_streamcreatefile.argtypes[1]=c_void_p
+  result=self.__bass_streamcreatefile(mem,file,offset,length,flags)
+  if self._Error: raise BassExceptionError(self._Error)
+  return BASSSTREAM(bass=self,stream=result)
  def __GetBassLib(self, LibFolder):
   is_x64=sys.maxsize>2**32
   if platform.system()=='Windows':
@@ -323,11 +337,6 @@ class BASS:
    except:
     raise BassLibError('Unable to find library file: %s'%(os.path.join(path, Filename)))
    return lib
- _Error = property(__ErrorGetCode)
- Version = property(__GetVersion)
- Device = property(__GetDevice)
- Info = property(__GetInfo)
- CPU = property(__GetCPU)
 def fDownloadProc(handle, buffer, user):
  return True
 dDownloadProc = tDownloadProc(fDownloadProc)

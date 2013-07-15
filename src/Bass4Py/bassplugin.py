@@ -19,7 +19,7 @@ class bass_plugininfo(Structure):
         ("formatc", DWORD),
         ("formats", POINTER(bass_pluginform))
     ]
-class BASSPLUGIN:
+class BASSPLUGIN(object):
  def __init__(self, **kwargs):
   self.__bass = kwargs['bass']
   self._plugin = kwargs['plugin']
@@ -32,7 +32,8 @@ class BASSPLUGIN:
  def __del__(self):
   self.__bass_pluginfree(self._plugin)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
- def __GetInfo(self):
+ @property
+ def Info(self):
   ret_ = self.__bass_plugingetinfo(self._plugin)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   dret_ ={}
@@ -48,4 +49,3 @@ class BASSPLUGIN:
    formats.append(form)
   dret_["formats"] = formats
   return dret_
- Info = property(__GetInfo)

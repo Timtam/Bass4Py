@@ -8,7 +8,7 @@ except:
 from basschannel import *
 from .exceptions import *
 HMUSIC=DWORD
-class BASSMUSIC:
+class BASSMUSIC(object):
  def __init__(self, **kwargs):
   self.__bass = kwargs['bass']
   self._music = kwargs['music']
@@ -18,6 +18,6 @@ class BASSMUSIC:
  def __del__(self):
   self.__bass_musicfree(self._music)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
- def __GetChannelObject(self):
+ @property
+ def Channel(self):
   return BASSCHANNEL(bass=self.__bass, stream=self._music)
- Channel = property(__GetChannelObject)
