@@ -9,6 +9,19 @@ except:
  HWND=c_void_p
  WINFUNCTYPE=CFUNCTYPE
 QWORD=c_longlong
+class bass_vector(Structure):
+ _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
+class bass_channelinfo(Structure):
+    _fields_ = [
+        ("freq", DWORD),
+        ("chans", DWORD),
+        ("flags", DWORD),
+        ("ctype", DWORD),
+        ("origres", DWORD),
+        ("plugin", DWORD),
+        ("sample", DWORD),
+        ("filename", c_wchar_p),
+    ]
 class BASSCHANNEL(object):
  def __init__(self, **kwargs):
   self.__bass = kwargs['bass']
@@ -42,7 +55,19 @@ class BASSCHANNEL(object):
   self.__bass_channelflags.argtypes=[DWORD,DWORD,DWORD]
   self.__bass_channelget3dattributes=self.__bass._bass.BASS_ChannelGet3DAttributes
   self.__bass_channelget3dattributes.restype=BOOL
-  self.__bass_channelget3dattributes.argtypes=[DWORD,DWORD,c_float,c_float,DWORD,DWORD,c_float]
+  self.__bass_channelget3dattributes.argtypes=[DWORD,POINTER(DWORD),POINTER(c_float),POINTER(c_float),POINTER(DWORD),POINTER(DWORD),POINTER(c_float)]
+  self.__bass_channelget3dposition=self.__bass._bass.BASS_ChannelGet3DPosition
+  self.__bass_channelget3dposition.restype=BOOL
+  self.__bass_channelget3dposition.argtypes=[DWORD,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
+  self.__bass_channelgetattribute=self.__bass._bass.BASS_ChannelGetAttribute
+  self.__bass_channelgetattribute.restype=BOOL
+  self.__bass_channelgetattribute.argtypes=[DWORD,DWORD,POINTER(c_float)]
+  self.__bass_channelgetdevice=self.__bass._bass.BASS_ChannelGetDevice
+  self.__bass_channelgetdevice=DWORD
+  self.__bass_channelgetdevice.argtypes=[DWORD]
+  self.__bass_channelsetdevice=self.__bass._bass.BASS_ChannelSetDevice
+  self.__bass_channelsetdevice.restype=BOOL
+  self.__bass_channelsetdevice.argtypes=[DWORD,DWORD]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -89,3 +114,24 @@ class BASSCHANNEL(object):
   result=self.__bass_channelget3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return {'mode':mode.value,'min':min.value,'max':max.value,'iangle':iangle.value,'oangle':oangle.value,'outvol':outvol.value}
+ def Get3DPosition(self):
+  pos=bass_vector()
+  orient=bass_vector()
+  vel=bass_vector()
+  result=self.__bass_channelget3dposition(self._stream,pos,orient,vel)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return {'pos':{'X':pos.X,'Y':pos.Y,'Z':pos.Z},'orient':{'X':orient.X,'Y':orient.Y,'Z':orient.Z},'vel':{'X':vel.X,'Y':vel.Y,'Z':vel.Z}}
+ def GetAttribute(self, attrib):
+  value=c_float(0)
+  result=self.__bass_channelgetattribute(self._stream,attrib,value)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return value.value
+ @property
+ def Device(self):
+  result=self.__bass_channelgetdevice(self._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ @Device.setter
+ def Device(self,device):
+  result=self.__bass_channelsetdevice(self._stream,device)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
