@@ -73,6 +73,21 @@ class BASSCHANNEL(object):
   self.__bass_channelgetinfo=self.__bass._bass.BASS_ChannelGetInfo
   self.__bass_channelgetinfo.restype=BOOL
   self.__bass_channelgetinfo.argtypes=[DWORD,POINTER(bass_channelinfo)]
+  self.__bass_channelgetlevel=self.__bass._bass.BASS_ChannelGetLevel
+  self.__bass_channelgetlevel.restype=DWORD
+  self.__bass_channelgetlevel.argtypes=[DWORD]
+  self.__bass_channelgettags=self.__bass._bass.BASS_ChannelGetTags
+  self.__bass_channelgettags.restype=c_char_p
+  self.__bass_channelgettags.argtypes=[DWORD,DWORD]
+  self.__bass_channelisactive=self.__bass._bass.BASS_ChannelIsActive
+  self.__bass_channelisactive.restype=DWORD
+  self.__bass_channelisactive.argtypes=[DWORD]
+  self.__bass_channelissliding=self.__bass._bass.BASS_ChannelIsSliding
+  self.__bass_channelissliding.restype=BOOL
+  self.__bass_channelissliding.argtypes=[DWORD,DWORD]
+  self.__bass_channellock=self.__bass._bass.BASS_ChannelLock
+  self.__bass_channellock.restype=BOOL
+  self.__bass_channellock.argtypes=[DWORD,BOOL]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -148,3 +163,25 @@ class BASSCHANNEL(object):
   plugin=(BASSPLUGIN(bass=self.__bass,plugin=bret_.plugin) if bret_.plugin else 0)
   sample=(BASSSAMPLE(bass=self.__bass,stream=bret_.sample) if bret_.sample else 0)
   return {'freq':bret_.freq,'chans':bret_.chans,'flags':bret_.flags,'ctype':bret_.ctype,'origres':bret_.origres,'plugin':plugin,'sample':sample,'filename':bret_.filename}
+ @property
+ def Level(self):
+  result=self.__bass_channelgetlevel(self._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def GetTags(self,tags):
+  result=self.__bass_channelgettags(self._stream,tags)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ @property
+ def Active(self):
+  result=self.__bass_channelisactive(self._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def IsSliding(self,attrib):
+  result=self.__bass_channelissliding(self._stream,attrib)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def Lock(self,lock):
+  result=self.__bass_channellock(self._stream,lock)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
