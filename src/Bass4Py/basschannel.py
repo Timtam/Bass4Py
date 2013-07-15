@@ -8,7 +8,6 @@ except:
  DWORD=c_ulong
  HWND=c_void_p
  WINFUNCTYPE=CFUNCTYPE
-from .bassposition import BASSPOSITION
 QWORD=c_longlong
 class BASSCHANNEL(object):
  def __init__(self, **kwargs):
@@ -32,6 +31,12 @@ class BASSCHANNEL(object):
   self.__bass_channelgetlength=self.__bass._bass.BASS_ChannelGetLength
   self.__bass_channelgetlength.restype=QWORD
   self.__bass_channelgetlength.argtypes=[DWORD,DWORD]
+  self.__bass_channelseconds2bytes=self.__bass._bass.BASS_ChannelSeconds2Bytes
+  self.__bass_channelseconds2bytes.restype=QWORD
+  self.__bass_channelseconds2bytes.argtypes=[DWORD,c_double]
+  self.__bass_channelbytes2seconds=self.__bass._bass.BASS_ChannelBytes2Seconds
+  self.__bass_channelbytes2seconds.restype=DWORD
+  self.__bass_channelbytes2seconds.argtypes=[DWORD,c_double,QWORD]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -44,17 +49,23 @@ class BASSCHANNEL(object):
   result=self.__bass_channelstop(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
- def __GetPosition(self):
-  result=self.__bass_channelgetposition(self._stream,BASS_POS_BYTE)
+ def GetPosition(self,mode=BASS_POS_BYTE):
+  result=self.__bass_channelgetposition(self._stream,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return BASSPOSITION(bass=self.__bass,stream=self._stream,pos=result)
- def __SetPosition(self, positionobject):
-  if positionobject._stream!=self._stream: raise BassMatchingError('This position object doesn\'t match this channel object.')
-  result=self.__bass_channelsetposition(self._stream,positionobject._pos_bytes,BASS_POS_BYTE)
+  return result
+ def SetPosition(self, position,mode):
+  result=self.__bass_channelsetposition(self._stream,position,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
- def __GetLength(self):
-  result=self.__bass_channelgetlength(self._stream,BASS_POS_BYTE)
+  return result
+ def GetLength(self,mode):
+  result=self.__bass_channelgetlength(self._stream,mode)
   if self.__bass._Error:raise BassExceptionError(self.__bass._Error)
-  return BASSPOSITION(bass=self.__bass,stream=self._stream,pos=result)
- Position=property(__GetPosition,__SetPosition)
- Length=property(__GetLength)
+  return result
+ def Seconds2Bytes(self,seconds):
+  result=self.__bass_channelseconds2bytes(self._stream,seconds)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def Bytes2Seconds(self,bytes):
+  result=self.__bass_channelbytes2seconds(self._stream,bytes)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
