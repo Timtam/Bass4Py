@@ -5,6 +5,7 @@ except:
  BOOL=c_long
  DWORD=c_ulong
  WINFUNCTYPE=CFUNCTYPE
+from bassversion import *
 from .exceptions import *
 HPLUGIN=DWORD
 class bass_pluginform(Structure):
@@ -39,7 +40,7 @@ class BASSPLUGIN(object):
   dret_ ={}
   ret_ = cast(ret_, POINTER(bass_plugininfo))
   ret_ = ret_.contents
-  dret_["version"] = ret_.version
+  dret_["version"] = BASSVERSION(ret_.version)
   formats =[]
   for i in range(ret_.formatc):
    form ={}

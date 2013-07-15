@@ -14,6 +14,7 @@ from basschannel import *
 from bassplugin import *
 from bassstream import *
 from bassmusic import *
+from bassversion import *
 from .exceptions import *
 BASS_DWORD_ERR =4294967295
 HSTREAM =DWORD
@@ -72,9 +73,6 @@ class BASS(object):
   self.__bass_free = self._bass.BASS_Free
   self.__bass_free.restype=BOOL
   try:
-   self.__bass_getdsoundobject = self._bass.BASS_GetDSoundObject
-   self.__bass_getdsoundobject.restype=c_void_p
-   self.__bass_getdsoundobject.argtypes=[DWORD]
    self.__bass_seteaxparameters = self._bass.BASS_SetEAXParameters
    self.__bass_seteaxparameters.restype=BOOL
    self.__bass_seteaxparameters.argtypes=[c_int, c_float, c_float, c_float]
@@ -104,7 +102,7 @@ class BASS(object):
   self.__bass_getvolume.restype=c_float
   self.__bass_pluginload = self._bass.BASS_PluginLoad
   self.__bass_pluginload.restype=HPLUGIN
-  self.__bass_pluginload.argtypes=[c_char_p, DWORD]
+  self.__bass_pluginload.argtypes=[c_wchar_p, DWORD]
   self.__bass_set3dfactors = self._bass.BASS_Set3DFactors
   self.__bass_set3dfactors.restype=BOOL
   self.__bass_set3dfactors.argtypes=[c_float, c_float, c_float]
@@ -162,13 +160,7 @@ class BASS(object):
  @property
  def Version(self):
   dversion=self.__bass_getversion()
-  hversion=str(hex(dversion))
-  hversion=hversion[2:]
-  sversion=''
-  for i in range(1,4):
-   sversion+=str(int('0x%s'%(hversion[0:2].strip('0')), 16))+'.'
-   hversion=hversion[2:]
-  return sversion[0:-1]
+  return BASSVERSION(dversion)
  @property
  def Device(self):
   ret_ = self.__bass_getdevice()
@@ -178,16 +170,9 @@ class BASS(object):
  def Device(self, device):
   result=self.__bass_setdevice(device)
   if self._Error: raise BassExceptionError(self._Error)
- def Free(self):
+ def __del__(self):
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
-  return result
- def GetDSoundObject(self, object):
-  try:
-   result=self.__bass_getdsoundobject(object)
-   if self._Error: raise BassExceptionError(self._Error)
-  except:
-   raise BassUnknownFunctionError('GetDSoundObject')
  @property
  def Info(self):
   bret_ = bass_info()
@@ -221,8 +206,8 @@ class BASS(object):
   result=self.__bass_getvolume()
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def PluginLoad(self, file, flags):
-  ret_ = self.__bass_pluginload(file, flags)
+ def PluginLoad(self, file):
+  ret_ = self.__bass_pluginload(file,BASS_UNICODE)
   if self._Error:
    raise BassExceptionError(self._Error)
   return BASSPLUGIN(bass=self, plugin=ret_)

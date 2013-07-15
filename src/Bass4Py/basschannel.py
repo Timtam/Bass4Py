@@ -37,6 +37,12 @@ class BASSCHANNEL(object):
   self.__bass_channelbytes2seconds=self.__bass._bass.BASS_ChannelBytes2Seconds
   self.__bass_channelbytes2seconds.restype=DWORD
   self.__bass_channelbytes2seconds.argtypes=[DWORD,c_double,QWORD]
+  self.__bass_channelflags=self.__bass._bass.BASS_ChannelFlags
+  self.__bass_channelflags.restype=DWORD
+  self.__bass_channelflags.argtypes=[DWORD,DWORD,DWORD]
+  self.__bass_channelget3dattributes=self.__bass._bass.BASS_ChannelGet3DAttributes
+  self.__bass_channelget3dattributes.restype=BOOL
+  self.__bass_channelget3dattributes.argtypes=[DWORD,DWORD,c_float,c_float,DWORD,DWORD,c_float]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -69,3 +75,17 @@ class BASSCHANNEL(object):
   result=self.__bass_channelbytes2seconds(self._stream,bytes)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
+ def Flags(self,flags,mask):
+  result=self.__bass_channelflags(self._stream,flags,mode)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def Get3DAttributes(self):
+  mode=DWORD(0)
+  min=c_float(0)
+  max=c_float(0)
+  iangle=DWORD(0)
+  oangle=DWORD(0)
+  outvol=c_float(0)
+  result=self.__bass_channelget3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return {'mode':mode.value,'min':min.value,'max':max.value,'iangle':iangle.value,'oangle':oangle.value,'outvol':outvol.value}

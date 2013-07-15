@@ -48,5 +48,3 @@ class BassExceptionError(Exception):
  message=property(__str__)
 class BassParameterError(Exception):
  pass
-class BassMatchingError(Exception):
- pass
