@@ -24,3 +24,5 @@ class BASSSTREAM(object):
   result=self.__bass_streamgetfileposition(self._stream,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
+ def __repr__(self):
+  return '<BASSSTREAM object at %s>'%(self._stream)

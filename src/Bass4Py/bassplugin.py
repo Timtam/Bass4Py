@@ -50,3 +50,5 @@ class BASSPLUGIN(object):
    formats.append(form)
   dret_["formats"] = formats
   return dret_
+ def __repr__(self):
+  return '<BASSPLUGIN object at %s>'%(self._plugin)

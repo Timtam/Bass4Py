@@ -185,3 +185,5 @@ class BASSCHANNEL(object):
   result=self.__bass_channellock(self._stream,lock)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
+ def __repr__(self):
+  return '<BASSCHANNEL object at %s>'%(self._stream)

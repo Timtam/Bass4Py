@@ -21,3 +21,5 @@ class BASSMUSIC(object):
  @property
  def Channel(self):
   return BASSCHANNEL(bass=self.__bass, stream=self._stream)
+ def __repr__(self):
+  return '<BASSMUSIC object at %s>'%(self._stream)

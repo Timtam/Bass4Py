@@ -47,6 +47,7 @@ class bass_info(Structure):
 class BASS(object):
  def __init__(self, LibFolder=''):
   self._bass = self.__GetBassLib(LibFolder)
+  self.__init=False
   self.__bass_init = self._bass.BASS_Init
   self.__bass_init.restype = BOOL
   self.__bass_init.argtypes = [c_int, DWORD, DWORD, HWND, c_void_p]
@@ -125,8 +126,9 @@ class BASS(object):
   self.__bass_streamcreatefile.restype=HSTREAM
   self.__bass_streamcreatefile.argtypes=[BOOL,c_void_p,QWORD,QWORD,DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
-  result= self.__bass_init(device,frequency,flags,hwnd,clsid)
+  result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
+  self.__init=True
   return result
  @property
  def _Error(self):
@@ -171,9 +173,10 @@ class BASS(object):
  def Device(self, device):
   result=self.__bass_setdevice(device)
   if self._Error: raise BassExceptionError(self._Error)
- def __del__(self):
+ def Free(self):
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
+  self.__init=False
  @property
  def Info(self):
   bret_ = bass_info()
@@ -323,6 +326,10 @@ class BASS(object):
    except:
     raise BassLibError('Unable to find library file: %s'%(os.path.join(path, Filename)))
    return lib
+ def __repr__(self):
+  return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
+ def __del__(self):
+  if self.__init: self.__bass_free()
 def fDownloadProc(handle, buffer, user):
  return True
 dDownloadProc = tDownloadProc(fDownloadProc)
