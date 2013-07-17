@@ -17,7 +17,6 @@ class BASSMUSIC(object):
   self.__bass_musicfree.argtypes=[HMUSIC]
  def __del__(self):
   self.__bass_musicfree(self._stream)
-  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
  @property
  def Channel(self):
   return BASSCHANNEL(bass=self.__bass, stream=self._stream)

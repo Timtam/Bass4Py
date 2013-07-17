@@ -47,7 +47,6 @@ class bass_info(Structure):
 class BASS(object):
  def __init__(self, LibFolder=''):
   self._bass = self.__GetBassLib(LibFolder)
-  self.__init=False
   self.__bass_init = self._bass.BASS_Init
   self.__bass_init.restype = BOOL
   self.__bass_init.argtypes = [c_int, DWORD, DWORD, HWND, c_void_p]
@@ -128,7 +127,6 @@ class BASS(object):
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
-  self.__init=True
   return result
  @property
  def _Error(self):
@@ -329,7 +327,7 @@ class BASS(object):
  def __repr__(self):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
  def __del__(self):
-  if self.__init: self.__bass_free()
+  self.__bass_free()
 def fDownloadProc(handle, buffer, user):
  return True
 dDownloadProc = tDownloadProc(fDownloadProc)

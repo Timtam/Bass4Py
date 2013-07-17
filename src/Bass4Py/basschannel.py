@@ -3,6 +3,7 @@ from .exceptions import *
 from .constants import *
 from basssample import *
 from bassplugin import *
+from bassfx import *
 try:
  from ctypes.wintypes import *
 except:
@@ -88,6 +89,9 @@ class BASSCHANNEL(object):
   self.__bass_channellock=self.__bass._bass.BASS_ChannelLock
   self.__bass_channellock.restype=BOOL
   self.__bass_channellock.argtypes=[DWORD,BOOL]
+  self.__bass_channelremovelink=self.__bass._bass.BASS_ChannelRemoveLink
+  self.__bass_channelremovelink.restype=BOOL
+  self.__bass_channelremovelink.argtypes=[DWORD,DWORD]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -187,3 +191,8 @@ class BASSCHANNEL(object):
   return result
  def __repr__(self):
   return '<BASSCHANNEL object at %s>'%(self._stream)
+ def RemoveLink(self, object):
+  if not hasattr(object,'_stream'): raise BassMatchingError('This object type isn\'t supported by this function.')
+  result=self.__bass_channelremovelink(self._stream,object._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result

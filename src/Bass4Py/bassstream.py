@@ -15,8 +15,7 @@ class BASSSTREAM(object):
   self.__bass_streamgetfileposition.restype=QWORD
   self.__bass_streamgetfileposition.argtypes=[DWORD,DWORD]
  def __del__(self):
-  result=self.__bass_streamfree(self._stream)
-  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  self.__bass_streamfree(self._stream)
  @property
  def Channel(self):
   return BASSCHANNEL(bass=self.__bass, stream=self._stream)
