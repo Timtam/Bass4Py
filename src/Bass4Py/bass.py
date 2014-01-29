@@ -64,6 +64,12 @@ class BASS(object):
   self.__bass_getconfig = self._bass.BASS_GetConfig
   self.__bass_getconfig.restype = DWORD
   self.__bass_getconfig.argtypes = [DWORD]
+  self.__bass_getconfigptr=self._bass.BASS_GetConfigPtr
+  self.__bass_getconfigptr.restype=c_void_p
+  self.__bass_getconfigptr.argtypes=[DWORD]
+  self.__bass_setconfigptr=self._bass.BASS_SetConfigPtr
+  self.__bass_setconfigptr.restype=BOOL
+  self.__bass_setconfigptr.argtypes=[DWORD,c_char_p]
   self.__bass_getversion = self._bass.BASS_GetVersion
   self.__bass_getversion.restype = DWORD
   self.__bass_setdevice = self._bass.BASS_SetDevice
@@ -158,6 +164,15 @@ class BASS(object):
   result=self.__bass_getconfig(option)
   if self._Error: raise BassExceptionError(self._Error)
   return result
+ def GetConfigPtr(self,option):
+  ret_=self.__bass_getconfigptr(option)
+  if self._Error: raise BassExceptionError(self._Error)
+  return c_char_p(ret_).value
+ def SetConfigPtr(self,option,value):
+  ret_=self.__bass_setconfigptr(option,value)
+  if self._Error: raise BassExceptionError(self._Error)
+  print value
+  return ret_
  @property
  def Version(self):
   dversion=self.__bass_getversion()
@@ -200,12 +215,14 @@ class BASS(object):
   result=self.__bass_pause()
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def SetVolume(self, volume):
-  result=self.__bass_setvolume(volume)
+ @property
+ def Volume(self):
+  result=self.__bass_getvolume()
   if self._Error: raise BassExceptionError(self._Error)
   return result
- def GetVolume(self):
-  result=self.__bass_getvolume()
+ @Volume.setter
+ def Volume(self, volume):
+  result=self.__bass_setvolume(volume)
   if self._Error: raise BassExceptionError(self._Error)
   return result
  def PluginLoad(self, file):

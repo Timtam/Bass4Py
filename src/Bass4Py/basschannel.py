@@ -131,7 +131,7 @@ class BASSCHANNEL(object):
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
  def Flags(self,flags,mask):
-  result=self.__bass_channelflags(self._stream,flags,mode)
+  result=self.__bass_channelflags(self._stream,flags,mask)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
  def Get3DAttributes(self):
