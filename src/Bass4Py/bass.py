@@ -292,6 +292,7 @@ class BASS(object):
  def StreamCreateFile(self, mem, file,offset=0,length=0,flags=0):
   if not mem: self.__bass_streamcreatefile.argtypes[1]=c_wchar_p
   else: self.__bass_streamcreatefile.argtypes[1]=c_void_p
+  if mem==True and length==0: length=len(file)
   result=self.__bass_streamcreatefile(mem,file,offset,length,flags)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSSTREAM(bass=self,stream=result)
@@ -326,7 +327,7 @@ class BASS(object):
    return lib
  def __repr__(self):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
- def __del__(self):
+ def Free(self):
   self.__bass_free()
 def fDownloadProc(handle, buffer, user):
  return True

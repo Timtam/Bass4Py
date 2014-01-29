@@ -1,12 +1,18 @@
 class BASSVERSION(object):
  def __init__(self, dword):
   self.Dword=dword
-  hversion=str(hex(self.Dword))
-  hversion=hversion[2:]
-  sversion=''
-  for i in range(1,4):
-   sversion+=str(int('0x%s'%(hversion[0:2].strip('0')), 16))+'.'
-   hversion=hversion[2:]
-  self.Str=sversion[0:-1]
+  hiword=hex(self.Dword>>16)
+  hiword=str(hiword)[2:][:-1].zfill(4)
+  loword=hex(self.Dword&0x0000ffff)
+  loword=str(loword)[2:][:-1].zfill(4)
+  self.Str=''
+  verpart=int(hiword[0:2],16)
+  if verpart>0: self.Str=str(verpart)+'.'
+  verpart=int(hiword[2:],16)
+  self.Str=self.Str+str(verpart)+'.'
+  verpart=int(loword[0:2],16)
+  self.Str=self.Str+str(verpart)
+  verpart=int(loword[2:],16)
+  if verpart>0:self.Str=self.Str+'.'+str(verpart)
  def __repr__(self):
   return '<BASSVERSION object; representing %d (v%s)>'%(self.Dword,self.Str)

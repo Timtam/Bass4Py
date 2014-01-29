@@ -92,6 +92,12 @@ class BASSCHANNEL(object):
   self.__bass_channelremovelink=self.__bass._bass.BASS_ChannelRemoveLink
   self.__bass_channelremovelink.restype=BOOL
   self.__bass_channelremovelink.argtypes=[DWORD,DWORD]
+  self.__bass_channelset3dattributes=self.__bass._bass.BASS_ChannelSet3DAttributes
+  self.__bass_channelset3dattributes.restype=BOOL
+  self.__bass_channelset3dattributes.argtypes=[DWORD,c_int,c_float,c_float,c_int,c_int,c_float]
+  self.__bass_channelsetattribute=self.__bass._bass.BASS_ChannelSetAttribute
+  self.__bass_channelsetattribute.restype=BOOL
+  self.__bass_channelsetattribute.argtypes=[DWORD,DWORD,c_float]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -194,5 +200,13 @@ class BASSCHANNEL(object):
  def RemoveLink(self, object):
   if not hasattr(object,'_stream'): raise BassMatchingError('This object type isn\'t supported by this function.')
   result=self.__bass_channelremovelink(self._stream,object._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def Set3DAttributes(self,mode,min,max,iangle,oangle,outvol):
+  result=self.__bass_channelset3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return result
+ def SetAttribute(self,attrib,val):
+  result=self.__bass_channelsetattribute(self._stream,attrib,val)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return result
