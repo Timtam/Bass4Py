@@ -101,39 +101,39 @@ class BASSCHANNEL(object):
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def Pause(self):
   result=self.__bass_channelpause(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def Stop(self):
   result=self.__bass_channelstop(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def GetPosition(self,mode=BASS_POS_BYTE):
   result=self.__bass_channelgetposition(self._stream,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def SetPosition(self, position,mode):
   result=self.__bass_channelsetposition(self._stream,position,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def GetLength(self,mode):
   result=self.__bass_channelgetlength(self._stream,mode)
   if self.__bass._Error:raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def Seconds2Bytes(self,seconds):
   result=self.__bass_channelseconds2bytes(self._stream,seconds)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def Bytes2Seconds(self,bytes):
   result=self.__bass_channelbytes2seconds(self._stream,bytes)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
- def Flags(self,flags,mask):
+  return float(result)
+ def ChannelFlags(self,flags,mask):
   result=self.__bass_channelflags(self._stream,flags,mask)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def Get3DAttributes(self):
   mode=DWORD(0)
   min=c_float(0)
@@ -160,13 +160,12 @@ class BASSCHANNEL(object):
  def Device(self):
   result=self.__bass_channelgetdevice(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  @Device.setter
  def Device(self,device):
   result=self.__bass_channelsetdevice(self._stream,device)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
- @property
- def Info(self):
+ def __Info(self):
   bret_=bass_channelinfo()
   result=self.__bass_channelgetinfo(self._stream,bret_)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -174,10 +173,34 @@ class BASSCHANNEL(object):
   sample=(BASSSAMPLE(bass=self.__bass,stream=bret_.sample) if bret_.sample else 0)
   return {'freq':bret_.freq,'chans':bret_.chans,'flags':bret_.flags,'ctype':bret_.ctype,'origres':bret_.origres,'plugin':plugin,'sample':sample,'filename':bret_.filename}
  @property
+ def Frequency(self):
+  return int(self.__Info()['freq'])
+ @property
+ def Channels(self):
+  return int(self.__Info()['chans'])
+ @property
+ def Flags(self):
+  return int(self.__Info()['flags'])
+ @property
+ def Type(self):
+  return int(self.__Info()['ctype'])
+ @property
+ def Resolution(self):
+  return int(self.__Info()['origres'])
+ @property
+ def Plugin(self):
+  return self.__Info()['plugin']
+ @property
+ def Sample(self):
+  return self.__Info()['sample']
+ @property
+ def Filename(self):
+  return self.__Info()['filename']
+ @property
  def Level(self):
   result=self.__bass_channelgetlevel(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def GetTags(self,tags):
   result=self.__bass_channelgettags(self._stream,tags)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -186,27 +209,27 @@ class BASSCHANNEL(object):
  def Active(self):
   result=self.__bass_channelisactive(self._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def IsSliding(self,attrib):
   result=self.__bass_channelissliding(self._stream,attrib)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def Lock(self,lock):
   result=self.__bass_channellock(self._stream,lock)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def __repr__(self):
   return '<BASSCHANNEL object at %s>'%(self._stream)
  def RemoveLink(self, object):
   if not hasattr(object,'_stream'): raise BassMatchingError('This object type isn\'t supported by this function.')
   result=self.__bass_channelremovelink(self._stream,object._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def Set3DAttributes(self,mode,min,max,iangle,oangle,outvol):
   result=self.__bass_channelset3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
  def SetAttribute(self,attrib,val):
   result=self.__bass_channelsetattribute(self._stream,attrib,val)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return bool(result)
