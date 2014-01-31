@@ -1,6 +1,7 @@
 import platform
 import sys
 import os.path
+import types
 from ctypes import *
 try:
  from ctypes.wintypes import *
@@ -23,6 +24,11 @@ HPLUGIN=DWORD
 HMUSIC=DWORD
 QWORD=c_longlong
 tDownloadProc = WINFUNCTYPE(None, c_void_p, DWORD, c_void_p)
+tStreamProc=WINFUNCTYPE(DWORD,HSTREAM,c_void_p,DWORD,c_void_p)
+tFileCloseProc=WINFUNCTYPE(None,c_void_p)
+tFileLenProc=WINFUNCTYPE(QWORD,c_void_p)
+tFileReadProc=WINFUNCTYPE(DWORD,c_void_p,DWORD,c_void_p)
+tFileSeekProc=WINFUNCTYPE(BOOL,QWORD,c_void_p)
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_deviceinfo(Structure):
@@ -44,6 +50,8 @@ class bass_info(Structure):
         ("speakers", DWORD),
         ("freq", DWORD),
     ]
+class bass_fileprocs(Structure):
+ _fields_=[('close',tFileCloseProc),('length',tFileLenProc),('read',tFileReadProc),('seek',tFileSeekProc)]
 class BASS(object):
  def __init__(self, LibFolder=''):
   self._bass = self.__GetBassLib(LibFolder)
@@ -58,6 +66,12 @@ class BASS(object):
   self.__bass_streamcreateurl = self._bass.BASS_StreamCreateURL
   self.__bass_streamcreateurl.restype = HSTREAM
   self.__bass_streamcreateurl.argtypes =[c_char_p, DWORD, DWORD, tDownloadProc, c_void_p]
+  self.__bass_streamcreate=self._bass.BASS_StreamCreate
+  self.__bass_streamcreate.restype=HSTREAM
+  self.__bass_streamcreate.argtypes=[DWORD,DWORD,DWORD,tStreamProc,c_void_p]
+  self.__bass_streamcreatefileuser=self._bass.BASS_StreamCreateFileUser
+  self.__bass_streamcreatefileuser.restype=HSTREAM
+  self.__bass_streamcreatefileuser.argtypes=[DWORD,DWORD,POINTER(bass_fileprocs),c_void_p]
   self.__bass_setconfig = self._bass.BASS_SetConfig
   self.__bass_setconfig.restype = BOOL
   self.__bass_setconfig.argtypes = [DWORD, DWORD]
@@ -144,18 +158,36 @@ class BASS(object):
    raise BassExceptionError(self._Error)
   else:
    return {"name":bret_.name, "driver":bret_.driver, "flags":bret_.flags}
- def StreamCreateURL(self, url, offset=0, flags=0, function=None, user=0):
-  if function==None:
-   function=dDownloadProc
-  else:
-   if type(function) !=type(dDownloadProc):
-    raise BassParameterError('You need to define a bass compatible callback function as function parameter.')
-  ret_ = self.__bass_streamcreateurl(url, offset, flags, function, user)
+ def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
+  if type(proc) !=types.FunctionType or proc !=0:
+   raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
+  ret_ = self.__bass_streamcreateurl(url, offset, flags, tDownloadProc(proc), user)
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
    stream = BASSSTREAM(bass=self, stream=ret_)
    return stream
+ def StreamCreate(self,freq,chans,flags,proc,user):
+  if type(proc)!=types.FunctionType and proc!=STREAMPROC_DUMMY and proc!=STREAMPROC_PUSH:
+   raise BassParameterError('Invalid proc parameter: valid function or STREAMPROC_DUMMY or STREAMPROC_PUSH needed')
+  ret_=self.__bass_streamcreate(freq,chans,flags,tStreamProc(proc),user)
+  if self._Error: raise BassExceptionError(self._Error)
+  stream=BASSSTREAM(bass=self,stream=ret_)
+  return stream
+ def StreamCreateFileUser(self,system,flags,closeproc,lenproc,readproc,seekproc,user):
+  if type(closeproc)!=types.FunctionType: raise BassParameterError('Invalid closeproc parameter: function type expected')
+  if type(lenpoc)!=types.FunctionType: raise BassParameterError('Invalid lenproc parameter: function type expected')
+  if type(readproc)!=types.FunctionType: raise BassParameterError('Invalid lenproc parameter: function type expected')
+  if type(seekproc)!=types.FunctionType: raise BassParameterError('Invalid seekproc parameter: function type expected')
+  proc=bass_fileprocs()
+  proc.close=tFileCloseProc(closeproc)
+  proc.length=tFileLenProc(lenproc)
+  proc.read=tFileReadProc(readproc)
+  proc.seek=tFileSeekProc(seekproc)
+  ret_=self.__bass_streamcreatefileuser(system,flags,proc,user)
+  if self._Error: raise BassExceptionError(self._Error)
+  stream=BASSSTREAM(bass=self,stream=ret_)
+  return stream
  def SetConfig(self, option, value):
   result=self.__bass_setconfig(option, value)
   if self._Error: raise BassExceptionError(self._Error)
@@ -307,9 +339,9 @@ class BASS(object):
   if self._Error: raise BassExceptionError(self._Error)
   return BASSMUSIC(bass=self, music=ret_) 
  def StreamCreateFile(self, mem, file,offset=0,length=0,flags=0):
-  if not mem: self.__bass_streamcreatefile.argtypes[1]=c_wchar_p
+  if not mem: self.__bass_streamcreatefile.argtypes[1]=c_char_p
   else: self.__bass_streamcreatefile.argtypes[1]=c_void_p
-  if mem==True and length==0: length=len(file)
+  if mem and length==0: length=len(file)
   result=self.__bass_streamcreatefile(mem,file,offset,length,flags)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSSTREAM(bass=self,stream=result)
@@ -346,6 +378,3 @@ class BASS(object):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
  def Free(self):
   self.__bass_free()
-def fDownloadProc(handle, buffer, user):
- return True
-dDownloadProc = tDownloadProc(fDownloadProc)
