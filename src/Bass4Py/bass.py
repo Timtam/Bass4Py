@@ -18,7 +18,7 @@ from bassmusic import *
 from bassversion import *
 from basssample import *
 from .exceptions import *
-BASS_DWORD_ERR =4294967295
+BASS_DWORD_ERROR =4294967295
 HSTREAM =DWORD
 HPLUGIN=DWORD
 HMUSIC=DWORD
@@ -147,7 +147,7 @@ class BASS(object):
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  @property
  def _Error(self):
   return self.__bass_errorgetcode()
@@ -157,7 +157,7 @@ class BASS(object):
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
-   return {"name":bret_.name, "driver":bret_.driver, "flags":bret_.flags}
+   return {"Name":bret_.name, "Driver":bret_.driver, "Flags":bret_.flags}
  def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
   if type(proc) !=types.FunctionType or proc !=0:
    raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
@@ -191,11 +191,11 @@ class BASS(object):
  def SetConfig(self, option, value):
   result=self.__bass_setconfig(option, value)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  def GetConfig(self, option):
   result=self.__bass_getconfig(option)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return int(result)
  def GetConfigPtr(self,option):
   ret_=self.__bass_getconfigptr(option)
   if self._Error: raise BassExceptionError(self._Error)
@@ -203,8 +203,7 @@ class BASS(object):
  def SetConfigPtr(self,option,value):
   ret_=self.__bass_setconfigptr(option,value)
   if self._Error: raise BassExceptionError(self._Error)
-  print value
-  return ret_
+  return bool(ret_)
  @property
  def Version(self):
   dversion=self.__bass_getversion()
@@ -213,7 +212,7 @@ class BASS(object):
  def Device(self):
   ret_ = self.__bass_getdevice()
   if self._Error: raise BassExceptionError(self._Error)
-  return ret_
+  return int(ret_)
  @Device.setter
  def Device(self, device):
   result=self.__bass_setdevice(device)
@@ -222,31 +221,76 @@ class BASS(object):
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
   self.__init=False
- @property
- def Info(self):
+ def __Info(self):
   bret_ = bass_info()
   sret_ = self.__bass_getinfo(bret_)
   if self._Error: raise BassExceptionError(self._Error)
   return {"flags":bret_.flags,"hwsize":bret_.hwsize,"hwfree":bret_.hwfree,"freesam":bret_.freesam,"free3d":bret_.free3d,"minrate":bret_.minrate,"maxrate":bret_.maxrate,"eax":bret_.eax,"minbuf":bret_.minbuf,"dsver":bret_.dsver,"latency":bret_.latency,"initflags":bret_.initflags,"speakers":bret_.speakers,"freq":bret_.freq}
+ @property
+ def Flags(self):
+  return int(self.__Info()['flags'])
+ @property
+ def FullMemory(self):
+  return int(self.__Info()['hwsize'])
+ @property
+ def FreeMemory(self):
+  return int(self.__Info()['hwfree'])
+ @property
+ def FreeSamples(self):
+  return int(self.__Info()['freesam'])
+ @property
+ def Free3D(self):
+  return int(self.__Info()['free3d'])
+ @property
+ def MinSampleRate(self):
+  return int(self.__Info()['minrate'])
+ @property
+ def MaxSampleRate(self):
+  return int(self.__Info()['maxrate'])
+ @property
+ def EAX(self):
+  return bool(self.__Info()['eax'])
+ @property
+ def MinBuffer(self):
+  ret_=self.__Info()['minbuf']
+  if ret_==BASS_DWORD_ERROR: raise BassDWORDError()
+  return int(ret_)
+ @property
+ def DirectSoundVersion(self):
+  return int(self.__Info()['dsver'])
+ @property
+ def Latency(self):
+  ret_=self.__Info()['latency']
+  if ret_==BASS_DWORD_ERROR: raise BassDWORDError()
+  return int(ret_)
+ @property
+ def InitFlags(self):
+  return int(self.__Info()['initflags'])
+ @property
+ def Speakers(self):
+  return int(self.__Info()['speakers'])
+ @property
+ def Frequency(self):
+  return int(self.__Info()['freq'])
  def Update(self, length):
   result=self.__bass_update(length)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  @property
  def CPU(self):
   return self.__bass_getcpu()
  def Start(self):
   result=self.__bass_start()
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  def Stop(self):
   result=self.__bass_stop()
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  def Pause(self):
   result=self.__bass_pause()
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  @property
  def Volume(self):
   result=self.__bass_getvolume()
@@ -265,7 +309,7 @@ class BASS(object):
  def Set3DFactors(self, distf, rollf, doppf):
   result=self.__bass_set3dfactors(distf, rollf, doppf)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  def Get3DFactors(self):
   distf=c_float(0)
   rollf=c_float(0)
@@ -300,7 +344,7 @@ class BASS(object):
    btop.Z = top["Z"]
   result=self.__bass_set3dposition(bpos, bvel, bfront, btop)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
+  return bool(result)
  def Get3DPosition(self):
   pos = bass_vector()
   vel = bass_vector()
@@ -317,7 +361,7 @@ class BASS(object):
   try:
    result=self.__bass_seteaxparameters(env, vol, decay, damp)
    if self._Error: raise BassExceptionError(self._Error)
-   return result
+   return bool(result)
   except:
    raise BassUnknownFunctionError('SetEAXParameters')
  def GetEAXParameters(self):
