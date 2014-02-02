@@ -32,8 +32,7 @@ class BASSPLUGIN(object):
   self.__bass_plugingetinfo.argtypes=[HPLUGIN]
  def __del__(self):
   self.__bass_pluginfree(self._plugin)
- @property
- def Info(self):
+ def __Info(self):
   ret_ = self.__bass_plugingetinfo(self._plugin)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   dret_ ={}
@@ -43,11 +42,17 @@ class BASSPLUGIN(object):
   formats =[]
   for i in range(ret_.formatc):
    form ={}
-   form["ctype"] = ret_.formats[i].ctype
-   form["name"] = ret_.formats[i].name
-   form["exts"] = ret_.formats[i].exts
+   form["Type"] = ret_.formats[i].ctype
+   form["Name"] = ret_.formats[i].name
+   form["Extensions"] = ret_.formats[i].exts
    formats.append(form)
   dret_["formats"] = formats
   return dret_
+ @property
+ def Version(self):
+  return self.__Info()['version']
+ @property
+ def Formats(self):
+  return self.__Info()['formats']
  def __repr__(self):
   return '<BASSPLUGIN object at %s>'%(self._plugin)
