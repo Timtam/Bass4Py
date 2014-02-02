@@ -324,7 +324,7 @@ class BASS(object):
  def Distance(self,distance):
   ret_=self.__Get3DFactors()
   self.__Set3DFactors(distance,ret_['rollf'],ret_['doppf'])
-  self.__Apply3D()
+  self._Apply3D()
  @property
  def Doppler(self):
   return self.__Get3DFactors()['doppf']
@@ -332,7 +332,7 @@ class BASS(object):
  def Doppler(self,doppler):
   ret_=self.__Get3DFactors()
   self.__Set3DFactors(ret_['distf'],ret_['rollf'],doppler)
-  self.__Apply3D()
+  self._Apply3D()
  @property
  def Rolloff(self):
   return self.__Get3DFactors()['rollf']
@@ -340,7 +340,7 @@ class BASS(object):
  def Rolloff(self,rolloff):
   ret_=self.__Get3DFactors()
   self.__Set3DFactors(ret_['distf'],rolloff,ret_['doppf'])
-  self.__Apply3D()
+  self._Apply3D()
  def __Set3DPosition(self, pos, vel, front, top):
   if type(pos) is types.DictType:
    bpos = bass_vector()
@@ -388,7 +388,7 @@ class BASS(object):
  def Position(self,position):
   ret_=self.__Get3DPosition()
   self.__Set3DPosition(pos=position,vel=ret_['vel'],top=ret_['top'],front=ret_['front'])
-  self.__Apply3D()
+  self._Apply3D()
  @property
  def Velocity(self):
   return self.__Get3DPosition()['vel']
@@ -396,7 +396,7 @@ class BASS(object):
  def Velocity(self,velocity):
   ret_=self.__Get3DPosition()
   self.__Set3DPosition(pos=ret_['pos'],vel=velocity,top=ret_['top'],front=ret_['front'])
-  self.__Apply3D()
+  self._Apply3D()
  @property
  def Top(self):
   return self.__Get3DPosition()['top']
@@ -412,8 +412,8 @@ class BASS(object):
  def Front(self,front):
   ret_=self.__Get3DPosition()
   self.__Set3DPosition(pos=ret_['pos'],vel=ret_['vel'],top=ret_['top'],front=front)
-  self.__Apply3D()
- def __Apply3D(self):
+  self._Apply3D()
+ def _Apply3D(self):
   self.__bass_apply3d()
   if self._Error: raise BassExceptionError(self._Error)
   return 1

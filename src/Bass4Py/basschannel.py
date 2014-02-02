@@ -1,4 +1,5 @@
 from ctypes import *
+import types
 from .exceptions import *
 from .constants import *
 from basssample import *
@@ -98,6 +99,9 @@ class BASSCHANNEL(object):
   self.__bass_channelsetattribute=self.__bass._bass.BASS_ChannelSetAttribute
   self.__bass_channelsetattribute.restype=BOOL
   self.__bass_channelsetattribute.argtypes=[DWORD,DWORD,c_float]
+  self.__bass_channelset3dposition=self.__bass._bass.BASS_ChannelSet3DPosition
+  self.__bass_channelset3dposition.restype=BOOL
+  self.__bass_channelset3dposition.argtypes=[DWORD,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -134,7 +138,7 @@ class BASSCHANNEL(object):
   result=self.__bass_channelflags(self._stream,flags,mask)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return int(result)
- def Get3DAttributes(self):
+ def __Get3DAttributes(self):
   mode=DWORD(0)
   min=c_float(0)
   max=c_float(0)
@@ -144,7 +148,7 @@ class BASSCHANNEL(object):
   result=self.__bass_channelget3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return {'mode':mode.value,'min':min.value,'max':max.value,'iangle':iangle.value,'oangle':oangle.value,'outvol':outvol.value}
- def Get3DPosition(self):
+ def __Get3DPosition(self):
   pos=bass_vector()
   orient=bass_vector()
   vel=bass_vector()
@@ -225,7 +229,7 @@ class BASSCHANNEL(object):
   result=self.__bass_channelremovelink(self._stream,object._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return bool(result)
- def Set3DAttributes(self,mode,min,max,iangle,oangle,outvol):
+ def __Set3DAttributes(self,mode,min,max,iangle,oangle,outvol):
   result=self.__bass_channelset3dattributes(self._stream,mode,min,max,iangle,oangle,outvol)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return bool(result)
@@ -233,3 +237,100 @@ class BASSCHANNEL(object):
   result=self.__bass_channelsetattribute(self._stream,attrib,val)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return bool(result)
+ def __Set3DPosition(self,pos,orient,vel):
+  if type(pos)==types.DictType:
+   bpos=bass_vector()
+   bpos.X=pos['X']
+   bpos.Y=pos['Y']
+   bpos.Z=pos['Z']
+  else:
+   raise BassParameterError('The pos parameter needs to be in dictionary format')
+  if type(orient)==types.DictType:
+   borient=bass_vector()
+   borient.X=orient['X']
+   borient.Y=orient['Y']
+   borient.Z=orient['Z']
+  else:
+   raise BassParameterError('The orient parameter needs to be in dictionary format')
+  if type(vel)==types.DictType:
+   bvel=bass_vector()
+   bvel.X=vel['X']
+   bvel.Y=vel['Y']
+   bvel.Z=vel['Z']
+  else:
+   raise BassParameterError('The pos parameter needs to be in dictionary format')
+  ret_=self.__bass_channelset3dposition(self._stream,bpos,borient,bvel)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
+ @property
+ def Position(self):
+  return self.__Get3DPosition()['pos']
+ @Position.setter
+ def Position(self,position):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(position,ret_['orient'],ret_['vel'])
+  self.__bass._Apply3D()
+ @property
+ def Orientation(self):
+  return self.__Get3DPosition()['orient']
+ @Orientation.setter
+ def Orientation(self,orientation):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(ret_['pos'],orientation,ret_['vel'])
+  self.__bass._Apply3D()
+ @property
+ def Velocity(self):
+  return self.__Get3DPosition()['vel']
+ @Velocity.setter
+ def Velocity(self,velocity):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(ret_['pos'],ret_['orient'],velocity)
+  self.__bass._Apply3D()
+ @property
+ def Mode(self):
+  return int(self.__Get3DAttributes()['mode'])
+ @Mode.setter
+ def Mode(self,mode):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(mode,ret_['min'],ret_['max'],ret_['iangle'],ret_['oangle'],ret_['outvol'])
+  self.__bass._Apply3D()
+ @property
+ def MinDistance(self):
+  return self.__Get3DAttributes()['min']
+ @MinDistance.setter
+ def MinDistance(self,mindistance):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(ret_['mode'],mindistance,ret_['max'],ret_['iangle'],ret_['oangle'],ret_['outvol'])
+  self.__bass._Apply3D()
+ @property
+ def MaxDistance(self):
+  return self.__Get3DAttributes()['max']
+ @MaxDistance.setter
+ def MaxDistance(self,maxdistance):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(ret_['mode'],ret_['min'],maxdistance,ret_['iangle'],ret_['oangle'],ret_['outvol'])
+  self.__bass._Apply3D()
+ @property
+ def IAngle(self):
+  return int(self.__Get3DAttributes()['iangle'])
+ @IAngle.setter
+ def IAngle(self,iangle):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],iangle,ret_['oangle'],ret_['outvol'])
+  self.__bass._Apply3D()
+ @property
+ def OAngle(self):
+  return int(self.__Get3DAttributes()['oangle'])
+ @OAngle.setter
+ def OAngle(self,oangle):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],ret_['iangle'],oangle,ret_['outvol'])
+  self.__bass._Apply3D()
+ @property
+ def OutVolume(self):
+  return self.__Get3DAttributes()['outvol']
+ @OutVolume.setter
+ def OutVolume(self,outvolume):
+  ret_=self.__Get3DAttributes()
+  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],ret_['iangle'],ret_['oangle'],outvolume)
+  self.__bass._Apply3D()
