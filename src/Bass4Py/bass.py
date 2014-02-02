@@ -306,46 +306,74 @@ class BASS(object):
   if self._Error:
    raise BassExceptionError(self._Error)
   return BASSPLUGIN(bass=self, plugin=ret_)
- def Set3DFactors(self, distf, rollf, doppf):
+ def __Set3DFactors(self, distf, rollf, doppf):
   result=self.__bass_set3dfactors(distf, rollf, doppf)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
- def Get3DFactors(self):
+ def __Get3DFactors(self):
   distf=c_float(0)
   rollf=c_float(0)
   doppf=c_float(0)
   ret_ =self.__bass_get3dfactors(distf, rollf, doppf)
   if self._Error: raise BassExceptionError(self._Error)
   return {"distf":distf.value, "rollf":rollf.value, "doppf":doppf.value}
- def Set3DPosition(self, pos=None, vel=None, front=None, top=None):
-  bpos =0
-  bvel =0
-  bfront =0
-  btop =0
-  if type(pos) is dict:
+ @property
+ def Distance(self):
+  return self.__Get3DFactors()['distf']
+ @Distance.setter
+ def Distance(self,distance):
+  ret_=self.__Get3DFactors()
+  self.__Set3DFactors(distance,ret_['rollf'],ret_['doppf'])
+  self.__Apply3D()
+ @property
+ def Doppler(self):
+  return self.__Get3DFactors()['doppf']
+ @Doppler.setter
+ def Doppler(self,doppler):
+  ret_=self.__Get3DFactors()
+  self.__Set3DFactors(ret_['distf'],ret_['rollf'],doppler)
+  self.__Apply3D()
+ @property
+ def Rolloff(self):
+  return self.__Get3DFactors()['rollf']
+ @Rolloff.setter
+ def Rolloff(self,rolloff):
+  ret_=self.__Get3DFactors()
+  self.__Set3DFactors(ret_['distf'],rolloff,ret_['doppf'])
+  self.__Apply3D()
+ def __Set3DPosition(self, pos, vel, front, top):
+  if type(pos) is types.DictType:
    bpos = bass_vector()
    bpos.X = pos["X"]
    bpos.Y = pos["Y"]
    bpos.Z = pos["Z"]
-  if type(vel) is dict:
+  else:
+   raise BassParameterError('The position must be in dictionary format.')
+  if type(vel) is types.DictType:
    bvel = bass_vector()
    bvel.X = vel["X"]
    bvel.Y = vel["Y"]
    bvel.Z = vel["Z"]
-  if type(front) is dict:
+  else:
+   raise BassParameterError('The velocity parameter must be in dictionary format.')
+  if type(front) is types.DictType:
    bfront = bass_vector()
    bfront.X = front["X"]
    bfront.Y = front["Y"]
    bfront.Z = front["Z"]
-  if type(top) is dict:
+  else:
+   raise BassParameterError('The front parameter must be in dictionary format.')
+  if type(top) is types.DictType:
    btop = bass_vector()
    btop.X = top["X"]
    btop.Y = top["Y"]
    btop.Z = top["Z"]
+  else:
+   raise BassParameterError('The top parameter must be in dictionary format.')
   result=self.__bass_set3dposition(bpos, bvel, bfront, btop)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
- def Get3DPosition(self):
+ def __Get3DPosition(self):
   pos = bass_vector()
   vel = bass_vector()
   front = bass_vector()
@@ -353,22 +381,47 @@ class BASS(object):
   ret_ = self.__bass_get3dposition(pos, vel, front, top)
   if self._Error: raise BassExceptionError(self._Error)
   return {"pos":{"X":pos.X,"Y":pos.Y,"Z":pos.Z},"vel":{"X":vel.X,"Y":vel.Y,"Z":vel.Z},"front":{"X":front.X,"Y":front.Y,"Z":front.Z},"top":{"X":top.X,"Y":top.Y,"Z":top.Z}}
- def Apply3D(self):
+ @property
+ def Position(self):
+  return self.__Get3DPosition()['pos']
+ @Position.setter
+ def Position(self,position):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(pos=position,vel=ret_['vel'],top=ret_['top'],front=ret_['front'])
+  self.__Apply3D()
+ @property
+ def Velocity(self):
+  return self.__Get3DPosition()['vel']
+ @Velocity.setter
+ def Velocity(self,velocity):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(pos=ret_['pos'],vel=velocity,top=ret_['top'],front=ret_['front'])
+  self.__Apply3D()
+ @property
+ def Top(self):
+  return self.__Get3DPosition()['top']
+ @Top.setter
+ def Top(self,top):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(pos=ret_['pos'],vel=ret_['vel'],top=top,front=ret_['front'])
+  self.Apply3D()
+ @property
+ def Front(self):
+  return self.__Get3DPosition()['front']
+ @Front.setter
+ def Front(self,front):
+  ret_=self.__Get3DPosition()
+  self.__Set3DPosition(pos=ret_['pos'],vel=ret_['vel'],top=ret_['top'],front=front)
+  self.__Apply3D()
+ def __Apply3D(self):
   self.__bass_apply3d()
   if self._Error: raise BassExceptionError(self._Error)
   return 1
- def SetEAXParameters(self, env, vol, decay, damp):
-  try:
-   result=self.__bass_seteaxparameters(env, vol, decay, damp)
-   if self._Error: raise BassExceptionError(self._Error)
-   return bool(result)
-  except:
-   raise BassUnknownFunctionError('SetEAXParameters')
- def GetEAXParameters(self):
-  try:
-   self.__bass_geteaxparameters
-  except:
-   raise BassUnknownFunctionError('GetEAXParameters')
+ def __SetEAXParameters(self, env, vol, decay, damp):
+  result=self.__bass_seteaxparameters(env, vol, decay, damp)
+  if self._Error: raise BassExceptionError(self._Error)
+  return bool(result)
+ def __GetEAXParameters(self):
   env=DWORD(0)
   vol = c_float(0)
   decay = c_float(0)
@@ -376,8 +429,44 @@ class BASS(object):
   ret_ = self.__bass_geteaxparameters(env, vol, decay, damp)
   if self._Error: raise BassExceptionError(self._Error)
   return {"env":env.value,"vol":vol.value,"decay":decay.value,"damp":damp.value}
+ @property
+ def EAXEnvironment(self):
+  if not self.EAX: raise BassEAXError()
+  return self.__GetEAXParameters()['env']
+ @EAXEnvironment.setter
+ def EAXEnvironment(self,environment):
+  if not self.EAX: raise BassEAXError()
+  ret_=self.__GetEAXParameters()
+  self.__SetEAXParameters(environment,ret_['vol'],ret_['decay'],ret_['damp'])
+ @property
+ def EAXVolume(self):
+  if not self.EAX: raise BassEAXError()
+  return self.__GetEAXParameters()['vol']
+ @EAXVolume.setter
+ def EAXVolume(self,volume):
+  if not self.EAX: raise BassEAXError()
+  ret_=self.__GetEAXParameters()
+  self.__SetEAXParameters(ret_['env'],volume,ret_['decay'],ret_['damp'])
+ @property
+ def EAXDecay(self):
+  if not self.EAX: raise BassEAXError()
+  return self.__GetEAXParameters()['decay']
+ @EAXDecay.setter
+ def EAXDecay(self,decay):
+  if not self.EAX: raise BassEAXError()
+  ret_=self.__GetEAXParameters()
+  self.__SetEAXParameters(ret_['env'],ret_['vol'],decay,ret_['damp'])
+ @property
+ def EAXDamp(self):
+  if not self.EAX: raise BassEAXError()
+  return self.__GetEAXParameters()['damp']
+ @EAXDamp.setter
+ def EAXDamp(self,damp):
+  if not self.EAX: raise BassEAXError()
+  ret_=self.__GetEAXParameters()
+  self.__SetEAXParameters(ret_['env'],ret_['vol'],ret_['decay'],damp)
  def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
-  if not mem: self.__bass_musicload.argtypes[1] =c_wchar_p
+  if not mem: self.__bass_musicload.argtypes[1] =c_char_p
   else: self.__bass_musicload.argtypes[1]=c_void_p
   ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
   if self._Error: raise BassExceptionError(self._Error)

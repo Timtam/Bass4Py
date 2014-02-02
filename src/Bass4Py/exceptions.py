@@ -34,12 +34,6 @@ _ErrorExceptionIndex_ ={BASS_ERROR_MEM:'memory error',
                         BASS_ERROR_ENDED:'the channel/file has ended'}
 class BassLibError(Exception):
  pass
-class BassUnknownFunctionError(Exception):
- def __init__(self, function):
-  self.function=function
- def __str__(self):
-  return 'Unable to access the function \'%s\'. Please make sure the function is available on your currently running operating system.'
- message=property(__str__)
 class BassExceptionError(Exception):
  def __init__(self, errorcode):
   self.code=errorcode
@@ -53,4 +47,8 @@ class BassMatchingError(Exception):
 class BassDWORDError(Exception):
  def __str__(self):
   return 'BASS returned a value which indicates an error. This value might not be available in BASS\' current state.'
+ message=property(__str__)
+class BassEAXError(Exception):
+ def __str__(self):
+  return 'Unable to perform this operation: EAX is not available on your system'
  message=property(__str__)
