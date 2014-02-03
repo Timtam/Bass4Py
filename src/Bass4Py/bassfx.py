@@ -1,3 +1,9 @@
+from ctypes import *
+try:
+ from ctypes.wintypes import *
+except:
+ BOOL=c_long
+ DWORD=c_ulong
 class BASSFX(object):
  def __init__(self, **kwargs):
   self.__bass=kwargs['bass']

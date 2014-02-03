@@ -102,6 +102,9 @@ class BASSCHANNEL(object):
   self.__bass_channelset3dposition=self.__bass._bass.BASS_ChannelSet3DPosition
   self.__bass_channelset3dposition.restype=BOOL
   self.__bass_channelset3dposition.argtypes=[DWORD,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
+  self.__bass_channelsetfx=self.__bass._bass.BASS_ChannelSetFX
+  self.__bass_channelsetfx.restype=DWORD
+  self.__bass_channelsetfx.argtypes=[DWORD,DWORD,c_int]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -311,20 +314,14 @@ class BASSCHANNEL(object):
   self.__Set3DAttributes(ret_['mode'],ret_['min'],maxdistance,ret_['iangle'],ret_['oangle'],ret_['outvol'])
   self.__bass._Apply3D()
  @property
- def IAngle(self):
-  return int(self.__Get3DAttributes()['iangle'])
- @IAngle.setter
- def IAngle(self,iangle):
+ def Angle(self):
   ret_=self.__Get3DAttributes()
-  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],iangle,ret_['oangle'],ret_['outvol'])
-  self.__bass._Apply3D()
- @property
- def OAngle(self):
-  return int(self.__Get3DAttributes()['oangle'])
- @OAngle.setter
- def OAngle(self,oangle):
+  return {'IAngle':int(ret_['iangle']),'OAngle':int(ret_['oangle'])}
+ @Angle.setter
+ def Angle(self,angle):
+  if type(angle)!=types.DictType: raise BassParameterError('this value must be provided as dictionary')
   ret_=self.__Get3DAttributes()
-  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],ret_['iangle'],oangle,ret_['outvol'])
+  self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],angle['iangle'],angle['oangle'],ret_['outvol'])
   self.__bass._Apply3D()
  @property
  def OutVolume(self):
@@ -334,3 +331,8 @@ class BASSCHANNEL(object):
   ret_=self.__Get3DAttributes()
   self.__Set3DAttributes(ret_['mode'],ret_['min'],ret_['max'],ret_['iangle'],ret_['oangle'],outvolume)
   self.__bass._Apply3D()
+ def SetFX(self,fx,priority):
+  ret_=self.__bass_channelsetfx(self._stream,fx,priority)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  fx=BASSFX(bass=self.__bass,stream=self._stream,fx=fx)
+  return fx
