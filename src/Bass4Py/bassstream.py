@@ -20,8 +20,10 @@ class BASSSTREAM(object):
   self.__bass_streamputfiledata=self.__bass._bass.BASS_StreamPutFileData
   self.__bass_streamputfiledata.restype=DWORD
   self.__bass_streamputfiledata.argtypes=[DWORD,c_void_p,DWORD]
- def __del__(self):
-  self.__bass_streamfree(self._stream)
+ def Free(self):
+  ret_=self.__bass_streamfree(self._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
  @property
  def Channel(self):
   return BASSCHANNEL(bass=self.__bass, stream=self._stream)
@@ -35,7 +37,7 @@ class BASSSTREAM(object):
   ret_=self.__bass_streamputdata(self._stream,buffer,length)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return ret_
- def StreamPutFileData(buffer,length):
+ def PutFileData(buffer,length):
   ret_=self.__bass_streamputfiledata(self._stream,buffer,length)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return ret_

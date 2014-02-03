@@ -1,10 +1,10 @@
 from ctypes import *
+from .exceptions import *
 try:
  from ctypes.wintypes import *
 except:
  BOOL=c_long
  DWORD=c_ulong
- WINFUNCTYPE=CFUNCTYPE
 from bassversion import *
 from .exceptions import *
 HPLUGIN=DWORD
@@ -30,8 +30,10 @@ class BASSPLUGIN(object):
   self.__bass_plugingetinfo = self.__bass._bass.BASS_PluginGetInfo
   self.__bass_plugingetinfo.restype=c_void_p
   self.__bass_plugingetinfo.argtypes=[HPLUGIN]
- def __del__(self):
-  self.__bass_pluginfree(self._plugin)
+ def Free(self):
+  ret_=self.__bass_pluginfree(self._plugin)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
  def __Info(self):
   ret_ = self.__bass_plugingetinfo(self._plugin)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)

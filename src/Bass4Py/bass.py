@@ -220,7 +220,6 @@ class BASS(object):
  def Free(self):
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
-  self.__init=False
  def __Info(self):
   bret_ = bass_info()
   sret_ = self.__bass_getinfo(bret_)

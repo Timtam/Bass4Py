@@ -1,4 +1,5 @@
 from ctypes import *
+from .exceptions import *
 try:
  from ctypes.wintypes import *
 except:
@@ -14,5 +15,7 @@ class BASSFX(object):
   self.__bass_channelremovefx.argtypes=[DWORD,DWORD]
  def __repr__(self):
   return '<BASSFX object at %d; matching handle %d>'%(self._fx,self._stream)
- def __del__(self):
-  self.__bass_channelremovefx(self._stream,self._fx)
+ def Free(self):
+  ret_=self.__bass_channelremovefx(self._stream,self._fx)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)

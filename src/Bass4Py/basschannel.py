@@ -13,6 +13,7 @@ except:
  HWND=c_void_p
  WINFUNCTYPE=CFUNCTYPE
 QWORD=c_longlong
+tDspProc=WINFUNCTYPE(None,DWORD,DWORD,c_void_p,DWORD,c_void_p)
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_channelinfo(Structure):
