@@ -10,6 +10,10 @@ except:
  DWORD=c_ulong
  HWND=c_void_p
  WINFUNCTYPE=CFUNCTYPE
+try:
+ WindowsError
+except:
+ WindowsError=None
 from constants import *
 from basschannel import *
 from bassplugin import *
@@ -479,7 +483,7 @@ class BASS(object):
   return BASSSTREAM(bass=self,stream=result)
  def __GetBassLib(self, LibFolder):
   is_x64=sys.maxsize>2**32
-  if platform.system()=='Windows':
+  if platform.system()=='Windows' or platform.system().startswith('CYGWIN'):
    Filename='bass%s.dll'%('_x64' if is_x64 else '')
   elif platform.system()=='Linux':
    Filename='libbass%s.so'%('_x64' if is_x64 else '')
@@ -500,7 +504,7 @@ class BASS(object):
    except WindowsError:
     raise BassLibError('Unable to find library: %s'%(os.path.join(path, Filename)))
    return lib
-  elif platform.system()=='Linux':
+  elif platform.system()=='Linux' or platform.system().startswith('CYGWIN'):
    try:
     lib=CDLL(os.path.join(path, Filename))
    except:
