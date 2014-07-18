@@ -242,7 +242,7 @@ class BASSCHANNEL(object):
  def __repr__(self):
   return '<BASSCHANNEL object at %s>'%(self._stream)
  def RemoveLink(self, object):
-  if not hasattr(object,'_stream'): raise BassMatchingError('This object type isn\'t supported by this function.')
+  if not hasattr(object,'_stream'): raise BassParameterError('The object parameter needs to be a valid Bass4Py sub-object')
   result=self.__bass_channelremovelink(self._stream,object._stream)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return bool(result)
@@ -373,4 +373,5 @@ class BASSCHANNEL(object):
   ret_=self.__bass_channelsetdsp(self._stream,fdspproc,user)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   dsp=BASSDSP(bass=self.__bass,stream=self._stream,dsp=ret_)
+  __callbackreferences__.append(fdspproc)
   return dsp

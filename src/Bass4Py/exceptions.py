@@ -42,8 +42,6 @@ class BassExceptionError(Exception):
  message=property(__str__)
 class BassParameterError(Exception):
  pass
-class BassMatchingError(Exception):
- pass
 class BassDWORDError(Exception):
  def __str__(self):
   return 'BASS returned a value which indicates an error. This value might not be available in BASS\' current state.'
