@@ -5,6 +5,7 @@ from .constants import *
 from basssample import *
 from bassplugin import *
 from bassfx import *
+from basssync import *
 try:
  from ctypes.wintypes import *
 except:
@@ -14,6 +15,7 @@ except:
  WINFUNCTYPE=CFUNCTYPE
 QWORD=c_longlong
 tDspProc=WINFUNCTYPE(None,DWORD,DWORD,c_void_p,DWORD,c_void_p)
+tSyncProc=WINFUNCTYPE(None,DWORD,DWORD,DWORD,c_void_p)
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_channelinfo(Structure):
@@ -106,6 +108,9 @@ class BASSCHANNEL(object):
   self.__bass_channelsetfx=self.__bass._bass.BASS_ChannelSetFX
   self.__bass_channelsetfx.restype=DWORD
   self.__bass_channelsetfx.argtypes=[DWORD,DWORD,c_int]
+  self.__bass_channelsetsync=self.__bass._bass.BASS_ChannelSetSync
+  self.__bass_channelsetsync.restype=DWORD
+  self.__bass_channelsetsync.argtypes=[DWORD,DWORD,QWORD,tSyncProc,c_void_p]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -337,3 +342,11 @@ class BASSCHANNEL(object):
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   fx=BASSFX(bass=self.__bass,stream=self._stream,fx=fx)
   return fx
+ def SetSync(self,synctype,syncparam,syncproc,user=None):
+  if type(syncproc)!=types.FunctionType:
+   raise BassParameterError('syncproc needs to be a valid function')
+  fsyncproc=tSyncProc(syncproc)
+  ret_=self.__bass_channelsetsync(self._stream,synctype,syncparam,fsyncproc,user)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  sync=BASSSYNC(bass=self.__bass,stream=self._stream,sync=ret_,syncfunc=fsyncproc)
+  return sync
