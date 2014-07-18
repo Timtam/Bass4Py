@@ -119,6 +119,9 @@ class BASSCHANNEL(object):
   self.__bass_channelsetdsp=self.__bass._bass.BASS_ChannelSetDSP
   self.__bass_channelsetdsp.restype=DWORD
   self.__bass_channelsetdsp.argtypes=[DWORD,tDspProc,c_void_p]
+  self.__bass_channelsetlink=self.__bass._bass.BASS_ChannelSetLink
+  self.__bass_channelsetlink.restype=BOOL
+  self.__bass_channelsetlink.argtypes=[DWORD,DWORD]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -375,3 +378,8 @@ class BASSCHANNEL(object):
   dsp=BASSDSP(bass=self.__bass,stream=self._stream,dsp=ret_)
   __callbackreferences__.append(fdspproc)
   return dsp
+ def SetLink(self,object):
+  if not hasattr(object,'_stream'): raise BassParameterError('The object parameter needs to be a valid Bass4Py sub-object')
+  ret_=self.__bass_channelsetlink(self._stream,object._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
