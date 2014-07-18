@@ -16,6 +16,7 @@ except:
 QWORD=c_longlong
 tDspProc=WINFUNCTYPE(None,DWORD,DWORD,c_void_p,DWORD,c_void_p)
 tSyncProc=WINFUNCTYPE(None,DWORD,DWORD,DWORD,c_void_p)
+__callbackreferences__=[]
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_channelinfo(Structure):
@@ -348,5 +349,8 @@ class BASSCHANNEL(object):
   fsyncproc=tSyncProc(syncproc)
   ret_=self.__bass_channelsetsync(self._stream,synctype,syncparam,fsyncproc,user)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  sync=BASSSYNC(bass=self.__bass,stream=self._stream,sync=ret_,syncfunc=fsyncproc)
+  sync=BASSSYNC(bass=self.__bass,stream=self._stream,sync=ret_)
+  __callbackreferences__.append(fsyncproc)
   return sync
+ def ReceiveSync(self,id):
+  return BASSSYNC(bass=self.__bass,stream=self._stream,sync=id)

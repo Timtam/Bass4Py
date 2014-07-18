@@ -514,3 +514,7 @@ class BASS(object):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
  def Free(self):
   self.__bass_free()
+ def ReceiveStream(self,id):
+  return BASSSTREAM(bass=self,stream=id)
+ def ReceiveMusic(self,id):
+  return BASSMUSIC(bass=self,music=id)

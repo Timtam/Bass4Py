@@ -10,7 +10,6 @@ class BASSSYNC(object):
   self.__bass=kwargs['bass']
   self._stream=kwargs['stream']
   self._sync=kwargs['sync']
-  self.__syncfunc=kwargs['syncfunc']
   self.__bass_channelremovesync=self.__bass._bass.BASS_ChannelRemoveSync
   self.__bass_channelremovesync.restype=BOOL
   self.__bass_channelremovesync.argtypes=[DWORD,DWORD]
