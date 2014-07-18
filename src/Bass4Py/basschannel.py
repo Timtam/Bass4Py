@@ -4,6 +4,7 @@ from .exceptions import *
 from .constants import *
 from basssample import *
 from bassplugin import *
+from bassdsp import *
 from bassfx import *
 from basssync import *
 try:
@@ -112,6 +113,12 @@ class BASSCHANNEL(object):
   self.__bass_channelsetsync=self.__bass._bass.BASS_ChannelSetSync
   self.__bass_channelsetsync.restype=DWORD
   self.__bass_channelsetsync.argtypes=[DWORD,DWORD,QWORD,tSyncProc,c_void_p]
+  self.__bass_channelgetdata=self.__bass._bass.BASS_ChannelGetData
+  self.__bass_channelgetdata.restype=DWORD
+  self.__bass_channelgetdata.argtypes=[DWORD,c_void_p,DWORD]
+  self.__bass_channelsetdsp=self.__bass._bass.BASS_ChannelSetDSP
+  self.__bass_channelsetdsp.restype=DWORD
+  self.__bass_channelsetdsp.argtypes=[DWORD,tDspProc,c_void_p]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
@@ -354,3 +361,16 @@ class BASSCHANNEL(object):
   return sync
  def ReceiveSync(self,id):
   return BASSSYNC(bass=self.__bass,stream=self._stream,sync=id)
+ def GetData(self,length):
+  buffer=create_string_buffer(length)
+  ret_=self.__bass_channelgetdata(self._stream,byref(buffer),length)
+  if self.__bass._Error: raise BAssExceptionError(self.__bass._Error)
+  return (ret_,buffer.raw)
+ def SetDSP(self,dspproc,user=None):
+  if type(dspproc)!=types.FunctionType:
+   raise BassParameterError('dspproc needs to be a valid function')
+  fdspproc=tDspProc(dspproc)
+  ret_=self.__bass_channelsetdsp(self._stream,fdspproc,user)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  dsp=BASSDSP(bass=self.__bass,stream=self._stream,dsp=ret_)
+  return dsp
