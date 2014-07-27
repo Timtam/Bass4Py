@@ -148,6 +148,12 @@ class BASS(object):
   self.__bass_streamcreatefile=self._bass.BASS_StreamCreateFile
   self.__bass_streamcreatefile.restype=HSTREAM
   self.__bass_streamcreatefile.argtypes=[BOOL,c_void_p,QWORD,QWORD,DWORD]
+  self.__bass_samplecreate=self._bass.BASS_SampleCreate
+  self.__bass_samplecreate.restype=DWORD
+  self.__bass_samplecreate.argtypes=[DWORD,DWORD,DWORD,DWORD,DWORD]
+  self.__bass_sampleload=self._bass.BASS_SampleLoad
+  self.__bass_sampleload.restype=DWORD
+  self.__bass_sampleload.argtypes=[BOOL,c_void_p,QWORD,DWORD,DWORD,DWORD]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
@@ -518,3 +524,17 @@ class BASS(object):
   return BASSSTREAM(bass=self,stream=id)
  def ReceiveMusic(self,id):
   return BASSMUSIC(bass=self,music=id)
+ def ReceiveSample(self,id):
+  return BASSSAMPLE(bass=self,stream=id)
+ def SampleCreate(self,length,freq,chans,max,flags):
+  ret_=self.__bass_samplecreate(length,freq,chans,max,flags)
+  if self._Error: raise BassExceptionError(self._Error)
+  sample=BASSSAMPLE(bass=self,stream=ret_)
+  return sample
+ def SampleLoad(self,mem,file,offset=0,length=0,max=65535,flags=0):
+  if not mem: self.__bass_sampleload.argtypes[1]=c_char_p
+  else: self.__bass_sampleload.argtypes[1]=c_void_p
+  if mem and length==0: length=len(file)
+  result=self.__bass_sampleload(mem,file,offset,length,max,flags)
+  if self._Error: raise BassExceptionError(self._Error)
+  return BASSSAMPLE(bass=self,stream=result)
