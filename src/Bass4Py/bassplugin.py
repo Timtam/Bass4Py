@@ -6,7 +6,6 @@ except:
  BOOL=c_long
  DWORD=c_ulong
 from bassversion import *
-from .exceptions import *
 HPLUGIN=DWORD
 class bass_pluginform(Structure):
     _fields_ = [

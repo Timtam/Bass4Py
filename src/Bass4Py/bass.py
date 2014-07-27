@@ -538,3 +538,5 @@ class BASS(object):
   result=self.__bass_sampleload(mem,file,offset,length,max,flags)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSSAMPLE(bass=self,stream=result)
+ def ReceiveChannel(self,id):
+  return BASSCHANNEL(bass=self,stream=id)
