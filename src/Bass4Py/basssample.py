@@ -23,6 +23,18 @@ class BASSSAMPLE(object):
   self.__bass_samplegetchannels=self.__bass._bass.BASS_SampleGetChannels
   self.__bass_samplegetchannels.restype=DWORD
   self.__bass_samplegetchannels.argtypes=[DWORD,POINTER(DWORD)]
+  self.__bass_samplegetdata=self.__bass._bass.BASS_SampleGetData
+  self.__bass_samplegetdata.restype=BOOL
+  self.__bass_samplegetdata.argtypes=[DWORD,c_void_p]
+  self.__bass_samplesetdata=self.__bass._bass.BASS_SampleSetData
+  self.__bass_samplesetdata.restype=BOOL
+  self.__bass_samplesetdata.argtypes=[DWORD,c_void_p]
+  self.__bass_samplestop=self.__bass._bass.BASS_SampleStop
+  self.__bass_samplestop.restype=BOOL
+  self.__bass_samplestop.argtypes=[DWORD]
+  self.__bass_samplesetinfo=self.__bass._bass.BASS_SampleSetInfo
+  self.__bass_samplesetinfo.restype=BOOL
+  self.__bass_samplesetinfo.argtypes=[DWORD,POINTER(bass_sample)]
  def __repr__(self):
   return '<BASSSAMPLE object at %d>'%(self._stream)
  def Free(self):
@@ -41,21 +53,36 @@ class BASSSAMPLE(object):
  @property
  def Frequency(self):
   return int(self.__GetInfo()['freq'])
+ @Frequency.setter
+ def Frequency(self,freq):
+  self.__SetInfo(freq=freq)
  @property
  def Volume(self):
   return float(self.__GetInfo()['volume'])
+ @Volume.setter
+ def Volume(self,vol):
+  self.__SetInfo(vol=vol)
  @property
  def Pan(self):
   return float(self.__GetInfo()['pan'])
+ @Pan.setter
+ def Pan(self,pan):
+  self.__SetInfo(pan=pan)
  @property
  def Flags(self):
   return int(self.__GetInfo()['flags'])
+ @Flags.setter
+ def Flags(self,flags):
+  self.__SetInfo(flags=flags)
  @property
  def Length(self):
   return int(self.__GetInfo()['length'])
  @property
  def MaxPlaybacks(self):
   return int(self.__GetInfo()['max'])
+ @MaxPlaybacks.setter
+ def MaxPlaybacks(self,max):
+  self.__SetInfo(max=max)
  @property
  def Resolution(self):
   return int(self.__GetInfo()['origres'])
@@ -65,30 +92,57 @@ class BASSSAMPLE(object):
  @property
  def MinGap(self):
   return iGetnt(self.__Info()['mingap'])
+ @MinGap.setter
+ def MinGap(self,mingap):
+  self.__SetInfo(mingap=mingap)
  @property
  def Mode3D(self):
   return int(self.__GetInfo()['mode3d'])
+ @Mode3D.setter
+ def Mode3D(self,mode3d):
+  self.__SetInfo(mode3d=mode3d)
  @property
  def MinDistance(self):
   return float(self.__GetInfo()['mindist'])
+ @MinDistance.setter
+ def MinDistance(self,mindist):
+  self.__SetInfo(mindist=mindist)
  @property
  def MaxDistance(self):
   return float(self.__GetInfo()['maxdist'])
+ @MaxDistance.setter
+ def MaxDistance(self,maxdist):
+  self.__SetInfo(maxdist=maxdist)
  @property
  def IAngle(self):
   return int(self.__GetInfo()['iangle'])
+ @IAngle.setter
+ def IAngle(self,iangle):
+  self.__SetInfo(iangle=iangle)
  @property
  def OAngle(self):
   return int(self.__GetInfo()['oangle'])
+ @OAngle.setter
+ def OAngle(self,oangle):
+  self.__SetInfo(oangle=oangle)
  @property
  def OutVolume(self):
   return float(self.__GetInfo()['outvol'])
+ @OutVolume.setter
+ def OutVolume(self,outvol):
+  self.__SetInfo(outvol=outvol)
  @property
  def VAM(self):
   return int(self.__GetInfo()['vam'])
+ @VAM.setter
+ def VAM(self,vam):
+  self.__SetInfo(vam=vam)
  @property
  def Priority(self):
   return int(self.__GetInfo()['priority'])
+ @Priority.setter
+ def Priority(self,priority):
+  self.__SetInfo(priority=priority)
  @property
  def ActiveChannelCount(self):
   self.__bass_samplegetchannels.argtypes[1]=POINTER(DWORD)
@@ -108,3 +162,29 @@ class BASSSAMPLE(object):
    if channel: lchannels.append(self.__bass.ReceiveChannel(channel))
    else: lchannels.append(0)
   return lchannels
+ @property
+ def Data(self):
+  bdata=create_string_buffer(self.Length)
+  ret_=self.__bass_samplegetdata(self._stream,byref(bdata))
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bdata.raw
+ @Data.setter
+ def Data(self,data):
+  bdata=create_string_buffer(len(data))
+  bdata.raw=data
+  ret_=self.__bass_samplesetdata(self._stream,byref(bdata))
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+ def Stop(self):
+  ret_=self.__bass_samplestop(self._stream)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
+ def __SetInfo(self,**kwargs):
+  binfo=bass_sample()
+  info=self.__GetInfo()
+  for key, value in info.iteritems():
+   setattr(binfo,key,value)
+  for key, value in kwargs.iteritems():
+   setattr(binfo,key,value)
+  ret_=self.__bass_samplesetinfo(self._stream,binfo)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return bool(ret_)
