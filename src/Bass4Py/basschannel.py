@@ -365,10 +365,10 @@ class BASSCHANNEL(object):
  def ReceiveSync(self,id):
   return BASSSYNC(bass=self.__bass,stream=self._stream,sync=id)
  def GetData(self,length):
-  buffer=create_string_buffer(length)
+  buffer=(c_short*length)()
   ret_=self.__bass_channelgetdata(self._stream,byref(buffer),length)
-  if self.__bass._Error: raise BAssExceptionError(self.__bass._Error)
-  return (ret_,buffer.raw)
+  if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
+  return (int(ret_),list(buffer))
  def SetDSP(self,dspproc,user=None):
   if type(dspproc)!=types.FunctionType:
    raise BassParameterError('dspproc needs to be a valid function')

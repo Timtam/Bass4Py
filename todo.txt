@@ -1,5 +1,4 @@
 - repairing functions which need winfunctypes and get integers
-- correcting getdata ou!tputs to byte data
 - generalizing values like DWORD to HMUSIC and stuff
 - checking return values and converting them correctly
 - documentation

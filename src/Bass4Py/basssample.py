@@ -164,14 +164,15 @@ class BASSSAMPLE(object):
   return lchannels
  @property
  def Data(self):
-  bdata=create_string_buffer(self.Length)
+  bdata=(c_short*self.Length)()
   ret_=self.__bass_samplegetdata(self._stream,byref(bdata))
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return bdata.raw
+  return list(bdata)
  @Data.setter
  def Data(self,data):
-  bdata=create_string_buffer(len(data))
-  bdata.raw=data
+  bdata=(c_short*len(data))()
+  for i in range(0,len(data)+1:
+   bdata[i]=data[i]
   ret_=self.__bass_samplesetdata(self._stream,byref(bdata))
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
  def Stop(self):
