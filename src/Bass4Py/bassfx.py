@@ -1,10 +1,9 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
+BOOL=c_long
+DWORD=c_ulong
+HFX=DWORD
+HCHANNEL=DWORD
 class BASSFX(object):
  def __init__(self, **kwargs):
   self.__bass=kwargs['bass']
@@ -12,7 +11,7 @@ class BASSFX(object):
   self._fx=kwargs['fx']
   self.__bass_channelremovefx=self.__bass._bass.BASS_ChannelRemoveFX
   self.__bass_channelremovefx.restype=BOOL
-  self.__bass_channelremovefx.argtypes=[DWORD,DWORD]
+  self.__bass_channelremovefx.argtypes=[HCHANNEL,HFX]
  def __repr__(self):
   return '<BASSFX object at %d; matching handle %d>'%(self._fx,self._stream)
  def Free(self):

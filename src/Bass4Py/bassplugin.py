@@ -1,11 +1,8 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
 from bassversion import *
+BOOL=c_long
+DWORD=c_ulong
 HPLUGIN=DWORD
 class bass_pluginform(Structure):
     _fields_ = [

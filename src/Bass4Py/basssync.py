@@ -1,10 +1,9 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
+BOOL=c_long
+DWORD=c_ulong
+HSYNC=DWORD
+HCHANNEL=DWORD
 class BASSSYNC(object):
  def __init__(self, **kwargs):
   self.__bass=kwargs['bass']
@@ -12,7 +11,7 @@ class BASSSYNC(object):
   self._sync=kwargs['sync']
   self.__bass_channelremovesync=self.__bass._bass.BASS_ChannelRemoveSync
   self.__bass_channelremovesync.restype=BOOL
-  self.__bass_channelremovesync.argtypes=[DWORD,DWORD]
+  self.__bass_channelremovesync.argtypes=[HCHANNEL,HSYNC]
  def __repr__(self):
   return '<BASSSYNC object at %d; matching handle %d>'%(self._sync,self._stream)
  def Free(self):

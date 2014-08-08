@@ -1,10 +1,9 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
+BOOL=c_long
+DWORD=c_ulong
+HCHANNEL=DWORD
+HDSP=DWORD
 class BASSDSP(object):
  def __init__(self, **kwargs):
   self.__bass=kwargs['bass']
@@ -12,7 +11,7 @@ class BASSDSP(object):
   self._dsp=kwargs['dsp']
   self.__bass_channelremovedsp=self.__bass._bass.BASS_ChannelRemoveDSP
   self.__bass_channelremovedsp.restype=BOOL
-  self.__bass_channelremovedsp.argtypes=[DWORD,DWORD]
+  self.__bass_channelremovedsp.argtypes=[HCHANNEL,HDSP]
  def __repr__(self):
   return '<BASSDSP object at %d; matching handle %d>'%(self._dsp,self._stream)
  def Free(self):

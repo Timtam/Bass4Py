@@ -3,13 +3,10 @@ import sys
 import os.path
 import types
 from ctypes import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
- HWND=c_void_p
- WINFUNCTYPE=CFUNCTYPE
+BOOL=c_long
+DWORD=c_ulong
+HWND=c_void_p
+WINFUNCTYPE=CFUNCTYPE
 try:
  WindowsError
 except:

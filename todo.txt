@@ -1,4 +1,3 @@
-- generalizing values like DWORD to HMUSIC and stuff
 - checking return values and converting them correctly
 - documentation
 - pep8 check

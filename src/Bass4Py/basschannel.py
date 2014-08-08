@@ -7,14 +7,17 @@ from bassplugin import *
 from bassdsp import *
 from bassfx import *
 from basssync import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
- HWND=c_void_p
- WINFUNCTYPE=CFUNCTYPE
+BOOL=c_long
+DWORD=c_ulong
+HWND=c_void_p
+WINFUNCTYPE=CFUNCTYPE
 QWORD=c_longlong
+HCHANNEL=DWORD
+HSAMPLE=DWORD
+HPLUGIN=DWORD
+HFX=DWORD
+HSYNC=DWORD
+HDSP=DWORD
 tDspProc=WINFUNCTYPE(None,DWORD,DWORD,c_void_p,DWORD,c_void_p)
 tSyncProc=WINFUNCTYPE(None,DWORD,DWORD,DWORD,c_void_p)
 __callbackreferences__=[]
@@ -27,8 +30,8 @@ class bass_channelinfo(Structure):
         ("flags", DWORD),
         ("ctype", DWORD),
         ("origres", DWORD),
-        ("plugin", DWORD),
-        ("sample", DWORD),
+        ("plugin", HPLUGIN),
+        ("sample", HSAMPLE),
         ("filename", c_char_p),
     ]
 class BASSCHANNEL(object):
@@ -37,91 +40,91 @@ class BASSCHANNEL(object):
   self._stream = kwargs['stream']
   self.__bass_channelplay=self.__bass._bass.BASS_ChannelPlay
   self.__bass_channelplay.restype=BOOL
-  self.__bass_channelplay.argtypes=[DWORD, BOOL]
+  self.__bass_channelplay.argtypes=[HCHANNEL, BOOL]
   self.__bass_channelpause=self.__bass._bass.BASS_ChannelPause
   self.__bass_channelpause.restype=BOOL
-  self.__bass_channelpause.argtype=[DWORD]
+  self.__bass_channelpause.argtype=[HCHANNEL]
   self.__bass_channelstop=self.__bass._bass.BASS_ChannelStop
   self.__bass_channelstop.restype=BOOL
-  self.__bass_channelstop.argtypes=[DWORD]
+  self.__bass_channelstop.argtypes=[HCHANNEL]
   self.__bass_channelgetposition=self.__bass._bass.BASS_ChannelGetPosition
   self.__bass_channelgetposition.restype=QWORD
-  self.__bass_channelgetposition.argtypes=[DWORD,DWORD]
+  self.__bass_channelgetposition.argtypes=[HCHANNEL,DWORD]
   self.__bass_channelsetposition=self.__bass._bass.BASS_ChannelSetPosition
   self.__bass_channelsetposition.restype=BOOL
-  self.__bass_channelsetposition.argtypes=[DWORD,QWORD,DWORD]
+  self.__bass_channelsetposition.argtypes=[HCHANNEL,QWORD,DWORD]
   self.__bass_channelgetlength=self.__bass._bass.BASS_ChannelGetLength
   self.__bass_channelgetlength.restype=QWORD
-  self.__bass_channelgetlength.argtypes=[DWORD,DWORD]
+  self.__bass_channelgetlength.argtypes=[HCHANNEL,DWORD]
   self.__bass_channelseconds2bytes=self.__bass._bass.BASS_ChannelSeconds2Bytes
   self.__bass_channelseconds2bytes.restype=QWORD
-  self.__bass_channelseconds2bytes.argtypes=[DWORD,c_double]
+  self.__bass_channelseconds2bytes.argtypes=[HCHANNEL,c_double]
   self.__bass_channelbytes2seconds=self.__bass._bass.BASS_ChannelBytes2Seconds
   self.__bass_channelbytes2seconds.restype=DWORD
-  self.__bass_channelbytes2seconds.argtypes=[DWORD,c_double,QWORD]
+  self.__bass_channelbytes2seconds.argtypes=[HCHANNEL,c_double,QWORD]
   self.__bass_channelflags=self.__bass._bass.BASS_ChannelFlags
   self.__bass_channelflags.restype=DWORD
-  self.__bass_channelflags.argtypes=[DWORD,DWORD,DWORD]
+  self.__bass_channelflags.argtypes=[HCHANNEL,DWORD,DWORD]
   self.__bass_channelget3dattributes=self.__bass._bass.BASS_ChannelGet3DAttributes
   self.__bass_channelget3dattributes.restype=BOOL
-  self.__bass_channelget3dattributes.argtypes=[DWORD,POINTER(DWORD),POINTER(c_float),POINTER(c_float),POINTER(DWORD),POINTER(DWORD),POINTER(c_float)]
+  self.__bass_channelget3dattributes.argtypes=[HCHANNEL,POINTER(DWORD),POINTER(c_float),POINTER(c_float),POINTER(DWORD),POINTER(DWORD),POINTER(c_float)]
   self.__bass_channelget3dposition=self.__bass._bass.BASS_ChannelGet3DPosition
   self.__bass_channelget3dposition.restype=BOOL
-  self.__bass_channelget3dposition.argtypes=[DWORD,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
+  self.__bass_channelget3dposition.argtypes=[HCHANNEL,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
   self.__bass_channelgetattribute=self.__bass._bass.BASS_ChannelGetAttribute
   self.__bass_channelgetattribute.restype=BOOL
-  self.__bass_channelgetattribute.argtypes=[DWORD,DWORD,POINTER(c_float)]
+  self.__bass_channelgetattribute.argtypes=[HCHANNEL,DWORD,POINTER(c_float)]
   self.__bass_channelgetdevice=self.__bass._bass.BASS_ChannelGetDevice
   self.__bass_channelgetdevice.restype=DWORD
-  self.__bass_channelgetdevice.argtypes=[DWORD]
+  self.__bass_channelgetdevice.argtypes=[HCHANNEL]
   self.__bass_channelsetdevice=self.__bass._bass.BASS_ChannelSetDevice
   self.__bass_channelsetdevice.restype=BOOL
-  self.__bass_channelsetdevice.argtypes=[DWORD,DWORD]
+  self.__bass_channelsetdevice.argtypes=[HCHANNEL,DWORD]
   self.__bass_channelgetinfo=self.__bass._bass.BASS_ChannelGetInfo
   self.__bass_channelgetinfo.restype=BOOL
-  self.__bass_channelgetinfo.argtypes=[DWORD,POINTER(bass_channelinfo)]
+  self.__bass_channelgetinfo.argtypes=[HCHANNEL,POINTER(bass_channelinfo)]
   self.__bass_channelgetlevel=self.__bass._bass.BASS_ChannelGetLevel
   self.__bass_channelgetlevel.restype=DWORD
-  self.__bass_channelgetlevel.argtypes=[DWORD]
+  self.__bass_channelgetlevel.argtypes=[HCHANNEL]
   self.__bass_channelgettags=self.__bass._bass.BASS_ChannelGetTags
   self.__bass_channelgettags.restype=c_char_p
-  self.__bass_channelgettags.argtypes=[DWORD,DWORD]
+  self.__bass_channelgettags.argtypes=[HCHANNEL,DWORD]
   self.__bass_channelisactive=self.__bass._bass.BASS_ChannelIsActive
   self.__bass_channelisactive.restype=DWORD
-  self.__bass_channelisactive.argtypes=[DWORD]
+  self.__bass_channelisactive.argtypes=[HCHANNEL]
   self.__bass_channelissliding=self.__bass._bass.BASS_ChannelIsSliding
   self.__bass_channelissliding.restype=BOOL
-  self.__bass_channelissliding.argtypes=[DWORD,DWORD]
+  self.__bass_channelissliding.argtypes=[HCHANNEL,DWORD]
   self.__bass_channellock=self.__bass._bass.BASS_ChannelLock
   self.__bass_channellock.restype=BOOL
-  self.__bass_channellock.argtypes=[DWORD,BOOL]
+  self.__bass_channellock.argtypes=[HCHANNEL,BOOL]
   self.__bass_channelremovelink=self.__bass._bass.BASS_ChannelRemoveLink
   self.__bass_channelremovelink.restype=BOOL
-  self.__bass_channelremovelink.argtypes=[DWORD,DWORD]
+  self.__bass_channelremovelink.argtypes=[HCHANNEL,DWORD]
   self.__bass_channelset3dattributes=self.__bass._bass.BASS_ChannelSet3DAttributes
   self.__bass_channelset3dattributes.restype=BOOL
-  self.__bass_channelset3dattributes.argtypes=[DWORD,c_int,c_float,c_float,c_int,c_int,c_float]
+  self.__bass_channelset3dattributes.argtypes=[HCHANNEL,c_int,c_float,c_float,c_int,c_int,c_float]
   self.__bass_channelsetattribute=self.__bass._bass.BASS_ChannelSetAttribute
   self.__bass_channelsetattribute.restype=BOOL
-  self.__bass_channelsetattribute.argtypes=[DWORD,DWORD,c_float]
+  self.__bass_channelsetattribute.argtypes=[HCHANNEL,DWORD,c_float]
   self.__bass_channelset3dposition=self.__bass._bass.BASS_ChannelSet3DPosition
   self.__bass_channelset3dposition.restype=BOOL
-  self.__bass_channelset3dposition.argtypes=[DWORD,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
+  self.__bass_channelset3dposition.argtypes=[HCHANNEL,POINTER(bass_vector),POINTER(bass_vector),POINTER(bass_vector)]
   self.__bass_channelsetfx=self.__bass._bass.BASS_ChannelSetFX
-  self.__bass_channelsetfx.restype=DWORD
-  self.__bass_channelsetfx.argtypes=[DWORD,DWORD,c_int]
+  self.__bass_channelsetfx.restype=HFX
+  self.__bass_channelsetfx.argtypes=[HCHANNEL,DWORD,c_int]
   self.__bass_channelsetsync=self.__bass._bass.BASS_ChannelSetSync
-  self.__bass_channelsetsync.restype=DWORD
-  self.__bass_channelsetsync.argtypes=[DWORD,DWORD,QWORD,tSyncProc,c_void_p]
+  self.__bass_channelsetsync.restype=HSYNC
+  self.__bass_channelsetsync.argtypes=[HCHANNEL,DWORD,QWORD,tSyncProc,c_void_p]
   self.__bass_channelgetdata=self.__bass._bass.BASS_ChannelGetData
   self.__bass_channelgetdata.restype=DWORD
-  self.__bass_channelgetdata.argtypes=[DWORD,c_void_p,DWORD]
+  self.__bass_channelgetdata.argtypes=[HCHANNEL,c_void_p,DWORD]
   self.__bass_channelsetdsp=self.__bass._bass.BASS_ChannelSetDSP
-  self.__bass_channelsetdsp.restype=DWORD
-  self.__bass_channelsetdsp.argtypes=[DWORD,tDspProc,c_void_p]
+  self.__bass_channelsetdsp.restype=HDSP
+  self.__bass_channelsetdsp.argtypes=[HCHANNEL,tDspProc,c_void_p]
   self.__bass_channelsetlink=self.__bass._bass.BASS_ChannelSetLink
   self.__bass_channelsetlink.restype=BOOL
-  self.__bass_channelsetlink.argtypes=[DWORD,DWORD]
+  self.__bass_channelsetlink.argtypes=[HCHANNEL,HCHANNEL]
  def Play(self, restart=False):
   result=self.__bass_channelplay(self._stream, restart)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)

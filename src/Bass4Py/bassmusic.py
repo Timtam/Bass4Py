@@ -1,12 +1,8 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
 from basschannel import *
-from .exceptions import *
+BOOL=c_long
+DWORD=c_ulong
 HMUSIC=DWORD
 class BASSMUSIC(object):
  def __init__(self, **kwargs):

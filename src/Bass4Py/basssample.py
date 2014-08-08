@@ -1,10 +1,8 @@
 from ctypes import *
 from .exceptions import *
-try:
- from ctypes.wintypes import *
-except:
- BOOL=c_long
- DWORD=c_ulong
+BOOL=c_long
+DWORD=c_ulong
+HSAMPLE=DWORD
 class bass_sample(Structure):
  _fields_=[("freq",DWORD),("volume",c_float),("pan",c_float),("flags",DWORD),("length",DWORD),("max",DWORD),("origres",DWORD),("chans",DWORD),("mingap",DWORD),("mode3d",DWORD),("mindist",c_float),("maxdist",c_float),("iangle",DWORD),("oangle",DWORD),("outvol",c_float),("vam",DWORD),("priority",DWORD)]
 class BASSSAMPLE(object):
@@ -13,28 +11,28 @@ class BASSSAMPLE(object):
   self._stream=kwargs['stream']
   self.__bass_samplefree=self.__bass._bass.BASS_SampleFree
   self.__bass_samplefree.restype=BOOL
-  self.__bass_samplefree.argtypes=[DWORD]
+  self.__bass_samplefree.argtypes=[HSAMPLE]
   self.__bass_samplegetchannel=self.__bass._bass.BASS_SampleGetChannel
   self.__bass_samplegetchannel.restype=DWORD
-  self.__bass_samplegetchannel.argtypes=[DWORD,BOOL]
+  self.__bass_samplegetchannel.argtypes=[HSAMPLE,BOOL]
   self.__bass_samplegetinfo=self.__bass._bass.BASS_SampleGetInfo
   self.__bass_samplegetinfo.restype=BOOL
-  self.__bass_samplegetinfo.argtypes=[DWORD,POINTER(bass_sample)]
+  self.__bass_samplegetinfo.argtypes=[HSAMPLE,POINTER(bass_sample)]
   self.__bass_samplegetchannels=self.__bass._bass.BASS_SampleGetChannels
   self.__bass_samplegetchannels.restype=DWORD
-  self.__bass_samplegetchannels.argtypes=[DWORD,POINTER(DWORD)]
+  self.__bass_samplegetchannels.argtypes=[HSAMPLE,POINTER(DWORD)]
   self.__bass_samplegetdata=self.__bass._bass.BASS_SampleGetData
   self.__bass_samplegetdata.restype=BOOL
-  self.__bass_samplegetdata.argtypes=[DWORD,c_void_p]
+  self.__bass_samplegetdata.argtypes=[HSAMPLE,c_void_p]
   self.__bass_samplesetdata=self.__bass._bass.BASS_SampleSetData
   self.__bass_samplesetdata.restype=BOOL
-  self.__bass_samplesetdata.argtypes=[DWORD,c_void_p]
+  self.__bass_samplesetdata.argtypes=[HSAMPLE,c_void_p]
   self.__bass_samplestop=self.__bass._bass.BASS_SampleStop
   self.__bass_samplestop.restype=BOOL
-  self.__bass_samplestop.argtypes=[DWORD]
+  self.__bass_samplestop.argtypes=[HSAMPLE]
   self.__bass_samplesetinfo=self.__bass._bass.BASS_SampleSetInfo
   self.__bass_samplesetinfo.restype=BOOL
-  self.__bass_samplesetinfo.argtypes=[DWORD,POINTER(bass_sample)]
+  self.__bass_samplesetinfo.argtypes=[HSAMPLE,POINTER(bass_sample)]
  def __repr__(self):
   return '<BASSSAMPLE object at %d>'%(self._stream)
  def Free(self):
