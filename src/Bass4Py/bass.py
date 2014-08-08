@@ -33,6 +33,8 @@ tFileCloseProc=WINFUNCTYPE(None,c_void_p)
 tFileLenProc=WINFUNCTYPE(QWORD,c_void_p)
 tFileReadProc=WINFUNCTYPE(DWORD,c_void_p,DWORD,c_void_p)
 tFileSeekProc=WINFUNCTYPE(BOOL,QWORD,c_void_p)
+tRecordProc=WINFUNCTYPE(BOOL,DWORD,c_void_p,DWORD,c_void_p)
+__callbackreferences__=[]
 class bass_vector(Structure):
  _fields_ =[("X", c_float), ("Y", c_float), ("Z", c_float)]
 class bass_deviceinfo(Structure):
@@ -56,6 +58,8 @@ class bass_info(Structure):
     ]
 class bass_fileprocs(Structure):
  _fields_=[('close',tFileCloseProc),('length',tFileLenProc),('read',tFileReadProc),('seek',tFileSeekProc)]
+class bass_recordinfo(Structure):
+ _fields_=[('flags',DWORD),('formats',DWORD),('inputs',DWORD),('singlein',BOOL),('freq',DWORD)]
 class BASS(object):
  def __init__(self, LibFolder=''):
   self._bass = self.__GetBassLib(LibFolder)
@@ -154,6 +158,34 @@ class BASS(object):
   self.__bass_sampleload=self._bass.BASS_SampleLoad
   self.__bass_sampleload.restype=DWORD
   self.__bass_sampleload.argtypes=[BOOL,c_void_p,QWORD,DWORD,DWORD,DWORD]
+  self.__bass_recordinit=self._bass.BASS_RecordInit
+  self.__bass_recordinit.restype=BOOL
+  self.__bass_recordinit.argtypes=[c_int]
+  self.__bass_recordfree=self._bass.BASS_RecordFree
+  self.__bass_recordfree.restype=BOOL
+  self.__bass_recordgetdevice=self._bass.BASS_RecordGetDevice
+  self.__bass_recordgetdevice.restype=DWORD
+  self.__bass_recordgetinput=self._bass.BASS_RecordGetInput
+  self.__bass_recordgetinput.restype=DWORD
+  self.__bass_recordgetinput.argtypes=[c_int,POINTER(c_float)]
+  self.__bass_recordgetinputname=self._bass.BASS_RecordGetInputName
+  self.__bass_recordgetinputname.restype=c_char_p
+  self.__bass_recordgetinputname.argtypes=[c_int]
+  self.__bass_recordsetdevice=self._bass.BASS_RecordSetDevice
+  self.__bass_recordsetdevice.restype=BOOL
+  self.__bass_recordsetdevice.argtypes=[DWORD]
+  self.__bass_recordsetinput=self._bass.BASS_RecordSetInput
+  self.__bass_recordsetinput.restype=BOOL
+  self.__bass_recordsetinput.argtypes=[c_int,DWORD,c_float]
+  self.__bass_recordstart=self._bass.BASS_RecordStart
+  self.__bass_recordstart.restype=DWORD
+  self.__bass_recordstart.argtypes=[DWORD,DWORD,DWORD,tRecordProc,c_void_p]
+  self.__bass_recordgetdeviceinfo=self._bass.BASS_RecordGetDeviceInfo
+  self.__bass_recordgetdeviceinfo.restype=BOOL
+  self.__bass_recordgetdeviceinfo.argtypes=[DWORD,POINTER(bass_deviceinfo)]
+  self.__bass_recordgetinfo=self._bass.BASS_RecordGetInfo
+  self.__bass_recordgetinfo.restype=BOOL
+  self.__bass_recordgetinfo.argtypes=[POINTER(bass_recordinfo)]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
   result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
@@ -171,17 +203,21 @@ class BASS(object):
  def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
   if type(proc) !=types.FunctionType or proc !=0:
    raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
+  if type(proc)==types.FunctionType: proc=tDownloadProc(proc)
   ret_ = self.__bass_streamcreateurl(url, offset, flags, tDownloadProc(proc), user)
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
+   __callbackreferences__.append(proc)
    stream = BASSSTREAM(bass=self, stream=ret_)
    return stream
  def StreamCreate(self,freq,chans,flags,proc,user):
   if type(proc)!=types.FunctionType and proc!=STREAMPROC_DUMMY and proc!=STREAMPROC_PUSH:
    raise BassParameterError('Invalid proc parameter: valid function or STREAMPROC_DUMMY or STREAMPROC_PUSH needed')
+  if type(proc)==types.FunctionType: proc=tStreamProc(proc)
   ret_=self.__bass_streamcreate(freq,chans,flags,tStreamProc(proc),user)
   if self._Error: raise BassExceptionError(self._Error)
+  __callbackreferences__.append(proc)
   stream=BASSSTREAM(bass=self,stream=ret_)
   return stream
  def StreamCreateFileUser(self,system,flags,closeproc,lenproc,readproc,seekproc,user):
@@ -540,3 +576,65 @@ class BASS(object):
   return BASSSAMPLE(bass=self,stream=result)
  def ReceiveChannel(self,id):
   return BASSCHANNEL(bass=self,stream=id)
+ def RecordInit(self,device):
+  ret_=self.__bass_recordinit(device)
+  if self._Error: raise BassExceptionError(self._Error)
+  return bool(ret_)
+ def RecordFree(self):
+  ret_=self.__bass_recordfree()
+  if self._Error: raise BassExceptionError(self._Error)
+  return bool(ret_)
+ @property
+ def RecordDevice(self):
+  ret_=self.__bass_recordgetdevice()
+  if self._Error: raise BassExceptionError(self._Error)
+  return int(ret_)
+ @RecordDevice.setter
+ def RecordDevice(self,device):
+  ret_=self.__bass_recordsetdevice(device)
+  if self._Error: raise BassExceptionError(self._Error)
+ def RecordGetInput(self,input):
+  vol=c_float(0)
+  ret_=self.__bass_recordgetinput(input,vol)
+  if self._Error: raise BassExceptionError(self._Error)
+  return (ret_,vol.value)
+ def RecordGetInputName(self,input):
+  ret_=self.__bass_recordgetinputname(input)
+  if self._Error: raise BassExceptionError(self._Error)
+  return ret_
+ def RecordSetInput(self,input,flags,volume):
+  ret_=self.__bass_recordsetinput(input,flags,volume)
+  if self._Error: raise BassExceptionError(self._Error)
+  return bool(ret_)
+ def RecordStart(self,freq,chans,flags,proc=0,user=0):
+  if proc!=0 and type(proc)!=types.FunctionType: raise BassParameterError('The proc parameter needs to be a valid function or 0 to not define a proc')
+  tproc=(proc if type(proc)!=types.FunctionType else tRecordProc(proc))
+  ret_=self.__bass_recordstart(freq,chans,flags,tproc,user)
+  if self._Error: raise BassExceptionError(self._Error)
+  __callbackreferences__.append(tproc)
+  return BASSCHANNEL(bass=self,stream=ret_)
+ def RecordGetDeviceInfo(self,device):
+  bret_=bass_deviceinfo()
+  ret_=self.__bass_recordgetdeviceinfo(device,bret_)
+  if self._Error: raise BassExceptionError(self._Error)
+  return {"Name":bret_.name, "Driver":bret_.driver, "Flags":bret_.flags}
+ def __RecordGetInfo(self):
+  bret_=bass_recordinfo()
+  ret_=self.__bass_recordgetinfo(bret_)
+  if self._Error: raise BassExceptionError(self._Error)
+  return bret_
+ @property
+ def RecordDeviceFlags(self):
+  return self.__RecordGetInfo().flags
+ @property
+ def RecordDeviceFormats(self):
+  return self.__RecordGetInfo().formats
+ @property
+ def RecordDeviceInputs(self):
+  return self.__RecordGetInfo().inputs
+ @property
+ def RecordDeviceSingleIn(self):
+  return bool(self.__RecordGetInfo().singlein)
+ @property
+ def RecordDeviceFrequency(self):
+  return self.__RecordGetInfo().freq
