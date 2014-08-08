@@ -42,7 +42,7 @@ class BASSSTREAM(object):
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
   return ret_
  def PutFileData(self,buffer,length):
-  buf=c_short*length)()
+  buf=(c_short*length)()
   for i in range(0,length+1):
    buf[i]=buffer[i]
   ret_=self.__bass_streamputfiledata(self._stream,byref(buf),length)
