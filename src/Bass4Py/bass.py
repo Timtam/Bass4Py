@@ -201,23 +201,29 @@ class BASS(object):
   else:
    return {"Name":bret_.name, "Driver":bret_.driver, "Flags":bret_.flags}
  def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
-  if type(proc) !=types.FunctionType or proc !=0:
+  if type(proc) !=types.FunctionType and proc !=0:
    raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
-  if type(proc)==types.FunctionType: proc=tDownloadProc(proc)
-  ret_ = self.__bass_streamcreateurl(url, offset, flags, tDownloadProc(proc), user)
+  tproc=(proc if type(proc)!=types.FunctionType else tDownloadProc(proc))
+  args=self.__bass_streamcreateurl.argtypes
+  args[3]=(c_int if type(proc)!=types.FunctionType else tDownloadProc)
+  self.__bass_streamcreateurl.argtypes=args
+  ret_ = self.__bass_streamcreateurl(url, offset, flags, tproc, user)
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
-   __callbackreferences__.append(proc)
+   __callbackreferences__.append(tproc)
    stream = BASSSTREAM(bass=self, stream=ret_)
    return stream
  def StreamCreate(self,freq,chans,flags,proc,user):
   if type(proc)!=types.FunctionType and proc!=STREAMPROC_DUMMY and proc!=STREAMPROC_PUSH:
    raise BassParameterError('Invalid proc parameter: valid function or STREAMPROC_DUMMY or STREAMPROC_PUSH needed')
-  if type(proc)==types.FunctionType: proc=tStreamProc(proc)
-  ret_=self.__bass_streamcreate(freq,chans,flags,tStreamProc(proc),user)
+  tproc=(proc if type(proc)!=types.FunctionType else tStreamProc(proc))
+  args=self.__bass_streamcreate.argtypes
+  args[4]=(c_int if type(proc)!=types.FunctionType else tStreamProc)
+  self.__bass_streamcreate.argtypes=args
+  ret_=self.__bass_streamcreate(freq,chans,flags,tproc,user)
   if self._Error: raise BassExceptionError(self._Error)
-  __callbackreferences__.append(proc)
+  __callbackreferences__.append(tproc)
   stream=BASSSTREAM(bass=self,stream=ret_)
   return stream
  def StreamCreateFileUser(self,system,flags,closeproc,lenproc,readproc,seekproc,user):
@@ -511,14 +517,10 @@ class BASS(object):
   ret_=self.__GetEAXParameters()
   self.__SetEAXParameters(ret_['env'],ret_['vol'],ret_['decay'],damp)
  def MusicLoad(self, mem, file, offset=0, length=0, flags=0, freq=0):
-  if not mem: self.__bass_musicload.argtypes[1] =c_char_p
-  else: self.__bass_musicload.argtypes[1]=c_void_p
   ret_=self.__bass_musicload(mem, file, offset, length, flags, freq)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSMUSIC(bass=self, music=ret_) 
  def StreamCreateFile(self, mem, file,offset=0,length=0,flags=0):
-  if not mem: self.__bass_streamcreatefile.argtypes[1]=c_char_p
-  else: self.__bass_streamcreatefile.argtypes[1]=c_void_p
   if mem and length==0: length=len(file)
   result=self.__bass_streamcreatefile(mem,file,offset,length,flags)
   if self._Error: raise BassExceptionError(self._Error)
@@ -568,8 +570,6 @@ class BASS(object):
   sample=BASSSAMPLE(bass=self,stream=ret_)
   return sample
  def SampleLoad(self,mem,file,offset=0,length=0,max=65535,flags=0):
-  if not mem: self.__bass_sampleload.argtypes[1]=c_char_p
-  else: self.__bass_sampleload.argtypes[1]=c_void_p
   if mem and length==0: length=len(file)
   result=self.__bass_sampleload(mem,file,offset,length,max,flags)
   if self._Error: raise BassExceptionError(self._Error)
@@ -609,6 +609,9 @@ class BASS(object):
  def RecordStart(self,freq,chans,flags,proc=0,user=0):
   if proc!=0 and type(proc)!=types.FunctionType: raise BassParameterError('The proc parameter needs to be a valid function or 0 to not define a proc')
   tproc=(proc if type(proc)!=types.FunctionType else tRecordProc(proc))
+  args=self.__bass_recordstart.argtypes
+  args[3]=(c_int if type(proc)!=types.FunctionType else tRecordProc)
+  self.__bass_recordstart.argtypes=args
   ret_=self.__bass_recordstart(freq,chans,flags,tproc,user)
   if self._Error: raise BassExceptionError(self._Error)
   __callbackreferences__.append(tproc)

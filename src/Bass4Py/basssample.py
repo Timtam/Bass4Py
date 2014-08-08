@@ -171,7 +171,7 @@ class BASSSAMPLE(object):
  @Data.setter
  def Data(self,data):
   bdata=(c_short*len(data))()
-  for i in range(0,len(data)+1:
+  for i in range(0,len(data)+1):
    bdata[i]=data[i]
   ret_=self.__bass_samplesetdata(self._stream,byref(bdata))
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
