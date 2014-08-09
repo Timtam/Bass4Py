@@ -60,8 +60,9 @@ class bass_fileprocs(Structure):
 class bass_recordinfo(Structure):
  _fields_=[('flags',DWORD),('formats',DWORD),('inputs',DWORD),('singlein',BOOL),('freq',DWORD)]
 class BASS(object):
- def __init__(self, LibFolder=''):
-  self._bass = self.__GetBassLib(LibFolder)
+ APIVersion=33819136
+ def __init__(self, LibFile='', ForceLoad=False):
+  self._bass = self.__GetBassLib(LibFile,ForceLoad)
   self.__bass_init = self._bass.BASS_Init
   self.__bass_init.restype = BOOL
   self.__bass_init.argtypes = [c_int, DWORD, DWORD, HWND, c_void_p]
@@ -258,6 +259,7 @@ class BASS(object):
  @property
  def Version(self):
   dversion=self.__bass_getversion()
+  print dversion
   return BASSVERSION(dversion)
  @property
  def Device(self):
@@ -524,35 +526,25 @@ class BASS(object):
   result=self.__bass_streamcreatefile(mem,file,offset,length,flags)
   if self._Error: raise BassExceptionError(self._Error)
   return BASSSTREAM(bass=self,stream=result)
- def __GetBassLib(self, LibFolder):
-  is_x64=sys.maxsize>2**32
+ def __GetBassLib(self, LibFile,ForceLoad):
   if platform.system()=='Windows' or platform.system().startswith('CYGWIN'):
-   Filename='bass%s.dll'%('_x64' if is_x64 else '')
+   try:
+    lib=windll.LoadLibrary(LibFile)
+   except WindowsError,e:
+    raise BassLibError('Unable to load library %s: %s'%(LibFile,e))
   elif platform.system()=='Linux':
-   Filename='libbass%s.so'%('_x64' if is_x64 else '')
-  else:
-   raise BassLibError('Unsupported environment: Unable to detect a possible Bass Library file.')
-  if LibFolder=='':
-   path = unicode(os.path.abspath(__file__))
-   bdir=os.path.isdir(path)
-   while not bdir:
-    path=os.path.abspath(path+'/..')
-    bdir=os.path.isdir(path)
-  else:
-   path=os.path.abspath(LibFolder)
-  if not os.path.exists(path): raise BassLibError('The given path doesn\'t exist: %s'%(path))
-  if platform.system()=='Windows':
    try:
-    lib=windll.LoadLibrary(os.path.join(path, Filename))
-   except WindowsError:
-    raise BassLibError('Unable to find library: %s'%(os.path.join(path, Filename)))
-   return lib
-  elif platform.system()=='Linux' or platform.system().startswith('CYGWIN'):
-   try:
-    lib=CDLL(os.path.join(path, Filename))
-   except:
-    raise BassLibError('Unable to find library file: %s'%(os.path.join(path, Filename)))
-   return lib
+    lib=CDLL(LibFile)
+   except OSError,e:
+    raise BassLibError('Unable to load library %s: %s'%(LibFile,e))
+  else:
+   raise BassLibError('The current system platform \'%s\' is unknown. Please notify the developers about this problem'%system.platform())
+  if not ForceLoad:
+   versionfunc=lib.BASS_GetVersion
+   versionfunc.restype=DWORD
+   if versionfunc()!=self.APIVersion:
+    raise BassLibError('Your library version doesn\'t match the version number this API is designed for. This can cause problems. If you want to load this API with your current library anyway, call the library creation with the ForceLoad parameter set to True')
+  return lib
  def __repr__(self):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
  def Free(self):
