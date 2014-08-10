@@ -156,7 +156,7 @@ class BASSCHANNEL(object):
  def Bytes2Seconds(self,bytes):
   result=self.__bass_channelbytes2seconds(self._stream,bytes)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return float(result)
+  return result
  def ChannelFlags(self,flags,mask):
   result=self.__bass_channelflags(self._stream,flags,mask)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)

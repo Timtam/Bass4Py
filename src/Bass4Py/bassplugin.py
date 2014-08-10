@@ -40,7 +40,7 @@ class BASSPLUGIN(object):
   formats =[]
   for i in range(ret_.formatc):
    form ={}
-   form["Type"] = ret_.formats[i].ctype
+   form["Type"] = int(ret_.formats[i].ctype)
    form["Name"] = ret_.formats[i].name
    form["Extensions"] = ret_.formats[i].exts
    formats.append(form)

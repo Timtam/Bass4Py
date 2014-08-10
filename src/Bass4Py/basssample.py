@@ -56,13 +56,13 @@ class BASSSAMPLE(object):
   self.__SetInfo(freq=freq)
  @property
  def Volume(self):
-  return float(self.__GetInfo()['volume'])
+  return self.__GetInfo()['volume']
  @Volume.setter
  def Volume(self,vol):
   self.__SetInfo(vol=vol)
  @property
  def Pan(self):
-  return float(self.__GetInfo()['pan'])
+  return self.__GetInfo()['pan']
  @Pan.setter
  def Pan(self,pan):
   self.__SetInfo(pan=pan)
@@ -89,7 +89,7 @@ class BASSSAMPLE(object):
   return int(self.__GetInfo()['chans'])
  @property
  def MinGap(self):
-  return iGetnt(self.__Info()['mingap'])
+  return int(self.__GetInfo()['mingap'])
  @MinGap.setter
  def MinGap(self,mingap):
   self.__SetInfo(mingap=mingap)
@@ -101,13 +101,13 @@ class BASSSAMPLE(object):
   self.__SetInfo(mode3d=mode3d)
  @property
  def MinDistance(self):
-  return float(self.__GetInfo()['mindist'])
+  return self.__GetInfo()['mindist']
  @MinDistance.setter
  def MinDistance(self,mindist):
   self.__SetInfo(mindist=mindist)
  @property
  def MaxDistance(self):
-  return float(self.__GetInfo()['maxdist'])
+  return self.__GetInfo()['maxdist']
  @MaxDistance.setter
  def MaxDistance(self,maxdist):
   self.__SetInfo(maxdist=maxdist)
@@ -125,7 +125,7 @@ class BASSSAMPLE(object):
   self.__SetInfo(oangle=oangle)
  @property
  def OutVolume(self):
-  return float(self.__GetInfo()['outvol'])
+  return self.__GetInfo()['outvol']
  @OutVolume.setter
  def OutVolume(self,outvol):
   self.__SetInfo(outvol=outvol)
@@ -143,15 +143,13 @@ class BASSSAMPLE(object):
   self.__SetInfo(priority=priority)
  @property
  def ActiveChannelCount(self):
-  self.__bass_samplegetchannels.argtypes[1]=POINTER(DWORD)
   count=DWORD(0)
   ret_=self.__bass_samplegetchannels(self._stream,count)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return ret_
+  return int(ret_)
  @property
  def Channels(self):
   channels=DWORD*self.ChannelCount
-  self.__bass_samplegetchannels.argtypes[1]=POINTER(channels)
   channels=channels()
   ret_=self.__bass_samplegetchannels(self._stream,channels)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)

@@ -192,14 +192,14 @@ class BASS(object):
   return bool(result)
  @property
  def _Error(self):
-  return self.__bass_errorgetcode()
+  return int(self.__bass_errorgetcode())
  def GetDeviceInfo(self, index=1):
   bret_ = bass_deviceinfo()
   sret_ = self.__bass_getdeviceinfo(index, bret_)
   if self._Error:
    raise BassExceptionError(self._Error)
   else:
-   return {"Name":bret_.name, "Driver":bret_.driver, "Flags":bret_.flags}
+   return {"Name":bret_.name, "Driver":bret_.driver, "Flags":int(bret_.flags)}
  def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
   if type(proc) !=types.FunctionType and proc !=0:
    raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
@@ -352,7 +352,6 @@ class BASS(object):
  def Volume(self, volume):
   result=self.__bass_setvolume(volume)
   if self._Error: raise BassExceptionError(self._Error)
-  return result
  def PluginLoad(self, file):
   ret_ = self.__bass_pluginload(file,BASS_UNICODE)
   if self._Error:
@@ -468,7 +467,6 @@ class BASS(object):
  def _Apply3D(self):
   self.__bass_apply3d()
   if self._Error: raise BassExceptionError(self._Error)
-  return 1
  def __SetEAXParameters(self, env, vol, decay, damp):
   result=self.__bass_seteaxparameters(env, vol, decay, damp)
   if self._Error: raise BassExceptionError(self._Error)
@@ -547,8 +545,6 @@ class BASS(object):
   return lib
  def __repr__(self):
   return '<BASS (v%s %s) object interface>'%(self.Version.Str,'x64' if sys.maxsize>2**32 else 'x86')
- def Free(self):
-  self.__bass_free()
  def ReceiveStream(self,id):
   return BASSSTREAM(bass=self,stream=id)
  def ReceiveMusic(self,id):
@@ -588,7 +584,7 @@ class BASS(object):
   vol=c_float(0)
   ret_=self.__bass_recordgetinput(input,vol)
   if self._Error: raise BassExceptionError(self._Error)
-  return (ret_,vol.value)
+  return (int(ret_),vol.value)
  def RecordGetInputName(self,input):
   ret_=self.__bass_recordgetinputname(input)
   if self._Error: raise BassExceptionError(self._Error)
@@ -611,7 +607,7 @@ class BASS(object):
   bret_=bass_deviceinfo()
   ret_=self.__bass_recordgetdeviceinfo(device,bret_)
   if self._Error: raise BassExceptionError(self._Error)
-  return {"Name":bret_.name, "Driver":bret_.driver, "Flags":bret_.flags}
+  return {"Name":bret_.name, "Driver":bret_.driver, "Flags":int(bret_.flags)}
  def __RecordGetInfo(self):
   bret_=bass_recordinfo()
   ret_=self.__bass_recordgetinfo(bret_)
@@ -619,16 +615,16 @@ class BASS(object):
   return bret_
  @property
  def RecordDeviceFlags(self):
-  return self.__RecordGetInfo().flags
+  return int(self.__RecordGetInfo().flags)
  @property
  def RecordDeviceFormats(self):
-  return self.__RecordGetInfo().formats
+  return int(self.__RecordGetInfo().formats)
  @property
  def RecordDeviceInputs(self):
-  return self.__RecordGetInfo().inputs
+  return int(self.__RecordGetInfo().inputs)
  @property
  def RecordDeviceSingleIn(self):
   return bool(self.__RecordGetInfo().singlein)
  @property
  def RecordDeviceFrequency(self):
-  return self.__RecordGetInfo().freq
+  return int(self.__RecordGetInfo().freq)

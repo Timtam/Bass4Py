@@ -1,6 +1,6 @@
 class BASSVERSION(object):
  def __init__(self, dword):
-  self.Dword=dword
+  self.Dword=int(dword)
   hiword=hex(self.Dword>>16)
   hiword=str(hiword)[2:][:-1].zfill(4)
   loword=hex(self.Dword&0x0000ffff)

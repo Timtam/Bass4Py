@@ -31,7 +31,7 @@ class BASSSTREAM(object):
  def GetFilePosition(self,mode):
   result=self.__bass_streamgetfileposition(self._stream,mode)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return result
+  return int(result)
  def __repr__(self):
   return '<BASSSTREAM object at %s>'%(self._stream)
  def PutData(self,buffer,length):
@@ -40,11 +40,11 @@ class BASSSTREAM(object):
    buf[i]=buffer[i]
   ret_=self.__bass_streamputdata(self._stream,byref(buf),length)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return ret_
+  return int(ret_)
  def PutFileData(self,buffer,length):
   buf=(c_short*length)()
   for i in range(0,length+1):
    buf[i]=buffer[i]
   ret_=self.__bass_streamputfiledata(self._stream,byref(buf),length)
   if self.__bass._Error: raise BassExceptionError(self.__bass._Error)
-  return ret_
+  return int(ret_)
