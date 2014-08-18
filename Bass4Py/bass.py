@@ -60,8 +60,13 @@ class bass_fileprocs(Structure):
 class bass_recordinfo(Structure):
  _fields_=[('flags',DWORD),('formats',DWORD),('inputs',DWORD),('singlein',BOOL),('freq',DWORD)]
 class BASS(object):
+ '''
+| Parameters:
+| LibFile: Path to the library file. Make sure you choose the right library file (x86 and x64). Currently the system knows how to load Windows, Linux and cygwin libraries. The windows library will be accepted when running under cygwin.
+| ForceLoad: This parameter defines if to check for the currently supported library version. Default value is False, which means that the initiation method will check the library version and raise an exception if the version doesn't match with the currently supported API version. True will skip this check procedure. But notice that loading a different version than the version this API was written for might cause problems.
+ '''
  APIVersion=33819136
- def __init__(self, LibFile='', ForceLoad=False):
+ def __init__(self, LibFile, ForceLoad=False):
   self._bass = self.__GetBassLib(LibFile,ForceLoad)
   self.__bass_init = self._bass.BASS_Init
   self.__bass_init.restype = BOOL
@@ -187,6 +192,12 @@ class BASS(object):
   self.__bass_recordgetinfo.restype=BOOL
   self.__bass_recordgetinfo.argtypes=[POINTER(bass_recordinfo)]
  def Init(self, device=-1, frequency=44100, flags=0, hwnd=0, clsid=0):
+  ''' 
+| Reference: http://www.un4seen.com/doc/bass/BASS_Init.html
+|
+| Will initialize an output device for playback.
+| Returns True on success, raises exception on failure.
+  '''
   result=self.__bass_init(device,frequency,flags,hwnd,clsid)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
@@ -194,6 +205,16 @@ class BASS(object):
  def _Error(self):
   return int(self.__bass_errorgetcode())
  def GetDeviceInfo(self, index=1):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_GetDeviceInfo.html
+|
+| Retrieves information on an output device.
+| Will return a dictionary with the following keys on success, otherwise raise an exception:
+| Name: device name
+| Driver: Driver information
+| Flags: the device's flags
+| Take a look at the `structure <http://www.un4seen.com/doc/bass/BASS_DEVICEINFO.html>`_ for more information.
+  '''
   bret_ = bass_deviceinfo()
   sret_ = self.__bass_getdeviceinfo(index, bret_)
   if self._Error:
@@ -201,6 +222,11 @@ class BASS(object):
   else:
    return {"Name":bret_.name, "Driver":bret_.driver, "Flags":int(bret_.flags)}
  def StreamCreateURL(self, url, offset=0, flags=0, proc=0, user=0):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_StreamCreateURL.html
+|
+| Creates a :class:`Bass4Py.BASSSTREAM` object for a given url.
+  '''
   if type(proc) !=types.FunctionType and proc !=0:
    raise BassParameterError('Invalid proc parameter: It needs to be a valid function or 0 to disable callback')
   tproc=(proc if type(proc)!=types.FunctionType else tDownloadProc(proc))
@@ -214,7 +240,12 @@ class BASS(object):
    __callbackreferences__.append(tproc)
    stream = BASSSTREAM(bass=self, stream=ret_)
    return stream
- def StreamCreate(self,freq,chans,flags,proc,user):
+ def StreamCreate(self,freq=44100,chans=2,flags=0,proc=0,user=None):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_StreamCreate.html
+|
+| Creates a :class:`Bass4Py.BASSSTREAM` object with the given arguments.
+  '''
   if type(proc)!=types.FunctionType and proc!=STREAMPROC_DUMMY and proc!=STREAMPROC_PUSH:
    raise BassParameterError('Invalid proc parameter: valid function or STREAMPROC_DUMMY or STREAMPROC_PUSH needed')
   tproc=(proc if type(proc)!=types.FunctionType else tStreamProc(proc))
@@ -227,6 +258,11 @@ class BASS(object):
   stream=BASSSTREAM(bass=self,stream=ret_)
   return stream
  def StreamCreateFileUser(self,system,flags,closeproc,lenproc,readproc,seekproc,user):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_StreamCreateFileUser.html
+|
+| Creates a :class:`Bass4Py.BASSSTREAM` object for a file with user-defined file handling functions.
+  '''
   if type(closeproc)!=types.FunctionType: raise BassParameterError('Invalid closeproc parameter: function type expected')
   if type(lenpoc)!=types.FunctionType: raise BassParameterError('Invalid lenproc parameter: function type expected')
   if type(readproc)!=types.FunctionType: raise BassParameterError('Invalid lenproc parameter: function type expected')
@@ -241,28 +277,62 @@ class BASS(object):
   stream=BASSSTREAM(bass=self,stream=ret_)
   return stream
  def SetConfig(self, option, value):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_SetConfig.html
+|
+| Will set a numeric value for an option from the library
+  '''
   result=self.__bass_setconfig(option, value)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
  def GetConfig(self, option):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_GetConfig.html
+|
+| Will retrieve a numeric value for an option from the library
+  '''
   result=self.__bass_getconfig(option)
   if self._Error: raise BassExceptionError(self._Error)
   return int(result)
  def GetConfigPtr(self,option):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_GetConfigPtr.html
+|
+| Will get a string value for an option from the library
+  '''
   ret_=self.__bass_getconfigptr(option)
   if self._Error: raise BassExceptionError(self._Error)
   return c_char_p(ret_).value
  def SetConfigPtr(self,option,value):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_SetConfigPtr.html
+|
+| Will set a string value for an option from the library
+  '''
   ret_=self.__bass_setconfigptr(option,value)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(ret_)
  @property
  def Version(self):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_GetVersion.html
+|
+| Returns a :class:`Bass4Py.BASSVERSION` object, containing the current API version in integer and string format.
+  '''
   dversion=self.__bass_getversion()
   print dversion
   return BASSVERSION(dversion)
  @property
  def Device(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetDevice.html
+|             http://www.un4seen.com/doc/bass/BASS_SetDevice.html
+|
+| When assigning a value:
+|                        Sets the currently used device. This will fail if the set device wasn't initialized via :meth:`Bass4Py.BASS.Init` and then raise an exception.
+| When retrieving the value:
+|                           Returns the currently used device ID or raises an exception on failure.
+  '''
   ret_ = self.__bass_getdevice()
   if self._Error: raise BassExceptionError(self._Error)
   return int(ret_)

@@ -33,6 +33,7 @@ BASS_ERROR_SPEAKER = 42 # unavailable speaker
 BASS_ERROR_VERSION = 43 # invalid BASS version (used by add-ons)
 BASS_ERROR_CODEC = 44 # codec is not available/supported
 BASS_ERROR_ENDED = 45 # the channel/file has ended
+BASS_ERROR_BUSY = 46 # the device is busy
 BASS_ERROR_UNKNOWN = -1 # some other mystery problem
 
 BASS_CONFIG_BUFFER = 0
@@ -54,9 +55,23 @@ BASS_CONFIG_NET_PLAYLIST = 21
 BASS_CONFIG_MUSIC_VIRTUAL = 22
 BASS_CONFIG_VERIFY = 23
 BASS_CONFIG_UPDATETHREADS = 24
+BASS_CONFIG_DEV_BUFFER = 27
+BASS_CONFIG_VISTA_TRUEPOS = 30
+BASS_CONFIG_IOS_MIXAUDIO = 34
+BASS_CONFIG_DEV_DEFAULT = 36
+BASS_CONFIG_NET_READTIMEOUT = 37
+BASS_CONFIG_VISTA_SPEAKERS = 38
+BASS_CONFIG_IOS_SPEAKER = 39
+BASS_CONFIG_HANDLES = 41
+BASS_CONFIG_UNICODE = 42
+BASS_CONFIG_SRC = 43
+BASS_CONFIG_SRC_SAMPLE = 44
+BASS_CONFIG_ASYNCFILE_BUFFER = 45
+BASS_CONFIG_OGG_PRESCAN = 47
 
 BASS_CONFIG_NET_AGENT = 16
 BASS_CONFIG_NET_PROXY = 17
+BASS_CONFIG_IOS_NOTIFY = 46
 
 BASS_DEVICE_8BITS = 1 # use 8 bit resolution, else 16 bit
 BASS_DEVICE_MONO = 2 # use mono, else stereo
@@ -65,6 +80,8 @@ BASS_DEVICE_LATENCY = 256 # calculate device latency (BASS_INFO struct)
 BASS_DEVICE_CPSPEAKERS = 1024 # detect speakers via Windows control panel
 BASS_DEVICE_SPEAKERS = 2048 # force enabling of speaker assignment
 BASS_DEVICE_NOSPEAKER = 4096 # ignore speaker arrangement
+BASS_DEVICE_DMIX = 8192 # use ALSA "dmix" plugin
+BASS_DEVICE_FREQ = 16384 # set device sample rate
 
 BASS_OBJECT_DS = 1 # IDirectSound
 BASS_OBJECT_DS3DL = 2 # IDirectSound3DListener
@@ -158,6 +175,7 @@ BASS_SPEAKER_LFE = BASS_SPEAKER_CENLFE|BASS_SPEAKER_RIGHT
 BASS_SPEAKER_REAR2LEFT = BASS_SPEAKER_REAR2|BASS_SPEAKER_LEFT
 BASS_SPEAKER_REAR2RIGHT = BASS_SPEAKER_REAR2|BASS_SPEAKER_RIGHT
 
+BASS_ASYNCFILE = 0x40000000
 BASS_UNICODE = 0x80000000
 
 BASS_RECORD_PAUSE = 0x8000 # start recording paused
@@ -168,12 +186,16 @@ BASS_VAM_TERM_TIME = 4
 BASS_VAM_TERM_DIST = 8
 BASS_VAM_TERM_PRIO = 16
 
+BASS_CTYPE_SAMPLE = 1
+#define BASS_CTYPE_RECORD = 2
 BASS_CTYPE_STREAM = 0x10000
 BASS_CTYPE_STREAM_OGG = 0x10002
 BASS_CTYPE_STREAM_MP1 = 0x10003
 BASS_CTYPE_STREAM_MP2 = 0x10004
 BASS_CTYPE_STREAM_MP3 = 0x10005
 BASS_CTYPE_STREAM_AIFF = 0x10006
+BASS_CTYPE_STREAM_CA = 0x10007
+#define BASS_CTYPE_STREAM_MF = 0x10008
 BASS_CTYPE_STREAM_WAV = 0x40000 # WAVE flag, LOWORD=codec
 BASS_CTYPE_STREAM_WAV_PCM = 0x50001
 BASS_CTYPE_STREAM_WAV_FLOAT = 0x50003
@@ -291,6 +313,9 @@ BASS_ATTRIB_FREQ = 1
 BASS_ATTRIB_VOL = 2
 BASS_ATTRIB_PAN = 3
 BASS_ATTRIB_EAXMIX = 4
+BASS_ATTRIB_NOBUFFER = 5
+BASS_ATTRIB_CPU = 7
+BASS_ATTRIB_SRC = 8
 BASS_ATTRIB_MUSIC_AMPLIFY = 0x100
 BASS_ATTRIB_MUSIC_PANSEP = 0x101
 BASS_ATTRIB_MUSIC_PSCALER = 0x102
@@ -308,8 +333,11 @@ BASS_DATA_FFT1024 = 0x80000002 # 1024 FFT
 BASS_DATA_FFT2048 = 0x80000003 # 2048 FFT
 BASS_DATA_FFT4096 = 0x80000004 # 4096 FFT
 BASS_DATA_FFT8192 = 0x80000005 # 8192 FFT
+BASS_DATA_FFT16384 = 0x80000006 # 16384 FFT
 BASS_DATA_FFT_INDIVIDUAL = 0x10 # FFT flag: FFT for each channel, else all combined
 BASS_DATA_FFT_NOWINDOW = 0x20 # FFT flag: no Hanning window
+BASS_DATA_FFT_REMOVEDC = 0x40 # FFT flag: pre-remove DC bias
+BASS_DATA_FFT_COMPLEX = 0x80 # FFT flag: return complex data
 
 BASS_TAG_ID3 = 0 # ID3v1 tags : TAG_ID3 structure
 BASS_TAG_ID3V2 = 1 # ID3v2 tags : variable length block
@@ -317,18 +345,30 @@ BASS_TAG_OGG = 2 # OGG comments : series of null-terminated UTF-8 strings
 BASS_TAG_HTTP = 3 # HTTP headers : series of null-terminated ANSI strings
 BASS_TAG_ICY = 4 # ICY headers : series of null-terminated ANSI strings
 BASS_TAG_META = 5 # ICY metadata : ANSI string
+BASS_TAG_APE	 = 6 # APE tags : series of null-terminated UTF-8 strings
+BASS_TAG_MP4 = 7 # MP4/iTunes metadata : series of null-terminated UTF-8 strings
 BASS_TAG_VENDOR = 9 # OGG encoder : UTF-8 string
 BASS_TAG_LYRICS3 = 10 # Lyric3v2 tag : ASCII string
+BASS_TAG_CA_CODEC = 11 # CoreAudio codec info : TAG_CA_CODEC structure
+BASS_TAG_MF = 13 # Media Foundation tags : series of null-terminated UTF-8 strings
+BASS_TAG_WAVEFORMAT = 14 # WAVE format : WAVEFORMATEEX structure
 
 BASS_TAG_RIFF_INFO = 0x100 # RIFF "INFO" tags : series of null-terminated ANSI strings
 BASS_TAG_RIFF_BEXT = 0x101 # RIFF/BWF Broadcast Audio Extension tags : TAG_BEXT structure
+BASS_TAG_RIFF_CART = 0x102 # RIFF/BWF "cart" tags : TAG_CART structure
+BASS_TAG_RIFF_DISP = 0x103 # RIFF "DISP" text tag : ANSI string
+BASS_TAG_APE_BINARY = 0x1000 # + index #, binary APE tag : TAG_APE_BINARY structure
 BASS_TAG_MUSIC_NAME = 0x10000 # MOD music name : ANSI string
 BASS_TAG_MUSIC_MESSAGE = 0x10001 # MOD message : ANSI string
+BASS_TAG_MUSIC_ORDERS = 0x10002 # MOD order list : BYTE array of pattern numbers
 BASS_TAG_MUSIC_INST = 0x10100 # + instrument #, MOD instrument name : ANSI string
 BASS_TAG_MUSIC_SAMPLE = 0x10300 # + sample #, MOD sample name : ANSI string
 
 BASS_POS_BYTE = 0 # byte position
 BASS_POS_MUSIC_ORDER = 1 # order.row position, MAKELONG(order,row)
+BASS_POS_OGG = 3 # OGG bitstream number
+BASS_POS_DECODE = 0x10000000 # flag: get the decoding (not playing) position
+BASS_POS_DECODETO = 0x20000000 # flag: decode to the position instead of seeking
 
 BASS_INPUT_OFF = 0x10000
 BASS_INPUT_ON = 0x20000
@@ -361,3 +401,6 @@ BASS_FX_DX8_GARGLE=5
 BASS_FX_DX8_I3DL2REVERB=6
 BASS_FX_DX8_PARAMEQ=7
 BASS_FX_DX8_REVERB=8
+
+BASS_IOSNOTIFY_INTERRUPT = 1 # interruption started
+BASS_IOSNOTIFY_INTERRUPT_END = 2 # interruption ended
