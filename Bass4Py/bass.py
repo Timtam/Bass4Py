@@ -92,7 +92,7 @@ class BASS(object):
   self.__bass_getconfig.restype = DWORD
   self.__bass_getconfig.argtypes = [DWORD]
   self.__bass_getconfigptr=self._bass.BASS_GetConfigPtr
-  self.__bass_getconfigptr.restype=c_void_p
+  self.__bass_getconfigptr.restype=c_char_p
   self.__bass_getconfigptr.argtypes=[DWORD]
   self.__bass_setconfigptr=self._bass.BASS_SetConfigPtr
   self.__bass_setconfigptr.restype=BOOL
@@ -276,39 +276,19 @@ class BASS(object):
   if self._Error: raise BassExceptionError(self._Error)
   stream=BASSSTREAM(bass=self,stream=ret_)
   return stream
- def SetConfig(self, option, value):
-  '''
-| Reference: http://www.un4seen.com/doc/bass/BASS_SetConfig.html
-|
-| Will set a numeric value for an option from the library
-  '''
+ def __SetConfig(self, option, value):
   result=self.__bass_setconfig(option, value)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
- def GetConfig(self, option):
-  '''
-| Reference: http://www.un4seen.com/doc/bass/BASS_GetConfig.html
-|
-| Will retrieve a numeric value for an option from the library
-  '''
+ def __GetConfig(self, option):
   result=self.__bass_getconfig(option)
   if self._Error: raise BassExceptionError(self._Error)
   return int(result)
- def GetConfigPtr(self,option):
-  '''
-| Reference: http://www.un4seen.com/doc/bass/BASS_GetConfigPtr.html
-|
-| Will get a string value for an option from the library
-  '''
+ def __GetConfigPtr(self,option):
   ret_=self.__bass_getconfigptr(option)
   if self._Error: raise BassExceptionError(self._Error)
-  return c_char_p(ret_).value
- def SetConfigPtr(self,option,value):
-  '''
-| Reference: http://www.un4seen.com/doc/bass/BASS_SetConfigPtr.html
-|
-| Will set a string value for an option from the library
-  '''
+  return ret_
+ def __SetConfigPtr(self,option,value):
   ret_=self.__bass_setconfigptr(option,value)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(ret_)
@@ -320,7 +300,6 @@ class BASS(object):
 | Returns a :class:`Bass4Py.BASSVERSION` object, containing the current API version in integer and string format.
   '''
   dversion=self.__bass_getversion()
-  print dversion
   return BASSVERSION(dversion)
  @property
  def Device(self):
@@ -341,6 +320,11 @@ class BASS(object):
   result=self.__bass_setdevice(device)
   if self._Error: raise BassExceptionError(self._Error)
  def Free(self):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_Free.html
+|
+| Frees all BASS channels and uninitializes all devices, doesn't return anything
+  '''
   result=self.__bass_free()
   if self._Error: raise BassExceptionError(self._Error)
  def __Info(self):
@@ -349,52 +333,141 @@ class BASS(object):
   if self._Error: raise BassExceptionError(self._Error)
   return {"flags":bret_.flags,"hwsize":bret_.hwsize,"hwfree":bret_.hwfree,"freesam":bret_.freesam,"free3d":bret_.free3d,"minrate":bret_.minrate,"maxrate":bret_.maxrate,"eax":bret_.eax,"minbuf":bret_.minbuf,"dsver":bret_.dsver,"latency":bret_.latency,"initflags":bret_.initflags,"speakers":bret_.speakers,"freq":bret_.freq}
  @property
- def Flags(self):
+ def DeviceFlags(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the device's capabilities
+  '''
   return int(self.__Info()['flags'])
  @property
- def FullMemory(self):
+ def DeviceFullMemory(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the device's total amount of memory
+  '''
   return int(self.__Info()['hwsize'])
  @property
- def FreeMemory(self):
+ def DeviceFreeMemory(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the device's free amount of memory
+  '''
   return int(self.__Info()['hwfree'])
  @property
  def FreeSamples(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the number of free samples in the hardware
+  '''
   return int(self.__Info()['freesam'])
  @property
  def Free3D(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Number of free 3D slots in the hardware
+  '''
   return int(self.__Info()['free3d'])
  @property
  def MinSampleRate(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| The minimum sample rate supported by the hardware
+  '''
   return int(self.__Info()['minrate'])
  @property
  def MaxSampleRate(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| The maximum sample rate supported by the hardware
+  '''
   return int(self.__Info()['maxrate'])
  @property
  def EAX(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns True if EAX is available, else False
+  '''
   return bool(self.__Info()['eax'])
  @property
  def MinBuffer(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| The minimum buffer size possible for configuration (see :attr:`Bass4Py.BASS.Buffer`). If the return value is invalid, a :class:`Bass4Py.BassDWORDError` exception will be raised
+  '''
   ret_=self.__Info()['minbuf']
   if ret_==BASS_DWORD_ERROR: raise BassDWORDError()
   return int(ret_)
  @property
  def DirectSoundVersion(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+| Returns the available DirectSound version on windows
+  '''
   return int(self.__Info()['dsver'])
  @property
  def Latency(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the latency which occurs between channel start and playback
+  '''
   ret_=self.__Info()['latency']
   if ret_==BASS_DWORD_ERROR: raise BassDWORDError()
   return int(ret_)
  @property
  def InitFlags(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the flags used in the :meth:`Bass4Py.BASS.Init` call
+  '''
   return int(self.__Info()['initflags'])
  @property
  def Speakers(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the number of available speakers
+  '''
   return int(self.__Info()['speakers'])
  @property
- def Frequency(self):
+ def DeviceFrequency(self):
+  '''
+| References: http://www.un4seen.com/doc/bass/BASS_GetInfo.html
+|             http://www.un4seen.com/doc/bass/BASS_INFO.html
+|
+| Returns the device's current output sample rate
+  '''
   return int(self.__Info()['freq'])
  def Update(self, length):
+  '''
+| Reference: http://www.un4seen.com/doc/bass/BASS_Update.html
+|
+| Updates the playback buffers.
+| Returns True or raises an exception
+  '''
   result=self.__bass_update(length)
   if self._Error: raise BassExceptionError(self._Error)
   return bool(result)
@@ -595,12 +668,12 @@ class BASS(object):
   if self._Error: raise BassExceptionError(self._Error)
   return BASSSTREAM(bass=self,stream=result)
  def __GetBassLib(self, LibFile,ForceLoad):
-  if platform.system()=='Windows' or platform.system().startswith('CYGWIN'):
+  if platform.system()=='Windows':
    try:
     lib=windll.LoadLibrary(LibFile)
    except WindowsError,e:
     raise BassLibError('Unable to load library %s: %s'%(LibFile,e))
-  elif platform.system()=='Linux':
+  elif platform.system()=='Linux' or platform.system().startswith('CYGWIN'):
    try:
     lib=CDLL(LibFile)
    except OSError,e:
@@ -698,3 +771,183 @@ class BASS(object):
  @property
  def RecordDeviceFrequency(self):
   return int(self.__RecordGetInfo().freq)
+ @property
+ def Algorithm3D(self):
+  return self.__GetConfig(BASS_CONFIG_3DALGORITHM)
+ @Algorithm3D.setter
+ def Algorithm3D(self,val):
+  self.__SetConfig(BASS_CONFIG_3DALGORITHM,val)
+ @property
+ def AsyncFileBuffer(self):
+  return self.__GetConfig(BASS_CONFIG_ASYNCFILE_BUFFER)
+ @AsyncFileBuffer.setter
+ def AsyncFileBuffer(self,val):
+  self.__SetConfig(BASS_CONFIG_ASYNCFILE_BUFFER,val)
+ @property
+ def Buffer(self):
+  return self.__GetConfig(BASS_CONFIG_BUFFER)
+ @Buffer.setter
+ def Buffer(self,val):
+  self.__SetConfig(BASS_CONFIG_BUFFER,val)
+ @property
+ def VolumeCurve(self):
+  return bool(self.__GetConfig(BASS_CONFIG_CURVE_VOL))
+ @VolumeCurve.setter
+ def VolumeCurve(self,val):
+  self.__SetConfig(BASS_CONFIG_CURVE_VOL,val)
+ @property
+ def PanningCurve(self):
+  return bool(self.__GetConfig(BASS_CONFIG_CURVE_PAN))
+ @PanningCurve.setter
+ def PanningCurve(self,val):
+  self.__SetConfig(BASS_CONFIG_CURVE_PAN,val)
+ @property
+ def DeviceBuffer(self):
+  return self.__GetConfig(BASS_CONFIG_DEV_BUFFER)
+ @DeviceBuffer.setter
+ def DeviceBuffer(self,val):
+  return self.__SetConfig(BASS_CONFIG_DEV_BUFFER,val)
+ @property
+ def DefaultDevice(self):
+  return bool(self.__GetConfig(BASS_CONFIG_DEV_DEFAULT))
+ @DefaultDevice.setter
+ def DefaultDevice(self,val):
+  self.__SetConfig(BASS_CONFIG_DEV_DEFAULT,val)
+ @property
+ def FloatDSP(self):
+  return bool(self.__GetConfig(BASS_CONFIG_FLOATDSP))
+ @FloatDSP.setter
+ def FloatDSP(self,val):
+  self.__SetConfig(BASS_CONFIG_FLOATDSP,val)
+ @property
+ def VolumeMusic(self):
+  return self.__GetConfig(BASS_CONFIG_GVOL_MUSIC)
+ @VolumeMusic.setter
+ def VolumeMusic(self,val):
+  self.__SetConfig(BASS_CONFIG_GVOL_MUSIC,val)
+ @property
+ def VolumeSample(self):
+  return self.__GetConfig(BASS_CONFIG_GVOL_SAMPLE)
+ @VolumeSample.setter
+ def VolumeSample(self,val):
+  self.__SetConfig(BASS_CONFIG_GVOL_SAMPLE,val)
+ @property
+ def VolumeStream(self):
+  return self.__GetConfig(BASS_CONFIG_GVOL_STREAM)
+ @VolumeStream.setter
+ def VolumeStream(self,val):
+  self.__SetConfig(BASS_CONFIG_GVOL_STREAM,val)
+ @property
+ def VirtualMusicChannels(self):
+  return self.__GetConfig(BASS_CONFIG_MUSIC_VIRTUAL)
+ @VirtualMusicChannels.setter
+ def VirtualMusicChannels(self,val):
+  self.__SetConfig(BASS_CONFIG_MUSIC_VIRTUAL,val)
+ @property
+ def UserAgent(self):
+  return self.__GetConfigPtr(BASS_CONFIG_NET_AGENT)
+ @UserAgent.setter
+ def UserAgent(self,val):
+  self.__SetConfigPtr(BASS_CONFIG_NET_AGENT,val)
+ @property
+ def NetBuffer(self):
+  return self.__GetConfig(BASS_CONFIG_NET_BUFFER)
+ @NetBuffer.setter
+ def NetBuffer(self,val):
+  self.__SetConfigPtr(BASS_CONFIG_NET_BUFFER,val)
+ @property
+ def PassiveFTP(self):
+  return bool(self.__GetConfig(BASS_CONFIG_NET_PASSIVE))
+ @PassiveFTP.setter
+ def PassiveFTP(self,val):
+  self.__SetConfig(BASS_CONFIG_NET_PASSIVE,val)
+ @property
+ def Playlist(self):
+  return self.__GetConfig(BASS_CONFIG_NET_PLAYLIST)
+ @Playlist.setter
+ def Playlist(self,val):
+  self.__SetConfig(BASS_CONFIG_NET_PLAYLIST,val)
+ @property
+ def PreBuffer(self):
+  return self.__GetConfig(BASS_CONFIG_NET_PREBUF)
+ @PreBuffer.setter
+ def PreBuffer(self,val):
+  self.__SetConfig(BASS_CONFIG_NET_PREBUF,val)
+ @property
+ def Proxy(self):
+  return self.__GetConfigPtr(BASS_CONFIG_NET_PROXY)
+ @Proxy.setter
+ def Proxy(self,val):
+  self.__SetConfigPtr(BASS_CONFIG_NET_PROXY,val)
+ @property
+ def NetReadTimeout(self):
+  return self.__GetConfig(BASS_CONFIG_NET_READTIMEOUT)
+ @NetReadTimeout.setter
+ def NetReadTimeout(self,val):
+  self.__SetConfig(BASS_CONFIG_NET_READTIMEOUT,val)
+ @property
+ def NetTimeout(self):
+  return self.__GetConfig(BASS_CONFIG_NET_TIMEOUT)
+ @NetTimeout.setter
+ def NetTimeout(self,val):
+  self.__SetConfig(BASS_CONFIG_NET_TIMEOUT,val)
+ @property
+ def OggPrescan(self):
+  return bool(self.__GetConfig(BASS_CONFIG_OGG_PRESCAN))
+ @OggPrescan.setter
+ def OggPrescan(self,val):
+  self.__SetConfig(BASS_CONFIG_OGG_PRESCAN,val)
+ @property
+ def PauseNoPlay(self):
+  return bool(self.__GetConfig(BASS_CONFIG_PAUSE_NOPLAY))
+ @PauseNoPlay.setter
+ def PauseNoPlay(self,val):
+  self.__SetConfig(BASS_CONFIG_PAUSE_NOPLAY,val)
+ @property
+ def RecordBuffer(self):
+  return self.__GetConfig(BASS_CONFIG_REC_BUFFER)
+ @RecordBuffer.setter
+ def RecordBuffer(self,val):
+  self.__SetConfig(BASS_CONFIG_REC_BUFFER,val)
+ @property
+ def SRC(self):
+  return self.__GetConfig(BASS_CONFIG_SRC)
+ @SRC.setter
+ def SRC(self,val):
+  self.__SetConfig(BASS_CONFIG_SRC,val)
+ @property
+ def SRCSample(self):
+  return self.__GetConfig(BASS_CONFIG_SRC_SAMPLE)
+ @SRCSample.setter
+ def SRCSample(self,val):
+  self.__SetConfig(BASS_CONFIG_SRC_SAMPLE,val)
+ @property
+ def DeviceUnicode(self):
+  return bool(self.__GetConfig(BASS_CONFIG_UNICODE))
+ @DeviceUnicode.setter
+ def DeviceUnicode(self,val):
+  self.__SetConfig(BASS_CONFIG_UNICODE,val)
+ @property
+ def UpdatePeriod(self):
+  return self.__GetConfig(BASS_CONFIG_UPDATEPERIOD)
+ @UpdatePeriod.setter
+ def UpdatePeriod(self,val):
+  self.__SetConfig(BASS_CONFIG_UPDATEPERIOD,val)
+ @property
+ def UpdateThreads(self):
+  return self.__GetConfig(BASS_CONFIG_UPDATETHREADS)
+ @UpdateThreads.setter
+ def UpdateThreads(self,val):
+  self.__SetConfig(BASS_CONFIG_UPDATETHREADS,val)
+ @property
+ def Verify(self):
+  return self.__GetConfig(BASS_CONFIG_VERIFY)
+ @Verify.setter
+ def Verify(self,val):
+  self.__SetConfig(BASS_CONFIG_VERIFY,val)
+ @property
+ def VistaSpeakers(self):
+  return bool(self.__GetConfig(BASS_CONFIG_VISTA_SPEAKERS))
+ @VistaSpeakers.setter
+ def VistaSpeakers(self,val):
+  self.__SetConfig(BASS_CONFIG_VISTA_SPEAKERS,val)

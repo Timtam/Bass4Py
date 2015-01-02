@@ -31,7 +31,10 @@ _ErrorExceptionIndex_ ={BASS_ERROR_MEM:'memory error',
                         BASS_ERROR_SPEAKER:'unavailable speaker',
                         BASS_ERROR_VERSION:'invalid BASS version (used by add-ons)',
                         BASS_ERROR_CODEC:'codec is not available/supported',
-                        BASS_ERROR_ENDED:'the channel/file has ended'}
+                        BASS_ERROR_ENDED:'the channel/file has ended',
+                        BASS_ERROR_BUSY:'the device is busy',
+                        BASS_ERROR_UNKNOWN:'some mystery problem'}
+
 class BassLibError(Exception):
  pass
 class BassExceptionError(Exception):
