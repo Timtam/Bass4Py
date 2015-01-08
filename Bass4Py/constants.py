@@ -9,6 +9,7 @@ BASS_ERROR_FORMAT = 6 # unsupported sample format
 BASS_ERROR_POSITION = 7 # invalid position
 BASS_ERROR_INIT = 8 # BASS_Init has not been successfully called
 BASS_ERROR_START = 9 # BASS_Start has not been successfully called
+BASS_ERROR_SSL = 10 # SSL/HTTPS support isn't available
 BASS_ERROR_ALREADY = 14 # already initialized/paused/whatever
 BASS_ERROR_NOCHAN = 18 # can't get a free channel
 BASS_ERROR_ILLTYPE = 19 # an illegal type was specified
@@ -123,9 +124,6 @@ BASS_SAMPLE_FX = 128 # old implementation of DX8 effects
 BASS_SAMPLE_OVER_VOL = 0x10000 # override lowest volume
 BASS_SAMPLE_OVER_POS = 0x20000 # override longest playing
 BASS_SAMPLE_OVER_DIST = 0x30000 # override furthest from listener (3D only)
-
-
-# callbacks
 
 BASS_STREAM_PRESCAN = 0x20000 # enable pin-point seeking/length (MP3/MP2/MP1)
 BASS_MP3_SETPOS = BASS_STREAM_PRESCAN
@@ -316,6 +314,8 @@ BASS_ATTRIB_EAXMIX = 4
 BASS_ATTRIB_NOBUFFER = 5
 BASS_ATTRIB_CPU = 7
 BASS_ATTRIB_SRC = 8
+BASS_ATTRIB_NET_RESUME = 9
+BASS_ATTRIB_SCANINFO = 10
 BASS_ATTRIB_MUSIC_AMPLIFY = 0x100
 BASS_ATTRIB_MUSIC_PANSEP = 0x101
 BASS_ATTRIB_MUSIC_PSCALER = 0x102
@@ -367,8 +367,10 @@ BASS_TAG_MUSIC_SAMPLE = 0x10300 # + sample #, MOD sample name : ANSI string
 BASS_POS_BYTE = 0 # byte position
 BASS_POS_MUSIC_ORDER = 1 # order.row position, MAKELONG(order,row)
 BASS_POS_OGG = 3 # OGG bitstream number
+BASS_POS_INEXACT = 0x8000000 # flag: allow seeking to inexact position
 BASS_POS_DECODE = 0x10000000 # flag: get the decoding (not playing) position
 BASS_POS_DECODETO = 0x20000000 # flag: decode to the position instead of seeking
+BASS_POS_SCAN = 0x40000000 # flag: scan to the position
 
 BASS_INPUT_OFF = 0x10000
 BASS_INPUT_ON = 0x20000
@@ -404,3 +406,7 @@ BASS_FX_DX8_REVERB=8
 
 BASS_IOSNOTIFY_INTERRUPT = 1 # interruption started
 BASS_IOSNOTIFY_INTERRUPT_END = 2 # interruption ended
+
+BASS_LEVEL_MONO = 1
+BASS_LEVEL_STEREO = 2
+BASS_LEVEL_RMS = 4
