@@ -1,8 +1,8 @@
-from bass cimport BASS_GetVersion, HIWORD, LOWORD, DWORD
+from bass cimport HIWORD, LOWORD, DWORD
 
-cdef class BassVersion:
- def __cinit__(self):
-  self.Integer=BASS_GetVersion()
+cdef class BASSVERSION:
+ def __cinit__(self, DWORD version):
+  self.Integer=version
  property String:
   def __get__(self):
    cdef unsigned int loword,hiword

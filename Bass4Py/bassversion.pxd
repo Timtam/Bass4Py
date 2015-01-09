@@ -1,2 +1,2 @@
-cdef class BassVersion:
+cdef class BASSVERSION:
  cdef readonly int Integer
