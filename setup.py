@@ -10,6 +10,7 @@ setup(
  author="Satoprogs",
  author_email="software@satoprogs.de",
  url="http://www.satoprogs.de/",
+ packages=['Bass4Py'],
  ext_modules=cythonize(Extension("*",
   ["Bass4Py/*.pyx"],
   libraries=["bass"],

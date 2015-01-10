@@ -26,9 +26,10 @@ cdef class BASS:
     except BassError:
      pass
     devicenumber=devicenumber+1
+   if odevice.Status&bass.BASS_DEVICE_DEFAULT!=bass.BASS_DEVICE_DEFAULT: return None
    return odevice
   else:
-   raise BassAPIError()
+   return None
  IF UNAME_SYSNAME=='Windows':
   cpdef GetDSoundObject(self,int object):
    res=bass.BASS_GetDSoundObject(object)
