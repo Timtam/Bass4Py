@@ -1,12 +1,13 @@
 cimport bass
 from bassdevice cimport BASSDEVICE
 from bassexceptions import BassError,BassAPIError
+from bassplugin cimport BASSPLUGIN
 from bassversion cimport BASSVERSION
 
 cdef class BASS:
  cpdef __Evaluate(self):
   cdef bass.DWORD error=self.Error
-  if error: raise BassError(error)
+  if error!=bass.BASS_OK: raise BassError(error)
  cpdef GetDevice(self, int device):
   cdef int devicenumber=0
   cdef BASSDEVICE odevice
@@ -33,6 +34,10 @@ cdef class BASS:
    res=bass.BASS_GetDSoundObject(object)
    self.__Evaluate()
    return <int>res
+ cpdef PluginLoad(BASS self, char *filename, bass.DWORD flags=0):
+  cdef bass.HPLUGIN plugin=bass.BASS_PluginLoad(filename,flags)
+  self.__Evaluate()
+  return BASSPLUGIN(plugin)
  property CPU:
   def __get__(self):
    return bass.BASS_GetCPU()

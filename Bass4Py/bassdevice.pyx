@@ -9,7 +9,7 @@ cdef class BASSDEVICE:
    return (type(self)==type(other)) and (self.__device==other.__device)
  cpdef __Evaluate(BASSDEVICE self):
   cdef bass.DWORD error=bass.BASS_ErrorGetCode()
-  if error: raise BassError(error)
+  if error!=bass.BASS_OK: raise BassError(error)
  cpdef __EvaluateSelected(BASSDEVICE self):
   cdef int currentdevice
   cdef bass.DWORD error
