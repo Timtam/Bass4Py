@@ -12,16 +12,6 @@ ctypedef DWORD HSYNC
 ctypedef DWORD HDSP
 ctypedef DWORD HFX
 ctypedef DWORD HPLUGIN
-ctypedef void (*FILECLOSEPROC)(void *user)
-ctypedef QWORD (*FILELENPROC)(void *user)
-ctypedef DWORD (*FILEREADPROC)(void *buffer, DWORD length, void *user)
-ctypedef bint (*FILESEEKPROC)(QWORD offset, void *user)
-ctypedef DWORD (*STREAMPROC)(HSTREAM handle, void *buffer, DWORD length, void *user)
-ctypedef void (*DOWNLOADPROC)(void *buffer, DWORD length, void *user)
-ctypedef void (*SYNCPROC)(HSYNC handle, DWORD channel, DWORD data, void *user)
-ctypedef void (*DSPPROC)(HDSP handle, DWORD channel, void *buffer, DWORD length, void *user)
-ctypedef bint (*RECORDPROC)(HRECORD handle, void *buffer, DWORD length, void *user)
-ctypedef void (*IOSNOTIFYPROC)(DWORD status)
 
 cdef enum:
  BASS_OK=0
@@ -122,11 +112,6 @@ ctypedef enum:
  BASS_OBJECT_DS=1
  BASS_OBJECT_DS3DL=2
 
-ctypedef struct BASS_DEVICEINFO:
- char *name
- char *driver
- DWORD flags
-
 ctypedef enum:
  BASS_DEVICE_ENABLED=1
  BASS_DEVICE_DEFAULT=2
@@ -145,22 +130,6 @@ ctypedef enum:
  BASS_DEVICE_TYPE_DISPLAYPORT=0x40000000
  BASS_DEVICES_AIRPLAY=0x1000000
 
-ctypedef struct BASS_INFO:
- DWORD flags
- DWORD hwsize
- DWORD hwfree
- DWORD freesam
- DWORD free3d
- DWORD minrate
- DWORD maxrate
- bint eax
- DWORD minbuf
- DWORD dsver
- DWORD latency
- DWORD initflags
- DWORD speakers
- DWORD freq
-
 ctypedef enum:
  DSCAPS_CONTINUOUSRATE=0x00000010
  DSCAPS_EMULDRIVER=0x00000020
@@ -169,13 +138,6 @@ ctypedef enum:
  DSCAPS_SECONDARYSTEREO=0x00000200
  DSCAPS_SECONDARY8BIT=0x00000400
  DSCAPS_SECONDARY16BIT=0x00000800
-
-ctypedef struct BASS_RECORDINFO:
- DWORD flags
- DWORD formats
- DWORD inputs
- bint singlein
- DWORD freq
 
 ctypedef enum:
  DSCCAPS_EMULDRIVER=DSCAPS_EMULDRIVER
@@ -194,25 +156,6 @@ ctypedef enum:
  WAVE_FORMAT_4S08=0x00000200
  WAVE_FORMAT_4M16=0x00000400
  WAVE_FORMAT_4S16=0x00000800
-
-ctypedef struct BASS_SAMPLE:
- DWORD freq
- float volume
- float pan
- DWORD flags
- DWORD length
- DWORD max
- DWORD origres
- DWORD chans
- DWORD mingap
- DWORD mode3d
- float mindist
- float maxdist
- DWORD iangle
- DWORD oangle
- float outvol
- DWORD vam
- DWORD priority
 
 ctypedef enum:
  BASS_SAMPLE_8BITS=1
@@ -292,16 +235,6 @@ ctypedef enum:
  BASS_VAM_TERM_DIST=8
  BASS_VAM_TERM_PRIO=16
 
-ctypedef struct BASS_CHANNELINFO:
- DWORD freq
- DWORD chans
- DWORD flags
- DWORD ctype
- DWORD origres
- HPLUGIN plugin
- HSAMPLE sample
- char *filename
-
 ctypedef enum:
  BASS_CTYPE_SAMPLE=1
  BASS_CTYPE_RECORD=2
@@ -322,21 +255,6 @@ ctypedef enum:
  BASS_CTYPE_MUSIC_XM=0x20003
  BASS_CTYPE_MUSIC_IT=0x20004
  BASS_CTYPE_MUSIC_MO3=0x00100
-
-ctypedef struct BASS_PLUGINFORM:
- DWORD ctype
- char *name
- char *exts
-
-ctypedef struct BASS_PLUGININFO:
- DWORD version
- DWORD formatc
- BASS_PLUGINFORM *formats
-
-ctypedef struct BASS_3DVECTOR:
- float x
- float y
- float z
 
 ctypedef enum:
  BASS_3DMODE_NORMAL=0
@@ -415,12 +333,6 @@ ctypedef enum:
  STREAMFILE_NOBUFFER=0
  STREAMFILE_BUFFER=1
  STREAMFILE_BUFFERPUSH=2
-
-ctypedef struct BASS_FILEPROCS:
- FILECLOSEPROC *close
- FILELENPROC *length
- FILEREADPROC *read
- FILESEEKPROC *seek
 
 ctypedef enum:
  BASS_FILEDATA_END=0
@@ -526,63 +438,6 @@ ctypedef enum:
  BASS_TAG_MUSIC_INST=0x10100
  BASS_TAG_MUSIC_SAMPLE=0x10300
 
-ctypedef struct TAG_ID3:
- char id[3]
- char title[30]
- char artist[30]
- char album[30]
- char year[4]
- char comment[30]
- BYTE genre
-
-ctypedef struct TAG_API_BINARY:
- char *key
- void *data
- DWORD length
-
-ctypedef struct TAG_BEXT:
- char Description[256]
- char Originator[32]
- char OriginatorReference[32]
- char OriginationDate[10]
- char OriginationTime[8]
- QWORD TimeReference
- WORD Version
- BYTE UMID[64]
- BYTE Reserved[190]
- char CodingHistory[1]
-
-ctypedef struct TAG_CART_TIMER:
- DWORD dwUsage
- DWORD dwValue
-
-ctypedef struct TAG_CART:
- char Version[4]
- char Title[64]
- char Artist[64]
- char CutID[64]
- char ClientID[64]
- char Category[64]
- char Classification[64]
- char OutCue[64]
- char StartDate[10]
- char StartTime[8]
- char EndDate[10]
- char EndTime[8]
- char ProducerAppID[64]
- char ProducerAppVersion[64]
- char UserDef[64]
- DWORD dwLevelReference
- TAG_CART_TIMER PostTimer[8]
- char Reserved[276]
- char URL[1024]
- char TagText[1]
-
-ctypedef struct TAG_CA_CODEC:
- DWORD ftype
- DWORD atype
- char *name
-
 ctypedef enum:
  BASS_POS_BYTE=0
  BASS_POS_MUSIC_ORDER=1
@@ -621,75 +476,6 @@ ctypedef enum:
  BASS_FX_DX8_PARAMEQ
  BASS_FX_DX8_REVERB
 
-ctypedef struct BASS_DX8_CHORUS:
- float fWetDryMix
- float fDepth
- float fFeedback
- float fFrequency
- DWORD lWaveform
- float fDelay
- DWORD lPhase
-
-ctypedef struct BASS_DX8_COMPRESSOR:
- float fGain
- float fAttack
- float fRelease
- float fThreshold
- float fRatio
- float fPredelay
-
-ctypedef struct BASS_DX8_DISTORTION:
- float fGain
- float fEdge
- float fPostEQCenterFrequency
- float fPostEQBandwidth
- float fPreLowpassCutoff
-
-ctypedef struct BASS_DX8_ECHO:
- float fWetDryMix
- float fFeedback
- float fLeftDelay
- float fRightDelay
- bint lPanDelay
-
-ctypedef struct BASS_DX8_FLANGER:
- float fWetDryMix
- float fDepth
- float fFeedback
- float fFrequency
- DWORD lWaveform
- float fDelay
- DWORD lPhase
-
-ctypedef struct BASS_DX8_GARGLE:
- DWORD dwRateHz
- DWORD dwWaveShape
-
-ctypedef struct BASS_DX8_I3DL2REVERB:
- int lRoom
- int lRoomHF
- float flRoomRolloffFactor
- float flDecayTime
- float flDecayHFRatio
- int lReflections
- float flReflectionsDelay
- int lReverb
- float flReverbDelay
- float flDiffusion
- float flDensity
- float flHFReference
-
-ctypedef struct BASS_DX8_PARAMEQ:
- float fCenter
- float fBandwidth
- float fGain
-
-ctypedef struct BASS_DX8_REVERB:
- float fInGain
- float fReverbMix
- float fReverbTime
- float fHighFreqRTRatio
-
 ctypedef enum:
  BASS_DX8_PHASE_NEG_180=0
  BASS_DX8_PHASE_NEG_90=1
@@ -702,6 +488,196 @@ ctypedef enum:
  BASS_IOSNOTIFY_INTERRUPT_END=2
 
 cdef extern from "bass.h":
+ ctypedef void (*FILECLOSEPROC)(void *user)
+ ctypedef QWORD (*FILELENPROC)(void *user)
+ ctypedef DWORD (*FILEREADPROC)(void *buffer, DWORD length, void *user)
+ ctypedef bint (*FILESEEKPROC)(QWORD offset, void *user)
+ ctypedef DWORD (*STREAMPROC)(HSTREAM handle, void *buffer, DWORD length, void *user)
+ ctypedef void (*DOWNLOADPROC)(void *buffer, DWORD length, void *user)
+ ctypedef void (*SYNCPROC)(HSYNC handle, DWORD channel, DWORD data, void *user)
+ ctypedef void (*DSPPROC)(HDSP handle, DWORD channel, void *buffer, DWORD length, void *user)
+ ctypedef bint (*RECORDPROC)(HRECORD handle, void *buffer, DWORD length, void *user)
+ ctypedef void (*IOSNOTIFYPROC)(DWORD status)
+ ctypedef struct BASS_DEVICEINFO:
+  char *name
+  char *driver
+  DWORD flags
+ ctypedef struct BASS_INFO:
+  DWORD flags
+  DWORD hwsize
+  DWORD hwfree
+  DWORD freesam
+  DWORD free3d
+  DWORD minrate
+  DWORD maxrate
+  bint eax
+  DWORD minbuf
+  DWORD dsver
+  DWORD latency
+  DWORD initflags
+  DWORD speakers
+  DWORD freq
+ ctypedef struct BASS_SAMPLE:
+  DWORD freq
+  float volume
+  float pan
+  DWORD flags
+  DWORD length
+  DWORD max
+  DWORD origres
+  DWORD chans
+  DWORD mingap
+  DWORD mode3d
+  float mindist
+  float maxdist
+  DWORD iangle
+  DWORD oangle
+  float outvol
+  DWORD vam
+  DWORD priority
+ ctypedef struct BASS_CHANNELINFO:
+  DWORD freq
+  DWORD chans
+  DWORD flags
+  DWORD ctype
+  DWORD origres
+  HPLUGIN plugin
+  HSAMPLE sample
+  char *filename
+ ctypedef struct BASS_RECORDINFO:
+  DWORD flags
+  DWORD formats
+  DWORD inputs
+  bint singlein
+  DWORD freq
+ ctypedef struct BASS_PLUGINFORM:
+  DWORD ctype
+  char *name
+  char *exts
+ ctypedef struct BASS_PLUGININFO:
+  DWORD version
+  DWORD formatc
+  BASS_PLUGINFORM *formats
+ ctypedef struct BASS_3DVECTOR:
+  float x
+  float y
+  float z
+ ctypedef struct BASS_FILEPROCS:
+  FILECLOSEPROC *close
+  FILELENPROC *length
+  FILEREADPROC *read
+  FILESEEKPROC *seek
+ ctypedef struct TAG_ID3:
+  char id[3]
+  char title[30]
+  char artist[30]
+  char album[30]
+  char year[4]
+  char comment[30]
+  BYTE genre
+ ctypedef struct TAG_API_BINARY:
+  char *key
+  void *data
+  DWORD length
+ ctypedef struct TAG_BEXT:
+  char Description[256]
+  char Originator[32]
+  char OriginatorReference[32]
+  char OriginationDate[10]
+  char OriginationTime[8]
+  QWORD TimeReference
+  WORD Version
+  BYTE UMID[64]
+  BYTE Reserved[190]
+  char CodingHistory[1]
+ ctypedef struct TAG_CART_TIMER:
+  DWORD dwUsage
+  DWORD dwValue
+ ctypedef struct TAG_CART:
+  char Version[4]
+  char Title[64]
+  char Artist[64]
+  char CutID[64]
+  char ClientID[64]
+  char Category[64]
+  char Classification[64]
+  char OutCue[64]
+  char StartDate[10]
+  char StartTime[8]
+  char EndDate[10]
+  char EndTime[8]
+  char ProducerAppID[64]
+  char ProducerAppVersion[64]
+  char UserDef[64]
+  DWORD dwLevelReference
+  TAG_CART_TIMER PostTimer[8]
+  char Reserved[276]
+  char URL[1024]
+  char TagText[1]
+ ctypedef struct TAG_CA_CODEC:
+  DWORD ftype
+  DWORD atype
+  char *name
+ ctypedef struct BASS_DX8_CHORUS:
+  float fWetDryMix
+  float fDepth
+  float fFeedback
+  float fFrequency
+  DWORD lWaveform
+  float fDelay
+  DWORD lPhase
+ ctypedef struct BASS_DX8_COMPRESSOR:
+  float fGain
+  float fAttack
+  float fRelease
+  float fThreshold
+  float fRatio
+  float fPredelay
+ ctypedef struct BASS_DX8_DISTORTION:
+  float fGain
+  float fEdge
+  float fPostEQCenterFrequency
+  float fPostEQBandwidth
+  float fPreLowpassCutoff
+ ctypedef struct BASS_DX8_ECHO:
+  float fWetDryMix
+  float fFeedback
+  float fLeftDelay
+  float fRightDelay
+  bint lPanDelay
+ ctypedef struct BASS_DX8_FLANGER:
+  float fWetDryMix
+  float fDepth
+  float fFeedback
+  float fFrequency
+  DWORD lWaveform
+  float fDelay
+  DWORD lPhase
+ ctypedef struct BASS_DX8_GARGLE:
+  DWORD dwRateHz
+  DWORD dwWaveShape
+ ctypedef struct BASS_DX8_I3DL2REVERB:
+  int lRoom
+  int lRoomHF
+  float flRoomRolloffFactor
+  float flDecayTime
+  float flDecayHFRatio
+  int lReflections
+  float flReflectionsDelay
+  int lReverb
+  float flReverbDelay
+  float flDiffusion
+  float flDensity
+  float flHFReference
+ ctypedef struct BASS_DX8_PARAMEQ:
+  float fCenter
+  float fBandwidth
+  float fGain
+ ctypedef struct BASS_DX8_REVERB:
+  float fInGain
+  float fReverbMix
+  float fReverbTime
+  float fHighFreqRTRatio
  cdef DWORD BASS_GetVersion()
  cdef bint BASS_SetConfig(DWORD option, DWORD value)
  cdef DWORD BASS_GetConfig(DWORD option)
