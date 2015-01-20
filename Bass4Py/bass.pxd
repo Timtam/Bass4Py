@@ -493,14 +493,14 @@ cdef extern from "bass.h":
  ctypedef DWORD (*FILEREADPROC)(void *buffer, DWORD length, void *user)
  ctypedef bint (*FILESEEKPROC)(QWORD offset, void *user)
  ctypedef DWORD (*STREAMPROC)(HSTREAM handle, void *buffer, DWORD length, void *user)
- ctypedef void (*DOWNLOADPROC)(void *buffer, DWORD length, void *user)
+ ctypedef void (*DOWNLOADPROC)(const void *buffer, DWORD length, void *user)
  ctypedef void (*SYNCPROC)(HSYNC handle, DWORD channel, DWORD data, void *user)
  ctypedef void (*DSPPROC)(HDSP handle, DWORD channel, void *buffer, DWORD length, void *user)
- ctypedef bint (*RECORDPROC)(HRECORD handle, void *buffer, DWORD length, void *user)
+ ctypedef bint (*RECORDPROC)(HRECORD handle, const void *buffer, DWORD length, void *user)
  ctypedef void (*IOSNOTIFYPROC)(DWORD status)
  ctypedef struct BASS_DEVICEINFO:
-  char *name
-  char *driver
+  const char *name
+  const char *driver
   DWORD flags
  ctypedef struct BASS_INFO:
   DWORD flags
@@ -543,7 +543,7 @@ cdef extern from "bass.h":
   DWORD origres
   HPLUGIN plugin
   HSAMPLE sample
-  char *filename
+  const char *filename
  ctypedef struct BASS_RECORDINFO:
   DWORD flags
   DWORD formats
@@ -552,12 +552,12 @@ cdef extern from "bass.h":
   DWORD freq
  ctypedef struct BASS_PLUGINFORM:
   DWORD ctype
-  char *name
-  char *exts
+  const char *name
+  const char *exts
  ctypedef struct BASS_PLUGININFO:
   DWORD version
   DWORD formatc
-  BASS_PLUGINFORM *formats
+  const BASS_PLUGINFORM *formats
  ctypedef struct BASS_3DVECTOR:
   float x
   float y
@@ -575,9 +575,9 @@ cdef extern from "bass.h":
   char year[4]
   char comment[30]
   BYTE genre
- ctypedef struct TAG_API_BINARY:
-  char *key
-  void *data
+ ctypedef struct TAG_APE_BINARY:
+  const char *key
+  const void *data
   DWORD length
  ctypedef struct TAG_BEXT:
   char Description[256]
@@ -617,7 +617,7 @@ cdef extern from "bass.h":
  ctypedef struct TAG_CA_CODEC:
   DWORD ftype
   DWORD atype
-  char *name
+  const char *name
  ctypedef struct BASS_DX8_CHORUS:
   float fWetDryMix
   float fDepth
@@ -681,11 +681,11 @@ cdef extern from "bass.h":
  cdef DWORD BASS_GetVersion()
  cdef bint BASS_SetConfig(DWORD option, DWORD value)
  cdef DWORD BASS_GetConfig(DWORD option)
- cdef bint BASS_SetConfigPtr(DWORD option, void *value)
+ cdef bint BASS_SetConfigPtr(DWORD option, const void *value)
  cdef void *BASS_GetConfigPtr(DWORD option)
  cdef int BASS_ErrorGetCode()
  cdef bint BASS_GetDeviceInfo(DWORD device, BASS_DEVICEINFO *info)
- cdef bint BASS_Init(int device, DWORD freq, DWORD flags, void *win, void *dsguid)
+ cdef bint BASS_Init(int device, DWORD freq, DWORD flags, void *win, const void *dsguid)
  cdef bint BASS_SetDevice(DWORD device)
  cdef DWORD BASS_GetDevice()
  cdef bint BASS_Free()
@@ -701,41 +701,41 @@ cdef extern from "bass.h":
  cdef bint BASS_Pause()
  cdef bint BASS_SetVolume(float volume)
  cdef float BASS_GetVolume()
- cdef HPLUGIN BASS_PluginLoad(char *file, DWORD flags)
+ cdef HPLUGIN BASS_PluginLoad(const char *file, DWORD flags)
  cdef bint BASS_PluginFree(HPLUGIN handle)
- cdef BASS_PLUGININFO *BASS_PluginGetInfo(HPLUGIN handle)
+ cdef const BASS_PLUGININFO *BASS_PluginGetInfo(HPLUGIN handle)
  cdef bint BASS_Set3DFactors(float distf, float rollf, float doppf)
  cdef bint BASS_Get3DFactors(float *distf, float *rollf, float *doppf)
- cdef bint BASS_Set3DPosition(BASS_3DVECTOR *pos, BASS_3DVECTOR *vel, BASS_3DVECTOR *front, BASS_3DVECTOR *top)
+ cdef bint BASS_Set3DPosition(const BASS_3DVECTOR *pos, const BASS_3DVECTOR *vel, const BASS_3DVECTOR *front, const BASS_3DVECTOR *top)
  cdef bint BASS_Get3DPosition(BASS_3DVECTOR *pos, BASS_3DVECTOR *vel, BASS_3DVECTOR *front, BASS_3DVECTOR *top)
  cdef void BASS_Apply3D()
- cdef HMUSIC BASS_MusicLoad(bint mem, void *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
+ cdef HMUSIC BASS_MusicLoad(bint mem, const void *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
  cdef bint BASS_MusicFree(HMUSIC handle)
- cdef HSAMPLE BASS_SampleLoad(bint mem, void *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
+ cdef HSAMPLE BASS_SampleLoad(bint mem, const void *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
  cdef HSAMPLE BASS_SampleCreate(DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags)
  cdef bint BASS_SampleFree(HSAMPLE handle)
- cdef bint BASS_SampleSetData(HSAMPLE handle, void *buffer)
+ cdef bint BASS_SampleSetData(HSAMPLE handle, const void *buffer)
  cdef bint BASS_SampleGetData(HSAMPLE handle, void *buffer)
  cdef bint BASS_SampleGetInfo(HSAMPLE handle, BASS_SAMPLE *info)
- cdef bint BASS_SampleSetInfo(HSAMPLE handle, BASS_SAMPLE *info)
+ cdef bint BASS_SampleSetInfo(HSAMPLE handle, const BASS_SAMPLE *info)
  cdef HCHANNEL BASS_SampleGetChannel(HSAMPLE handle, bint onlynew)
  cdef DWORD BASS_SampleGetChannels(HSAMPLE handle, HCHANNEL *channels)
  cdef bint BASS_SampleStop(HSAMPLE handle)
  cdef HSTREAM BASS_StreamCreate(DWORD freq, DWORD chans, DWORD flags, STREAMPROC *proc, void *user)
- cdef HSTREAM BASS_StreamCreateFile(bint mem, void *file, QWORD offset, QWORD length, DWORD flags)
- cdef HSTREAM BASS_StreamCreateURL(char *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
- cdef HSTREAM BASS_StreamCreateFileUser(DWORD system, DWORD flags, BASS_FILEPROCS *proc, void *user)
+ cdef HSTREAM BASS_StreamCreateFile(bint mem, const void *file, QWORD offset, QWORD length, DWORD flags)
+ cdef HSTREAM BASS_StreamCreateURL(const char *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
+ cdef HSTREAM BASS_StreamCreateFileUser(DWORD system, DWORD flags, const BASS_FILEPROCS *proc, void *user)
  cdef bint BASS_StreamFree(HSTREAM handle)
  cdef QWORD BASS_StreamGetFilePosition(HSTREAM handle, DWORD mode)
- cdef DWORD BASS_StreamPutData(HSTREAM handle, void *buffer, DWORD length)
- cdef DWORD BASS_StreamPutFileData(HSTREAM handle, void *buffer, DWORD length)
+ cdef DWORD BASS_StreamPutData(HSTREAM handle, const void *buffer, DWORD length)
+ cdef DWORD BASS_StreamPutFileData(HSTREAM handle, const void *buffer, DWORD length)
  cdef bint BASS_RecordGetDeviceInfo(DWORD device, BASS_DEVICEINFO *info)
  cdef bint BASS_RecordInit(int device)
  cdef bint BASS_RecordSetDevice(DWORD device)
  cdef DWORD BASS_RecordGetDevice()
  cdef bint BASS_RecordFree()
  cdef bint BASS_RecordGetInfo(BASS_RECORDINFO *info)
- cdef char *BASS_RecordGetInputName(int input)
+ cdef const char *BASS_RecordGetInputName(int input)
  cdef bint BASS_RecordSetInput(int input, DWORD flags, float volume)
  cdef DWORD BASS_RecordGetInput(int input, float *volume)
  cdef HRECORD BASS_RecordStart(DWORD freq, DWORD chans, DWORD flags, RECORDPROC *proc, void *user)
@@ -745,7 +745,7 @@ cdef extern from "bass.h":
  cdef bint BASS_ChannelSetDevice(DWORD handle, DWORD device)
  cdef DWORD BASS_ChannelIsActive(DWORD handle)
  cdef bint BASS_ChannelGetInfo(DWORD handle, BASS_CHANNELINFO *info)
- cdef char *BASS_ChannelGetTags(DWORD handle, DWORD tags)
+ cdef const char *BASS_ChannelGetTags(DWORD handle, DWORD tags)
  cdef DWORD BASS_ChannelFlags(DWORD handle, DWORD flags, DWORD mask)
  cdef bint BASS_ChannelUpdate(DWORD handle, DWORD length)
  cdef bint BASS_ChannelLock(DWORD handle, bint lock)
@@ -760,7 +760,7 @@ cdef extern from "bass.h":
  cdef DWORD BASS_ChannelGetAttributeEx(DWORD handle, DWORD attrib, void *value, DWORD size)
  cdef bint BASS_ChannelSet3DAttributes(DWORD handle, int mode, float min, float max, int iangle, int oangle, float outvol)
  cdef bint BASS_ChannelGet3DAttributes(DWORD handle, DWORD *mode, float *min, float *max, DWORD *iangle, DWORD *oangle, float *outvol)
- cdef bint BASS_ChannelSet3DPosition(DWORD handle, BASS_3DVECTOR *pos, BASS_3DVECTOR *orient, BASS_3DVECTOR *vel)
+ cdef bint BASS_ChannelSet3DPosition(DWORD handle, const BASS_3DVECTOR *pos, const BASS_3DVECTOR *orient, const BASS_3DVECTOR *vel)
  cdef bint BASS_ChannelGet3DPosition(DWORD handle, BASS_3DVECTOR *pos, BASS_3DVECTOR *orient, BASS_3DVECTOR *vel)
  cdef QWORD BASS_ChannelGetLength(DWORD handle, DWORD mode)
  cdef bint BASS_ChannelSetPosition(DWORD handle, QWORD pos, DWORD mode)
@@ -776,7 +776,7 @@ cdef extern from "bass.h":
  cdef bint BASS_ChannelRemoveLink(DWORD handle, DWORD chan)
  cdef HFX BASS_ChannelSetFX(DWORD handle, DWORD type, int priority)
  cdef bint BASS_ChannelRemoveFX(DWORD handle, HFX fx)
- cdef bint BASS_FXSetParameters(HFX handle, void *params)
+ cdef bint BASS_FXSetParameters(HFX handle, const void *params)
  cdef bint BASS_FXGetParameters(HFX handle, void *params)
  cdef bint BASS_FXReset(HFX handle)
 
