@@ -12,7 +12,6 @@ cdef void CDOWNLOADPROC(const void *buffer,bass.DWORD length,void *user):
  pythonf(<bytes>cbuffer[:length],length,cb['user'])
  if buffer==NULL:
   basscallbacks.Callbacks.DeleteCallback(pos)
- print 'finished intern'
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,bass.DWORD length,void *user):
  CDOWNLOADPROC(buffer,length,user)
 cdef void __cdecl CDOWNLOADPROC_CDE(const void *buffer,bass.DWORD length,void *user):

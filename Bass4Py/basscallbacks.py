@@ -18,7 +18,6 @@ class BASSCALLBACKS(object):
   self.Callbacks[pos]=None
   if self.Callbacks[len(self.Callbacks)-1]==None:
    del(self.Callbacks[len(self.Callbacks)-1])
-  print self.Callbacks
  def GetCallback(self,pos):
   return self.Callbacks[pos]
 Callbacks=BASSCALLBACKS()
