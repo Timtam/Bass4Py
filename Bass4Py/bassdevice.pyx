@@ -35,6 +35,7 @@ cdef class BASSDEVICE:
    return res
  cpdef Init(BASSDEVICE self,bass.DWORD freq, bass.DWORD flags, int win):
   cdef bass.HWND cwin=&win
+  if win==0: cwin=NULL
   cdef bint res=bass.BASS_Init(self.__device,freq,flags,cwin,NULL)
   self.__Evaluate()
   return res

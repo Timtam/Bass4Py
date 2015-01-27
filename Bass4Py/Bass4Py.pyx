@@ -7,10 +7,10 @@ from bassstream cimport *
 from bassversion cimport BASSVERSION
 from types import FunctionType
 cdef class BASS:
- cpdef __Evaluate(self):
+ cpdef __Evaluate(BASS self):
   cdef bass.DWORD error=self.Error
   if error!=bass.BASS_OK: raise BassError(error)
- cpdef GetDevice(self, int device):
+ cpdef GetDevice(BASS self, int device):
   cdef int devicenumber=0
   cdef BASSDEVICE odevice
   if device>=0:
