@@ -6,7 +6,11 @@ from bassplugin cimport BASSPLUGIN
 from bassstream cimport *
 from bassversion cimport BASSVERSION
 from types import FunctionType
+cdef extern from "Python.h":
+ void PyEval_InitThreads()
 cdef class BASS:
+ def __cinit__(BASS self):
+  PyEval_InitThreads()
  cpdef __Evaluate(BASS self):
   cdef bass.DWORD error=self.Error
   if error!=bass.BASS_OK: raise BassError(error)

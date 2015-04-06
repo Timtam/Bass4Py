@@ -28,14 +28,7 @@ try:
 except:
  pass
 shutil.rmtree(os.path.join(cd,'cython_debug'),True)
-setup(
- name="Bass4Py",
- version="1.0",
- author="Satoprogs",
- author_email="software@satoprogs.de",
- url="http://www.satoprogs.de/",
- packages=['Bass4Py'],
- ext_modules=cythonize(Extension("*",
+modules=cythonize(Extension("*",
   ["Bass4Py/*.pyx"],
   libraries=["bass"],
   library_dirs=[cd],
@@ -44,7 +37,17 @@ setup(
 #  extra_compile_args=['-Zi','/Od'],
 #  extra_link_args=['-debug']
  )
-))
+#  ,gdb_debug=True
+)
+setup(
+ name="Bass4Py",
+ version="1.0",
+ author="Satoprogs",
+ author_email="software@satoprogs.de",
+ url="http://www.satoprogs.de/",
+ packages=['Bass4Py'],
+ ext_modules=modules
+)
 print "Removing build artifacts"
 shutil.rmtree(os.path.join(cd,'build'),True)
 print "Finished Bass4Py build process"

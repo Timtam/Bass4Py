@@ -1,8 +1,9 @@
-from libc.string cimport memcpy
+from libc.string cimport memmove
 cimport bass
 import basscallbacks
+from basschannel cimport BASSCHANNEL
 from bassexceptions import BassError
-cdef void CDOWNLOADPROC(const void *buffer,bass.DWORD length,void *user):
+cdef void CDOWNLOADPROC(const void *buffer,bass.DWORD length,void *user) with gil:
  cdef object cb
  cdef int pos
  cdef char *cbuffer
@@ -13,9 +14,9 @@ cdef void CDOWNLOADPROC(const void *buffer,bass.DWORD length,void *user):
  pythonf(<bytes>cbuffer[:length],length,cb['user'])
  if buffer==NULL:
   basscallbacks.Callbacks.DeleteCallback(pos)
-cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,bass.DWORD length,void *user):
+cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,bass.DWORD length,void *user) with gil:
  CDOWNLOADPROC(buffer,length,user)
-cdef bass.DWORD CSTREAMPROC(bass.HSTREAM handle,void *buffer,bass.DWORD length,void *user):
+cdef bass.DWORD CSTREAMPROC(bass.DWORD handle,void *buffer,bass.DWORD length,void *user) with gil:
  cdef bass.DWORD blen
  cdef object cb,pythonf
  cdef char *cbuf
@@ -26,16 +27,17 @@ cdef bass.DWORD CSTREAMPROC(bass.HSTREAM handle,void *buffer,bass.DWORD length,v
  pos=<int>user
  cb=basscallbacks.Callbacks.GetCallback(pos)
  pythonf=cb['function']
- pythonbuf=pythonf(length,cb['user'])
+ pythonbuf=pythonf(stream,length,cb['user'])
  blen=<bass.DWORD>len(pythonbuf)
  if blen>length:
   pythonbuf=pythonbuf[:length]
   blen=length
  cbuf=<char*>pythonbuf
- memcpy(buffer,<const void*>cbuf,blen)
+ memmove(buffer,<const void*>cbuf,blen)
  return blen
-cdef bass.DWORD __stdcall CSTREAMPROC_STD(bass.HSTREAM handle,void *buffer,bass.DWORD length,void *user):
- cdef bass.DWORD res=CSTREAMPROC(handle,buffer,length,user)
+cdef bass.DWORD __stdcall CSTREAMPROC_STD(bass.DWORD handle,void *buffer,bass.DWORD length,void *user) with gil:
+ cdef bass.DWORD res
+ res=CSTREAMPROC(handle,buffer,length,user)
  return res
 cdef class BASSSTREAM:
  def __cinit__(BASSSTREAM self,bass.HSTREAM stream):
@@ -59,3 +61,6 @@ cdef class BASSSTREAM:
   cdef bass.DWORD res=bass.BASS_StreamPutFileData(self.__stream,<void*>buffer,length)
   self.__Evaluate()
   return res
+ property Channel:
+  def __get__(BASSSTREAM self):
+   return BASSCHANNEL(self.__stream)
