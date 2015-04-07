@@ -1,6 +1,8 @@
 cimport bass
+import basscallbacks
 from bassexceptions import BassError, BassAPIError
-
+from bassstream cimport *
+from types import FunctionType
 cdef class BASSDEVICE:
  def __cinit__(BASSDEVICE self,int device):
   self.__device=device
@@ -67,6 +69,49 @@ cdef class BASSDEVICE:
   res=bass.BASS_Update(length)
   self.__Evaluate()
   return res
+ cpdef StreamCreate(BASSDEVICE self,bass.DWORD freq,bass.DWORD chans,bass.DWORD flags,object proc,object user):
+  cdef int cbpos,iproc
+  cdef bass.STREAMPROC *cproc
+  cdef bass.HSTREAM stream
+  self.__EvaluateSelected()
+  if type(proc)==FunctionType:
+   cbpos=basscallbacks.Callbacks.AddCallback(proc,user)
+   IF UNAME_SYSNAME=="Windows":
+    cproc=<bass.STREAMPROC*>CSTREAMPROC_STD
+   ELSE:
+    cproc=<bass.STREAMPROC*>CSTREAMPROC
+   stream=bass.BASS_StreamCreate(freq,chans,flags,cproc,<void*>cbpos)
+  else:
+   iproc=<int>proc
+   stream=bass.BASS_StreamCreate(freq,chans,flags,<bass.STREAMPROC*>iproc,NULL)
+  self.__Evaluate()
+  return BASSSTREAM(stream)
+ cpdef StreamCreateFile(BASSDEVICE self,bint mem,const char *file,bass.QWORD offset=0,bass.QWORD length=0,bass.DWORD flags=0):
+  cdef bass.HSTREAM stream
+  cdef void *ptr=<void*>file
+  self.__EvaluateSelected()
+  if mem and length==0: length=len(file)
+  stream=bass.BASS_StreamCreateFile(mem,ptr,offset,length,flags)
+  self.__Evaluate()
+  return BASSSTREAM(stream)
+ cpdef StreamCreateURL(BASSDEVICE self,const char *url,bass.DWORD offset,bass.DWORD flags,object proc=0,object user=None):
+  cdef bass.DOWNLOADPROC *cproc
+  cdef int pos
+  cdef void *ptr
+  cdef bass.HSTREAM stream
+  self.__EvaluateSelected()
+  if type(proc)==FunctionType:
+   pos=basscallbacks.Callbacks.AddCallback(proc,user)
+   ptr=<void*>pos
+   IF UNAME_SYSNAME=="Windows":
+    cproc=<bass.DOWNLOADPROC*>CDOWNLOADPROC_STD
+   ELSE:
+    cproc=<bass.DOWNLOADPROC*>CDOWNLOADPROC
+   stream=bass.BASS_StreamCreateURL(url,offset,flags,cproc,ptr)
+  else:
+   stream=bass.BASS_StreamCreateURL(url,offset,flags,NULL,NULL)
+  self.__Evaluate()
+  return BASSSTREAM(stream)
  property Name:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_DEVICEINFO info=self.__getdeviceinfo()
