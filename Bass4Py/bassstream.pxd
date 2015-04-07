@@ -3,6 +3,14 @@ cdef void CDOWNLOADPROC(const void *buffer,DWORD length,void *user) with gil
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,DWORD length,void *user) with gil
 cdef DWORD CSTREAMPROC(DWORD handle,void *buffer,DWORD length,void *user) with gil
 cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle,void *buffer,DWORD length,void *user) with gil
+cdef void CFILECLOSEPROC(void *user) with gil
+cdef void __stdcall CFILECLOSEPROC_STD(void *user) with gil
+cdef QWORD CFILELENPROC(void *user) with gil
+cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil
+cdef DWORD CFILEREADPROC(void *buffer,DWORD length,void *user) with gil
+cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer,DWORD length,void *user) with gil
+cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil
+cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil
 cdef class BASSSTREAM:
  cdef readonly HSTREAM __stream
  cpdef __Evaluate(BASSSTREAM self)

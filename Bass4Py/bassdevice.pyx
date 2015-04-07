@@ -69,7 +69,7 @@ cdef class BASSDEVICE:
   res=bass.BASS_Update(length)
   self.__Evaluate()
   return res
- cpdef StreamCreate(BASSDEVICE self,bass.DWORD freq,bass.DWORD chans,bass.DWORD flags,object proc,object user):
+ cpdef StreamCreate(BASSDEVICE self,bass.DWORD freq,bass.DWORD chans,bass.DWORD flags,object proc,object user=None):
   cdef int cbpos,iproc
   cdef bass.STREAMPROC *cproc
   cdef bass.HSTREAM stream
@@ -110,6 +110,30 @@ cdef class BASSDEVICE:
    stream=bass.BASS_StreamCreateURL(url,offset,flags,cproc,ptr)
   else:
    stream=bass.BASS_StreamCreateURL(url,offset,flags,NULL,NULL)
+  self.__Evaluate()
+  return BASSSTREAM(stream)
+ cpdef StreamCreateFileUser(BASSDEVICE self,bass.DWORD system,bass.DWORD flags,object close,object length,object read,object seek,object user=None):
+  cdef int pos
+  cdef bass.BASS_FILEPROCS procs
+  cdef bass.HSTREAM stream
+  self.__EvaluateSelected()
+  if type(close)!=FunctionType or type(read)!=FunctionType or type(length)!=FunctionType or type(seek)!=FunctionType:
+   raise BassAPIError()
+  IF UNAME_SYSNAME=="Windows":
+   procs.close=<bass.FILECLOSEPROC*>CFILECLOSEPROC_STD
+   procs.read=<bass.FILEREADPROC*>CFILEREADPROC_STD
+   procs.length=<bass.FILELENPROC*>CFILELENPROC_STD
+   procs.seek=<bass.FILESEEKPROC*>CFILESEEKPROC_STD
+  ELSE:
+   procs.close=<bass.FILECLOSEPROC*>CFILECLOSEPROC
+   procs.read=<bass.FILEREADPROC*>CFILEREADPROC
+   procs.length=<bass.FILELENPROC*>CFILELENPROC
+   procs.seek=<bass.FILESEEKPROC*>CFILESEEKPROC
+  pos=basscallbacks.Callbacks.AddCallback(close,user)
+  basscallbacks.Callbacks.AddCallback(read,user,pos)
+  basscallbacks.Callbacks.AddCallback(length,user,pos)
+  basscallbacks.Callbacks.AddCallback(seek,user,pos)
+  stream=bass.BASS_StreamCreateFileUser(system,flags,&procs,<void*>pos)
   self.__Evaluate()
   return BASSSTREAM(stream)
  property Name:

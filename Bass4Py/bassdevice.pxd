@@ -12,6 +12,7 @@ cdef class BASSDEVICE:
  cpdef Start(BASSDEVICE self)
  cpdef Stop(BASSDEVICE self)
  cpdef Update(BASSDEVICE self,DWORD length)
- cpdef StreamCreate(BASSDEVICE self,DWORD freq,DWORD chans,DWORD flags,object proc,object user)
+ cpdef StreamCreate(BASSDEVICE self,DWORD freq,DWORD chans,DWORD flags,object proc,object user=*)
  cpdef StreamCreateFile(BASSDEVICE self,bint mem,const char *file,QWORD offset=*,QWORD length=*,DWORD flags=*)
  cpdef StreamCreateURL(BASSDEVICE self,const char *url,DWORD offset,DWORD flags,object proc=*,object user=*)
+ cpdef StreamCreateFileUser(BASSDEVICE self,DWORD system,DWORD flags,object close,object length,object read,object seek,object user=*)
