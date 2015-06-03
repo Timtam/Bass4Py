@@ -16,3 +16,4 @@ cdef class BASSDEVICE:
  cpdef StreamCreateFile(BASSDEVICE self,bint mem,const char *file,QWORD offset=*,QWORD length=*,DWORD flags=*)
  cpdef StreamCreateURL(BASSDEVICE self,const char *url,DWORD offset,DWORD flags,object proc=*,object user=*)
  cpdef StreamCreateFileUser(BASSDEVICE self,DWORD system,DWORD flags,object close,object length,object read,object seek,object user=*)
+ cpdef SampleLoad(BASSDEVICE self,bint mem,char *file,QWORD offset=?,DWORD length=?,DWORD max=?,DWORD flags=?)

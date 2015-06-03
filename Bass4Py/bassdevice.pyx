@@ -2,6 +2,7 @@ cimport bass
 import basscallbacks
 from bassexceptions import BassError, BassAPIError
 from bassstream cimport *
+from basssample cimport BASSSAMPLE
 from types import FunctionType
 cdef class BASSDEVICE:
  def __cinit__(BASSDEVICE self,int device):
@@ -136,6 +137,14 @@ cdef class BASSDEVICE:
   stream=bass.BASS_StreamCreateFileUser(system,flags,&procs,<void*>pos)
   self.__Evaluate()
   return BASSSTREAM(stream)
+ cpdef SampleLoad(BASSDEVICE self,bint mem,char *file,bass.QWORD offset=0,bass.DWORD length=0,bass.DWORD max=65535,bass.DWORD flags=0):
+  cdef void *ptr=<void*>file
+  cdef bass.HSAMPLE res
+  self.__EvaluateSelected()
+  if mem and length==0: length=len(file)
+  res=bass.BASS_SampleLoad(mem,ptr,offset,length,max,flags)
+  self.__Evaluate()
+  return BASSSAMPLE(res)
  property Name:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_DEVICEINFO info=self.__getdeviceinfo()

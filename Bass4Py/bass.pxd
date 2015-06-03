@@ -13,7 +13,7 @@ ctypedef DWORD HDSP
 ctypedef DWORD HFX
 ctypedef DWORD HPLUGIN
 
-cdef enum:
+ctypedef enum:
  BASS_OK=0
  BASS_ERROR_MEM=1
  BASS_ERROR_FILEOPEN=2

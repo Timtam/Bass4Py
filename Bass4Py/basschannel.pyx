@@ -67,4 +67,7 @@ cdef class BASSCHANNEL:
   def __get__(BASSCHANNEL self):
    cdef bass.BASS_CHANNELINFO info=self.__getinfo()
    self.__Evaluate()
-   return BASSSAMPLE(info.sample)
+   if info.sample:
+    return BASSSAMPLE(info.sample)
+   else:
+    return None
