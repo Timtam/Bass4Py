@@ -145,6 +145,12 @@ cdef class BASSDEVICE:
   res=bass.BASS_SampleLoad(mem,ptr,offset,length,max,flags)
   self.__Evaluate()
   return BASSSAMPLE(res)
+ cpdef SampleCreate(BASSDEVICE self,bass.DWORD length,bass.DWORD freq,bass.DWORD chans,bass.DWORD max,bass.DWORD flags):
+  cdef bass.HSAMPLE res
+  self.__EvaluateSelected()
+  res=bass.BASS_SampleCreate(length,freq,chans,max,flags)
+  self.__Evaluate()
+  return BASSSAMPLE(res)
  property Name:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_DEVICEINFO info=self.__getdeviceinfo()

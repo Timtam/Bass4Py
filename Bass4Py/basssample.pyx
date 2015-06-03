@@ -21,6 +21,10 @@ cdef class BASSSAMPLE:
   cdef bass.HCHANNEL res=bass.BASS_SampleGetChannel(self.__sample,onlynew)
   self.__Evaluate()
   return BASSCHANNEL(res)
+ cpdef Stop(BASSSAMPLE self):
+  cdef bint res=bass.BASS_SampleStop(self.__sample)
+  self.__Evaluate()
+  return res
  property ChannelCount:
   def __get__(BASSSAMPLE self):
    cdef bass.DWORD res=bass.BASS_SampleGetChannels(self.__sample,NULL)

@@ -5,3 +5,4 @@ cdef class BASSSAMPLE:
  cpdef __Evaluate(BASSSAMPLE self)
  cpdef Free(BASSSAMPLE self)
  cpdef GetChannel(BASSSAMPLE self,bint onlynew)
+ cpdef Stop(BASSSAMPLE self)
