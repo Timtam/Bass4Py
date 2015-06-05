@@ -175,7 +175,7 @@ cdef class BASSSAMPLE:
    cdef bass.BASS_SAMPLE info=self.__getinfo()
    self.__Evaluate()
    return info.outvol
-  def __set__(BASSSAMPLE self,bass.DWORD value):
+  def __set__(BASSSAMPLE self,float value):
    cdef bass.BASS_SAMPLE info=self.__getinfo()
    info.outvol=value
    bass.BASS_SampleSetInfo(self.__sample,&info)

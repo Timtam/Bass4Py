@@ -60,14 +60,15 @@ cdef bass.QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
  return res
 cdef bass.DWORD CFILEREADPROC(void *buffer,bass.DWORD length,void *user) with gil:
  cdef object cb,pythonf
- cdef int blen,pos
+ cdef int pos
  cdef bytes str
  cdef char *cbuf
+ cdef bass.DWORD blen
  pos=<int>user
  cb=basscallbacks.Callbacks.GetCallback(pos)
  pythonf=cb['function'][1]
  str=pythonf(length,cb['user'])
- blen=len(str)
+ blen=<bass.DWORD>len(str)
  if blen>length:
   str=str[:length]
   blen=length
@@ -89,7 +90,7 @@ cdef bint CFILESEEKPROC(bass.QWORD offset,void *user) with gil:
 cdef bint __stdcall CFILESEEKPROC_STD(bass.QWORD offset,void *user) with gil:
  cdef bint res=CFILESEEKPROC(offset,user)
  return res
-cdef class BASSSTREAM:
+cdef class BASSSTREAM(BASSCHANNEL):
  def __cinit__(BASSSTREAM self,bass.HSTREAM stream):
   self.__stream=stream
  cpdef __Evaluate(BASSSTREAM self):
@@ -111,6 +112,3 @@ cdef class BASSSTREAM:
   cdef bass.DWORD res=bass.BASS_StreamPutFileData(self.__stream,<void*>buffer,length)
   self.__Evaluate()
   return res
- property Channel:
-  def __get__(BASSSTREAM self):
-   return BASSCHANNEL(self.__stream)
