@@ -784,3 +784,11 @@ cdef inline WORD LOWORD(DWORD a):
  return a&0x0000ffff
 cdef inline WORD HIWORD(DWORD a):
  return a>>16
+
+cdef class BASS:
+ cpdef __Evaluate(BASS self)
+ cpdef GetDevice(BASS self,int device)
+ IF UNAME_SYSNAME=="Windows":
+  cpdef GetDSoundObject(BASS self,int object)
+ cpdef PluginLoad(BASS self, char *filename, DWORD flags=?)
+ 

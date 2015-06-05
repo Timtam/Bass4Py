@@ -1,1 +1,1 @@
-from Bass4Py import *
+from bass import *
