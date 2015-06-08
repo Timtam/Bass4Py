@@ -22,11 +22,11 @@ cdef class BASSDEVICE:
    raise BassAPIError()
   if currentdevice!=self.__device:
    raise BassAPIError()
- cdef bass.BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self):
+ cdef inline bass.BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self):
   cdef bass.BASS_DEVICEINFO info
   bass.BASS_GetDeviceInfo(self.__device,&info)
   return info
- cdef bass.BASS_INFO __getinfo(BASSDEVICE self):
+ cdef inline bass.BASS_INFO __getinfo(BASSDEVICE self):
   cdef bass.BASS_INFO info
   cdef bint res=bass.BASS_GetInfo(&info)
   return info

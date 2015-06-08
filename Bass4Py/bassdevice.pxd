@@ -3,8 +3,8 @@ cdef class BASSDEVICE:
  cdef readonly DWORD __device
  cpdef __Evaluate(BASSDEVICE self)
  cpdef __EvaluateSelected(BASSDEVICE self)
- cdef BASS_INFO __getinfo(BASSDEVICE self)
- cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
+ cdef inline BASS_INFO __getinfo(BASSDEVICE self)
+ cdef inline BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
  cpdef Free(BASSDEVICE self)
  cpdef Init(BASSDEVICE self,DWORD freq,DWORD flags,int win)
  cpdef Pause(BASSDEVICE self)

@@ -6,7 +6,7 @@ from libc.string cimport memmove
 cdef class BASSSAMPLE:
  def __cinit__(BASSSAMPLE self,bass.HSAMPLE sample):
   self.__sample=sample
- cdef bass.BASS_SAMPLE __getinfo(BASSSAMPLE self):
+ cdef inline bass.BASS_SAMPLE __getinfo(BASSSAMPLE self):
   cdef bass.BASS_SAMPLE info
   cdef bint res=bass.BASS_SampleGetInfo(self.__sample,&info)
   return info
