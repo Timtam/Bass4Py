@@ -1,6 +1,7 @@
 from bass cimport BASS_3DVECTOR
-cdef inline BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector)
+cdef BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector)
 cdef class BASSVECTOR:
  cdef public float X
  cdef public float Y
  cdef public float Z
+ cdef inline void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector)

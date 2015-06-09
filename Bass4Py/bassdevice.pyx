@@ -3,6 +3,7 @@ import basscallbacks
 from bassexceptions import BassError, BassAPIError
 from bassstream cimport *
 from basssample cimport BASSSAMPLE
+cimport bassvector
 from types import FunctionType
 cdef class BASSDEVICE:
  def __cinit__(BASSDEVICE self,int device):
@@ -248,3 +249,65 @@ cdef class BASSDEVICE:
    self.__EvaluateSelected()
    res=bass.BASS_SetVolume(value)
    self.__Evaluate()
+ property Position:
+  def __get__(BASSDEVICE self):
+   cdef bass.BASS_3DVECTOR pos
+   cdef bint res=bass.BASS_Get3DPosition(&pos,NULL,NULL,NULL)
+   self.__Evaluate()
+   self.__EvaluateSelected()
+   return bassvector.BASSVECTOR_Create(&pos)
+  def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
+   cdef bass.BASS_3DVECTOR pos
+   cdef bint res
+   self.__EvaluateSelected()
+   value.Resolve(&pos)
+   res=bass.BASS_Set3DPosition(&pos,NULL,NULL,NULL)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Velocity:
+  def __get__(BASSDEVICE self):
+   cdef bass.BASS_3DVECTOR vel
+   cdef bint res=bass.BASS_Get3DPosition(NULL,&vel,NULL,NULL)
+   self.__Evaluate()
+   self.__EvaluateSelected()
+   return bassvector.BASSVECTOR_Create(&vel)
+  def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
+   cdef bass.BASS_3DVECTOR vel
+   cdef bint res
+   self.__EvaluateSelected()
+   value.Resolve(&vel)
+   res=bass.BASS_Set3DPosition(NULL,&vel,NULL,NULL)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Front:
+  def __get__(BASSDEVICE self):
+   cdef bass.BASS_3DVECTOR front,top
+   cdef bint res=bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
+   self.__EvaluateSelected()
+   return bassvector.BASSVECTOR_Create(&front)
+  def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
+   cdef bass.BASS_3DVECTOR front,top
+   cdef bint res
+   self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   value.Resolve(&front)
+   res=bass.BASS_Set3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Top:
+  def __get__(BASSDEVICE self):
+   cdef bass.BASS_3DVECTOR front,top
+   cdef bint res=bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
+   self.__EvaluateSelected()
+   return bassvector.BASSVECTOR_Create(&top)
+  def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
+   cdef bass.BASS_3DVECTOR front,top
+   cdef bint res
+   self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   value.Resolve(&top)
+   res=bass.BASS_Set3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
+   bass.BASS_Apply3D()

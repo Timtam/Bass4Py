@@ -1,5 +1,5 @@
 from bass cimport BASS_3DVECTOR
-cdef inline BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector):
+cdef BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector):
  return BASSVECTOR(vector.x,vector.y,vector.z)
 cdef class BASSVECTOR:
  def __cinit__(BASSVECTOR self, float X,float Y,float Z):
@@ -7,7 +7,7 @@ cdef class BASSVECTOR:
   self.Y=Y
   self.Z=Z
  def __repr__(BASSVECTOR self):
-  return "Vector at X=%f, Y=%f, Z=%f"%(self.X,self.Y,self.Z)
+  return "BASSVECTOR at X=%f, Y=%f, Z=%f"%(self.X,self.Y,self.Z)
  def __add__(BASSVECTOR self,other):
   if type(other) is int or type(other) is float:
    return BASSVECTOR(self.X+other,self.Y+other,self.Z+other)
@@ -21,3 +21,7 @@ cdef class BASSVECTOR:
  def __mul__(BASSVECTOR self,other):
   if type(other) is int or type(other) is float:
    return BASSVECTOR(self.X*other,self.Y*other,self.Z*other)
+ cdef inline void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector):
+  vector.x=self.X
+  vector.y=self.Y
+  vector.z=self.Z
