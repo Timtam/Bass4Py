@@ -5,6 +5,35 @@ from bassstream cimport *
 from basssample cimport BASSSAMPLE
 cimport bassvector
 from types import FunctionType
+__EAXPresets={
+ bass.EAX_PRESET_GENERIC:(bass.EAX_ENVIRONMENT_GENERIC,0.5,1.493,0.5),
+ bass.EAX_PRESET_PADDEDCELL:(bass.EAX_ENVIRONMENT_PADDEDCELL,0.25,0.1,0.0),
+ bass.EAX_PRESET_ROOM:(bass.EAX_ENVIRONMENT_ROOM,0.417,0.4,0.666),
+ bass.EAX_PRESET_BATHROOM:(bass.EAX_ENVIRONMENT_BATHROOM,0.653,1.499,0.166),
+ bass.EAX_PRESET_LIVINGROOM:(bass.EAX_ENVIRONMENT_LIVINGROOM,0.208,0.478,0.0),
+ bass.EAX_PRESET_STONEROOM:(bass.EAX_ENVIRONMENT_STONEROOM,0.5,2.309,0.888),
+ bass.EAX_PRESET_AUDITORIUM:(bass.EAX_ENVIRONMENT_AUDITORIUM,0.403,4.279,0.5),
+ bass.EAX_PRESET_CONCERTHALL:(bass.EAX_ENVIRONMENT_CONCERTHALL,0.5,3.961,0.5),
+ bass.EAX_PRESET_CAVE:(bass.EAX_ENVIRONMENT_CAVE,0.5,2.886,1.304),
+ bass.EAX_PRESET_ARENA:(bass.EAX_ENVIRONMENT_ARENA,0.361,7.284,0.332),
+ bass.EAX_PRESET_HANGAR:(bass.EAX_ENVIRONMENT_HANGAR,0.5,10.0,0.3),
+ bass.EAX_PRESET_CARPETEDHALLWAY:(bass.EAX_ENVIRONMENT_CARPETEDHALLWAY,0.153,0.259,2.0),
+ bass.EAX_PRESET_HALLWAY:(bass.EAX_ENVIRONMENT_HALLWAY,0.361,1.493,0.0),
+ bass.EAX_PRESET_STONECORRIDOR:(bass.EAX_ENVIRONMENT_STONECORRIDOR,0.444,2.697,0.638),
+ bass.EAX_PRESET_ALLEY:(bass.EAX_ENVIRONMENT_ALLEY,0.25,1.752,0.776),
+ bass.EAX_PRESET_FOREST:(bass.EAX_ENVIRONMENT_FOREST,0.111,3.145,0.472),
+ bass.EAX_PRESET_CITY:(bass.EAX_ENVIRONMENT_CITY,0.111,2.767,0.224),
+ bass.EAX_PRESET_MOUNTAINS:(bass.EAX_ENVIRONMENT_MOUNTAINS,0.194,7.841,0.472),
+ bass.EAX_PRESET_QUARRY:(bass.EAX_ENVIRONMENT_QUARRY,1.0,1.499,0.5),
+ bass.EAX_PRESET_PLAIN:(bass.EAX_ENVIRONMENT_PLAIN,0.097,2.767,0.224),
+ bass.EAX_PRESET_PARKINGLOT:(bass.EAX_ENVIRONMENT_PARKINGLOT,0.208,1.652,1.5),
+ bass.EAX_PRESET_SEWERPIPE:(bass.EAX_ENVIRONMENT_SEWERPIPE,0.652,2.886,0.25),
+ bass.EAX_PRESET_UNDERWATER:(bass.EAX_ENVIRONMENT_UNDERWATER,1.0,1.499,0.0),
+ bass.EAX_PRESET_DRUGGED:(bass.EAX_ENVIRONMENT_DRUGGED,0.875,8.392,1.388),
+ bass.EAX_PRESET_DIZZY:(bass.EAX_ENVIRONMENT_DIZZY,0.139,17.234,0.666),
+ bass.EAX_PRESET_PSYCHOTIC:(bass.EAX_ENVIRONMENT_PSYCHOTIC,0.486,7.563,0.806)
+}
+
 cdef class BASSDEVICE:
  def __cinit__(BASSDEVICE self,int device):
   self.__device=device
@@ -152,6 +181,19 @@ cdef class BASSDEVICE:
   res=bass.BASS_SampleCreate(length,freq,chans,max,flags)
   self.__Evaluate()
   return BASSSAMPLE(res)
+ IF UNAME_SYSNAME=="Windows":
+  cpdef EAXPreset(BASSDEVICE self,int preset):
+   cdef int env
+   cdef float vol,decay,damp
+   self.__EvaluateSelected()
+   if not preset in __EAXPresets:
+    raise BassAPIError
+   env=<int>__EAXPresets[preset][0]
+   vol=<float>__EAXPresets[preset][1]
+   decay=<float>__EAXPresets[preset][2]
+   damp=<float>__EAXPresets[preset][3]
+   bass.BASS_SetEAXParameters(env,vol,decay,damp)
+   self.__Evaluate()
  property Name:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_DEVICEINFO info=self.__getdeviceinfo()

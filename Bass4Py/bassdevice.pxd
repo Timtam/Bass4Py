@@ -18,3 +18,5 @@ cdef class BASSDEVICE:
  cpdef StreamCreateFileUser(BASSDEVICE self,DWORD system,DWORD flags,object close,object length,object read,object seek,object user=*)
  cpdef SampleLoad(BASSDEVICE self,bint mem,char *file,QWORD offset=?,DWORD length=?,DWORD max=?,DWORD flags=?)
  cpdef SampleCreate(BASSDEVICE self,DWORD length,DWORD freq,DWORD chans,DWORD max,DWORD flags)
+ IF UNAME_SYSNAME=="Windows":
+  cpdef EAXPreset(BASSDEVICE self,int preset)

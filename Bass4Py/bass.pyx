@@ -2,7 +2,7 @@ from bassdevice cimport BASSDEVICE
 from bassexceptions import BassError,BassAPIError
 from bassplugin cimport BASSPLUGIN
 from bassversion cimport BASSVERSION
-PtrConfigs=[BASS_CONFIG_NET_AGENT,BASS_CONFIG_NET_PROXY]
+__PtrConfigs=[BASS_CONFIG_NET_AGENT,BASS_CONFIG_NET_PROXY]
 cdef extern from "Python.h":
  void PyEval_InitThreads()
 cdef class BASS:
@@ -15,7 +15,7 @@ cdef class BASS:
   cdef bytes sret
   cdef DWORD iret
   cdef void *pret
-  if key in PtrConfigs:
+  if key in __PtrConfigs:
    pret=BASS_GetConfigPtr(key)
    self.__Evaluate()
    sret=<bytes>pret
@@ -26,7 +26,7 @@ cdef class BASS:
    return <int>iret
  cpdef __SetConfig(BASS self,DWORD key,object value):
   cdef char *s
-  if key in PtrConfigs:
+  if key in __PtrConfigs:
    value=value+"\0"
    s=value
    BASS_SetConfigPtr(key,<void*>s)
