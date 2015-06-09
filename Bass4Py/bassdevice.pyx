@@ -350,3 +350,52 @@ cdef class BASSDEVICE:
    bass.BASS_Set3DFactors(-1.0,-1.0,doppf)
    self.__Evaluate()
    bass.BASS_Apply3D()
+ IF UNAME_SYSNAME=="Windows":
+  property EAXEnvironment:
+   def __get__(BASSDEVICE self):
+    cdef bass.DWORD env
+    self.__EvaluateSelected()
+    bass.BASS_GetEAXParameters(&env,NULL,NULL,NULL)
+    self.__Evaluate()
+    return <int>env
+   def __set__(BASSDEVICE self,int value):
+    cdef int env=value
+    self.__EvaluateSelected()
+    bass.BASS_SetEAXParameters(env,-1.0,-1.0,-1.0)
+    self.__Evaluate()
+  property EAXVolume:
+   def __get__(BASSDEVICE self):
+    cdef float vol
+    self.__EvaluateSelected()
+    bass.BASS_GetEAXParameters(NULL,&vol,NULL,NULL)
+    self.__Evaluate()
+    return vol
+   def __set__(BASSDEVICE self,float value):
+    cdef float vol=value
+    self.__EvaluateSelected()
+    bass.BASS_SetEAXParameters(-1,vol,-1.0,-1.0)
+    self.__Evaluate()
+  property EAXDecay:
+   def __get__(BASSDEVICE self):
+    cdef float decay
+    self.__EvaluateSelected()
+    bass.BASS_GetEAXParameters(NULL,NULL,&decay,NULL)
+    self.__Evaluate()
+    return decay
+   def __set__(BASSDEVICE self,float value):
+    cdef float decay=value
+    self.__EvaluateSelected()
+    bass.BASS_SetEAXParameters(-1,-1.0,decay,-1.0)
+    self.__Evaluate()
+  property EAXDamping:
+   def __get__(BASSDEVICE self):
+    cdef float damp
+    self.__EvaluateSelected()
+    bass.BASS_GetEAXParameters(NULL,NULL,NULL,&damp)
+    self.__Evaluate()
+    return damp
+   def __set__(BASSDEVICE self,float value):
+    cdef float damp=value
+    self.__EvaluateSelected()
+    bass.BASS_SetEAXParameters(-1,-1.0,-1.0,damp)
+    self.__Evaluate()
