@@ -252,9 +252,9 @@ cdef class BASSDEVICE:
  property Position:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_3DVECTOR pos
-   cdef bint res=bass.BASS_Get3DPosition(&pos,NULL,NULL,NULL)
-   self.__Evaluate()
    self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(&pos,NULL,NULL,NULL)
+   self.__Evaluate()
    return bassvector.BASSVECTOR_Create(&pos)
   def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
    cdef bass.BASS_3DVECTOR pos
@@ -267,9 +267,9 @@ cdef class BASSDEVICE:
  property Velocity:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_3DVECTOR vel
-   cdef bint res=bass.BASS_Get3DPosition(NULL,&vel,NULL,NULL)
-   self.__Evaluate()
    self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(NULL,&vel,NULL,NULL)
+   self.__Evaluate()
    return bassvector.BASSVECTOR_Create(&vel)
   def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
    cdef bass.BASS_3DVECTOR vel
@@ -282,9 +282,9 @@ cdef class BASSDEVICE:
  property Front:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_3DVECTOR front,top
-   cdef bint res=bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
-   self.__Evaluate()
    self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
    return bassvector.BASSVECTOR_Create(&front)
   def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
    cdef bass.BASS_3DVECTOR front,top
@@ -298,9 +298,9 @@ cdef class BASSDEVICE:
  property Top:
   def __get__(BASSDEVICE self):
    cdef bass.BASS_3DVECTOR front,top
-   cdef bint res=bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
-   self.__Evaluate()
    self.__EvaluateSelected()
+   bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
    return bassvector.BASSVECTOR_Create(&top)
   def __set__(BASSDEVICE self,bassvector.BASSVECTOR value):
    cdef bass.BASS_3DVECTOR front,top
@@ -309,5 +309,44 @@ cdef class BASSDEVICE:
    bass.BASS_Get3DPosition(NULL,NULL,&front,&top)
    value.Resolve(&top)
    res=bass.BASS_Set3DPosition(NULL,NULL,&front,&top)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Distance:
+  def __get__(BASSDEVICE self):
+   cdef float distf
+   self.__EvaluateSelected()
+   bass.BASS_Get3DFactors(&distf,NULL,NULL)
+   self.__Evaluate()
+   return distf
+  def __set__(BASSDEVICE self,float value):
+   cdef float distf=value
+   self.__EvaluateSelected()
+   bass.BASS_Set3DFactors(distf,-1.0,-1.0)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Rolloff:
+  def __get__(BASSDEVICE self):
+   cdef float rollf
+   self.__EvaluateSelected()
+   bass.BASS_Get3DFactors(NULL,&rollf,NULL)
+   self.__Evaluate()
+   return rollf
+  def __set__(BASSDEVICE self,float value):
+   cdef float rollf=value
+   self.__EvaluateSelected()
+   bass.BASS_Set3DFactors(-1.0,rollf,-1.0)
+   self.__Evaluate()
+   bass.BASS_Apply3D()
+ property Doppler:
+  def __get__(BASSDEVICE self):
+   cdef float doppf
+   self.__EvaluateSelected()
+   bass.BASS_Get3DFactors(NULL,NULL,&doppf)
+   self.__Evaluate()
+   return doppf
+  def __set__(BASSDEVICE self,float value):
+   cdef float doppf=value
+   self.__EvaluateSelected()
+   bass.BASS_Set3DFactors(-1.0,-1.0,doppf)
    self.__Evaluate()
    bass.BASS_Apply3D()
