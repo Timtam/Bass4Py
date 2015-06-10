@@ -1,7 +1,6 @@
 from bass cimport DWORD, QWORD, HWND, BASS_DEVICEINFO, BASS_INFO
 cdef class BASSDEVICE:
  cdef readonly DWORD __device
- cpdef __Evaluate(BASSDEVICE self)
  cpdef __EvaluateSelected(BASSDEVICE self)
  cdef inline BASS_INFO __getinfo(BASSDEVICE self)
  cdef inline BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
@@ -18,5 +17,6 @@ cdef class BASSDEVICE:
  cpdef StreamCreateFileUser(BASSDEVICE self,DWORD system,DWORD flags,object close,object length,object read,object seek,object user=*)
  cpdef SampleLoad(BASSDEVICE self,bint mem,char *file,QWORD offset=?,DWORD length=?,DWORD max=?,DWORD flags=?)
  cpdef SampleCreate(BASSDEVICE self,DWORD length,DWORD freq,DWORD chans,DWORD max,DWORD flags)
+ cpdef MusicLoad(BASSDEVICE self,bint mem,char *file,QWORD offset,DWORD length,DWORD flags,DWORD freq)
  IF UNAME_SYSNAME=="Windows":
   cpdef EAXPreset(BASSDEVICE self,int preset)

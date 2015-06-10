@@ -783,8 +783,8 @@ cdef inline WORD LOWORD(DWORD a):
 cdef inline WORD HIWORD(DWORD a):
  return a>>16
 
+cpdef __Evaluate()
 cdef class BASS:
- cpdef __Evaluate(BASS self)
  cpdef __GetConfig(BASS self,DWORD key)
  cpdef __SetConfig(BASS self,DWORD key,object value)
  cpdef GetDevice(BASS self,int device)

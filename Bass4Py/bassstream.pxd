@@ -14,7 +14,6 @@ cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil
 cdef class BASSSTREAM(BASSCHANNEL):
  cdef readonly HSTREAM __stream
- cpdef __Evaluate(BASSSTREAM self)
  cpdef Free(BASSSTREAM self)
  cpdef QWORD GetFilePosition(BASSSTREAM self,DWORD mode)
  cpdef DWORD PutData(BASSSTREAM self,char *buffer,DWORD length)

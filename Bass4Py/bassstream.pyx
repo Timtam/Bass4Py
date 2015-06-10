@@ -2,7 +2,6 @@ from libc.string cimport memmove
 cimport bass
 import basscallbacks
 from basschannel cimport BASSCHANNEL
-from bassexceptions import BassError
 cdef void CDOWNLOADPROC(const void *buffer,bass.DWORD length,void *user) with gil:
  cdef object cb
  cdef int pos
@@ -93,22 +92,19 @@ cdef bint __stdcall CFILESEEKPROC_STD(bass.QWORD offset,void *user) with gil:
 cdef class BASSSTREAM(BASSCHANNEL):
  def __cinit__(BASSSTREAM self,bass.HSTREAM stream):
   self.__stream=stream
- cpdef __Evaluate(BASSSTREAM self):
-  cdef bass.DWORD error=bass.BASS_ErrorGetCode()
-  if error!=bass.BASS_OK: raise BassError(error)
  cpdef Free(BASSSTREAM self):
   cdef bint res=bass.BASS_StreamFree(self.__stream)
-  self.__Evaluate()
+  bass.__Evaluate()
   return res
  cpdef bass.QWORD GetFilePosition(BASSSTREAM self,bass.DWORD mode):
   cdef bass.QWORD res=bass.BASS_StreamGetFilePosition(self.__stream,mode)
-  self.__Evaluate()
+  bass.__Evaluate()
   return res
  cpdef bass.DWORD PutData(BASSSTREAM self,char *buffer,bass.DWORD length):
   cdef bass.DWORD res=bass.BASS_StreamPutData(self.__stream,<void*>buffer,length)
-  self.__Evaluate()
+  bass.__Evaluate()
   return res
  cpdef bass.DWORD PutFileData(BASSSTREAM self,char *buffer,bass.DWORD length):
   cdef bass.DWORD res=bass.BASS_StreamPutFileData(self.__stream,<void*>buffer,length)
-  self.__Evaluate()
+  bass.__Evaluate()
   return res

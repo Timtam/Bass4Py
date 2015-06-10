@@ -5,24 +5,25 @@ from bassversion cimport BASSVERSION
 __PtrConfigs=[BASS_CONFIG_NET_AGENT,BASS_CONFIG_NET_PROXY]
 cdef extern from "Python.h":
  void PyEval_InitThreads()
+cpdef __Evaluate():
+ cdef DWORD error=BASS_ErrorGetCode()
+ if error!=BASS_OK: raise BassError(error)
+
 cdef class BASS:
  def __cinit__(BASS self):
   PyEval_InitThreads()
- cpdef __Evaluate(BASS self):
-  cdef DWORD error=self.Error
-  if error!=BASS_OK: raise BassError(error)
  cpdef __GetConfig(BASS self,DWORD key):
   cdef bytes sret
   cdef DWORD iret
   cdef void *pret
   if key in __PtrConfigs:
    pret=BASS_GetConfigPtr(key)
-   self.__Evaluate()
+   __Evaluate()
    sret=<bytes>pret
    return sret
   else:
    iret=BASS_GetConfig(key)
-   self.__Evaluate()
+   __Evaluate()
    return <int>iret
  cpdef __SetConfig(BASS self,DWORD key,object value):
   cdef char *s
@@ -32,7 +33,7 @@ cdef class BASS:
    BASS_SetConfigPtr(key,<void*>s)
   else:
    BASS_SetConfig(key,<DWORD>value)
-  self.__Evaluate()
+  __Evaluate()
  cpdef GetDevice(BASS self, int device):
   cdef int devicenumber=0
   cdef BASSDEVICE odevice
@@ -58,11 +59,11 @@ cdef class BASS:
  IF UNAME_SYSNAME=="Windows":
   cpdef GetDSoundObject(BASS self,int object):
    res=BASS_GetDSoundObject(object)
-   self.__Evaluate()
+   __Evaluate()
    return <int>res
  cpdef PluginLoad(BASS self, char *filename, DWORD flags=0):
   cdef HPLUGIN plugin=BASS_PluginLoad(filename,flags)
-  self.__Evaluate()
+  __Evaluate()
   return BASSPLUGIN(plugin)
  property CPU:
   def __get__(BASS self):
@@ -70,7 +71,7 @@ cdef class BASS:
  property Device:
   def __get__(BASS self):
    cdef DWORD device=BASS_GetDevice()
-   self.__Evaluate()
+   __Evaluate()
    return BASSDEVICE(device)
  property Error:
   def __get__(BASS self):
