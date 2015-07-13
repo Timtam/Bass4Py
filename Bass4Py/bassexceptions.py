@@ -6,3 +6,8 @@ class BassError(Exception):
 class BassAPIError(Exception):
  def __str__(self):
   return 'An error occured while executing your last command. Please consult the documentation to get more information.'
+class BassLinkError(Exception):
+ def __init__(self,error):
+  self.error=error
+ def __str__(self):
+  return "An link error occured: %s"%self.error

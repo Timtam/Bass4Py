@@ -1,5 +1,6 @@
 cimport bass
 from bassplugin cimport BASSPLUGIN
+from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
 cdef class BASSCHANNEL:
  def __cinit__(BASSCHANNEL self,bass.HCHANNEL channel):
@@ -67,3 +68,9 @@ cdef class BASSCHANNEL:
     return BASSSAMPLE(info.sample)
    else:
     return None
+ property Position:
+  def __get__(BASSCHANNEL self):
+   cdef BASSPOSITION pos
+   pos=BASSPOSITION()
+   pos.Link(self)
+   return pos
