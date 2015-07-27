@@ -13,6 +13,15 @@ ctypedef DWORD HDSP
 ctypedef DWORD HFX
 ctypedef DWORD HPLUGIN
 
+ctypedef fused Numeric:
+ DWORD
+ QWORD
+ BYTE
+ WORD
+ int
+ long
+ long long
+
 cpdef enum:
  BASS_OK=0
  BASS_ERROR_MEM=1
@@ -778,10 +787,18 @@ cdef extern from "bass.h":
  cdef bint BASS_FXGetParameters(HFX handle, void *params)
  cdef bint BASS_FXReset(HFX handle)
 
-cdef inline WORD LOWORD(DWORD a):
- return a&0x0000ffff
-cdef inline WORD HIWORD(DWORD a):
- return a>>16
+cdef inline WORD LOWORD(Numeric a):
+ return <WORD>(a&0x0000ffff)
+cdef inline WORD HIWORD(Numeric a):
+ return <WORD>(a>>16)
+cdef inline BYTE LOBYTE(Numeric a):
+ return <BYTE>a
+cdef inline BYTE HIBYTE(Numeric a):
+ return <BYTE>(a>>8)
+cdef inline WORD MAKEWORD(Numeric a,Numeric b):
+ return <WORD>((a&0xff)|(b<<8))
+cdef inline DWORD MAKELONG(Numeric a,Numeric b):
+ return <DWORD>((a&0xffff)|(b<<16))
 
 cpdef __Evaluate()
 cdef class BASS:
