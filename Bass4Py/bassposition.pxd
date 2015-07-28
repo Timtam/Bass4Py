@@ -1,4 +1,4 @@
-from bass cimport DWORD
+from bass cimport DWORD,QWORD
 from basschannel cimport BASSCHANNEL
 from bassmusic cimport BASSMUSIC
 from basssample cimport BASSSAMPLE

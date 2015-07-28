@@ -4,14 +4,14 @@ from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
 from bassexceptions import BassError,BassAPIError
 cdef class BASSCHANNEL:
- def __cinit__(BASSCHANNEL self,bass.HCHANNEL channel):
+ def __cinit__(BASSCHANNEL self,HCHANNEL channel):
   self.__channel=channel
- cdef bass.BASS_CHANNELINFO __getinfo(BASSCHANNEL self):
-  cdef bass.BASS_CHANNELINFO info
+ cdef BASS_CHANNELINFO __getinfo(BASSCHANNEL self):
+  cdef BASS_CHANNELINFO info
   cdef bint res
   res=bass.BASS_ChannelGetInfo(self.__channel,&info)
   return info
- cpdef __getattribute(BASSCHANNEL self,bass.DWORD attrib):
+ cpdef __getattribute(BASSCHANNEL self,DWORD attrib):
   cdef float value
   cdef bint res
   res=bass.BASS_ChannelGetAttribute(self.__channel,attrib,&value)
@@ -21,7 +21,7 @@ cdef class BASSCHANNEL:
    if e.error==bass.BASS_ERROR_ILLTYPE: raise BassAPIError()
    raise e
   return value
- cpdef __setattribute(BASSCHANNEL self,bass.DWORD attrib,float value):
+ cpdef __setattribute(BASSCHANNEL self,DWORD attrib,float value):
   cdef bint res
   res=bass.BASS_ChannelSetAttribute(self.__channel,attrib,value)
   try:
@@ -43,32 +43,32 @@ cdef class BASSCHANNEL:
   return res
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.freq
  property Channels:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.chans
  property Flags:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.flags
  property Type:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.ctype
  property Resolution:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.origres
  property Plugin:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    if info.plugin:
     return BASSPLUGIN(info.plugin)
@@ -76,12 +76,12 @@ cdef class BASSCHANNEL:
     return None
  property Name:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    return info.filename
  property Sample:
   def __get__(BASSCHANNEL self):
-   cdef bass.BASS_CHANNELINFO info=self.__getinfo()
+   cdef BASS_CHANNELINFO info=self.__getinfo()
    bass.__Evaluate()
    if info.sample:
     return BASSSAMPLE(info.sample)

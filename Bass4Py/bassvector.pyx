@@ -1,4 +1,3 @@
-from bass cimport BASS_3DVECTOR
 cdef BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector):
  return BASSVECTOR(vector.x,vector.y,vector.z)
 cdef class BASSVECTOR:

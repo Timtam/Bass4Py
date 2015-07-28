@@ -1,5 +1,5 @@
-from bass cimport DWORD, BASS_PLUGININFO
+from bass cimport HPLUGIN, BASS_PLUGININFO
 cdef class BASSPLUGIN:
- cdef readonly DWORD __plugin
- cdef inline const BASS_PLUGININFO* __getinfo(BASSPLUGIN self)
+ cdef readonly HPLUGIN __plugin
+ cdef const BASS_PLUGININFO* __getinfo(BASSPLUGIN self)
  cpdef Free(BASSPLUGIN self)

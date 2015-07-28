@@ -1,9 +1,9 @@
-from bass cimport DWORD, QWORD, HWND, BASS_DEVICEINFO, BASS_INFO
+from bass cimport DWORD, QWORD, HWND, BASS_DEVICEINFO, BASS_INFO, STREAMPROC, HSTREAM, DOWNLOADPROC, BASS_FILEPROCS, FILECLOSEPROC, FILEREADPROC, FILELENPROC, FILESEEKPROC, HSAMPLE, HMUSIC, BASS_3DVECTOR
 cdef class BASSDEVICE:
  cdef readonly DWORD __device
  cpdef __EvaluateSelected(BASSDEVICE self)
- cdef inline BASS_INFO __getinfo(BASSDEVICE self)
- cdef inline BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
+ cdef BASS_INFO __getinfo(BASSDEVICE self)
+ cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
  cpdef Free(BASSDEVICE self)
  cpdef Init(BASSDEVICE self,DWORD freq,DWORD flags,int win)
  cpdef Pause(BASSDEVICE self)
