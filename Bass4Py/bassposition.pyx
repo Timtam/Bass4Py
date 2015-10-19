@@ -34,12 +34,12 @@ cdef class BASSPOSITION:
   except BassError,e:
    if e.error==bass.BASS_ERROR_ILLTYPE: raise BassAPIError()
    raise e
-  return (<int>bass.LOWORD(pos),<int>(bass.HIWORD(pos)/self.__handle.Scaler),)
+  return (<int>bass.LOWORD(pos),<int>(bass.HIWORD(pos)/self.__handle.Scaler.Get()),)
  cpdef SetOrder(BASSPOSITION self,tuple order):
   cdef DWORD pos,flags=bass.BASS_POS_MUSIC_ORDER
   if len(order)!=2: raise BassAPIError()
   if self.__handle==None: raise BassLinkError("no link established yet")
-  pos=bass.MAKELONG(<bass.WORD>(order[0]),<bass.WORD>((order[1])*self.__handle.Scaler))
+  pos=bass.MAKELONG(<bass.WORD>(order[0]),<bass.WORD>((order[1])*self.__handle.Scaler.Get()))
   self.__applyflags(&flags)
   bass.BASS_ChannelSetPosition(self.__gethandle(),<bass.QWORD>pos,flags)
   try:
