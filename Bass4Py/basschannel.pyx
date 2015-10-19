@@ -1,4 +1,6 @@
+from libc.stdlib cimport malloc,free
 cimport bass
+from bassdevice cimport BASSDEVICE
 from bassplugin cimport BASSPLUGIN
 from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
@@ -49,6 +51,23 @@ cdef class BASSCHANNEL:
   cdef bint res=bass.BASS_ChannelStop(self.__channel)
   bass.__Evaluate()
   return res
+ cpdef GetLevels(BASSCHANNEL self,float length,DWORD flags):
+  cdef int chans=self.Channels
+  cdef int i=0
+  cdef float *levels
+  cdef list plevels=[]
+  levels=<float*>malloc(chans*sizeof(float))
+  if levels==NULL: return plevels
+  bass.BASS_ChannelGetLevelEx(self.__channel,levels,length,flags)
+  bass.__Evaluate()
+  for i in range(chans):
+   plevels.append(levels[i])
+  free(<void*>levels)
+  return tuple(plevels)
+ cpdef Lock(BASSCHANNEL self):
+  return bass.BASS_ChannelLock(self.__channel,True)
+ cpdef Unlock(BASSCHANNEL self):
+  return bass.BASS_ChannelLock(self.__channel,False)
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
    cdef BASS_CHANNELINFO info=self.__getinfo()
@@ -284,3 +303,17 @@ cdef class BASSCHANNEL:
    return self.__getflags()&bass.BASS_MUSIC_STOPBACK==bass.BASS_MUSIC_STOPBACK
   def __set__(BASSCHANNEL self,bint switch):
    self.__setflags(bass.BASS_MUSIC_STOPBACK,switch)
+ property Device:
+  def __get__(BASSCHANNEL self):
+   return BASSDEVICE(bass.BASS_ChannelGetDevice(self.__channel))
+ property Level:
+  def __get__(BASSCHANNEL self):
+   cdef WORD left,right
+   cdef DWORD level=bass.BASS_ChannelGetLevel(self.__channel)
+   bass.__Evaluate()
+   left=LOWORD(level)
+   right=HIWORD(level)
+   return (left,right,)
+ property Status:
+  def __get__(BASSCHANNEL self):
+   return bass.BASS_ChannelIsActive(self.__channel)
