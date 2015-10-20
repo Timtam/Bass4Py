@@ -1,7 +1,7 @@
 cimport bass
-from bass cimport DWORD
+from bass cimport DWORD, HCHANNEL
 cdef class BASSCHANNELATTRIBUTE:
- cdef readonly DWORD __channel
+ cdef readonly HCHANNEL __channel
  cdef readonly DWORD __attribute
  cpdef __getmusicvolchan(BASSCHANNELATTRIBUTE self)
  cpdef __getnobuffer(BASSCHANNELATTRIBUTE self)

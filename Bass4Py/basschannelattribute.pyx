@@ -1,6 +1,6 @@
 from bassexceptions import BassError,BassAPIError
 cdef class BASSCHANNELATTRIBUTE:
- def __cinit__(BASSCHANNELATTRIBUTE self,DWORD channel,DWORD attribute):
+ def __cinit__(BASSCHANNELATTRIBUTE self,HCHANNEL channel,DWORD attribute):
   self.__channel=channel
   self.__attribute=attribute
  cpdef Get(BASSCHANNELATTRIBUTE self):

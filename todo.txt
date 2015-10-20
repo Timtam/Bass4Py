@@ -1,4 +1,5 @@
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - BASS_ChannelGet/SetAttributeEx support
 - adding tag information as attributes into channel object
+- BASS_ChannelGetData implementation
 - documentation

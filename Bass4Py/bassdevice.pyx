@@ -296,7 +296,7 @@ cdef class BASSDEVICE:
    self.__EvaluateSelected()
    res=bass.BASS_SetVolume(value)
    bass.__Evaluate()
- property Position:
+ property Position3D:
   def __get__(BASSDEVICE self):
    cdef BASS_3DVECTOR pos
    self.__EvaluateSelected()
@@ -311,7 +311,7 @@ cdef class BASSDEVICE:
    res=bass.BASS_Set3DPosition(&pos,NULL,NULL,NULL)
    bass.__Evaluate()
    bass.BASS_Apply3D()
- property Velocity:
+ property Velocity3D:
   def __get__(BASSDEVICE self):
    cdef BASS_3DVECTOR vel
    self.__EvaluateSelected()
@@ -326,7 +326,7 @@ cdef class BASSDEVICE:
    res=bass.BASS_Set3DPosition(NULL,&vel,NULL,NULL)
    bass.__Evaluate()
    bass.BASS_Apply3D()
- property Front:
+ property Front3D:
   def __get__(BASSDEVICE self):
    cdef BASS_3DVECTOR front,top
    self.__EvaluateSelected()
@@ -342,7 +342,7 @@ cdef class BASSDEVICE:
    res=bass.BASS_Set3DPosition(NULL,NULL,&front,&top)
    bass.__Evaluate()
    bass.BASS_Apply3D()
- property Top:
+ property Top3D:
   def __get__(BASSDEVICE self):
    cdef BASS_3DVECTOR front,top
    self.__EvaluateSelected()

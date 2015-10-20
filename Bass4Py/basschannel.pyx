@@ -2,10 +2,11 @@ from libc.stdlib cimport malloc,free
 cimport bass
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 from bassdevice cimport BASSDEVICE
+from bassexceptions import BassError,BassAPIError
 from bassplugin cimport BASSPLUGIN
 from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
-from bassexceptions import BassError,BassAPIError
+from bassvector cimport BASSVECTOR, BASSVECTOR_Create
 cdef class BASSCHANNEL:
  def __cinit__(BASSCHANNEL self,HCHANNEL channel):
   self.__channel=channel
@@ -240,3 +241,90 @@ cdef class BASSCHANNEL:
  property Status:
   def __get__(BASSCHANNEL self):
    return bass.BASS_ChannelIsActive(self.__channel)
+ property Mode3D:
+  def __get__(BASSCHANNEL self):
+   cdef DWORD mode
+   bass.BASS_ChannelGet3DAttributes(self.__channel,&mode,NULL,NULL,NULL,NULL,NULL)
+   bass.__Evaluate()
+   return mode
+  def __set__(BASSCHANNEL self,int mode):
+   bass.BASS_ChannelSet3DAttributes(self.__channel,mode,0.0,0.0,-1,-1,-1.0)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property MinimumDistance:
+  def __get__(BASSCHANNEL self):
+   cdef float min
+   bass.BASS_ChannelGet3DAttributes(self.__channel,NULL,&min,NULL,NULL,NULL,NULL)
+   bass.__Evaluate()
+   return min
+  def __set__(BASSCHANNEL self,float min):
+   bass.BASS_ChannelSet3DAttributes(self.__channel,-1,min,0.0,-1,-1,-1.0)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property MaximumDistance:
+  def __get__(BASSCHANNEL self):
+   cdef float max
+   bass.BASS_ChannelGet3DAttributes(self.__channel,NULL,NULL,&max,NULL,NULL,NULL)
+   bass.__Evaluate()
+   return max
+  def __set__(BASSCHANNEL self,float max):
+   bass.BASS_ChannelSet3DAttributes(self.__channel,-1,0.0,max,-1,-1,-1.0)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property Angle:
+  def __get__(BASSCHANNEL self):
+   cdef DWORD iangle,oangle
+   bass.BASS_ChannelGet3DAttributes(self.__channel,NULL,NULL,NULL,&iangle,&oangle,NULL)
+   bass.__Evaluate()
+   return [iangle,oangle]
+  def __set__(BASSCHANNEL self,list angle):
+   if len(angle)!=2: raise BassAPIError()
+   bass.BASS_ChannelSet3DAttributes(self.__channel,-1,0.0,0.0,angle[0],angle[1],-1.0)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property OuterVolume:
+  def __get__(BASSCHANNEL self):
+   cdef float outvol
+   bass.BASS_ChannelGet3DAttributes(self.__channel,NULL,NULL,NULL,NULL,NULL,&outvol)
+   bass.__Evaluate()
+   return outvol
+  def __set__(BASSCHANNEL self,float outvol):
+   bass.BASS_ChannelSet3DAttributes(self.__channel,-1,0.0,0.0,-1,-1,outvol)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property Position3D:
+  def __get__(BASSCHANNEL self):
+   cdef BASS_3DVECTOR pos
+   bass.BASS_ChannelGet3DPosition(self.__channel,&pos,NULL,NULL)
+   bass.__Evaluate()
+   return BASSVECTOR_Create(&pos)
+  def __set__(BASSCHANNEL self,BASSVECTOR value):
+   cdef BASS_3DVECTOR pos
+   value.Resolve(&pos)
+   bass.BASS_ChannelSet3DPosition(self.__channel,&pos,NULL,NULL)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property Orientation3D:
+  def __get__(BASSCHANNEL self):
+   cdef BASS_3DVECTOR orient
+   bass.BASS_ChannelGet3DPosition(self.__channel,NULL,&orient,NULL)
+   bass.__Evaluate()
+   return BASSVECTOR_Create(&orient)
+  def __set__(BASSCHANNEL self,BASSVECTOR value):
+   cdef BASS_3DVECTOR orient
+   value.Resolve(&orient)
+   bass.BASS_ChannelSet3DPosition(self.__channel,NULL,&orient,NULL)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
+ property Velocity3D:
+  def __get__(BASSCHANNEL self):
+   cdef BASS_3DVECTOR vel
+   bass.BASS_ChannelGet3DPosition(self.__channel,NULL,NULL,&vel)
+   bass.__Evaluate()
+   return BASSVECTOR_Create(&vel)
+  def __set__(BASSCHANNEL self,BASSVECTOR value):
+   cdef BASS_3DVECTOR vel
+   value.Resolve(&vel)
+   bass.BASS_ChannelSet3DPosition(self.__channel,NULL,NULL,&vel)
+   bass.__Evaluate()
+   bass.BASS_Apply3D()
