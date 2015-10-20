@@ -20,7 +20,7 @@ cdef class BASSVECTOR:
  def __mul__(BASSVECTOR self,other):
   if type(other) is int or type(other) is float:
    return BASSVECTOR(self.X*other,self.Y*other,self.Z*other)
- cdef inline void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector):
+ cdef void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector):
   vector.x=self.X
   vector.y=self.Y
   vector.z=self.Z

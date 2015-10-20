@@ -4,4 +4,4 @@ cdef class BASSVECTOR:
  cdef public float X
  cdef public float Y
  cdef public float Z
- cdef inline void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector)
+ cdef void Resolve(BASSVECTOR self,BASS_3DVECTOR *vector)
