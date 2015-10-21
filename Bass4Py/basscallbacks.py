@@ -12,9 +12,10 @@ class BASSCALLBACKS(object):
     ind=None
    if ind==None:
     self.Callbacks.append(cb)
+    ind=len(self.Callbacks)-1
    else:
     self.Callbacks[ind]=cb
-   return self.Callbacks.index(cb)
+   return ind
   else:
    self.Callbacks[id]['function'].append(function)
    return id

@@ -1,12 +1,15 @@
 from libc.stdlib cimport malloc,free
 cimport bass
+import basscallbacks
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 from bassdevice cimport BASSDEVICE
 from bassexceptions import BassError,BassAPIError
 from bassplugin cimport BASSPLUGIN
 from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
+from basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
 from bassvector cimport BASSVECTOR, BASSVECTOR_Create
+from types import FunctionType
 cdef class BASSCHANNEL:
  def __cinit__(BASSCHANNEL self,HCHANNEL channel):
   self.__channel=channel
@@ -52,6 +55,19 @@ cdef class BASSCHANNEL:
   return bass.BASS_ChannelLock(self.__channel,True)
  cpdef Unlock(BASSCHANNEL self):
   return bass.BASS_ChannelLock(self.__channel,False)
+ cpdef SetSync(BASSCHANNEL self,DWORD stype,QWORD param,object proc,object user=None):
+  cdef int cbpos,iproc
+  cdef SYNCPROC *cproc
+  cdef HSYNC sync
+  if type(proc)!=FunctionType: raise BassAPIError()
+  cbpos=basscallbacks.Callbacks.AddCallback(proc,user)
+  IF UNAME_SYSNAME=="Windows":
+   cproc=<SYNCPROC*>CSYNCPROC_STD
+  ELSE:
+   cproc=<SYNCPROC*>CSYNCPROC
+  sync=bass.BASS_ChannelSetSync(self.__channel,stype,param,cproc,<void*>cbpos)
+  bass.__Evaluate()
+  return BASSSYNC(self.__channel,sync)
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
    cdef BASS_CHANNELINFO info=self.__getinfo()
