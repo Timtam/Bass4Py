@@ -59,7 +59,7 @@ cdef class BASSCHANNELATTRIBUTE:
   bass.__Evaluate()
   return True if res==0 else False
  cpdef __setnobuffer(BASSCHANNELATTRIBUTE self,bint value):
-  bass.BASS_ChannelSetAttribute(self.__channel,self.__attribute,0.0 if value==True else 1.0)
+  bass.BASS_ChannelSetAttribute(self.__channel,self.__attribute,0 if value==True else 1)
   bass.__Evaluate()
   return True
  cpdef __slidemusicvolchan(BASSCHANNELATTRIBUTE self,list value,DWORD time):
