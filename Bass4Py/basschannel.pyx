@@ -4,6 +4,7 @@ import basscallbacks
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 from bassdevice cimport BASSDEVICE
 from bassexceptions import BassError,BassAPIError
+from bassfx cimport BASSFX, BASSFX_Create
 from bassplugin cimport BASSPLUGIN
 from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
@@ -68,6 +69,14 @@ cdef class BASSCHANNEL:
   sync=bass.BASS_ChannelSetSync(self.__channel,stype,param,cproc,<void*>cbpos)
   bass.__Evaluate()
   return BASSSYNC(self.__channel,sync)
+ cpdef SetFX(BASSCHANNEL self,DWORD type,int priority):
+  cdef HFX fx=bass.BASS_ChannelSetFX(self.__channel,type,priority)
+  bass.__Evaluate()
+  return BASSFX_Create(self.__channel,fx,type)
+ cpdef ResetFX(BASSCHANNEL self):
+  cdef bint res=bass.BASS_FXReset(self.__channel)
+  bass.__Evaluate()
+  return res
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
    cdef BASS_CHANNELINFO info=self.__getinfo()

@@ -1,4 +1,4 @@
-from bass cimport HCHANNEL, BASS_CHANNELINFO, DWORD,QWORD,WORD,LOWORD,HIWORD,BASS_3DVECTOR,HSYNC,SYNCPROC
+from bass cimport HCHANNEL, BASS_CHANNELINFO, DWORD,QWORD,WORD,LOWORD,HIWORD,BASS_3DVECTOR,HSYNC,SYNCPROC,HFX
 cdef class BASSCHANNEL:
  cdef readonly HCHANNEL __channel
  cdef BASS_CHANNELINFO __getinfo(BASSCHANNEL self)
@@ -8,6 +8,8 @@ cdef class BASSCHANNEL:
  cpdef Lock(BASSCHANNEL self)
  cpdef Pause(BASSCHANNEL self)
  cpdef Play(BASSCHANNEL self,bint restart)
+ cpdef ResetFX(BASSCHANNEL self)
+ cpdef SetFX(BASSCHANNEL self,DWORD type,int priority)
  cpdef SetSync(BASSCHANNEL self,DWORD type,QWORD param,object proc,object user=?)
  cpdef Stop(BASSCHANNEL self)
  cpdef Unlock(BASSCHANNEL self)
