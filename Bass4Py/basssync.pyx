@@ -5,8 +5,7 @@ cdef void CSYNCPROC(HSYNC handle,DWORD channel,DWORD data,void *user) with gil:
  cdef object cb
  cdef BASSSYNC osync=BASSSYNC(channel,handle)
  cdef BASSCHANNEL ochannel=BASSCHANNEL(channel)
- cdef int pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  cb['function'][0](osync,ochannel,data,cb['user'])
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle,DWORD channel,DWORD data,void *user) with gil:
  CSYNCPROC(handle,channel,data,user)

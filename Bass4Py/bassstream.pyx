@@ -4,11 +4,9 @@ import basscallbacks
 from basschannel cimport BASSCHANNEL
 cdef void CDOWNLOADPROC(const void *buffer,DWORD length,void *user) with gil:
  cdef object cb
- cdef int pos
  cdef char *cbuffer
- pos=<int>user
  cbuffer=<char *>buffer
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][0]
  pythonf(<bytes>cbuffer[:length],length,cb['user'])
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,DWORD length,void *user) with gil:
@@ -17,18 +15,16 @@ cdef DWORD CSTREAMPROC(DWORD handle,void *buffer,DWORD length,void *user) with g
  cdef DWORD blen
  cdef object cb,pythonf
  cdef char *cbuf
- cdef int pos,i
+ cdef int i
  cdef bytes pythonbuf
- cdef BASSSTREAM stream
- stream=BASSSTREAM(handle)
- pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cdef BASSSTREAM stream=BASSSTREAM(handle)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][0]
  pythonbuf=pythonf(stream,length,cb['user'])
- blen=<DWORD>len(pythonbuf)
- if blen>length:
+ blen=len(pythonbuf)
+ if <DWORD>blen>length:
   pythonbuf=pythonbuf[:length]
-  blen=length
+  blen=<int>length
  cbuf=<char*>pythonbuf
  memmove(buffer,<const void*>cbuf,blen)
  return blen
@@ -37,20 +33,16 @@ cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle,void *buffer,DWORD length,void
  return res
 cdef void CFILECLOSEPROC(void *user) with gil:
  cdef object cb
- cdef int pos
  cdef object pythonf
- pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][0]
  pythonf(cb['user'])
 cdef void __stdcall CFILECLOSEPROC_STD(void *user) with gil:
  CFILECLOSEPROC(user)
 cdef QWORD CFILELENPROC(void *user) with gil:
  cdef object cb,pythonf
- cdef int pos
  cdef QWORD res
- pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][2]
  res=pythonf(cb['user'])
  return res
@@ -59,12 +51,10 @@ cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
  return res
 cdef DWORD CFILEREADPROC(void *buffer,DWORD length,void *user) with gil:
  cdef object cb,pythonf
- cdef int pos
  cdef bytes str
  cdef char *cbuf
  cdef DWORD blen
- pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][1]
  str=pythonf(length,cb['user'])
  blen=<DWORD>len(str)
@@ -79,10 +69,8 @@ cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer,DWORD length,void *user) wit
  return res
 cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil:
  cdef object cb,pythonf
- cdef int pos
  cdef bint res
- pos=<int>user
- cb=basscallbacks.Callbacks.GetCallback(pos)
+ cb=basscallbacks.Callbacks.GetCallback(<int>user)
  pythonf=cb['function'][3]
  res=pythonf(offset,cb['user'])
  return res

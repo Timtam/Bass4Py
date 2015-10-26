@@ -34,8 +34,8 @@ cdef class BASS:
   else:
    BASS_SetConfig(key,<DWORD>value)
   __Evaluate()
- cpdef GetDevice(BASS self, int device):
-  cdef int devicenumber=0
+ cpdef GetDevice(BASS self, int device=-1):
+  cdef int devicenumber=1
   cdef BASSDEVICE odevice
   if device>=0:
    odevice=BASSDEVICE(device)

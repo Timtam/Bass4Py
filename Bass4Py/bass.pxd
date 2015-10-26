@@ -804,7 +804,7 @@ cpdef __Evaluate()
 cdef class BASS:
  cpdef __GetConfig(BASS self,DWORD key)
  cpdef __SetConfig(BASS self,DWORD key,object value)
- cpdef GetDevice(BASS self,int device)
+ cpdef GetDevice(BASS self,int device=?)
  IF UNAME_SYSNAME=="Windows":
   cpdef GetDSoundObject(BASS self,int object)
  cpdef PluginLoad(BASS self, char *filename, DWORD flags=?)
