@@ -3,6 +3,7 @@ cimport bass
 import basscallbacks
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 from bassdevice cimport BASSDEVICE
+from bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
 from bassexceptions import BassError,BassAPIError
 from bassfx cimport BASSFX, BASSFX_Create
 from bassplugin cimport BASSPLUGIN
@@ -77,6 +78,19 @@ cdef class BASSCHANNEL:
   cdef bint res=bass.BASS_FXReset(self.__channel)
   bass.__Evaluate()
   return res
+ cpdef SetDSP(BASSCHANNEL self,object proc,int priority,object user=None):
+  cdef int cbpos,iproc
+  cdef DSPPROC *cproc
+  cdef HDSP dsp
+  if type(proc)!=FunctionType: raise BassAPIError()
+  cbpos=basscallbacks.Callbacks.AddCallback(proc,user)
+  IF UNAME_SYSNAME=="Windows":
+   cproc=<DSPPROC*>CDSPPROC_STD
+  ELSE:
+   cproc=<DSPPROC*>CDSPPROC
+  dsp=bass.BASS_ChannelSetDSP(self.__channel,cproc,<void*>cbpos,priority)
+  bass.__Evaluate()
+  return BASSDSP(self.__channel,dsp)
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
    cdef BASS_CHANNELINFO info=self.__getinfo()
