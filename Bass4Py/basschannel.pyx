@@ -6,9 +6,11 @@ from bassdevice cimport BASSDEVICE
 from bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
 from bassexceptions import BassError,BassAPIError
 from bassfx cimport BASSFX, BASSFX_Create
+from bassmusic cimport BASSMUSIC
 from bassplugin cimport BASSPLUGIN
 from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
+from bassstream cimport BASSSTREAM
 from basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
 from bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from types import FunctionType
@@ -22,6 +24,11 @@ cdef class BASSCHANNEL:
   return info
  cdef DWORD __getflags(BASSCHANNEL self):
   return bass.BASS_ChannelFlags(self.__channel,0,0)
+ cpdef __gethandle(BASSCHANNEL self,object obj):
+  if isinstance(obj,BASSCHANNEL): return obj.__channel
+  elif isinstance(obj,BASSSTREAM): return obj.__stream
+  elif isinstance(obj,BASSMUSIC): return obj.__music
+  raise BassAPIError()
  cpdef __setflags(BASSCHANNEL self,DWORD flag,bint switch):
   if switch:
    bass.BASS_ChannelFlags(self.__channel,flag,flag)
@@ -91,6 +98,16 @@ cdef class BASSCHANNEL:
   dsp=bass.BASS_ChannelSetDSP(self.__channel,cproc,<void*>cbpos,priority)
   bass.__Evaluate()
   return BASSDSP(self.__channel,dsp)
+ cpdef Link(BASSCHANNEL self,object obj):
+  cdef DWORD handle=self.__gethandle(obj)
+  cdef bint res=bass.BASS_ChannelSetLink(self.__channel,handle)
+  bass.__Evaluate()
+  return res
+ cpdef Unlink(BASSCHANNEL self,object obj):
+  cdef DWORD handle=self.__gethandle(obj)
+  cdef bint res=bass.BASS_ChannelRemoveLink(self.__channel,handle)
+  bass.__Evaluate()
+  return res
  property DefaultFrequency:
   def __get__(BASSCHANNEL self):
    cdef BASS_CHANNELINFO info=self.__getinfo()
