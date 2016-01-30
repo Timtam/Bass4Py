@@ -60,7 +60,7 @@ class BASSCHANNEL(object):
   self.__bass_channelseconds2bytes.restype=QWORD
   self.__bass_channelseconds2bytes.argtypes=[HCHANNEL,c_double]
   self.__bass_channelbytes2seconds=self.__bass._bass.BASS_ChannelBytes2Seconds
-  self.__bass_channelbytes2seconds.restype=DWORD
+  self.__bass_channelbytes2seconds.restype=c_double
   self.__bass_channelbytes2seconds.argtypes=[HCHANNEL,QWORD]
   self.__bass_channelflags=self.__bass._bass.BASS_ChannelFlags
   self.__bass_channelflags.restype=DWORD
