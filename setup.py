@@ -14,6 +14,16 @@ if len(sys.argv)==1:
  sys.argv.append('build_ext')
  sys.argv.append('--inplace')
 cd=os.path.dirname(os.path.abspath(__file__))
+library_dirs=[cd]
+include_dirs=[cd]
+try:
+ library_dirs.append(os.environ["LIBBASS"])
+except KeyError:
+ pass
+try:
+ include_dirs.append(os.environ["LIBBASS"])
+except KeyError:
+ pass
 exts=['c','dll','pdb','pyd','so']
 print 'Removing old files'
 for ext in exts:
@@ -31,8 +41,8 @@ shutil.rmtree(os.path.join(cd,'cython_debug'),True)
 modules=cythonize(Extension("*",
   ["Bass4Py/*.pyx"],
   libraries=["bass"],
-  library_dirs=[cd],
-  include_dirs=[cd],
+  library_dirs=library_dirs,
+  include_dirs=include_dirs,
   language="c",
 #  extra_compile_args=['-Zi','/Od'],
 #  extra_link_args=['-debug']
