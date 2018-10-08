@@ -217,7 +217,10 @@ extensions = [
 if USE_CYTHON:
   extensions = cythonize(
     extensions,
-    gdb_debug = DEBUG_MODE
+    gdb_debug = DEBUG_MODE,
+    compiler_directives = {
+      'embedsignature': True
+    }
   )
 else:
   extensions = no_cythonize(extensions)
