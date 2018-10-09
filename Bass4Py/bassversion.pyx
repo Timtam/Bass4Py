@@ -4,7 +4,7 @@ cdef class BASSVERSION:
   """
   A helper class which represents BASS version information in a more human-readable format
 
-  :ivar Integer: The actual version
+  :ivar Integer: The actual version (readonly)
   """
 
   def __cinit__(BASSVERSION self, DWORD version):
@@ -13,6 +13,8 @@ cdef class BASSVERSION:
   property String:
     """
     The version in a human-readable format
+
+    .. note:: no setter implemented
     """
     def __get__(BASSVERSION self):
       cdef WORD loword,hiword
