@@ -1,27 +1,3 @@
-ctypedef unsigned long DWORD
-ctypedef void* HWND
-ctypedef unsigned long long QWORD
-ctypedef short BYTE
-ctypedef unsigned int WORD
-ctypedef DWORD HMUSIC
-ctypedef DWORD HSAMPLE
-ctypedef DWORD HCHANNEL
-ctypedef DWORD HSTREAM
-ctypedef DWORD HRECORD
-ctypedef DWORD HSYNC
-ctypedef DWORD HDSP
-ctypedef DWORD HFX
-ctypedef DWORD HPLUGIN
-
-ctypedef fused Numeric:
-  DWORD
-  QWORD
-  BYTE
-  WORD
-  int
-  long
-  long long
-
 cpdef enum:
   BASS_OK=0
   BASS_ERROR_MEM=1
@@ -496,6 +472,21 @@ cpdef enum:
   BASS_IOSNOTIFY_INTERRUPT_END=2
 
 cdef extern from "bass.h":
+  ctypedef unsigned long DWORD
+  ctypedef void* HWND
+  ctypedef unsigned long long QWORD
+  ctypedef short BYTE
+  ctypedef unsigned int WORD
+  ctypedef DWORD HMUSIC
+  ctypedef DWORD HSAMPLE
+  ctypedef DWORD HCHANNEL
+  ctypedef DWORD HSTREAM
+  ctypedef DWORD HRECORD
+  ctypedef DWORD HSYNC
+  ctypedef DWORD HDSP
+  ctypedef DWORD HFX
+  ctypedef DWORD HPLUGIN
+
   ctypedef void (*FILECLOSEPROC)(void *user)
   ctypedef QWORD (*FILELENPROC)(void *user)
   ctypedef DWORD (*FILEREADPROC)(void *buffer, DWORD length, void *user)
@@ -823,11 +814,5 @@ cdef extern from "bass.h":
 
 cpdef __Evaluate()
 cdef class BASS:
-  cpdef __GetConfig(BASS self, DWORD key)
-  cpdef __SetConfig(BASS self, DWORD key, object value)
   cpdef GetDevice(BASS self, int device=?)
-
-  IF UNAME_SYSNAME == "Windows":
-    cpdef GetDSoundObject(BASS self, int object)
-
   cpdef PluginLoad(BASS self, char *filename, DWORD flags=?)
