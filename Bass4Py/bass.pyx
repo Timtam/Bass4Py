@@ -76,6 +76,21 @@ cdef class BASS:
     __Evaluate()
     return BASSPLUGIN(plugin)
 
+  cpdef Update(BASS self, DWORD length):
+    """
+    Updates any :class:`Bass4Py.bassmusic.BASSMUSIC` and :class:`Bass4Py.bassstream.BASSSTREAM` playback buffers.
+    
+    :param length: miliseconds of data to be rendered
+    :type length: int
+    :rtype: True or False
+    
+    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Update.html>`_
+    """
+    cdef bint res
+    res = BASS_Update(length)
+    __Evaluate()
+    return res
+
   property CPU:
     """
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_GetCPU.html>`_

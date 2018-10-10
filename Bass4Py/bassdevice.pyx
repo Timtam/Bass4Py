@@ -8,7 +8,7 @@ from bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from types import FunctionType
 
 __EAXPresets={
-  bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
+   bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
   bass.EAX_PRESET_PADDEDCELL: (bass.EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
   bass.EAX_PRESET_ROOM: (bass.EAX_ENVIRONMENT_ROOM, 0.417, 0.4, 0.666,),
   bass.EAX_PRESET_BATHROOM: (bass.EAX_ENVIRONMENT_BATHROOM, 0.653, 1.499, 0.166,),
@@ -44,16 +44,6 @@ cdef class BASSDEVICE:
     if op == 2:
       return (type(self) == type(other)) and (self.__device == other.__device)
 
-  cpdef __EvaluateSelected(BASSDEVICE self):
-    cdef int currentdevice
-    cdef DWORD error
-    currentdevice = bass.BASS_GetDevice()
-    error = bass.BASS_ErrorGetCode()
-    if error != bass.BASS_OK:
-      raise BassAPIError()
-    if currentdevice != self.__device:
-      raise BassAPIError()
-
   cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self):
     cdef BASS_DEVICEINFO info
     bass.BASS_GetDeviceInfo(self.__device, &info)
@@ -65,13 +55,33 @@ cdef class BASSDEVICE:
     return info
 
   cpdef Free(BASSDEVICE self):
-     cdef bint res
-     self.__EvaluateSelected()
-     res = bass.BASS_Free()
-     bass.__Evaluate()
-     return res
+    """
+    Frees all device-related resources like streams, samples etc.
+    
+    :rtype: True or False
+
+    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Free.html>`_
+    """
+    cdef bint res
+    self.Set()
+    res = bass.BASS_Free()
+    bass.__Evaluate()
+    return res
 
   cpdef Init(BASSDEVICE self, DWORD freq, DWORD flags, int win):
+    """
+    Initializes this device to be used by BASS. This needs to be done at least once before using any other playback-related functionalities.
+
+    :param freq: frequency which the device gets initialized to
+    :type freq: int
+    :param flags: A set of flags which change the way the device operates. See the BASS documentation for more information.
+    :type flags: int
+    :param win: A handle to a window the device will be bound to, or 0 if no window should be attached.
+    :type win: int
+    :rtype: True or False
+
+    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Init.html>`_
+    """
     cdef HWND cwin = &win
     if win == 0:
       cwin = NULL
@@ -80,35 +90,46 @@ cdef class BASSDEVICE:
     return res
 
   cpdef Pause(BASSDEVICE self):
+    """
+    Pauses all channels, samples etc. playing on this device.
+    
+    :rtype: True or False
+    
+    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Pause.html>`_
+    """
     cdef bint res
-    self.__EvaluateSelected()
+    self.Set()
     res = bass.BASS_Pause()
     bass.__Evaluate()
     return res
 
   cpdef Set(BASSDEVICE self):
+    """
+    Sets this device to be used by any subsequent device-related function calls.
+    
+    This will be done by Bass4Py automatically whenever a method of a device gets executed.
+
+    .. note:: This method still requires :meth:`Bass4Py.bassdevice.BASSDEVICE.Init` to be executed earlier.
+
+    :rtype: True or False
+    
+    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_SetDevice.html>`_
+    """
     cdef bint res = bass.BASS_SetDevice(self.__device)
     bass.__Evaluate()
     return res
 
   cpdef Start(BASSDEVICE self):
     cdef bint res
-    self.__EvaluateSelected()
+    self.Set()
     res = bass.BASS_Start()
     bass.__Evaluate()
     return res
 
   cpdef Stop(BASSDEVICE self):
     cdef bint res
-    self.__EvaluateSelected()
+    self.Set()
     res = bass.BASS_Stop()
-    bass.__Evaluate()
-    return res
-
-  cpdef Update(BASSDEVICE self, DWORD length):
-    cdef bint res
-    self.__EvaluateSelected()
-    res = bass.BASS_Update(length)
     bass.__Evaluate()
     return res
 
@@ -116,7 +137,7 @@ cdef class BASSDEVICE:
     cdef int cbpos,iproc
     cdef STREAMPROC *cproc
     cdef HSTREAM stream
-    self.__EvaluateSelected()
+    self.Set()
     if type(proc)==FunctionType:
       cbpos=basscallbacks.Callbacks.AddCallback(proc,user)
       IF UNAME_SYSNAME=="Windows":
@@ -133,7 +154,7 @@ cdef class BASSDEVICE:
   cpdef StreamCreateFile(BASSDEVICE self, bint mem, const char *file, QWORD offset=0, QWORD length=0, DWORD flags=0):
     cdef HSTREAM stream
     cdef void *ptr = <void*>file
-    self.__EvaluateSelected()
+    self.Set()
     if mem and length == 0:
       length = len(file)
     stream=bass.BASS_StreamCreateFile(mem, ptr, offset, length, flags)
@@ -145,7 +166,7 @@ cdef class BASSDEVICE:
     cdef int pos
     cdef void *ptr
     cdef HSTREAM stream
-    self.__EvaluateSelected()
+    self.Set()
     if type(proc) == FunctionType:
       pos = basscallbacks.Callbacks.AddCallback(proc, user)
       ptr = <void*>pos
@@ -163,7 +184,7 @@ cdef class BASSDEVICE:
     cdef int pos
     cdef BASS_FILEPROCS procs
     cdef HSTREAM stream
-    self.__EvaluateSelected()
+    self.Set()
     if type(close) != FunctionType or type(read) != FunctionType or type(length) != FunctionType or type(seek) != FunctionType:
       raise BassAPIError()
     IF UNAME_SYSNAME == "Windows":
@@ -187,7 +208,7 @@ cdef class BASSDEVICE:
   cpdef SampleLoad(BASSDEVICE self, bint mem, char *file, QWORD offset=0, DWORD length=0, DWORD max=65535, DWORD flags=0):
     cdef void *ptr = <void*>file
     cdef HSAMPLE res
-    self.__EvaluateSelected()
+    self.Set()
     if mem and length == 0:
       length = len(file)
     res = bass.BASS_SampleLoad(mem, ptr, offset, length, max, flags)
@@ -196,7 +217,7 @@ cdef class BASSDEVICE:
 
   cpdef SampleCreate(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags):
     cdef HSAMPLE res
-    self.__EvaluateSelected()
+    self.Set()
     res = bass.BASS_SampleCreate(length, freq, chans, max, flags)
     bass.__Evaluate()
     return BASSSAMPLE(res)
@@ -204,7 +225,7 @@ cdef class BASSDEVICE:
   cpdef MusicLoad(BASSDEVICE self, bint mem, char *file, QWORD offset, DWORD length, DWORD flags, DWORD freq):
     cdef void *ptr = <void*>file
     cdef HMUSIC res
-    self.__EvaluateSelected()
+    self.Set()
     res = bass.BASS_MusicLoad(mem, ptr, offset, length, flags, freq)
     bass.__Evaluate()
     return BASSMUSIC(res)
@@ -213,7 +234,7 @@ cdef class BASSDEVICE:
     cpdef EAXPreset(BASSDEVICE self, int preset):
       cdef int env
       cdef float vol, decay, damp
-      self.__EvaluateSelected()
+      self.Set()
       if not preset in __EAXPresets:
         raise BassAPIError
       env = <int>__EAXPresets[preset][0]
@@ -225,124 +246,158 @@ cdef class BASSDEVICE:
 
   property Name:
     def __get__(BASSDEVICE self):
-      cdef BASS_DEVICEINFO info = self.__getdeviceinfo()
+      cdef BASS_DEVICEINFO info
+      self.Set()
+      info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.name
 
   property Driver:
     def __get__(BASSDEVICE self):
-      cdef BASS_DEVICEINFO info = self.__getdeviceinfo()
+      cdef BASS_DEVICEINFO info
+      self.Set()
+      info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.driver
 
   property Status:
     def __get__(BASSDEVICE self):
-      cdef BASS_DEVICEINFO info = self.__getdeviceinfo()
+      cdef BASS_DEVICEINFO info
+      self.Set()
+      info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.flags
 
   property Flags:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.flags
 
   property Memory:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.hwsize
 
   property MemoryFree:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info= self.__getinfo()
       self.__EvaluateSelected()
       return info.hwfree
 
   property FreeSamples:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.freesam
 
   property Free3D:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.free3d
 
   property MinimumRate:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.minrate
 
   property MaximumRate:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.maxrate
 
   property EAX:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.eax
 
   property DirectX:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.dsver
 
   property Buffer:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.minbuf
 
   property Latency:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.latency
 
   property InitFlags:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.initflags
 
   property Speakers:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.speakers
 
   property Frequency:
     def __get__(BASSDEVICE self):
-      cdef BASS_INFO info = self.__getinfo()
+      cdef BASS_INFO info
+      self.Set()
+      info = self.__getinfo()
       self.__EvaluateSelected()
       return info.freq
 
   property Volume:
     def __get__(BASSDEVICE self):
       cdef float volume
-      self.__EvaluateSelected()
-      volume=bass.BASS_GetVolume()
+      self.Set()
+      volume = bass.BASS_GetVolume()
       bass.__Evaluate()
       return volume
 
     def __set__(BASSDEVICE self, float value):
       cdef bint res
-      self.__EvaluateSelected()
-      res=bass.BASS_SetVolume(value)
+      self.Set()
+      res = bass.BASS_SetVolume(value)
       bass.__Evaluate()
 
   property Position3D:
     def __get__(BASSDEVICE self):
       cdef BASS_3DVECTOR pos
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(&pos, NULL, NULL, NULL)
       bass.__Evaluate()
       return BASSVECTOR_Create(&pos)
@@ -350,7 +405,7 @@ cdef class BASSDEVICE:
     def __set__(BASSDEVICE self, BASSVECTOR value):
       cdef BASS_3DVECTOR pos
       cdef bint res
-      self.__EvaluateSelected()
+      self.Set()
       value.Resolve(&pos)
       res = bass.BASS_Set3DPosition(&pos, NULL, NULL, NULL)
       bass.__Evaluate()
@@ -359,14 +414,14 @@ cdef class BASSDEVICE:
   property Velocity3D:
     def __get__(BASSDEVICE self):
       cdef BASS_3DVECTOR vel
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(NULL, &vel, NULL, NULL)
       bass.__Evaluate()
       return BASSVECTOR_Create(&vel)
     def __set__(BASSDEVICE self,BASSVECTOR value):
       cdef BASS_3DVECTOR vel
       cdef bint res
-      self.__EvaluateSelected()
+      self.Set()
       value.Resolve(&vel)
       res = bass.BASS_Set3DPosition(NULL, &vel, NULL, NULL)
       bass.__Evaluate()
@@ -375,14 +430,14 @@ cdef class BASSDEVICE:
   property Front3D:
     def __get__(BASSDEVICE self):
       cdef BASS_3DVECTOR front, top
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
       bass.__Evaluate()
       return BASSVECTOR_Create(&front)
     def __set__(BASSDEVICE self, BASSVECTOR value):
       cdef BASS_3DVECTOR front, top
       cdef bint res
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&front)
       res = bass.BASS_Set3DPosition(NULL, NULL, &front, &top)
@@ -392,7 +447,7 @@ cdef class BASSDEVICE:
   property Top3D:
     def __get__(BASSDEVICE self):
       cdef BASS_3DVECTOR front, top
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
       bass.__Evaluate()
       return BASSVECTOR_Create(&top)
@@ -400,7 +455,7 @@ cdef class BASSDEVICE:
     def __set__(BASSDEVICE self,BASSVECTOR value):
       cdef BASS_3DVECTOR front, top
       cdef bint res
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&top)
       res = bass.BASS_Set3DPosition(NULL, NULL, &front, &top)
@@ -410,13 +465,13 @@ cdef class BASSDEVICE:
   property Distance:
     def __get__(BASSDEVICE self):
       cdef float distf
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DFactors(&distf, NULL, NULL)
       bass.__Evaluate()
       return distf
 
     def __set__(BASSDEVICE self, float value):
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Set3DFactors(value,-1.0,-1.0)
       bass.__Evaluate()
       bass.BASS_Apply3D()
@@ -424,13 +479,13 @@ cdef class BASSDEVICE:
   property Rolloff:
     def __get__(BASSDEVICE self):
       cdef float rollf
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DFactors(NULL, &rollf, NULL)
       bass.__Evaluate()
       return rollf
 
     def __set__(BASSDEVICE self,float value):
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Set3DFactors(-1.0, value, -1.0)
       bass.__Evaluate()
       bass.BASS_Apply3D()
@@ -438,13 +493,13 @@ cdef class BASSDEVICE:
   property Doppler:
     def __get__(BASSDEVICE self):
       cdef float doppf
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Get3DFactors(NULL, NULL, &doppf)
       bass.__Evaluate()
       return doppf
 
     def __set__(BASSDEVICE self,float value):
-      self.__EvaluateSelected()
+      self.Set()
       bass.BASS_Set3DFactors(-1.0, -1.0, value)
       bass.__Evaluate()
       bass.BASS_Apply3D()
@@ -453,51 +508,51 @@ cdef class BASSDEVICE:
     property EAXEnvironment:
       def __get__(BASSDEVICE self):
         cdef DWORD env
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_GetEAXParameters(&env, NULL, NULL, NULL)
         bass.__Evaluate()
         return <int>env
 
       def __set__(BASSDEVICE self, int value):
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_SetEAXParameters(value, -1.0, -1.0, -1.0)
         bass.__Evaluate()
 
     property EAXVolume:
       def __get__(BASSDEVICE self):
         cdef float vol
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_GetEAXParameters(NULL, &vol, NULL, NULL)
         bass.__Evaluate()
         return vol
 
       def __set__(BASSDEVICE self, float value):
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_SetEAXParameters(-1, value, -1.0, -1.0)
         bass.__Evaluate()
 
     property EAXDecay:
       def __get__(BASSDEVICE self):
         cdef float decay
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_GetEAXParameters(NULL, NULL, &decay, NULL)
         bass.__Evaluate()
         return decay
 
       def __set__(BASSDEVICE self, float value):
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_SetEAXParameters(-1, -1.0, value, -1.0)
         bass.__Evaluate()
 
     property EAXDamping:
       def __get__(BASSDEVICE self):
         cdef float damp
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_GetEAXParameters(NULL, NULL, NULL, &damp)
         bass.__Evaluate()
         return damp
 
       def __set__(BASSDEVICE self, float value):
-        self.__EvaluateSelected()
+        self.Set()
         bass.BASS_SetEAXParameters(-1, -1.0, -1.0, value)
         bass.__Evaluate()

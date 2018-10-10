@@ -816,3 +816,4 @@ cpdef __Evaluate()
 cdef class BASS:
   cpdef GetDevice(BASS self, int device=?)
   cpdef PluginLoad(BASS self, char *filename, DWORD flags=?)
+  cpdef Update(BASS self, DWORD length)
