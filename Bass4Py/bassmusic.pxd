@@ -1,5 +1,5 @@
-from bass cimport HMUSIC
+from bass cimport HCHANNEL
 from basschannel cimport BASSCHANNEL
+
 cdef class BASSMUSIC(BASSCHANNEL):
- cdef readonly HMUSIC __music
- cpdef Free(BASSMUSIC self)
+  cpdef Free(BASSMUSIC self)

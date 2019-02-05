@@ -157,7 +157,7 @@ cdef class BASSDEVICE:
     self.Set()
     if mem and length == 0:
       length = len(file)
-    stream=bass.BASS_StreamCreateFile(mem, ptr, offset, length, flags)
+    stream = bass.BASS_StreamCreateFile(mem, ptr, offset, length, flags)
     bass.__Evaluate()
     return BASSSTREAM(stream)
 

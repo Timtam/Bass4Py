@@ -5,7 +5,6 @@ from bass cimport (
                    BASS_DEVICEINFO,
                    BASS_INFO,
                    STREAMPROC,
-                   HSTREAM,
                    DOWNLOADPROC,
                    BASS_FILEPROCS,
                    FILECLOSEPROC,
@@ -13,6 +12,7 @@ from bass cimport (
                    FILELENPROC,
                    FILESEEKPROC,
                    HSAMPLE,
+                   HSTREAM,
                    HMUSIC,
                    BASS_3DVECTOR
                   )

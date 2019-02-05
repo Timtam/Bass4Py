@@ -1,5 +1,11 @@
-from bass cimport HSTREAM,DWORD,QWORD
+from bass cimport (
+                   HSTREAM,
+                   DWORD,
+                   QWORD
+                  )
+
 from basschannel cimport BASSCHANNEL
+
 cdef void CDOWNLOADPROC(const void *buffer,DWORD length,void *user) with gil
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,DWORD length,void *user) with gil
 cdef DWORD CSTREAMPROC(DWORD handle,void *buffer,DWORD length,void *user) with gil
@@ -12,9 +18,9 @@ cdef DWORD CFILEREADPROC(void *buffer,DWORD length,void *user) with gil
 cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer,DWORD length,void *user) with gil
 cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil
+
 cdef class BASSSTREAM(BASSCHANNEL):
- cdef readonly HSTREAM __stream
- cpdef Free(BASSSTREAM self)
- cpdef QWORD GetFilePosition(BASSSTREAM self,DWORD mode)
- cpdef DWORD PutData(BASSSTREAM self,char *buffer,DWORD length)
- cpdef DWORD PutFileData(BASSSTREAM self,char *buffer,DWORD length)
+  cpdef Free(BASSSTREAM self)
+  cpdef QWORD GetFilePosition(BASSSTREAM self, DWORD mode)
+  cpdef DWORD PutData(BASSSTREAM self, char *buffer, DWORD length)
+  cpdef DWORD PutFileData(BASSSTREAM self, char *buffer, DWORD length)

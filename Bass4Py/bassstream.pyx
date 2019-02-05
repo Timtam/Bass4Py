@@ -77,22 +77,24 @@ cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil:
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil:
  cdef bint res=CFILESEEKPROC(offset,user)
  return res
+
 cdef class BASSSTREAM(BASSCHANNEL):
- def __cinit__(BASSSTREAM self,HSTREAM stream):
-  self.__stream=stream
- cpdef Free(BASSSTREAM self):
-  cdef bint res=bass.BASS_StreamFree(self.__stream)
-  bass.__Evaluate()
-  return res
- cpdef QWORD GetFilePosition(BASSSTREAM self,DWORD mode):
-  cdef QWORD res=bass.BASS_StreamGetFilePosition(self.__stream,mode)
-  bass.__Evaluate()
-  return res
- cpdef DWORD PutData(BASSSTREAM self,char *buffer,DWORD length):
-  cdef DWORD res=bass.BASS_StreamPutData(self.__stream,<void*>buffer,length)
-  bass.__Evaluate()
-  return res
- cpdef DWORD PutFileData(BASSSTREAM self,char *buffer,DWORD length):
-  cdef DWORD res=bass.BASS_StreamPutFileData(self.__stream,<void*>buffer,length)
-  bass.__Evaluate()
-  return res
+  cpdef Free(BASSSTREAM self):
+    cdef bint res = bass.BASS_StreamFree(self.__channel)
+    bass.__Evaluate()
+    return res
+
+  cpdef QWORD GetFilePosition(BASSSTREAM self, DWORD mode):
+    cdef QWORD res = bass.BASS_StreamGetFilePosition(self.__channel, mode)
+    bass.__Evaluate()
+    return res
+
+  cpdef DWORD PutData(BASSSTREAM self, char *buffer, DWORD length):
+    cdef DWORD res = bass.BASS_StreamPutData(self.__channel, <void*>buffer, length)
+    bass.__Evaluate()
+    return res
+
+  cpdef DWORD PutFileData(BASSSTREAM self, char *buffer, DWORD length):
+    cdef DWORD res = bass.BASS_StreamPutFileData(self.__channel, <void*>buffer, length)
+    bass.__Evaluate()
+    return res

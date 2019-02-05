@@ -28,12 +28,6 @@ cdef class BASSCHANNEL:
   cdef DWORD __getflags(BASSCHANNEL self):
     return bass.BASS_ChannelFlags(self.__channel, 0, 0)
 
-  cpdef __gethandle(BASSCHANNEL self, object obj):
-    if isinstance(obj, BASSCHANNEL): return obj.__channel
-    elif isinstance(obj, BASSSTREAM): return obj.__stream
-    elif isinstance(obj, BASSMUSIC): return obj.__music
-    raise BassAPIError()
-
   cpdef __setflags(BASSCHANNEL self, DWORD flag, bint switch):
     if switch:
       bass.BASS_ChannelFlags(self.__channel, flag, flag)
@@ -114,15 +108,13 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return BASSDSP(self.__channel, dsp)
 
-  cpdef Link(BASSCHANNEL self, object obj):
-    cdef DWORD handle = self.__gethandle(obj)
-    cdef bint res = bass.BASS_ChannelSetLink(self.__channel, handle)
+  cpdef Link(BASSCHANNEL self, BASSCHANNEL obj):
+    cdef bint res = bass.BASS_ChannelSetLink(self.__channel, obj.__channel)
     bass.__Evaluate()
     return res
 
-  cpdef Unlink(BASSCHANNEL self, object obj):
-    cdef DWORD handle = self.__gethandle(obj)
-    cdef bint res = bass.BASS_ChannelRemoveLink(self.__channel, handle)
+  cpdef Unlink(BASSCHANNEL self, BASSCHANNEL obj):
+    cdef bint res = bass.BASS_ChannelRemoveLink(self.__channel, obj.__channel)
     bass.__Evaluate()
     return res
 
