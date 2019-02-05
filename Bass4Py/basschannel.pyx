@@ -318,3 +318,16 @@ cdef class BASSCHANNEL:
       bass.BASS_ChannelSet3DPosition(self.__channel, NULL, NULL, &vel)
       bass.__Evaluate()
       bass.BASS_Apply3D()
+
+  @property
+  def LengthBytes(BASSCHANNEL self):
+    cdef QWORD res = bass.BASS_ChannelGetLength(self.__channel, bass.BASS_POS_BYTE)
+    bass.__Evaluate()
+    return res
+  
+  @property
+  def LengthSeconds(BASSCHANNEL self):
+    cdef QWORD bytes = <QWORD>self.LengthBytes
+    cdef double secs = bass.BASS_ChannelBytes2Seconds(self.__channel, bytes)
+    bass.__Evaluate()
+    return secs
