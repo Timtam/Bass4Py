@@ -3,47 +3,25 @@ from basschannel cimport BASSCHANNEL
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef class BASSMUSIC(BASSCHANNEL):
+
+  cdef void __initattributes(BASSMUSIC self):
+    BASSCHANNEL.__initattributes(self)
+
+    self.Active = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_ACTIVE, True)
+    self.Amplification = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_AMPLIFY)
+    self.BPM = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_BPM)
+    self.ChannelVolumes = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_CHAN)
+    self.GlobalVolume = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_GLOBAL)
+    self.InstrumentVolumes = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_INST)
+    self.PanSeparation = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_PANSEP)
+    self.PositionScaler = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_PSCALER)
+    self.Speed = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_SPEED)
+
   cpdef Free(BASSMUSIC self):
     cdef bint res = bass.BASS_MusicFree(self.__channel)
     bass.__Evaluate()
     return res
     
-  property Active:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_ACTIVE)
-
-  property Amplify:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_AMPLIFY)
-
-  property BPM:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_BPM)
-
-  property PanSeparation:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_PANSEP)
-
-  property Scaler:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_PSCALER)
-
-  property Speed:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_SPEED)
-
-  property ChannelVolumes:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_CHAN)
-
-  property GlobalVolume:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_GLOBAL)
-
-  property InstrumentVolumes:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_MUSIC_VOL_INST)
-
   property InterpolationNone:
     def __get__(BASSCHANNEL self):
       return self.__getflags()&bass.BASS_MUSIC_NONINTER == bass.BASS_MUSIC_NONINTER

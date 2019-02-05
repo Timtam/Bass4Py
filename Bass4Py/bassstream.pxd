@@ -5,6 +5,7 @@ from bass cimport (
                   )
 
 from basschannel cimport BASSCHANNEL
+from basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef void CDOWNLOADPROC(const void *buffer,DWORD length,void *user) with gil
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,DWORD length,void *user) with gil
@@ -20,6 +21,11 @@ cdef bint CFILESEEKPROC(QWORD offset,void *user) with gil
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil
 
 cdef class BASSSTREAM(BASSCHANNEL):
+
+  # attributes
+  cdef readonly BASSCHANNELATTRIBUTE Bitrate
+  cdef readonly BASSCHANNELATTRIBUTE NetResume
+
   cpdef Free(BASSSTREAM self)
   cpdef QWORD GetFilePosition(BASSSTREAM self, DWORD mode)
   cpdef DWORD PutData(BASSSTREAM self, char *buffer, DWORD length)

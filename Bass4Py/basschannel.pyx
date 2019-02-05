@@ -18,6 +18,19 @@ from types import FunctionType
 cdef class BASSCHANNEL:
   def __cinit__(BASSCHANNEL self, HCHANNEL channel):
     self.__channel=channel
+    self.__initattributes()
+
+  cdef void __initattributes(BASSCHANNEL self):
+    self.Buffer = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_BUFFER)
+    self.CPU = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_CPU, True)
+    self.Frequency = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_FREQ)
+    self.Pan = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_PAN)
+    self.Ramping = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NORAMP)
+    self.SRC = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_SRC)
+    self.Volume = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_VOL)
+
+    IF UNAME_SYSNAME == "Windows":
+      self.EAXMix = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_EAXMIX)
 
   cdef BASS_CHANNELINFO __getinfo(BASSCHANNEL self):
     cdef BASS_CHANNELINFO info
@@ -178,36 +191,6 @@ cdef class BASSCHANNEL:
        pos = BASSPOSITION()
        pos.Link(self)
        return pos
-
-  IF UNAME_SYSNAME=="Windows":
-    property EAXMix:
-      def __get__(BASSCHANNEL self):
-        return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_EAXMIX)
-
-  property CPU:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_CPU)
-
-  property Frequency:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_FREQ)
-
-  IF UNAME_SYSNAME!="Windows":
-    property Buffering:
-      def __get__(BASSCHANNEL self):
-        return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NOBUFFER)
-
-  property Pan:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_PAN)
-
-  property SRC:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_SRC)
-
-  property Volume:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_VOL)
 
   property Loop:
     def __get__(BASSCHANNEL self):

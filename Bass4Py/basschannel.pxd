@@ -14,10 +14,26 @@ from bass cimport (
                    DSPPROC
                   )
 
+from basschannelattribute cimport BASSCHANNELATTRIBUTE
+
 cdef class BASSCHANNEL:
   cdef readonly HCHANNEL __channel
+
+  # attributes
+  cdef readonly BASSCHANNELATTRIBUTE Buffer
+  cdef readonly BASSCHANNELATTRIBUTE CPU
+  cdef readonly BASSCHANNELATTRIBUTE Frequency
+  cdef readonly BASSCHANNELATTRIBUTE Pan
+  cdef readonly BASSCHANNELATTRIBUTE Ramping
+  cdef readonly BASSCHANNELATTRIBUTE SRC
+  cdef readonly BASSCHANNELATTRIBUTE Volume
+
+  IF UNAME_SYSNAME == "Windows":
+    cdef readonly BASSCHANNELATTRIBUTE EAXMix
+
   cdef BASS_CHANNELINFO __getinfo(BASSCHANNEL self)
   cdef DWORD __getflags(BASSCHANNEL self)
+  cdef void __initattributes(BASSCHANNEL self)
   cpdef __setflags(BASSCHANNEL self, DWORD flag, bint switch)
   cpdef GetLevels(BASSCHANNEL self, float length, DWORD flags)
   cpdef Link(BASSCHANNEL self, BASSCHANNEL obj)

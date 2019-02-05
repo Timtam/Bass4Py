@@ -92,6 +92,12 @@ cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
   return res
 
 cdef class BASSSTREAM(BASSCHANNEL):
+
+  cdef void __initattributes(BASSSTREAM self):
+    BASSCHANNEL.__initattributes(self)
+    self.Bitrate = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_BITRATE, True)
+    self.NetResume = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NET_RESUME)
+  
   cpdef Free(BASSSTREAM self):
     cdef bint res = bass.BASS_StreamFree(self.__channel)
     bass.__Evaluate()
@@ -112,10 +118,6 @@ cdef class BASSSTREAM(BASSCHANNEL):
     bass.__Evaluate()
     return res
     
-  property NetResume:
-    def __get__(BASSCHANNEL self):
-      return BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NET_RESUME)
-
   property AutoFree:
     def __get__(BASSCHANNEL self):
       return self.__getflags()&bass.BASS_STREAM_AUTOFREE == bass.BASS_STREAM_AUTOFREE
