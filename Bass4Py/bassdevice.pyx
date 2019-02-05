@@ -247,7 +247,6 @@ cdef class BASSDEVICE:
   property Name:
     def __get__(BASSDEVICE self):
       cdef BASS_DEVICEINFO info
-      self.Set()
       info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.name
@@ -255,7 +254,6 @@ cdef class BASSDEVICE:
   property Driver:
     def __get__(BASSDEVICE self):
       cdef BASS_DEVICEINFO info
-      self.Set()
       info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.driver
@@ -263,7 +261,6 @@ cdef class BASSDEVICE:
   property Status:
     def __get__(BASSDEVICE self):
       cdef BASS_DEVICEINFO info
-      self.Set()
       info = self.__getdeviceinfo()
       bass.__Evaluate()
       return info.flags
