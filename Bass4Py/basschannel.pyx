@@ -1,4 +1,5 @@
 from libc.stdlib cimport malloc, free
+from libc.string cimport memmove
 cimport bass
 import basscallbacks
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
@@ -6,11 +7,8 @@ from bassdevice cimport BASSDEVICE
 from bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
 from bassexceptions import BassError,BassAPIError
 from bassfx cimport BASSFX, BASSFX_Create
-from bassmusic cimport BASSMUSIC
 from bassplugin cimport BASSPLUGIN
-from bassposition cimport BASSPOSITION
 from basssample cimport BASSSAMPLE
-from bassstream cimport BASSSTREAM
 from basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
 from bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from types import FunctionType
@@ -131,6 +129,52 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return res
 
+  cpdef GetPosition(BASSCHANNEL self, DWORD mode = bass.BASS_POS_BYTE):
+    cdef QWORD res
+    res = bass.BASS_ChannelGetPosition(self.__channel, mode)
+    bass.__Evaluate()
+    return res
+  
+  cpdef SetPosition(BASSCHANNEL self, QWORD pos, DWORD mode = bass.BASS_POS_BYTE):
+    cdef bint res = bass.BASS_ChannelSetPosition(self.__channel, pos, mode)
+    bass.__Evaluate()
+    return res
+  
+  cpdef Bytes2Seconds(BASSCHANNEL self, QWORD bytes):
+    cdef double secs
+    secs = bass.BASS_ChannelBytes2Seconds(self.__channel, bytes)
+    bass.__Evaluate()
+    return secs
+  
+  cpdef Seconds2Bytes(BASSCHANNEL self, double secs):
+    cdef QWORD bytes
+    bytes = bass.BASS_ChannelSeconds2Bytes(self.__channel, secs)
+    bass.__Evaluate()
+    return bytes
+
+  cpdef GetData(BASSCHANNEL self, DWORD length):
+    cdef DWORD l = length&0xfffffff
+    cdef void *buffer = <void*>malloc(l)
+    cdef bytes b
+
+    if buffer == NULL:
+      raise MemoryError()
+    
+    l = bass.BASS_ChannelGetData(self.__channel, buffer, length)
+    try:
+      bass.__Evaluate()
+    except BassError as e:
+      free(buffer)
+      raise e
+    b = (<char*>buffer)[:l]
+    free(buffer)
+    return b
+
+  cpdef GetLength(BASSCHANNEL self, DWORD mode = bass.BASS_POS_BYTE):
+    cdef DWORD res = bass.BASS_ChannelGetLength(self.__channel, mode)
+    bass.__Evaluate()
+    return res
+
   property DefaultFrequency:
     def __get__(BASSCHANNEL self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
@@ -184,13 +228,6 @@ cdef class BASSCHANNEL:
         return BASSSAMPLE(info.sample)
       else:
         return None
-
-  property Position:
-    def __get__(BASSCHANNEL self):
-       cdef BASSPOSITION pos
-       pos = BASSPOSITION()
-       pos.Link(self)
-       return pos
 
   property Loop:
     def __get__(BASSCHANNEL self):
@@ -320,14 +357,8 @@ cdef class BASSCHANNEL:
       bass.BASS_Apply3D()
 
   @property
-  def LengthBytes(BASSCHANNEL self):
-    cdef QWORD res = bass.BASS_ChannelGetLength(self.__channel, bass.BASS_POS_BYTE)
+  def DataAvailable(BASSCHANNEL self):
+    cdef DWORD res
+    res = bass.BASS_ChannelGetData(self.__channel, NULL, bass.BASS_DATA_AVAILABLE)
     bass.__Evaluate()
     return res
-  
-  @property
-  def LengthSeconds(BASSCHANNEL self):
-    cdef QWORD bytes = <QWORD>self.LengthBytes
-    cdef double secs = bass.BASS_ChannelBytes2Seconds(self.__channel, bytes)
-    bass.__Evaluate()
-    return secs

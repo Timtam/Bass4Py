@@ -1,4 +1,8 @@
-from bass cimport HCHANNEL
+from bass cimport (
+                   HCHANNEL,
+                   QWORD
+                  )
+
 from basschannel cimport BASSCHANNEL
 from basschannelattribute cimport BASSCHANNELATTRIBUTE
 

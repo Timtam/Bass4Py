@@ -1,6 +1,6 @@
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - BASS_ChannelGet/SetAttributeEx support
 - adding tag information as attributes into channel object
-- BASS_ChannelGetData implementation
+- Channel SetFX: create effects via class before adding it to the channel instead of using flag-like instanciation like bass does
 - 3d attributes via dedicated object instead of attributes (better performance)
 - documentation

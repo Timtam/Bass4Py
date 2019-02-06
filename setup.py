@@ -153,16 +153,6 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.bassposition",
-    [
-      "Bass4Py/bassposition.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
     "Bass4Py.basssample",
     [
       "Bass4Py/basssample.pyx"
