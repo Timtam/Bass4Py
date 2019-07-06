@@ -1,10 +1,10 @@
-from bass cimport (
-                   HCHANNEL,
-                   QWORD
-                  )
+from .bass cimport (
+                    HCHANNEL,
+                    QWORD
+                   )
 
-from basschannel cimport BASSCHANNEL
-from basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .basschannel cimport BASSCHANNEL
+from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef class BASSMUSIC(BASSCHANNEL):
 

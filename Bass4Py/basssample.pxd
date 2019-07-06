@@ -1,4 +1,4 @@
-from bass cimport HSAMPLE,BASS_SAMPLE,HCHANNEL,DWORD
+from .bass cimport HSAMPLE,BASS_SAMPLE,HCHANNEL,DWORD
 cdef class BASSSAMPLE:
  cdef readonly HSAMPLE __sample
  cdef BASS_SAMPLE __getinfo(BASSSAMPLE self)

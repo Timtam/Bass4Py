@@ -1,5 +1,5 @@
-cimport bass
-from bassversion cimport BASSVERSION
+from . cimport bass
+from .bassversion cimport BASSVERSION
 cdef class BASSPLUGIN:
  def __cinit__(self,HPLUGIN plugin):
   self.__plugin=plugin

@@ -1,8 +1,8 @@
 from libc.string cimport memmove
-cimport bass
-import basscallbacks
-from basschannel cimport BASSCHANNEL
-from basschannelattribute cimport BASSCHANNELATTRIBUTE
+from . cimport bass
+from . import basscallbacks
+from .basschannel cimport BASSCHANNEL
+from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef void CDOWNLOADPROC(const void *buffer, DWORD length, void *user) with gil:
   cdef object cb
@@ -95,8 +95,8 @@ cdef class BASSSTREAM(BASSCHANNEL):
 
   cdef void __initattributes(BASSSTREAM self):
     BASSCHANNEL.__initattributes(self)
-    self.Bitrate = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_BITRATE, True)
-    self.NetResume = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NET_RESUME)
+    self.Bitrate = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BITRATE, True)
+    self.NetResume = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_NET_RESUME)
   
   cpdef Free(BASSSTREAM self):
     cdef bint res = bass.BASS_StreamFree(self.__channel)
@@ -120,14 +120,14 @@ cdef class BASSSTREAM(BASSCHANNEL):
     
   property AutoFree:
     def __get__(BASSCHANNEL self):
-      return self.__getflags()&bass.BASS_STREAM_AUTOFREE == bass.BASS_STREAM_AUTOFREE
+      return self.__getflags()&bass._BASS_STREAM_AUTOFREE == bass._BASS_STREAM_AUTOFREE
 
     def __set__(BASSCHANNEL self, bint switch):
-      self.__setflags(bass.BASS_STREAM_AUTOFREE, switch)
+      self.__setflags(bass._BASS_STREAM_AUTOFREE, switch)
 
   property RestrictDownload:
     def __get__(BASSCHANNEL self):
-      return self.__getflags()&bass.BASS_STREAM_RESTRATE == bass.BASS_STREAM_RESTRATE
+      return self.__getflags()&bass._BASS_STREAM_RESTRATE == bass._BASS_STREAM_RESTRATE
 
     def __set__(BASSCHANNEL self, bint switch):
-      self.__setflags(bass.BASS_STREAM_RESTRATE, switch)
+      self.__setflags(bass._BASS_STREAM_RESTRATE, switch)

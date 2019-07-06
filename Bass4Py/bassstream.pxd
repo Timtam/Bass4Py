@@ -1,11 +1,11 @@
-from bass cimport (
-                   HSTREAM,
-                   DWORD,
-                   QWORD
-                  )
+from .bass cimport (
+                    HSTREAM,
+                    DWORD,
+                    QWORD
+                   )
 
-from basschannel cimport BASSCHANNEL
-from basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .basschannel cimport BASSCHANNEL
+from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef void CDOWNLOADPROC(const void *buffer,DWORD length,void *user) with gil
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer,DWORD length,void *user) with gil

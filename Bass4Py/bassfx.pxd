@@ -1,16 +1,16 @@
-from bass cimport (
-                   DWORD,
-                   HFX,
-                   BASS_DX8_CHORUS,
-                   BASS_DX8_COMPRESSOR,
-                   BASS_DX8_DISTORTION,
-                   BASS_DX8_ECHO,
-                   BASS_DX8_FLANGER,
-                   BASS_DX8_GARGLE,
-                   BASS_DX8_I3DL2REVERB,
-                   BASS_DX8_PARAMEQ,
-                   BASS_DX8_REVERB
-                  )
+from .bass cimport (
+                    DWORD,
+                    HFX,
+                    BASS_DX8_CHORUS,
+                    BASS_DX8_COMPRESSOR,
+                    BASS_DX8_DISTORTION,
+                    BASS_DX8_ECHO,
+                    BASS_DX8_FLANGER,
+                    BASS_DX8_GARGLE,
+                    BASS_DX8_I3DL2REVERB,
+                    BASS_DX8_PARAMEQ,
+                    BASS_DX8_REVERB
+                   )
 
 cpdef BASSFX_Create(DWORD channel, HFX fx, DWORD type)
 

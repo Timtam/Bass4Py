@@ -1,24 +1,24 @@
-cimport bass
-from basschannel cimport BASSCHANNEL
+from . cimport bass
+from .basschannel cimport BASSCHANNEL
 
 cpdef BASSFX_Create(DWORD channel, HFX fx, DWORD type):
-  if type == bass.BASS_FX_DX8_CHORUS:
+  if type == bass._BASS_FX_DX8_CHORUS:
     return BASSFX_DX8CHORUS(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_COMPRESSOR:
+  elif type == bass._BASS_FX_DX8_COMPRESSOR:
     return BASSFX_DX8COMPRESSOR(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_DISTORTION:
+  elif type == bass._BASS_FX_DX8_DISTORTION:
     return BASSFX_DX8DISTORTION(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_ECHO:
+  elif type == bass._BASS_FX_DX8_ECHO:
     return BASSFX_DX8ECHO(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_FLANGER:
+  elif type == bass._BASS_FX_DX8_FLANGER:
     return BASSFX_DX8FLANGER(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_GARGLE:
+  elif type == bass._BASS_FX_DX8_GARGLE:
     return BASSFX_DX8GARGLE(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_I3DL2REVERB:
+  elif type == bass._BASS_FX_DX8_I3DL2REVERB:
     return BASSFX_DX8I3DL2REVERB(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_PARAMEQ:
+  elif type == bass._BASS_FX_DX8_PARAMEQ:
     return BASSFX_DX8PARAMEQ(channel, fx, type)
-  elif type == bass.BASS_FX_DX8_REVERB:
+  elif type == bass._BASS_FX_DX8_REVERB:
     return BASSFX_DX8REVERB(channel, fx, type)
   return BASSFX(channel, fx, type)
 

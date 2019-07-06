@@ -1,16 +1,16 @@
 from libc.stdlib cimport malloc, free
 from libc.string cimport memmove
-cimport bass
-import basscallbacks
-from basschannelattribute cimport BASSCHANNELATTRIBUTE
-from bassdevice cimport BASSDEVICE
-from bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
-from bassexceptions import BassError,BassAPIError
-from bassfx cimport BASSFX, BASSFX_Create
-from bassplugin cimport BASSPLUGIN
-from basssample cimport BASSSAMPLE
-from basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
-from bassvector cimport BASSVECTOR, BASSVECTOR_Create
+from . cimport bass
+from . import basscallbacks
+from .basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .bassdevice cimport BASSDEVICE
+from .bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
+from .bassexceptions import BassError,BassAPIError
+from .bassfx cimport BASSFX, BASSFX_Create
+from .bassplugin cimport BASSPLUGIN
+from .basssample cimport BASSSAMPLE
+from .basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
+from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from types import FunctionType
 
 cdef class BASSCHANNEL:
@@ -19,16 +19,16 @@ cdef class BASSCHANNEL:
     self.__initattributes()
 
   cdef void __initattributes(BASSCHANNEL self):
-    self.Buffer = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_BUFFER)
-    self.CPU = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_CPU, True)
-    self.Frequency = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_FREQ)
-    self.Pan = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_PAN)
-    self.Ramping = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_NORAMP)
-    self.SRC = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_SRC)
-    self.Volume = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_VOL)
+    self.Buffer = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BUFFER)
+    self.CPU = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_CPU, True)
+    self.Frequency = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_FREQ)
+    self.Pan = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_PAN)
+    self.Ramping = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_NORAMP)
+    self.SRC = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_SRC)
+    self.Volume = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_VOL)
 
     IF UNAME_SYSNAME == "Windows":
-      self.EAXMix = BASSCHANNELATTRIBUTE(self.__channel, bass.BASS_ATTRIB_EAXMIX)
+      self.EAXMix = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_EAXMIX)
 
   cdef BASS_CHANNELINFO __getinfo(BASSCHANNEL self):
     cdef BASS_CHANNELINFO info
@@ -129,13 +129,13 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return res
 
-  cpdef GetPosition(BASSCHANNEL self, DWORD mode = bass.BASS_POS_BYTE):
+  cpdef GetPosition(BASSCHANNEL self, DWORD mode = bass._BASS_POS_BYTE):
     cdef QWORD res
     res = bass.BASS_ChannelGetPosition(self.__channel, mode)
     bass.__Evaluate()
     return res
   
-  cpdef SetPosition(BASSCHANNEL self, QWORD pos, DWORD mode = bass.BASS_POS_BYTE):
+  cpdef SetPosition(BASSCHANNEL self, QWORD pos, DWORD mode = bass._BASS_POS_BYTE):
     cdef bint res = bass.BASS_ChannelSetPosition(self.__channel, pos, mode)
     bass.__Evaluate()
     return res
@@ -170,8 +170,8 @@ cdef class BASSCHANNEL:
     free(buffer)
     return b
 
-  cpdef GetLength(BASSCHANNEL self, DWORD mode = bass.BASS_POS_BYTE):
-    cdef DWORD res = bass.BASS_ChannelGetLength(self.__channel, mode)
+  cpdef GetLength(BASSCHANNEL self, DWORD mode = bass._BASS_POS_BYTE):
+    cdef QWORD res = bass.BASS_ChannelGetLength(self.__channel, mode)
     bass.__Evaluate()
     return res
 
@@ -231,10 +231,10 @@ cdef class BASSCHANNEL:
 
   property Loop:
     def __get__(BASSCHANNEL self):
-      return self.__getflags()&bass.BASS_SAMPLE_LOOP == bass.BASS_SAMPLE_LOOP
+      return self.__getflags()&bass._BASS_SAMPLE_LOOP == bass._BASS_SAMPLE_LOOP
 
     def __set__(BASSCHANNEL self, bint switch):
-      self.__setflags(bass.BASS_SAMPLE_LOOP, switch)
+      self.__setflags(bass._BASS_SAMPLE_LOOP, switch)
 
   property Device:
     def __get__(BASSCHANNEL self):
@@ -359,6 +359,6 @@ cdef class BASSCHANNEL:
   @property
   def DataAvailable(BASSCHANNEL self):
     cdef DWORD res
-    res = bass.BASS_ChannelGetData(self.__channel, NULL, bass.BASS_DATA_AVAILABLE)
+    res = bass.BASS_ChannelGetData(self.__channel, NULL, bass._BASS_DATA_AVAILABLE)
     bass.__Evaluate()
     return res

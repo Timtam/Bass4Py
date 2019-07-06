@@ -1,4 +1,4 @@
-from bass cimport BASS_3DVECTOR
+from .bass cimport BASS_3DVECTOR
 cdef BASSVECTOR BASSVECTOR_Create(BASS_3DVECTOR *vector)
 cdef class BASSVECTOR:
  cdef public float X

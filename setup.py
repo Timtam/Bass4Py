@@ -24,16 +24,16 @@ if USE_CYTHON and not HAVE_CYTHON:
   raise RuntimeError("cython not found")
 
 cd=os.path.dirname(os.path.abspath(__file__))
-library_dirs=[cd]
-include_dirs=[cd]
+library_dirs=[os.path.join(cd, "bass24", "c")]
+include_dirs=[os.path.join(cd, "bass24", "c")]
 
 try:
-  library_dirs.append(os.environ["LIBBASS"])
+  library_dirs.append(os.environ["BASSLIB"])
 except KeyError:
   pass
 
 try:
-  include_dirs.append(os.environ["LIBBASS"])
+  include_dirs.append(os.environ["BASSINC"])
 except KeyError:
   pass
 
@@ -202,6 +202,16 @@ extensions = [
     include_dirs = include_dirs,
     language = "c"
   ),
+  Extension(
+    "Bass4Py.constants",
+    [
+      "Bass4Py/constants.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
 ]
 
 if USE_CYTHON:
@@ -209,7 +219,8 @@ if USE_CYTHON:
     extensions,
     gdb_debug = DEBUG_MODE,
     compiler_directives = {
-      'embedsignature': True
+      'embedsignature': True,
+      'language_level': 3
     }
   )
 else:

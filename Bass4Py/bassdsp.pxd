@@ -1,4 +1,4 @@
-from bass cimport HDSP,DWORD
+from .bass cimport HDSP,DWORD
 cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer,DWORD length,void *user) with gil
 cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer,DWORD length,void *user) with gil
 cdef class BASSDSP:

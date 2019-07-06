@@ -1,5 +1,5 @@
-cimport bass
-from basschannel cimport BASSCHANNEL
+from . cimport bass
+from .basschannel cimport BASSCHANNEL
 from libc.stdlib cimport malloc,free
 from libc.string cimport memmove
 cdef class BASSSAMPLE:

@@ -1,5 +1,5 @@
-cimport bass
-from bass cimport DWORD, HCHANNEL
+from . cimport bass
+from .bass cimport DWORD, HCHANNEL
 
 cdef class BASSCHANNELATTRIBUTE:
   cdef readonly HCHANNEL __channel

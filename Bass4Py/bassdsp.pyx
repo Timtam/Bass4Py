@@ -1,7 +1,7 @@
 from libc.string cimport memmove
-cimport bass
-from basschannel cimport BASSCHANNEL
-import basscallbacks
+from . cimport bass
+from .basschannel cimport BASSCHANNEL
+from . import basscallbacks
 cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer,DWORD length,void *user) with gil:
  cdef BASSDSP odsp=BASSDSP(channel,dsp)
  cdef bytes result

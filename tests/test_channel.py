@@ -1,4 +1,5 @@
 from Bass4Py import bass
+from Bass4Py.constants import BASS_STREAM_DECODE
 import os.path
 import unittest
 import wave
@@ -13,7 +14,7 @@ class TestChannel(unittest.TestCase):
     # load files
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
     self.python_wave = wave.open(path, "rb")
-    self.bass_wave = self.device.StreamCreateFile(False, path.encode("utf-8"), 0, 0, bass.BASS_STREAM_DECODE)
+    self.bass_wave = self.device.StreamCreateFile(False, path.encode('utf-8'), 0, 0, BASS_STREAM_DECODE)
     
   def tearDown(self):
     self.bass_wave.Free()

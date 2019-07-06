@@ -2,10 +2,10 @@
 This module holds the class which is the main entry point to all BASS-related functionalities.
 """
 
-from bassdevice cimport BASSDEVICE
-from bassexceptions import BassError,BassAPIError
-from bassplugin cimport BASSPLUGIN
-from bassversion cimport BASSVERSION
+from .bassdevice cimport BASSDEVICE
+from .bassexceptions import BassError,BassAPIError
+from .bassplugin cimport BASSPLUGIN
+from .bassversion cimport BASSVERSION
 
 cdef extern from "Python.h":
   void PyEval_InitThreads()
@@ -13,7 +13,7 @@ cdef extern from "Python.h":
 cpdef __Evaluate():
   cdef DWORD error = BASS_ErrorGetCode()
 
-  if error != BASS_OK:
+  if error != _BASS_OK:
     raise BassError(error)
 
 cdef class BASS:
@@ -47,12 +47,12 @@ cdef class BASS:
       while True:
         odevice = BASSDEVICE(devicenumber)
         try:
-          if odevice.Status & BASS_DEVICE_DEFAULT == BASS_DEVICE_DEFAULT:
+          if odevice.Status & _BASS_DEVICE_DEFAULT == _BASS_DEVICE_DEFAULT:
             break
         except BassError:
           pass
         devicenumber += 1
-      if odevice.Status & BASS_DEVICE_DEFAULT != BASS_DEVICE_DEFAULT:
+      if odevice.Status & _BASS_DEVICE_DEFAULT != _BASS_DEVICE_DEFAULT:
         return None
       return odevice
     else:
@@ -136,376 +136,376 @@ cdef class BASS:
 
   property NetAgent:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_AGENT.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_AGENT.html>`_
     """
     def __get__(BASS self):
-      return <char *>BASS_GetConfigPtr(BASS_CONFIG_NET_AGENT)
+      return <char *>BASS_GetConfigPtr(_BASS_CONFIG_NET_AGENT)
 
     def __set__(BASS self, char *value):
-      BASS_SetConfigPtr(BASS_CONFIG_NET_AGENT, <void*>value)
+      BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, <void*>value)
       __Evaluate()
 
   property NetProxy:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_PROXY.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PROXY.html>`_
     """
     def __get__(BASS self):
-      return <char*>BASS_GetConfigPtr(BASS_CONFIG_NET_PROXY)
+      return <char*>BASS_GetConfigPtr(_BASS_CONFIG_NET_PROXY)
 
     def __set__(BASS self, char *value):
-      BASS_SetConfigPtr(BASS_CONFIG_NET_PROXY, <void*>value)
+      BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, <void*>value)
       __Evaluate()
 
   property Algorithm3D:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_3DALGORITHM.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_3DALGORITHM.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_3DALGORITHM)
+      return BASS_GetConfig(_BASS_CONFIG_3DALGORITHM)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_3DALGORITHM, value)
+      BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
       __Evaluate()
 
   property Airplay:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_AIRPLAY.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_AIRPLAY.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_AIRPLAY)
+      return BASS_GetConfig(_BASS_CONFIG_AIRPLAY)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_AIRPLAY, value)
+      BASS_SetConfig(_BASS_CONFIG_AIRPLAY, value)
       __Evaluate()
 
   property AsyncBuffer:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_ASYNCFILE_BUFFER.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_ASYNCFILE_BUFFER.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_ASYNCFILE_BUFFER)
+      return BASS_GetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_ASYNCFILE_BUFFER, value)
+      BASS_SetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER, value)
       __Evaluate()
 
   property Buffer:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_BUFFER.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_BUFFER.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_BUFFER)
+      return BASS_GetConfig(_BASS_CONFIG_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_BUFFER, value)
+      BASS_SetConfig(_BASS_CONFIG_BUFFER, value)
       __Evaluate()
 
   property CurveVolume:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_CURVE_VOL.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_CURVE_VOL.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_CURVE_VOL)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_CURVE_VOL)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_CURVE_VOL, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_CURVE_VOL, <DWORD>value)
       __Evaluate()
 
   property CurvePan:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_CURVE_PAN.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_CURVE_PAN.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_CURVE_PAN)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_CURVE_PAN)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_CURVE_PAN, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_CURVE_PAN, <DWORD>value)
       __Evaluate()
 
   property DeviceBuffer:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_DEV_BUFFER.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_DEV_BUFFER.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_DEV_BUFFER)
+      return BASS_GetConfig(_BASS_CONFIG_DEV_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_DEV_BUFFER, value)
+      BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
       __Evaluate()
 
   property DefaultDevice:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_DEV_DEFAULT.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_DEV_DEFAULT.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_DEV_DEFAULT)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_DEV_DEFAULT)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
       __Evaluate()
 
   property FloatDsp:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_FLOATDSP.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_FLOATDSP.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_FLOATDSP)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_FLOATDSP)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_FLOATDSP, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_FLOATDSP, <DWORD>value)
       __Evaluate()
 
   property MusicVolume:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_GVOL_MUSIC.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_GVOL_MUSIC.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_GVOL_MUSIC)
+      return BASS_GetConfig(_BASS_CONFIG_GVOL_MUSIC)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_GVOL_MUSIC, value)
+      BASS_SetConfig(_BASS_CONFIG_GVOL_MUSIC, value)
       __Evaluate()
 
   property SampleVolume:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_GVOL_SAMPLE.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_GVOL_SAMPLE.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_GVOL_SAMPLE)
+      return BASS_GetConfig(_BASS_CONFIG_GVOL_SAMPLE)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_GVOL_SAMPLE, value)
+      BASS_SetConfig(_BASS_CONFIG_GVOL_SAMPLE, value)
       __Evaluate()
 
   property StreamVolume:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_GVOL_STREAM.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_GVOL_STREAM.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_GVOL_STREAM)
+      return BASS_GetConfig(_BASS_CONFIG_GVOL_STREAM)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, value)
+      BASS_SetConfig(_BASS_CONFIG_GVOL_STREAM, value)
       __Evaluate()
 
   property Video:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_MF_VIDEO.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_MF_VIDEO.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_MF_VIDEO)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_MF_VIDEO)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_MF_VIDEO, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
       __Evaluate()
 
   property VirtualChannels:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_MUSIC_VIRTUAL.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_MUSIC_VIRTUAL.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_MUSIC_VIRTUAL)
+      return BASS_GetConfig(_BASS_CONFIG_MUSIC_VIRTUAL)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_MUSIC_VIRTUAL, value)
+      BASS_SetConfig(_BASS_CONFIG_MUSIC_VIRTUAL, value)
       __Evaluate()
 
   property NetBuffer:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_BUFFER.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_BUFFER.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_NET_BUFFER)
+      return BASS_GetConfig(_BASS_CONFIG_NET_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_NET_BUFFER, value)
+      BASS_SetConfig(_BASS_CONFIG_NET_BUFFER, value)
       __Evaluate()
 
   property NetPassive:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_PASSIVE.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PASSIVE.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_NET_PASSIVE)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_NET_PASSIVE)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_NET_PASSIVE, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_NET_PASSIVE, <DWORD>value)
       __Evaluate()
 
   property NetPlaylist:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_PLAYLIST.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PLAYLIST.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_NET_PLAYLIST)
+      return BASS_GetConfig(_BASS_CONFIG_NET_PLAYLIST)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_NET_PLAYLIST, value)
+      BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST, value)
       __Evaluate()
 
   property NetPrebuf:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_PREBUF.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PREBUF.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_NET_PREBUF)
+      return BASS_GetConfig(_BASS_CONFIG_NET_PREBUF)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_NET_PREBUF, value)
+      BASS_SetConfig(_BASS_CONFIG_NET_PREBUF, value)
       __Evaluate()
 
   property NetTimeout:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_TIMEOUT.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_TIMEOUT.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_NET_TIMEOUT)
+      return BASS_GetConfig(_BASS_CONFIG_NET_TIMEOUT)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_NET_TIMEOUT, value)
+      BASS_SetConfig(_BASS_CONFIG_NET_TIMEOUT, value)
       __Evaluate()
 
   property NetReadTimeout:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_NET_READTIMEOUT.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_READTIMEOUT.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_NET_READTIMEOUT)
+      return BASS_GetConfig(_BASS_CONFIG_NET_READTIMEOUT)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_NET_READTIMEOUT, value)
+      BASS_SetConfig(_BASS_CONFIG_NET_READTIMEOUT, value)
       __Evaluate()
 
   property OggPrescan:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_OGG_PRESCAN.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_OGG_PRESCAN.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_OGG_PRESCAN)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_OGG_PRESCAN)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_OGG_PRESCAN, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_OGG_PRESCAN, <DWORD>value)
       __Evaluate()
 
   property PauseNoplay:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_PAUSE_NOPLAY.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_PAUSE_NOPLAY.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_PAUSE_NOPLAY)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_PAUSE_NOPLAY)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_PAUSE_NOPLAY, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_PAUSE_NOPLAY, <DWORD>value)
       __Evaluate()
 
   property RecordBuffer:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_REC_BUFFER.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_REC_BUFFER.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_REC_BUFFER)
+      return BASS_GetConfig(_BASS_CONFIG_REC_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_REC_BUFFER, value)
+      BASS_SetConfig(_BASS_CONFIG_REC_BUFFER, value)
       __Evaluate()
 
   property SRC:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_SRC.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_SRC.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_SRC)
+      return BASS_GetConfig(_BASS_CONFIG_SRC)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_SRC, value)
+      BASS_SetConfig(_BASS_CONFIG_SRC, value)
       __Evaluate()
 
   property SRCSample:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_SRC_SAMPLE.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_SRC_SAMPLE.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_SRC_SAMPLE)
+      return BASS_GetConfig(_BASS_CONFIG_SRC_SAMPLE)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_SRC_SAMPLE, value)
+      BASS_SetConfig(_BASS_CONFIG_SRC_SAMPLE, value)
       __Evaluate()
 
   property Unicode:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_UNICODE.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_UNICODE.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_UNICODE)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_UNICODE)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_UNICODE, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>value)
       __Evaluate()
 
   property UpdatePeriod:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_UPDATEPERIOD.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_UPDATEPERIOD.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_UPDATEPERIOD)
+      return BASS_GetConfig(_BASS_CONFIG_UPDATEPERIOD)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_UPDATEPERIOD, value)
+      BASS_SetConfig(_BASS_CONFIG_UPDATEPERIOD, value)
       __Evaluate()
 
   property UpdateThreads:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_UPDATETHREADS.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_UPDATETHREADS.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_UPDATETHREADS)
+      return BASS_GetConfig(_BASS_CONFIG_UPDATETHREADS)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_UPDATETHREADS, value)
+      BASS_SetConfig(_BASS_CONFIG_UPDATETHREADS, value)
       __Evaluate()
 
   property Verify:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_VERIFY.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_VERIFY.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_VERIFY)
+      return BASS_GetConfig(_BASS_CONFIG_VERIFY)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_VERIFY, value)
+      BASS_SetConfig(_BASS_CONFIG_VERIFY, value)
       __Evaluate()
 
   property NetVerify:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_VERIFY_NET.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_VERIFY_NET.html>`_
     """
     def __get__(BASS self):
-      return BASS_GetConfig(BASS_CONFIG_VERIFY_NET)
+      return BASS_GetConfig(_BASS_CONFIG_VERIFY_NET)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(BASS_CONFIG_VERIFY_NET, value)
+      BASS_SetConfig(_BASS_CONFIG_VERIFY_NET, value)
       __Evaluate()
 
   property VistaSpeakers:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_VISTA_SPEAKERS.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_VISTA_SPEAKERS.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_VISTA_SPEAKERS)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_SPEAKERS)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
       __Evaluate()
 
   property VistaTruepos:
     """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_CONFIG_VISTA_TRUEPOS.html>`_
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_VISTA_TRUEPOS.html>`_
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(BASS_CONFIG_VISTA_TRUEPOS)
+      return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_TRUEPOS)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
+      BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
       __Evaluate()
 
   def __reduce__(BASS self):

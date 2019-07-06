@@ -1,20 +1,20 @@
-from bass cimport (
-                   HCHANNEL,
-                   BASS_CHANNELINFO,
-                   DWORD,
-                   QWORD,
-                   WORD,
-                   LOWORD,
-                   HIWORD,
-                   BASS_3DVECTOR,
-                   HSYNC,
-                   SYNCPROC,
-                   HFX,
-                   HDSP,
-                   DSPPROC
-                  )
+from .bass cimport (
+                    HCHANNEL,
+                    BASS_CHANNELINFO,
+                    DWORD,
+                    QWORD,
+                    WORD,
+                    LOWORD,
+                    HIWORD,
+                    BASS_3DVECTOR,
+                    HSYNC,
+                    SYNCPROC,
+                    HFX,
+                    HDSP,
+                    DSPPROC
+                   )
 
-from basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 
 cdef class BASSCHANNEL:
   cdef readonly HCHANNEL __channel

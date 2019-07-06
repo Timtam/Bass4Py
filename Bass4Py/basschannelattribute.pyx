@@ -1,4 +1,4 @@
-from bassexceptions import BassError,BassAPIError
+from .bassexceptions import BassError,BassAPIError
 
 cdef class BASSCHANNELATTRIBUTE:
   def __cinit__(BASSCHANNELATTRIBUTE self, HCHANNEL channel, DWORD attribute, bint readonly = False):
@@ -10,19 +10,19 @@ cdef class BASSCHANNELATTRIBUTE:
     cdef float value
     cdef bint res
 
-    if self.__attrib == bass.BASS_ATTRIB_MUSIC_VOL_CHAN or \
-       self.__attrib == bass.BASS_ATTRIB_MUSIC_VOL_INST:
+    if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
+       self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
       return self.__getmusicvolchan()
-    elif self.__attrib == bass.BASS_ATTRIB_BUFFER:
+    elif self.__attrib == bass._BASS_ATTRIB_BUFFER:
       return self.__getbuffer()
-    elif self.__attrib == bass.BASS_ATTRIB_NORAMP:
+    elif self.__attrib == bass._BASS_ATTRIB_NORAMP:
       return self.__getramping()
 
     res = bass.BASS_ChannelGetAttribute(self.__channel, self.__attrib, &value)
     try:
       bass.__Evaluate()
     except BassError, e:
-      if e.error == bass.BASS_ERROR_ILLTYPE:
+      if e.error == bass._BASS_ERROR_ILLTYPE:
         raise BassAPIError()
       raise e
     return value
@@ -33,19 +33,19 @@ cdef class BASSCHANNELATTRIBUTE:
     if self.__readonly:
       raise BassError("attribute is readonly and thus cannot be set")
 
-    if self.__attrib == bass.BASS_ATTRIB_MUSIC_VOL_CHAN or \
-       self.__attrib==bass.BASS_ATTRIB_MUSIC_VOL_INST:
+    if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
+       self.__attrib==bass._BASS_ATTRIB_MUSIC_VOL_INST:
       return self.__setmusicvolchan(<list>value)
-    elif self.__attrib == bass.BASS_ATTRIB_BUFFER:
+    elif self.__attrib == bass._BASS_ATTRIB_BUFFER:
       return self.__setbuffer(<float>value)
-    elif self.__attrib == bass.BASS_ATTRIB_NORAMP:
+    elif self.__attrib == bass._BASS_ATTRIB_NORAMP:
       return self.__setramping(<bint>value)
 
     res = bass.BASS_ChannelSetAttribute(self.__channel, self.__attrib, <float>value)
     try:
       bass.__Evaluate()
     except BassError, e:
-      if e.error == bass.BASS_ERROR_ILLTYPE:
+      if e.error == bass._BASS_ERROR_ILLTYPE:
         raise BassAPIError()
       raise e
     return res
@@ -56,10 +56,10 @@ cdef class BASSCHANNELATTRIBUTE:
     if self.__readonly:
       raise BassError("attribute is readonly and thus cannot be set")
 
-    if self.__attrib == bass.BASS_ATTRIB_MUSIC_VOL_CHAN or \
-       self.__attrib == bass.BASS_ATTRIB_MUSIC_VOL_INST:
+    if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
+       self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
       return self.__slidemusicvolchan(<list>value, time)
-    elif self.__attrib == bass.BASS_ATTRIB_BUFFER:
+    elif self.__attrib == bass._BASS_ATTRIB_BUFFER:
       return self.__slidebuffer(<float>value, time)
     res = bass.BASS_ChannelSlideAttribute(self.__channel, self.__attrib, <float>value, time)
     bass.__Evaluate()
@@ -76,7 +76,7 @@ cdef class BASSCHANNELATTRIBUTE:
         volumes.append(res)
         channel+=1
     except BassError, e:
-      if e.error != bass.BASS_ERROR_ILLTYPE:
+      if e.error != bass._BASS_ERROR_ILLTYPE:
         raise e
       if len(volumes) == 0:
         raise e
@@ -101,9 +101,9 @@ cdef class BASSCHANNELATTRIBUTE:
     bass.BASS_ChannelSetAttribute(self.__channel, self.__attrib, value)
     bass.__Evaluate()
     if value == 0:
-      bass.BASS_ChannelSetAttribute(self.__channel, bass.BASS_ATTRIB_NOBUFFER, 1.0)
+      bass.BASS_ChannelSetAttribute(self.__channel, bass._BASS_ATTRIB_NOBUFFER, 1.0)
     else:
-      bass.BASS_ChannelSetAttribute(self.__channel, bass.BASS_ATTRIB_NOBUFFER, 0.0)
+      bass.BASS_ChannelSetAttribute(self.__channel, bass._BASS_ATTRIB_NOBUFFER, 0.0)
     bass.__Evaluate()
     return True
 
@@ -127,11 +127,11 @@ cdef class BASSCHANNELATTRIBUTE:
       
   cpdef __getramping(BASSCHANNELATTRIBUTE self):
     cdef float res
-    bass.BASS_ChannelGetAttribute(self.__channel, bass.BASS_ATTRIB_NORAMP, &res)
+    bass.BASS_ChannelGetAttribute(self.__channel, bass._BASS_ATTRIB_NORAMP, &res)
     bass.__Evaluate()
     return False if res == 1 else True
 
   cpdef __setramping(BASSCHANNELATTRIBUTE self, bint value):
-    bass.BASS_ChannelSetAttribute(self.__channel, bass.BASS_ATTRIB_NORAMP, 0.0 if value == True else 1.0)
+    bass.BASS_ChannelSetAttribute(self.__channel, bass._BASS_ATTRIB_NORAMP, 0.0 if value == True else 1.0)
     bass.__Evaluate()
     return True

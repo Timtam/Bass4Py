@@ -1,4 +1,4 @@
-cimport bass
+from . cimport bass
 
 cdef class BASSVERSION:
   """
@@ -21,6 +21,6 @@ cdef class BASSVERSION:
       cdef int lowordcount,hiwordcount
       hiword=bass.HIWORD(self.Integer)
       loword=bass.LOWORD(self.Integer)
-      hiwordcount=hiword/0x100
-      lowordcount=loword/0x100
+      hiwordcount=int(hiword/0x100)
+      lowordcount=int(loword/0x100)
       return '{0}.{1}.{2}.{3}'.format(hiwordcount, hiword-hiwordcount*0x100, lowordcount, loword-lowordcount*0x100)

@@ -1,6 +1,6 @@
-cimport bass
-import basscallbacks
-from basschannel cimport BASSCHANNEL
+from . cimport bass
+from . import basscallbacks
+from .basschannel cimport BASSCHANNEL
 cdef void CSYNCPROC(HSYNC handle,DWORD channel,DWORD data,void *user) with gil:
  cdef object cb
  cdef BASSSYNC osync=BASSSYNC(channel,handle)

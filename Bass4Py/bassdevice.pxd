@@ -1,21 +1,21 @@
-from bass cimport (
-                   DWORD,
-                   QWORD,
-                   HWND,
-                   BASS_DEVICEINFO,
-                   BASS_INFO,
-                   STREAMPROC,
-                   DOWNLOADPROC,
-                   BASS_FILEPROCS,
-                   FILECLOSEPROC,
-                   FILEREADPROC,
-                   FILELENPROC,
-                   FILESEEKPROC,
-                   HSAMPLE,
-                   HSTREAM,
-                   HMUSIC,
-                   BASS_3DVECTOR
-                  )
+from .bass cimport (
+                    DWORD,
+                    QWORD,
+                    HWND,
+                    BASS_DEVICEINFO,
+                    BASS_INFO,
+                    STREAMPROC,
+                    DOWNLOADPROC,
+                    BASS_FILEPROCS,
+                    FILECLOSEPROC,
+                    FILEREADPROC,
+                    FILELENPROC,
+                    FILESEEKPROC,
+                    HSAMPLE,
+                    HSTREAM,
+                    HMUSIC,
+                    BASS_3DVECTOR
+                   )
 
 cdef class BASSDEVICE:
   cdef readonly DWORD __device
