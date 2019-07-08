@@ -1,10 +1,10 @@
 from . cimport bass
 from . import basscallbacks
-from .bassexceptions import BassAPIError
 from .bassmusic cimport BASSMUSIC
 from .basssample cimport BASSSAMPLE
 from .bassstream cimport *
 from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
+from .exceptions import BassAPIError
 from types import FunctionType
 
 __EAXPresets={

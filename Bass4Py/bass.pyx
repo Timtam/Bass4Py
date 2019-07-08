@@ -3,9 +3,9 @@ This module holds the class which is the main entry point to all BASS-related fu
 """
 
 from .bassdevice cimport BASSDEVICE
-from .bassexceptions import BassError,BassAPIError
 from .bassplugin cimport BASSPLUGIN
 from .bassversion cimport BASSVERSION
+from .exceptions import BassError, BassAPIError
 
 cdef extern from "Python.h":
   void PyEval_InitThreads()

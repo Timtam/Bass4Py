@@ -1,6 +1,6 @@
 from . cimport bass
 from .basschannel cimport BASSCHANNEL
-from .bassexceptions import BassOutOfRangeError
+from .exceptions import BassOutOfRangeError
 
 cdef class BASSFX:
   cpdef Set(BASSFX self, FUSED_CHANNEL chan, bint update = True):

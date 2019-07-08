@@ -5,11 +5,11 @@ from . import basscallbacks
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 from .bassdevice cimport BASSDEVICE
 from .bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
-from .bassexceptions import BassError,BassAPIError
 from .bassplugin cimport BASSPLUGIN
 from .basssample cimport BASSSAMPLE
 from .basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
 from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
+from .exceptions import BassError,BassAPIError
 from types import FunctionType
 
 cdef class BASSCHANNEL:

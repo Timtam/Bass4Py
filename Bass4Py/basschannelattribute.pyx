@@ -1,4 +1,4 @@
-from .bassexceptions import BassError,BassAPIError
+from .exceptions import BassError,BassAPIError
 
 from libc.stdlib cimport malloc, free
 
