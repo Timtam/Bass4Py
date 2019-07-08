@@ -1,5 +1,7 @@
 from .bassexceptions import BassError,BassAPIError
 
+from libc.stdlib cimport malloc, free
+
 cdef class BASSCHANNELATTRIBUTE:
   def __cinit__(BASSCHANNELATTRIBUTE self, HCHANNEL channel, DWORD attribute, bint readonly = False):
     self.__channel = channel
@@ -17,6 +19,8 @@ cdef class BASSCHANNELATTRIBUTE:
       return self.__getbuffer()
     elif self.__attrib == bass._BASS_ATTRIB_NORAMP:
       return self.__getramping()
+    elif self.__attrib == bass._BASS_ATTRIB_SCANINFO:
+      return self.__getscaninfo()
 
     res = bass.BASS_ChannelGetAttribute(self.__channel, self.__attrib, &value)
     try:
@@ -135,3 +139,34 @@ cdef class BASSCHANNELATTRIBUTE:
     bass.BASS_ChannelSetAttribute(self.__channel, bass._BASS_ATTRIB_NORAMP, 0.0 if value == True else 1.0)
     bass.__Evaluate()
     return True
+
+  cpdef __getscaninfo(BASSCHANNELATTRIBUTE self):
+    cdef bytes res
+    cdef DWORD size
+    cdef void * info
+
+    size = bass.BASS_ChannelGetAttributeEx(self.__channel, self.__attrib, NULL, 0)
+    bass.__Evaluate()
+
+    info = malloc(size)
+
+    if info == NULL:
+      raise MemoryError()
+
+    bass.BASS_ChannelGetAttributeEx(self.__channel, self.__attrib, info, size)
+
+    try:
+      bass.__Evaluate()
+    except Exception, e:
+      free(info)
+      raise e
+    
+    res = (<char*>info)[:size]
+    free(info)
+    return res
+
+  cpdef __setscaninfo(BASSCHANNELATTRIBUTE self, bytes info):
+    cdef DWORD size = len(info)
+    cdef DWORD res = bass.BASS_ChannelSetAttributeEx(self.__channel, self.__attrib, <void*>info, size)
+    bass.__Evaluate()
+    return res

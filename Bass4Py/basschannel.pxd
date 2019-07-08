@@ -15,6 +15,7 @@ from .bass cimport (
                    )
 
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .bassfx cimport BASSFX
 
 cdef class BASSCHANNEL:
   cdef readonly HCHANNEL __channel
@@ -42,7 +43,7 @@ cdef class BASSCHANNEL:
   cpdef Play(BASSCHANNEL self, bint restart)
   cpdef ResetFX(BASSCHANNEL self)
   cpdef SetDSP(BASSCHANNEL self, object proc, int priority, object user=?)
-  cpdef SetFX(BASSCHANNEL self, DWORD type, int priority)
+  cpdef SetFX(BASSCHANNEL self, BASSFX fx)
   cpdef SetSync(BASSCHANNEL self, DWORD type, QWORD param, object proc, object user=?)
   cpdef Stop(BASSCHANNEL self)
   cpdef Unlink(BASSCHANNEL self, BASSCHANNEL obj)

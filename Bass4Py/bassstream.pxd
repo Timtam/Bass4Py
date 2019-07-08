@@ -25,6 +25,7 @@ cdef class BASSSTREAM(BASSCHANNEL):
   # attributes
   cdef readonly BASSCHANNELATTRIBUTE Bitrate
   cdef readonly BASSCHANNELATTRIBUTE NetResume
+  cdef readonly BASSCHANNELATTRIBUTE ScanInfo
 
   cpdef Free(BASSSTREAM self)
   cpdef QWORD GetFilePosition(BASSSTREAM self, DWORD mode)

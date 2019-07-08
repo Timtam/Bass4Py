@@ -97,6 +97,7 @@ cdef class BASSSTREAM(BASSCHANNEL):
     BASSCHANNEL.__initattributes(self)
     self.Bitrate = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BITRATE, True)
     self.NetResume = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_NET_RESUME)
+    self.ScanInfo = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_SCANINFO)
   
   cpdef Free(BASSSTREAM self):
     cdef bint res = bass.BASS_StreamFree(self.__channel)

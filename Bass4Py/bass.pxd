@@ -773,6 +773,7 @@ cdef extern from "bass.h":
   cdef bint BASS_FXSetParameters(HFX handle, const void *params)
   cdef bint BASS_FXGetParameters(HFX handle, void *params)
   cdef bint BASS_FXReset(HFX handle)
+  cdef bint BASS_FXSetPriority(HFX handle, int priority)
 
   cdef BYTE LOBYTE(QWORD a)
   cdef BYTE HIBYTE(QWORD a)

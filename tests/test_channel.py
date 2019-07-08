@@ -25,7 +25,7 @@ class TestChannel(unittest.TestCase):
     self.assertEqual(self.bass_wave.Channels, self.python_wave.getnchannels())
 
   def test_sample_rate(self):
-    self.assertEqual(self.bass_wave.Frequency.Get(), self.python_wave.getframerate())
+    self.assertEqual(self.bass_wave.DefaultFrequency, self.python_wave.getframerate())
 
   def test_length(self):
     # bass returns entire length, whereas python's wave module returns

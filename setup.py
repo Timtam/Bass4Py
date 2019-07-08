@@ -212,6 +212,96 @@ extensions = [
     include_dirs = include_dirs,
     language = "c"
   ),
+  Extension(
+    "Bass4Py.fx.dx8_chorus",
+    [
+      "Bass4Py/fx/dx8_chorus.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_compressor",
+    [
+      "Bass4Py/fx/dx8_compressor.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_distortion",
+    [
+      "Bass4Py/fx/dx8_distortion.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_echo",
+    [
+      "Bass4Py/fx/dx8_echo.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_flanger",
+    [
+      "Bass4Py/fx/dx8_flanger.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_gargle",
+    [
+      "Bass4Py/fx/dx8_gargle.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_i3dl2reverb",
+    [
+      "Bass4Py/fx/dx8_i3dl2reverb.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_parameq",
+    [
+      "Bass4Py/fx/dx8_parameq.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.fx.dx8_reverb",
+    [
+      "Bass4Py/fx/dx8_reverb.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
 ]
 
 if USE_CYTHON:

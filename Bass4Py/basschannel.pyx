@@ -6,7 +6,6 @@ from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 from .bassdevice cimport BASSDEVICE
 from .bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
 from .bassexceptions import BassError,BassAPIError
-from .bassfx cimport BASSFX, BASSFX_Create
 from .bassplugin cimport BASSPLUGIN
 from .basssample cimport BASSSAMPLE
 from .basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
@@ -95,10 +94,8 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return BASSSYNC(self.__channel, sync)
 
-  cpdef SetFX(BASSCHANNEL self, DWORD type, int priority):
-    cdef HFX fx = bass.BASS_ChannelSetFX(self.__channel, type, priority)
-    bass.__Evaluate()
-    return BASSFX_Create(self.__channel, fx, type)
+  cpdef SetFX(BASSCHANNEL self, BASSFX fx):
+    (<object>fx).Set(self.__channel)
 
   cpdef ResetFX(BASSCHANNEL self):
     cdef bint res = bass.BASS_FXReset(self.__channel)
