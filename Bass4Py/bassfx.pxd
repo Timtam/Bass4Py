@@ -16,10 +16,10 @@ ctypedef fused PARAMETER_TYPE:
   int
   
 cdef class BASSFX:
-  cdef readonly DWORD __channel
-  cdef readonly HFX __fx
-  cdef readonly DWORD __type
-  cdef readonly int __priority
+  cdef DWORD __channel
+  cdef HFX __fx
+  cdef DWORD __type
+  cdef int __priority
   cdef void *__effect
 
   cpdef Remove(BASSFX self)

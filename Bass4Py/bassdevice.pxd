@@ -18,7 +18,7 @@ from .bass cimport (
                    )
 
 cdef class BASSDEVICE:
-  cdef readonly DWORD __device
+  cdef DWORD __device
   cdef BASS_INFO __getinfo(BASSDEVICE self)
   cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
   cpdef Free(BASSDEVICE self)

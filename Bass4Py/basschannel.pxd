@@ -18,7 +18,7 @@ from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 from .bassfx cimport BASSFX
 
 cdef class BASSCHANNEL:
-  cdef readonly HCHANNEL __channel
+  cdef HCHANNEL __channel
 
   # attributes
   cdef readonly BASSCHANNELATTRIBUTE Buffer
