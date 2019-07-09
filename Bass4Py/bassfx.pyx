@@ -68,6 +68,17 @@ cdef class BASSFX:
     if value < lbound or value > ubound:
       raise BassOutOfRangeError("FX parameter value {0} must range from {1} to {2}".format(value, lbound, ubound))
 
+  def __eq__(BASSFX self, object y):
+    cdef BASSFX fx
+    if isinstance(y, BASSFX):
+      fx = <BASSFX>y
+      if self.__fx == 0 and fx.__fx == 0:
+        return self.__effect == fx.__effect
+      else:
+        return self.__fx == fx.__fx
+    return NotImplemented
+
+
   property Channel:
     def __get__(BASSFX self):
       return BASSCHANNEL(self.__channel)

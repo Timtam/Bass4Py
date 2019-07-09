@@ -44,3 +44,10 @@ class TestChannel(unittest.TestCase):
     # bass data
     b_data = self.bass_wave.GetData(frames * self.python_wave.getsampwidth() * self.python_wave.getnchannels())
     self.assertEqual(p_data, b_data)
+    
+  def test_inequality(self):
+    path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
+
+    strm = self.device.StreamCreateFile(False, path.encode('utf-8'), 0, 0, BASS_STREAM_DECODE)
+    self.assertNotEqual(self.bass_wave, strm)
+    strm.Free()

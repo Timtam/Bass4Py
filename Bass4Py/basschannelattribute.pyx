@@ -170,3 +170,10 @@ cdef class BASSCHANNELATTRIBUTE:
     cdef DWORD res = bass.BASS_ChannelSetAttributeEx(self.__channel, self.__attrib, <void*>info, size)
     bass.__Evaluate()
     return res
+
+  def __eq__(BASSCHANNELATTRIBUTE self, object y):
+    cdef BASSCHANNELATTRIBUTE attr
+    if isinstance(y, BASSCHANNELATTRIBUTE):
+      attr = <BASSCHANNELATTRIBUTE>y
+      return self.__channel == attr.__channel and self.__attrib == attr.__attrib
+    return NotImplemented

@@ -67,6 +67,17 @@ cdef class BASSSYNC:
   cpdef _call_callback(BASSSYNC self, DWORD data):
     self.__func(self)
 
+  def __eq__(BASSSYNC self, object y):
+    cdef BASSSYNC sync
+    if isinstance(y, BASSSYNC):
+      sync = <BASSSYNC>y
+
+      if self.__sync == 0 and sync.__sync == 0:
+        return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.__mixtime == sync.__mixtime
+      else:
+        return self.__sync == sync.__sync
+    return NotImplemented
+
   property Channel:
     def __get__(BASSSYNC self):
       return BASSCHANNEL(self.__channel)

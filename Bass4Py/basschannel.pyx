@@ -161,6 +161,13 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return res
 
+  def __eq__(BASSCHANNEL self, object y):
+    cdef BASSCHANNEL chan
+    if isinstance(y, BASSCHANNEL):
+      chan = <BASSCHANNEL>y
+      return self.__channel == chan.__channel
+    return NotImplemented
+
   property DefaultFrequency:
     def __get__(BASSCHANNEL self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
