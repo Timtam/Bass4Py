@@ -7,7 +7,7 @@ from .bassdevice cimport BASSDEVICE
 from .bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
 from .bassplugin cimport BASSPLUGIN
 from .basssample cimport BASSSAMPLE
-from .basssync cimport BASSSYNC, CSYNCPROC, CSYNCPROC_STD
+from .basssync cimport BASSSYNC
 from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassError,BassAPIError
 from types import FunctionType
@@ -80,19 +80,8 @@ cdef class BASSCHANNEL:
   cpdef Unlock(BASSCHANNEL self):
     return bass.BASS_ChannelLock(self.__channel, False)
 
-  cpdef SetSync(BASSCHANNEL self, DWORD stype, QWORD param, object proc, object user=None):
-    cdef int cbpos, iproc
-    cdef SYNCPROC *cproc
-    cdef HSYNC sync
-    if type(proc) != FunctionType: raise BassAPIError()
-    cbpos = basscallbacks.Callbacks.AddCallback(proc, user)
-    IF UNAME_SYSNAME=="Windows":
-      cproc = <SYNCPROC*>CSYNCPROC_STD
-    ELSE:
-      cproc = <SYNCPROC*>CSYNCPROC
-    sync = bass.BASS_ChannelSetSync(self.__channel, stype, param, cproc, <void*>cbpos)
-    bass.__Evaluate()
-    return BASSSYNC(self.__channel, sync)
+  cpdef SetSync(BASSCHANNEL self, BASSSYNC sync):
+    sync.Set(self.__channel)
 
   cpdef SetFX(BASSCHANNEL self, BASSFX fx):
     (<object>fx).Set(self.__channel)

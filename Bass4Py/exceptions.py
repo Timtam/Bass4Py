@@ -16,3 +16,6 @@ class BassLinkError(Exception):
     
 class BassOutOfRangeError(Exception):
   pass
+  
+class BassSyncError(Exception):
+  pass

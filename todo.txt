@@ -1,4 +1,5 @@
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - adding tag information as attributes into channel object
 - 3d attributes via dedicated object instead of attributes (better performance)
+- equality operators, checking for equality of internal id instead of object address
 - documentation

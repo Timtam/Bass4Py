@@ -302,6 +302,116 @@ extensions = [
     include_dirs = include_dirs,
     language = "c"
   ),
+  Extension(
+    "Bass4Py.sync.set_position",
+    [
+      "Bass4Py/sync/set_position.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.slide",
+    [
+      "Bass4Py/sync/slide.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.position",
+    [
+      "Bass4Py/sync/position.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.stall",
+    [
+      "Bass4Py/sync/stall.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.ogg_change",
+    [
+      "Bass4Py/sync/ogg_change.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.meta",
+    [
+      "Bass4Py/sync/meta.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.free",
+    [
+      "Bass4Py/sync/free.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.end",
+    [
+      "Bass4Py/sync/end.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.download",
+    [
+      "Bass4Py/sync/download.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.device_format",
+    [
+      "Bass4Py/sync/device_format.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.device_fail",
+    [
+      "Bass4Py/sync/device_fail.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
 ]
 
 if USE_CYTHON:

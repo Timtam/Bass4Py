@@ -1,10 +1,13 @@
 from . cimport bass
 from .basschannel cimport BASSCHANNEL
-from .exceptions import BassOutOfRangeError
+from .exceptions import BassError, BassAPIError, BassOutOfRangeError
 
 cdef class BASSFX:
   cpdef Set(BASSFX self, FUSED_CHANNEL chan, bint update = True):
     cdef HFX fx
+
+    if self.__fx:
+      raise BassAPIError()
 
     if FUSED_CHANNEL is HCHANNEL:
       fx = bass.BASS_ChannelSetFX(chan, self.__type, self.__priority)
@@ -31,6 +34,10 @@ cdef class BASSFX:
 
   cpdef Remove(BASSFX self):
     cdef bint res
+
+    if self.__fx == 0:
+      raise BassAPIError()
+
     res = bass.BASS_ChannelRemoveFX(self.__channel, self.__fx)
     bass.__Evaluate()
     self.__fx = 0
@@ -38,12 +45,21 @@ cdef class BASSFX:
     return res
 
   cpdef Reset(BASSFX self):
-    cdef bint res = bass.BASS_FXReset(self.__fx)
+    cdef bint res 
+
+    if self.__fx == 0:
+      raise BassAPIError()
+
+    res = bass.BASS_FXReset(self.__fx)
     bass.__Evaluate()
     bass.BASS_FXGetParameters(self.__fx, self.__effect)
     return res
 
   cpdef Update(BASSFX self):
+
+    if self.__fx == 0:
+      raise BassAPIError()
+
     bass.BASS_FXSetParameters(self.__hfx, self.__effect)
     bass.__Evaluate()
 
@@ -61,6 +77,15 @@ cdef class BASSFX:
       return self.__priority
     
     def __set__(BASSFX self, int priority):
-      bass.BASS_FXSetPriority(self.__fx, priority)
-      bass.__Evaluate()
+      cdef int old_priority = self.__priority
+
       self.__priority = priority
+
+      if self.__fx:
+        bass.BASS_FXSetPriority(self.__fx, priority)
+
+        try:
+          bass.__Evaluate()
+        except BassError, e:
+          self.__priority = old_priority
+          raise e
