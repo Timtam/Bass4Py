@@ -10,7 +10,7 @@ from ..bass cimport (
 from ..basschannel cimport BASSCHANNEL
 from ..bassfx cimport BASSFX
 
-from libc.stdlib cimport malloc, free
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 cdef class BASSFX_DX8PARAMEQ(BASSFX):
 
@@ -19,7 +19,7 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
 
     self.__type = _BASS_FX_DX8_PARAMEQ
 
-    effect = <BASS_DX8_PARAMEQ*>malloc(sizeof(BASS_DX8_PARAMEQ))
+    effect = <BASS_DX8_PARAMEQ*>PyMem_Malloc(sizeof(BASS_DX8_PARAMEQ))
     
     if effect == NULL:
       raise MemoryError()
@@ -32,7 +32,7 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
 
   def __dealloc__(BASSFX_DX8PARAMEQ self):
     if self.__effect != NULL:
-      free(self.__effect)
+      PyMem_Free(self.__effect)
       self.__effect = NULL
 
   cpdef Set(BASSFX_DX8PARAMEQ self, BASSCHANNEL chan, bint update = True):

@@ -7,7 +7,7 @@ from ..bass cimport (
                      DWORD
                     )
 from ..bassfx cimport BASSFX
-from libc.stdlib cimport malloc, free
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 cdef class BASSFX_DX8CHORUS(BASSFX):
 
@@ -16,7 +16,7 @@ cdef class BASSFX_DX8CHORUS(BASSFX):
 
     self.__type = _BASS_FX_DX8_CHORUS
 
-    effect = <BASS_DX8_CHORUS*>malloc(sizeof(BASS_DX8_CHORUS))
+    effect = <BASS_DX8_CHORUS*>PyMem_Malloc(sizeof(BASS_DX8_CHORUS))
     
     if effect == NULL:
       raise MemoryError()
@@ -33,7 +33,7 @@ cdef class BASSFX_DX8CHORUS(BASSFX):
 
   def __dealloc__(BASSFX_DX8CHORUS self):
     if self.__effect != NULL:
-      free(self.__effect)
+      PyMem_Free(self.__effect)
       self.__effect = NULL
 
   property WetDryMix:

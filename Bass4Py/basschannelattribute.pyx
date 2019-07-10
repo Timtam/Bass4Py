@@ -1,6 +1,6 @@
 from .exceptions import BassError,BassAPIError
 
-from libc.stdlib cimport malloc, free
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 cdef class BASSCHANNELATTRIBUTE:
   def __cinit__(BASSCHANNELATTRIBUTE self, HCHANNEL channel, DWORD attribute, bint readonly = False):
@@ -148,7 +148,7 @@ cdef class BASSCHANNELATTRIBUTE:
     size = bass.BASS_ChannelGetAttributeEx(self.__channel, self.__attrib, NULL, 0)
     bass.__Evaluate()
 
-    info = malloc(size)
+    info = PyMem_Malloc(size)
 
     if info == NULL:
       raise MemoryError()
@@ -158,11 +158,11 @@ cdef class BASSCHANNELATTRIBUTE:
     try:
       bass.__Evaluate()
     except Exception, e:
-      free(info)
+      PyMem_Free(info)
       raise e
     
     res = (<char*>info)[:size]
-    free(info)
+    PyMem_Free(info)
     return res
 
   cpdef __setscaninfo(BASSCHANNELATTRIBUTE self, bytes info):

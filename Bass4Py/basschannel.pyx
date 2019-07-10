@@ -1,4 +1,4 @@
-from libc.stdlib cimport malloc, free
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.string cimport memmove
 from . cimport bass
 from . import basscallbacks
@@ -65,13 +65,13 @@ cdef class BASSCHANNEL:
     cdef int i=0
     cdef float *levels
     cdef list plevels=[]
-    levels = <float*>malloc(chans * sizeof(float))
+    levels = <float*>PyMem_Malloc(chans * sizeof(float))
     if levels == NULL: return plevels
     bass.BASS_ChannelGetLevelEx(self.__channel, levels, length, flags)
     bass.__Evaluate()
     for i in range(chans):
       plevels.append(levels[i])
-    free(<void*>levels)
+    PyMem_Free(<void*>levels)
     return tuple(plevels)
 
   cpdef Lock(BASSCHANNEL self):
@@ -140,7 +140,7 @@ cdef class BASSCHANNEL:
 
   cpdef GetData(BASSCHANNEL self, DWORD length):
     cdef DWORD l = length&0xfffffff
-    cdef void *buffer = <void*>malloc(l)
+    cdef void *buffer = <void*>PyMem_Malloc(l)
     cdef bytes b
 
     if buffer == NULL:
@@ -150,10 +150,10 @@ cdef class BASSCHANNEL:
     try:
       bass.__Evaluate()
     except BassError as e:
-      free(buffer)
+      PyMem_Free(buffer)
       raise e
     b = (<char*>buffer)[:l]
-    free(buffer)
+    PyMem_Free(buffer)
     return b
 
   cpdef GetLength(BASSCHANNEL self, DWORD mode = bass._BASS_POS_BYTE):

@@ -3,7 +3,7 @@ from ..bass cimport (
                      _BASS_FX_DX8_DISTORTION
                     )
 from ..bassfx cimport BASSFX
-from libc.stdlib cimport malloc, free
+from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 cdef class BASSFX_DX8DISTORTION(BASSFX):
 
@@ -12,7 +12,7 @@ cdef class BASSFX_DX8DISTORTION(BASSFX):
 
     self.__type = _BASS_FX_DX8_DISTORTION
 
-    effect = <BASS_DX8_DISTORTION*>malloc(sizeof(BASS_DX8_DISTORTION))
+    effect = <BASS_DX8_DISTORTION*>PyMem_Malloc(sizeof(BASS_DX8_DISTORTION))
     
     if effect == NULL:
       raise MemoryError()
@@ -27,7 +27,7 @@ cdef class BASSFX_DX8DISTORTION(BASSFX):
 
   def __dealloc__(BASSFX_DX8DISTORTION self):
     if self.__effect != NULL:
-      free(self.__effect)
+      PyMem_Free(self.__effect)
       self.__effect = NULL
 
   property Gain:
