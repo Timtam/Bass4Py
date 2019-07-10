@@ -1,16 +1,14 @@
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.string cimport memmove
 from . cimport bass
-from . import basscallbacks
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 from .bassdevice cimport BASSDEVICE
-from .bassdsp cimport BASSDSP, CDSPPROC, CDSPPROC_STD
+from .bassdsp cimport BASSDSP
 from .bassplugin cimport BASSPLUGIN
 from .basssample cimport BASSSAMPLE
 from .basssync cimport BASSSYNC
 from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassError,BassAPIError
-from types import FunctionType
 
 cdef class BASSCHANNEL:
   def __cinit__(BASSCHANNEL self, HCHANNEL channel):
@@ -91,19 +89,8 @@ cdef class BASSCHANNEL:
     bass.__Evaluate()
     return res
 
-  cpdef SetDSP(BASSCHANNEL self, object proc, int priority, object user=None):
-    cdef int cbpos, iproc
-    cdef DSPPROC *cproc
-    cdef HDSP dsp
-    if type(proc) != FunctionType: raise BassAPIError()
-    cbpos = basscallbacks.Callbacks.AddCallback(proc, user)
-    IF UNAME_SYSNAME=="Windows":
-      cproc = <DSPPROC*>CDSPPROC_STD
-    ELSE:
-      cproc = <DSPPROC*>CDSPPROC
-    dsp = bass.BASS_ChannelSetDSP(self.__channel, cproc, <void*>cbpos, priority)
-    bass.__Evaluate()
-    return BASSDSP(self.__channel, dsp)
+  cpdef SetDSP(BASSCHANNEL self, BASSDSP dsp):
+    dsp.Set(self)
 
   cpdef Link(BASSCHANNEL self, BASSCHANNEL obj):
     cdef bint res = bass.BASS_ChannelSetLink(self.__channel, obj.__channel)

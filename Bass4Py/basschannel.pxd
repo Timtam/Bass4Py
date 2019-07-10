@@ -6,12 +6,11 @@ from .bass cimport (
                     WORD,
                     LOWORD,
                     HIWORD,
-                    BASS_3DVECTOR,
-                    HDSP,
-                    DSPPROC
+                    BASS_3DVECTOR
                    )
 
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .bassdsp cimport BASSDSP
 from .bassfx cimport BASSFX
 from .basssync cimport BASSSYNC
 
@@ -40,7 +39,7 @@ cdef class BASSCHANNEL:
   cpdef Pause(BASSCHANNEL self)
   cpdef Play(BASSCHANNEL self, bint restart)
   cpdef ResetFX(BASSCHANNEL self)
-  cpdef SetDSP(BASSCHANNEL self, object proc, int priority, object user=?)
+  cpdef SetDSP(BASSCHANNEL self, BASSDSP dsp)
   cpdef SetFX(BASSCHANNEL self, BASSFX fx)
   cpdef SetSync(BASSCHANNEL self, BASSSYNC sync)
   cpdef Stop(BASSCHANNEL self)
