@@ -412,6 +412,26 @@ extensions = [
     include_dirs = include_dirs,
     language = "c"
   ),
+  Extension(
+    "Bass4Py.sync.music_position",
+    [
+      "Bass4Py/sync/music_position.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
+    "Bass4Py.sync.music_instrument",
+    [
+      "Bass4Py/sync/music_instrument.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
 ]
 
 if USE_CYTHON:
