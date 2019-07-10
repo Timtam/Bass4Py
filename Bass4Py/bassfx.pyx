@@ -3,23 +3,17 @@ from .basschannel cimport BASSCHANNEL
 from .exceptions import BassError, BassAPIError, BassOutOfRangeError
 
 cdef class BASSFX:
-  cpdef Set(BASSFX self, FUSED_CHANNEL chan, bint update = True):
+  cpdef Set(BASSFX self, BASSCHANNEL chan, bint update = True):
     cdef HFX fx
 
     if self.__fx:
       raise BassAPIError()
 
-    if FUSED_CHANNEL is HCHANNEL:
-      fx = bass.BASS_ChannelSetFX(chan, self.__type, self.__priority)
-    elif FUSED_CHANNEL is BASSCHANNEL:
-      fx = bass.BASS_ChannelSetFX(chan.__channel, self.__type, self.__priority)
+    fx = bass.BASS_ChannelSetFX(chan.__channel, self.__type, self.__priority)
 
     bass.__Evaluate()
 
-    if FUSED_CHANNEL is HCHANNEL:
-      self.__channel = chan
-    elif FUSED_CHANNEL is BASSCHANNEL:
-      self.__channel = chan.__channel
+    self.Channel = chan
 
     self.__fx = fx
 
@@ -38,10 +32,10 @@ cdef class BASSFX:
     if self.__fx == 0:
       raise BassAPIError()
 
-    res = bass.BASS_ChannelRemoveFX(self.__channel, self.__fx)
+    res = bass.BASS_ChannelRemoveFX(self.Channel.__channel, self.__fx)
     bass.__Evaluate()
     self.__fx = 0
-    self.__channel = 0
+    self.Channel = None
     return res
 
   cpdef Reset(BASSFX self):
@@ -77,11 +71,6 @@ cdef class BASSFX:
       else:
         return self.__fx == fx.__fx
     return NotImplemented
-
-
-  property Channel:
-    def __get__(BASSFX self):
-      return BASSCHANNEL(self.__channel)
 
   property Priority:
     def __get__(BASSFX self):

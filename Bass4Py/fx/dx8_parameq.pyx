@@ -1,19 +1,14 @@
 from ..bass cimport (
                      __Evaluate,
-                     BASS_ChannelGetInfo,
                      BASS_CHANNELINFO,
                      BASS_DX8_PARAMEQ,
                      _BASS_FX_DX8_PARAMEQ,
                      BASS_FXGetParameters,
                      BASS_FXSetParameters,
-                     DWORD,
-                     HCHANNEL
+                     DWORD
                     )
 from ..basschannel cimport BASSCHANNEL
-from ..bassfx cimport (
-                       BASSFX,
-                       FUSED_CHANNEL
-                      )
+from ..bassfx cimport BASSFX
 
 from libc.stdlib cimport malloc, free
 
@@ -31,6 +26,7 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
       
     self.__effect = effect
 
+    effect.fCenter = 0.0
     effect.fBandwidth = 12.0
     effect.fGain = 0.0
 
@@ -39,7 +35,7 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
       free(self.__effect)
       self.__effect = NULL
 
-  cpdef Set(BASSFX_DX8PARAMEQ self, FUSED_CHANNEL chan):
+  cpdef Set(BASSFX_DX8PARAMEQ self, BASSCHANNEL chan, bint update = True):
     cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self.__effect)
     cdef BASS_DX8_PARAMEQ temp
 
@@ -49,13 +45,15 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
       BASS_FXGetParameters(self.__fx, <void*>(&temp))
       effect.fCenter = temp.fCenter
     
-    BASS_FXSetParameters(self.__fx, self.__effect)
+    if update:
 
-    try:
-      __Evaluate()
-    except Exception, e:
-      self.Remove()
-      raise e
+      BASS_FXSetParameters(self.__fx, self.__effect)
+
+      try:
+        __Evaluate()
+      except Exception, e:
+        self.Remove()
+        raise e
 
   property Center:
     def __get__(BASSFX_DX8PARAMEQ self):
@@ -66,7 +64,7 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self.__effect)
       cdef BASS_CHANNELINFO info
 
-      if self.__channel == 0:
+      if self.Channel == None:
 
         IF UNAME_SYSNAME == "Windows":
           self.__validate_range(value, 80.0, 16000.0)
@@ -75,10 +73,8 @@ cdef class BASSFX_DX8PARAMEQ(BASSFX):
 
       else:
 
-        BASS_ChannelGetInfo(self.__channel, &info)
+        info = self.Channel.__getinfo()
 
-        __Evaluate()
-        
         IF UNAME_SYSNAME == "Windows":
           self.__validate_range(value, 80.0, <float>(<int>(info.freq/3 - 1)))
         ELSE:

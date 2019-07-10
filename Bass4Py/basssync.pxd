@@ -16,7 +16,7 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 
 cdef class BASSSYNC:
-  cdef DWORD __channel
+  cdef readonly BASSCHANNEL Channel
   cdef HSYNC __sync
   cdef bint __mixtime
   cdef DWORD __type

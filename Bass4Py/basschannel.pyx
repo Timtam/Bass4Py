@@ -81,10 +81,10 @@ cdef class BASSCHANNEL:
     return bass.BASS_ChannelLock(self.__channel, False)
 
   cpdef SetSync(BASSCHANNEL self, BASSSYNC sync):
-    sync.Set(self.__channel)
+    sync.Set(self)
 
   cpdef SetFX(BASSCHANNEL self, BASSFX fx):
-    (<object>fx).Set(self.__channel)
+    (<object>fx).Set(self)
 
   cpdef ResetFX(BASSCHANNEL self):
     cdef bint res = bass.BASS_FXReset(self.__channel)

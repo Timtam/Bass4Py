@@ -8,7 +8,7 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
   (<object>sync)._call_callback(data)
 
   if sync.__onetime:
-    sync.__channel = 0
+    sync.Channel = None
     sync.__sync = 0
 
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
@@ -50,9 +50,9 @@ cdef class BASSSYNC:
     self.__sync = sync
     
     if FUSED_CHANNEL is HCHANNEL:
-      self.__channel = chan
+      self.Channel = BASSCHANNEL(chan)
     elif FUSED_CHANNEL is BASSCHANNEL:
-      self.__channel = chan.__channel
+      self.Channel = chan
 
   cpdef Remove(BASSSYNC self):
     cdef bint res
@@ -60,8 +60,10 @@ cdef class BASSSYNC:
     if self.__sync == 0:
       raise BassAPIError()
 
-    res = bass.BASS_ChannelRemoveSync(self.__channel, self.__sync)
+    res = bass.BASS_ChannelRemoveSync(self.Channel.__channel, self.__sync)
     bass.__Evaluate()
+    self.Channel = None
+    self.__sync = 0
     return res
 
   cpdef _call_callback(BASSSYNC self, DWORD data):
@@ -73,14 +75,10 @@ cdef class BASSSYNC:
       sync = <BASSSYNC>y
 
       if self.__sync == 0 and sync.__sync == 0:
-        return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.__mixtime == sync.__mixtime
+        return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.__mixtime == sync.__mixtime and self.Channel.__channel == sync.Channel.__channel
       else:
         return self.__sync == sync.__sync
     return NotImplemented
-
-  property Channel:
-    def __get__(BASSSYNC self):
-      return BASSCHANNEL(self.__channel)
 
   property Mixtime:
     def __get__(BASSSYNC self):
