@@ -14,7 +14,7 @@ class TestFX(unittest.TestCase):
 
     # load file
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
-    self.stream = self.device.StreamCreateFile(False, path.encode('utf-8'), 0, 0, 0)
+    self.stream = self.device.CreateStreamFromFilename(path)
     self.effect = BASSFX_DX8PARAMEQ()
     
   def tearDown(self):

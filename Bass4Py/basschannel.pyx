@@ -11,7 +11,7 @@ from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassError,BassAPIError
 
 cdef class BASSCHANNEL:
-  def __cinit__(BASSCHANNEL self, HCHANNEL channel):
+  def __init__(BASSCHANNEL self, HCHANNEL channel):
     self.__channel=channel
     self.__initattributes()
 
@@ -198,7 +198,7 @@ cdef class BASSCHANNEL:
     def __get__(BASSCHANNEL self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
-      return info.filename
+      return info.filename.decode('utf-8')
 
   property Sample:
     def __get__(BASSCHANNEL self):

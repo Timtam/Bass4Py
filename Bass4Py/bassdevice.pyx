@@ -7,6 +7,8 @@ from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassAPIError
 from types import FunctionType
 
+include "transform.pxi"
+
 __EAXPresets={
    bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
   bass.EAX_PRESET_PADDEDCELL: (bass.EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
@@ -151,13 +153,24 @@ cdef class BASSDEVICE:
     bass.__Evaluate()
     return BASSSTREAM(stream)
 
-  cpdef StreamCreateFile(BASSDEVICE self, bint mem, const char *file, QWORD offset=0, QWORD length=0, DWORD flags=0):
+  cpdef CreateStreamFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0):
     cdef HSTREAM stream
-    cdef void *ptr = <void*>file
+    
+    if length == 0 or length > data.shape[0]:
+      length = data.shape[0]
+
+    stream = bass.BASS_StreamCreateFile(True, &(data[0]), 0, length, flags)
+    bass.__Evaluate()
+    return BASSSTREAM(stream)
+
+  cpdef CreateStreamFromFilename(BASSDEVICE self, object filename, DWORD flags = 0, QWORD offset = 0):
+    cdef HSTREAM stream
+    cdef const unsigned char[:] inp
+
+    inp = to_readonly_bytes(filename)
+
     self.Set()
-    if mem and length == 0:
-      length = len(file)
-    stream = bass.BASS_StreamCreateFile(mem, ptr, offset, length, flags)
+    stream = bass.BASS_StreamCreateFile(False, &(inp[0]), offset, 0, flags)
     bass.__Evaluate()
     return BASSSTREAM(stream)
 
@@ -249,7 +262,7 @@ cdef class BASSDEVICE:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
-      return info.name
+      return info.name.decode('utf-8')
 
   property Driver:
     def __get__(BASSDEVICE self):

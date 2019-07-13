@@ -7,6 +7,8 @@ from .bassplugin cimport BASSPLUGIN
 from .bassversion cimport BASSVERSION
 from .exceptions import BassError, BassAPIError
 
+include "transform.pxi"
+
 cdef extern from "Python.h":
   void PyEval_InitThreads()
 
@@ -139,10 +141,13 @@ cdef class BASS:
     .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_AGENT.html>`_
     """
     def __get__(BASS self):
-      return <char *>BASS_GetConfigPtr(_BASS_CONFIG_NET_AGENT)
+      return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_NET_AGENT)).decode('utf-8')
 
-    def __set__(BASS self, char *value):
-      BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, <void*>value)
+    def __set__(BASS self, object value):
+
+      cdef const unsigned char[:] agent = to_readonly_bytes(value)
+
+      BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, &(agent[0]))
       __Evaluate()
 
   property NetProxy:
@@ -150,10 +155,13 @@ cdef class BASS:
     .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PROXY.html>`_
     """
     def __get__(BASS self):
-      return <char*>BASS_GetConfigPtr(_BASS_CONFIG_NET_PROXY)
+      return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_NET_PROXY)).decode('utf-8')
 
-    def __set__(BASS self, char *value):
-      BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, <void*>value)
+    def __set__(BASS self, object value):
+
+      cdef const unsigned char[:] proxy = to_readonly_bytes(value)
+
+      BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, &(proxy[0]))
       __Evaluate()
 
   property Algorithm3D:
