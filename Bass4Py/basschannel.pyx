@@ -13,7 +13,9 @@ from .exceptions import BassError,BassAPIError
 cdef class BASSCHANNEL:
   def __init__(BASSCHANNEL self, HCHANNEL channel):
     self.__channel=channel
-    self.__initattributes()
+
+    if self.__channel != 0:
+      self.__initattributes()
 
   cdef void __initattributes(BASSCHANNEL self):
     self.Buffer = BASSCHANNELATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BUFFER)

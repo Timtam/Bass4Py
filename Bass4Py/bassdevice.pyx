@@ -7,8 +7,6 @@ from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassAPIError
 from types import FunctionType
 
-include "transform.pxi"
-
 __EAXPresets={
    bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
   bass.EAX_PRESET_PADDEDCELL: (bass.EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
@@ -154,44 +152,13 @@ cdef class BASSDEVICE:
     return BASSSTREAM(stream)
 
   cpdef CreateStreamFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0):
-    cdef HSTREAM stream
-    
-    if length == 0 or length > data.shape[0]:
-      length = data.shape[0]
+    return BASSSTREAM.FromBytes(data, flags, length, self)
 
-    stream = bass.BASS_StreamCreateFile(True, &(data[0]), 0, length, flags)
-    bass.__Evaluate()
-    return BASSSTREAM(stream)
+  cpdef CreateStreamFromFile(BASSDEVICE self, object filename, DWORD flags = 0, QWORD offset = 0):
+    return BASSSTREAM.FromFile(filename, flags, offset, self)
 
-  cpdef CreateStreamFromFilename(BASSDEVICE self, object filename, DWORD flags = 0, QWORD offset = 0):
-    cdef HSTREAM stream
-    cdef const unsigned char[:] inp
-
-    inp = to_readonly_bytes(filename)
-
-    self.Set()
-    stream = bass.BASS_StreamCreateFile(False, &(inp[0]), offset, 0, flags)
-    bass.__Evaluate()
-    return BASSSTREAM(stream)
-
-  cpdef StreamCreateURL(BASSDEVICE self, const char *url, DWORD offset, DWORD flags, object proc=0, object user=None):
-    cdef DOWNLOADPROC *cproc
-    cdef int pos
-    cdef void *ptr
-    cdef HSTREAM stream
-    self.Set()
-    if type(proc) == FunctionType:
-      pos = basscallbacks.Callbacks.AddCallback(proc, user)
-      ptr = <void*>pos
-      IF UNAME_SYSNAME == "Windows":
-        cproc = <DOWNLOADPROC*>CDOWNLOADPROC_STD
-      ELSE:
-        cproc = <DOWNLOADPROC*>CDOWNLOADPROC
-      stream = bass.BASS_StreamCreateURL(url, offset, flags, cproc, ptr)
-    else:
-      stream = bass.BASS_StreamCreateURL(url, offset, flags, NULL, NULL)
-    bass.__Evaluate()
-    return BASSSTREAM(stream)
+  cpdef CreateStreamFromURL(BASSDEVICE self, object url, DWORD flags = 0, QWORD offset = 0, object callback = None):
+    return BASSSTREAM.FromURL(url, flags, offset, callback, self)
 
   cpdef StreamCreateFileUser(BASSDEVICE self, DWORD system, DWORD flags, object close, object length, object read, object seek, object user=None):
     cdef int pos
