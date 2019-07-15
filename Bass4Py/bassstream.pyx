@@ -18,20 +18,15 @@ cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer, DWORD length, void *us
 
 cdef DWORD CSTREAMPROC(DWORD handle, void *buffer, DWORD length, void *user) with gil:
   cdef DWORD blen
-  cdef object cb, pythonf
-  cdef char *cbuf
-  cdef int i
-  cdef bytes pythonbuf
-  cdef BASSSTREAM stream = BASSSTREAM(handle)
-  cb = basscallbacks.Callbacks.GetCallback(<int>user)
-  pythonf = cb['function'][0]
-  pythonbuf = pythonf(stream, length, cb['user'])
-  blen = len(pythonbuf)
-  if <DWORD>blen > length:
-    pythonbuf = pythonbuf[:length]
-    blen=<int>length
-  cbuf = <char*>pythonbuf
-  memmove(buffer, <const void*>cbuf, blen)
+  cdef BASSSTREAM strm = <BASSSTREAM?>user
+  cdef bytes pbuf = strm.__streamproc(strm, length)
+
+  blen = len(pbuf)
+  if blen > length:
+    pbuf = pbuf[:length]
+    blen=length
+
+  memmove(buffer, <const void*>pbuf, blen)
   return blen
 
 cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle, void *buffer, DWORD length, void *user) with gil:
@@ -160,7 +155,7 @@ cdef class BASSSTREAM(BASSCHANNEL):
   @staticmethod
   def FromURL(url, flags = 0, offset = 0, callback = None, device = None):
     cdef DWORD cflags = <DWORD?>flags
-    cdef QWORD coffset = <QWORD?>offset
+    cdef DWORD coffset = <DWORD?>offset
     cdef BASSDEVICE cdevice
     cdef const unsigned char[:] curl
     cdef HSTREAM strm
@@ -197,6 +192,57 @@ cdef class BASSSTREAM(BASSCHANNEL):
     ostrm.__initattributes()
 
     return ostrm
+
+  @staticmethod
+  def FromParameters(freq, chans, flags = 0, callback = None, device = None):
+    cdef HSTREAM strm
+    cdef DWORD cfreq = <DWORD?>freq
+    cdef DWORD cchans = <DWORD?> chans
+    cdef DWORD cflags = <DWORD?>flags
+    cdef bass.STREAMPROC *cproc
+    cdef BASSDEVICE cdevice
+    cdef BASSSTREAM ostrm
+    
+    if callback != None:
+      if not callable(callback):
+        raise BassStreamError("callback needs to be callable")
+
+      IF UNAME_SYSNAME == "Windows":
+        cproc = <bass.STREAMPROC*>CSTREAMPROC_STD
+      ELSE:
+        cproc = <bass.STREAMPROC*>CSTREAMPROC
+
+    else:
+      cproc = <bass.STREAMPROC*>bass._STREAMPROC_PUSH
+    
+    if device != None:
+      cdevice = <BASSDEVICE?>device
+      cdevice.Set()
+
+    ostrm = BASSSTREAM(0)
+    
+    if callback != None:
+      ostrm.__streamproc = callback
+    
+    strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
+    bass.__Evaluate()
+    
+    ostrm.__channel = strm
+    ostrm.__initattributes()
+    
+    return ostrm
+
+  @staticmethod
+  def FromDevice(device):
+    cdef HSTREAM strm
+    cdef BASSDEVICE cdevice = <BASSDEVICE?>device
+    
+    cdevice.Set()
+    
+    strm = bass.BASS_StreamCreate(0, 0, 0, <bass.STREAMPROC*>bass._STREAMPROC_DEVICE, NULL)
+    bass.__Evaluate()
+    
+    return BASSSTREAM(strm)
 
   property AutoFree:
     def __get__(BASSCHANNEL self):

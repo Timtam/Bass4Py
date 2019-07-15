@@ -133,23 +133,8 @@ cdef class BASSDEVICE:
     bass.__Evaluate()
     return res
 
-  cpdef StreamCreate(BASSDEVICE self, DWORD freq, DWORD chans, DWORD flags, object proc, object user=None):
-    cdef int cbpos,iproc
-    cdef STREAMPROC *cproc
-    cdef HSTREAM stream
-    self.Set()
-    if type(proc)==FunctionType:
-      cbpos=basscallbacks.Callbacks.AddCallback(proc,user)
-      IF UNAME_SYSNAME=="Windows":
-        cproc = <STREAMPROC*>CSTREAMPROC_STD
-      ELSE:
-        cproc = <STREAMPROC*>CSTREAMPROC
-      stream = bass.BASS_StreamCreate(freq, chans, flags, cproc, <void*>cbpos)
-    else:
-      iproc = <int>proc
-      stream = bass.BASS_StreamCreate(freq, chans, flags, <STREAMPROC*>iproc, NULL)
-    bass.__Evaluate()
-    return BASSSTREAM(stream)
+  cpdef CreateStreamFromParameters(BASSDEVICE self, DWORD freq, DWORD chans, DWORD flags = 0, object callback = None):
+    return BASSSTREAM.FromParameters(freq, chans, flags, callback, self)
 
   cpdef CreateStreamFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0):
     return BASSSTREAM.FromBytes(data, flags, length, self)
@@ -159,6 +144,9 @@ cdef class BASSDEVICE:
 
   cpdef CreateStreamFromURL(BASSDEVICE self, object url, DWORD flags = 0, QWORD offset = 0, object callback = None):
     return BASSSTREAM.FromURL(url, flags, offset, callback, self)
+
+  cpdef CreateStream(BASSDEVICE self):
+    return BASSSTREAM.FromDevice(self)
 
   cpdef StreamCreateFileUser(BASSDEVICE self, DWORD system, DWORD flags, object close, object length, object read, object seek, object user=None):
     cdef int pos

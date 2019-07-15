@@ -23,6 +23,7 @@ cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset,void *user) with gil
 cdef class BASSSTREAM(BASSCHANNEL):
 
   cdef object __downloadproc
+  cdef object __streamproc
 
   # attributes
   cdef readonly BASSCHANNELATTRIBUTE Bitrate

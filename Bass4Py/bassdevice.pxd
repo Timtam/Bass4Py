@@ -4,7 +4,6 @@ from .bass cimport (
                     HWND,
                     BASS_DEVICEINFO,
                     BASS_INFO,
-                    STREAMPROC,
                     BASS_FILEPROCS,
                     FILECLOSEPROC,
                     FILEREADPROC,
@@ -20,8 +19,10 @@ cdef class BASSDEVICE:
   cdef DWORD __device
   cdef BASS_INFO __getinfo(BASSDEVICE self)
   cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
+  cpdef CreateStream(BASSDEVICE self)
   cpdef CreateStreamFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?)
   cpdef CreateStreamFromFile(BASSDEVICE self, object filename, DWORD flags = ?, QWORD offset = ?)
+  cpdef CreateStreamFromParameters(BASSDEVICE self, DWORD freq, DWORD chans, DWORD flags = ?, object callback = ?)
   cpdef CreateStreamFromURL(BASSDEVICE self, object url, DWORD flags = ?, QWORD offset = ?, object callback = ?)
   cpdef Free(BASSDEVICE self)
   cpdef Init(BASSDEVICE self, DWORD freq, DWORD flags, int win)
@@ -29,7 +30,6 @@ cdef class BASSDEVICE:
   cpdef Set(BASSDEVICE self)
   cpdef Start(BASSDEVICE self)
   cpdef Stop(BASSDEVICE self)
-  cpdef StreamCreate(BASSDEVICE self, DWORD freq, DWORD chans, DWORD flags, object proc, object user=*)
   cpdef StreamCreateFileUser(BASSDEVICE self, DWORD system, DWORD flags, object close, object length, object read, object seek, object user=*)
   cpdef SampleLoad(BASSDEVICE self, bint mem, char *file, QWORD offset=?, DWORD length=?, DWORD max=?, DWORD flags=?)
   cpdef SampleCreate(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags)
