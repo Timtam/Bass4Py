@@ -65,3 +65,8 @@ class TestChannel(unittest.TestCase):
     self.assertEqual(strm.GetLength(), self.bass_wave.GetLength())
 
     strm.Free()
+
+  def test_loading_from_url(self):
+    strm = self.device.CreateStreamFromURL("http://horton.com/consulting/portfolio/dwbt/bouncer/media/sample.wav")
+    
+    strm.Free()
