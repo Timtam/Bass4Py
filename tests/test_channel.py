@@ -1,6 +1,7 @@
 from Bass4Py import bass
 from Bass4Py.bassstream import BASSSTREAM
 from Bass4Py.constants import BASS_STREAM_DECODE
+from Bass4Py.exceptions import BassError
 import os.path
 import unittest
 import wave
@@ -69,4 +70,13 @@ class TestChannel(unittest.TestCase):
   def test_loading_from_url(self):
     strm = self.device.CreateStreamFromURL("http://horton.com/consulting/portfolio/dwbt/bouncer/media/sample.wav")
     
+    strm.Free()
+
+  def test_device_stream(self):
+    strm = self.device.CreateStream()
+
+    self.assertRaises(BassError, strm.Free)
+
+  def test_parameterized_stream(self):
+    strm = self.device.CreateStreamFromParameters(44100, 2)
     strm.Free()
