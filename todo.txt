@@ -1,6 +1,5 @@
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - adding tag information as attributes into channel object
 - 3d attributes via dedicated object instead of attributes (better performance)
-- stream creation based on input object (either string = file name, file-like object or bytes string)
 - validate property setter parameters against wrong input
 - documentation
