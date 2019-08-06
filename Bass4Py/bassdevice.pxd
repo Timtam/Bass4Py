@@ -16,6 +16,9 @@ cdef class BASSDEVICE:
   cdef BASS_DEVICEINFO __getdeviceinfo(BASSDEVICE self)
   cpdef CreateMusicFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?, bint device_frequency = ?)
   cpdef CreateMusicFromFile(BASSDEVICE self, object file, DWORD flags = ?, QWORD offset = ?, bint device_frequency = ?)
+  cpdef CreateSampleFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD max = ?, DWORD flags = ?, DWORD length = ?)
+  cpdef CreateSampleFromFile(BASSDEVICE self, object filename, DWORD max = ?, DWORD flags = ?, QWORD offset = ?)
+  cpdef CreateSampleFromParameters(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max = ?, DWORD flags = ?)
   cpdef CreateStream(BASSDEVICE self)
   cpdef CreateStreamFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?)
   cpdef CreateStreamFromFile(BASSDEVICE self, object filename, DWORD flags = ?, QWORD offset = ?)
@@ -28,8 +31,6 @@ cdef class BASSDEVICE:
   cpdef Set(BASSDEVICE self)
   cpdef Start(BASSDEVICE self)
   cpdef Stop(BASSDEVICE self)
-  cpdef SampleLoad(BASSDEVICE self, bint mem, char *file, QWORD offset=?, DWORD length=?, DWORD max=?, DWORD flags=?)
-  cpdef SampleCreate(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags)
 
   IF UNAME_SYSNAME=="Windows":
     cpdef EAXPreset(BASSDEVICE self, int preset)

@@ -150,22 +150,14 @@ cdef class BASSDEVICE:
   cpdef CreateStreamFromFileObj(BASSDEVICE self, object obj, DWORD system = bass._STREAMFILE_BUFFER, DWORD flags = 0):
     return BASSSTREAM.FromFileObj(obj, system, flags, self)
 
-  cpdef SampleLoad(BASSDEVICE self, bint mem, char *file, QWORD offset=0, DWORD length=0, DWORD max=65535, DWORD flags=0):
-    cdef void *ptr = <void*>file
-    cdef HSAMPLE res
-    self.Set()
-    if mem and length == 0:
-      length = len(file)
-    res = bass.BASS_SampleLoad(mem, ptr, offset, length, max, flags)
-    bass.__Evaluate()
-    return BASSSAMPLE(res)
+  cpdef CreateSampleFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD max = 65535, DWORD flags = 0, DWORD length = 0):
+    return BASSSAMPLE.FromBytes(data, max, flags, length, self)
 
-  cpdef SampleCreate(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags):
-    cdef HSAMPLE res
-    self.Set()
-    res = bass.BASS_SampleCreate(length, freq, chans, max, flags)
-    bass.__Evaluate()
-    return BASSSAMPLE(res)
+  cpdef CreateSampleFromFile(BASSDEVICE self, object filename, DWORD max = 65535, DWORD flags = 0, QWORD offset = 0):
+    return BASSSAMPLE.FromFile(filename, max, flags, offset, self)
+
+  cpdef CreateSampleFromParameters(BASSDEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max = 65535, DWORD flags = 0):
+    return BASSSAMPLE.FromParameters(length, freq, chans, max, flags, self)
 
   cpdef CreateMusicFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0, bint device_frequency = True):
     return BASSMUSIC.FromBytes(data, flags, length, device_frequency, self)
