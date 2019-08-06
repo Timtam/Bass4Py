@@ -1,5 +1,7 @@
 from .bass cimport (
+                    DWORD,
                     HCHANNEL,
+                    HMUSIC,
                     QWORD
                    )
 

@@ -117,7 +117,7 @@ cdef class BASSSTREAM(BASSCHANNEL):
       cdevice.Set()
 
     filename = to_readonly_bytes(file)
-    strm = bass.BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, flags)
+    strm = bass.BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, cflags)
     bass.__Evaluate()
     
     return BASSSTREAM(strm)

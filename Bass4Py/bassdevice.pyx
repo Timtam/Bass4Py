@@ -167,13 +167,11 @@ cdef class BASSDEVICE:
     bass.__Evaluate()
     return BASSSAMPLE(res)
 
-  cpdef MusicLoad(BASSDEVICE self, bint mem, char *file, QWORD offset, DWORD length, DWORD flags, DWORD freq):
-    cdef void *ptr = <void*>file
-    cdef HMUSIC res
-    self.Set()
-    res = bass.BASS_MusicLoad(mem, ptr, offset, length, flags, freq)
-    bass.__Evaluate()
-    return BASSMUSIC(res)
+  cpdef CreateMusicFromBytes(BASSDEVICE self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0, bint device_frequency = True):
+    return BASSMUSIC.FromBytes(data, flags, length, device_frequency, self)
+
+  cpdef CreateMusicFromFile(BASSDEVICE self, object filename, DWORD flags = 0, QWORD offset = 0, bint device_frequency = True):
+    return BASSMUSIC.FromFile(filename, flags, offset, device_frequency, self)
 
   IF UNAME_SYSNAME == "Windows":
     cpdef EAXPreset(BASSDEVICE self, int preset):

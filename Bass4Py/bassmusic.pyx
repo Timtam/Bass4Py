@@ -1,6 +1,10 @@
 from . cimport bass
 from .basschannel cimport BASSCHANNEL
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
+from .bassdevice cimport BASSDEVICE
+
+include "transform.pxi"
+
 
 cdef class BASSMUSIC(BASSCHANNEL):
 
@@ -22,6 +26,51 @@ cdef class BASSMUSIC(BASSCHANNEL):
     bass.__Evaluate()
     return res
     
+  @staticmethod
+  def FromBytes(data, flags = 0, length = 0, device_frequency = True, device = None):
+    cdef BASSDEVICE cdevice
+    cdef const unsigned char[:] cdata = data
+    cdef DWORD cflags = <DWORD?>flags
+    cdef QWORD clength = <QWORD?>length
+    cdef HMUSIC msc
+    cdef DWORD cfreq = 0
+    
+    if clength == 0 or clength > cdata.shape[0]:
+      clength = cdata.shape[0]
+
+    if device != None:
+      cdevice = <BASSDEVICE?>device
+      cdevice.Set()
+
+    if device_frequency:
+      cfreq = 1
+
+    msc = bass.BASS_MusicLoad(True, &(cdata[0]), 0, clength, cflags, cfreq)
+    bass.__Evaluate()
+    return BASSMUSIC(msc)
+
+  @staticmethod
+  def FromFile(file, flags = 0, offset = 0, device_frequency = True, device = None):
+    cdef DWORD cflags = <DWORD?>flags
+    cdef QWORD coffset = <QWORD?>offset
+    cdef BASSDEVICE cdevice
+    cdef const unsigned char[:] filename
+    cdef HMUSIC msc
+    cdef DWORD cfreq = 0
+    
+    if device != None:
+      cdevice = <BASSDEVICE?>device
+      cdevice.Set()
+
+    if device_frequency:
+      cfreq = 1
+
+    filename = to_readonly_bytes(file)
+    msc = bass.BASS_MusicLoad(False, &(filename[0]), coffset, 0, cflags, cfreq)
+    bass.__Evaluate()
+    
+    return BASSMUSIC(msc)
+
   property InterpolationNone:
     def __get__(BASSCHANNEL self):
       return self.__getflags()&bass._BASS_MUSIC_NONINTER == bass._BASS_MUSIC_NONINTER

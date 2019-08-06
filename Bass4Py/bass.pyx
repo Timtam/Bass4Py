@@ -60,7 +60,7 @@ cdef class BASS:
     else:
       return None
 
-  cpdef PluginLoad(BASS self, char *filename, DWORD flags = 0):
+  cpdef LoadPlugin(BASS self, object filename, DWORD flags = 0):
     """
     Loads a plugin library (dll or so file) to be used together with BASS
 
@@ -74,7 +74,8 @@ cdef class BASS:
 
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_PluginLoad.html>`_
     """
-    cdef HPLUGIN plugin = BASS_PluginLoad(filename, flags)
+    cdef const unsigned char[:] fn = to_readonly_bytes(filename)
+    cdef HPLUGIN plugin = BASS_PluginLoad(<const char *>(&(fn[0])), flags)
     __Evaluate()
     return BASSPLUGIN(plugin)
 
