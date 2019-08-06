@@ -1,8 +1,7 @@
 from . cimport bass
-from . import basscallbacks
 from .bassmusic cimport BASSMUSIC
 from .basssample cimport BASSSAMPLE
-from .bassstream cimport *
+from .bassstream cimport BASSSTREAM
 from .bassvector cimport BASSVECTOR, BASSVECTOR_Create
 from .exceptions import BassAPIError
 from types import FunctionType
@@ -148,30 +147,8 @@ cdef class BASSDEVICE:
   cpdef CreateStream(BASSDEVICE self):
     return BASSSTREAM.FromDevice(self)
 
-  cpdef StreamCreateFileUser(BASSDEVICE self, DWORD system, DWORD flags, object close, object length, object read, object seek, object user=None):
-    cdef int pos
-    cdef BASS_FILEPROCS procs
-    cdef HSTREAM stream
-    self.Set()
-    if type(close) != FunctionType or type(read) != FunctionType or type(length) != FunctionType or type(seek) != FunctionType:
-      raise BassAPIError()
-    IF UNAME_SYSNAME == "Windows":
-      procs.close = <FILECLOSEPROC*>CFILECLOSEPROC_STD
-      procs.read = <FILEREADPROC*>CFILEREADPROC_STD
-      procs.length = <FILELENPROC*>CFILELENPROC_STD
-      procs.seek = <FILESEEKPROC*>CFILESEEKPROC_STD
-    ELSE:
-      procs.close = <FILECLOSEPROC*>CFILECLOSEPROC
-      procs.read = <FILEREADPROC*>CFILEREADPROC
-      procs.length = <FILELENPROC*>CFILELENPROC
-      procs.seek = <FILESEEKPROC*>CFILESEEKPROC
-    pos = basscallbacks.Callbacks.AddCallback(close, user)
-    basscallbacks.Callbacks.AddCallback(read, user, pos)
-    basscallbacks.Callbacks.AddCallback(length, user, pos)
-    basscallbacks.Callbacks.AddCallback(seek, user, pos)
-    stream = bass.BASS_StreamCreateFileUser(system, flags, &procs, <void*>pos)
-    bass.__Evaluate()
-    return BASSSTREAM(stream)
+  cpdef CreateStreamFromFileObj(BASSDEVICE self, object obj, DWORD system = bass._STREAMFILE_BUFFER, DWORD flags = 0):
+    return BASSSTREAM.FromFileObj(obj, system, flags, self)
 
   cpdef SampleLoad(BASSDEVICE self, bint mem, char *file, QWORD offset=0, DWORD length=0, DWORD max=65535, DWORD flags=0):
     cdef void *ptr = <void*>file

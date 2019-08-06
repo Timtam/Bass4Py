@@ -55,7 +55,7 @@ cpdef enum:
   EAX_PRESET_DIZZY
   EAX_PRESET_PSYCHOTIC
 
-cdef extern from "bass.h":
+cdef extern from "bass.h" nogil:
   ctypedef unsigned long DWORD
   ctypedef void* HWND
   ctypedef unsigned long long QWORD

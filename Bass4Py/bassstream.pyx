@@ -1,10 +1,11 @@
 from libc.string cimport memmove
 from . cimport bass
-from . import basscallbacks
 from .basschannel cimport BASSCHANNEL
 from .basschannelattribute cimport BASSCHANNELATTRIBUTE
 from .bassdevice cimport BASSDEVICE
 from .exceptions import BassStreamError
+from filelike import is_filelike
+import os
 
 include "transform.pxi"
 
@@ -26,7 +27,7 @@ cdef DWORD CSTREAMPROC(DWORD handle, void *buffer, DWORD length, void *user) wit
     pbuf = pbuf[:length]
     blen=length
 
-  memmove(buffer, <const void*>pbuf, blen)
+  memmove(buffer, <char *>pbuf, blen)
   return blen
 
 cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle, void *buffer, DWORD length, void *user) with gil:
@@ -34,58 +35,46 @@ cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle, void *buffer, DWORD length, v
   return res
 
 cdef void CFILECLOSEPROC(void *user) with gil:
-  cdef object cb
-  cdef object pythonf
-  cb = basscallbacks.Callbacks.GetCallback(<int>user)
-  pythonf = cb['function'][0]
-  pythonf(cb['user'])
+  cdef BASSSTREAM strm = <BASSSTREAM?>user
+  strm.__file.close()
 
 cdef void __stdcall CFILECLOSEPROC_STD(void *user) with gil:
   CFILECLOSEPROC(user)
 
 cdef QWORD CFILELENPROC(void *user) with gil:
-  cdef object cb, pythonf
-  cdef QWORD res
-  cb = basscallbacks.Callbacks.GetCallback(<int>user)
-  pythonf = cb['function'][2]
-  res = pythonf(cb['user'])
-  return res
+  cdef BASSSTREAM strm = <BASSSTREAM?>user
+  cdef Py_ssize_t current_pos = strm.__file.tell()
+  cdef Py_ssize_t blen
+  strm.__file.seek(0, os.SEEK_END)
+  blen = strm.__file.tell()
+  strm.__file.seek(current_pos, os.SEEK_SET)
+  return <QWORD>blen
 
 cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
-  cdef QWORD res = CFILELENPROC(user)
-  return res
+  return CFILELENPROC(user)
 
 cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
-  cdef object cb, pythonf
-  cdef bytes str
-  cdef char *cbuf
-  cdef DWORD blen
-  cb = basscallbacks.Callbacks.GetCallback(<int>user)
-  pythonf = cb['function'][1]
-  str = pythonf(length, cb['user'])
-  blen = <DWORD>len(str)
+  cdef BASSSTREAM strm = <BASSSTREAM?>user
+  cdef bytes data = strm.__file.read(length)
+  cdef DWORD blen = len(data)
+
   if blen > length:
-    str = str[:length]
+    data = data[:length]
     blen = length
-  cbuf = <char*>str
-  memmove(buffer, <const void*>cbuf, blen)
+    
+  memmove(buffer, <char *>data, blen)
   return blen
 
 cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer, DWORD length, void *user) with gil:
-  cdef DWORD res = CFILEREADPROC(buffer, length, user)
-  return res
+  return CFILEREADPROC(buffer, length, user)
 
 cdef bint CFILESEEKPROC(QWORD offset, void *user) with gil:
-  cdef object cb, pythonf
-  cdef bint res
-  cb = basscallbacks.Callbacks.GetCallback(<int>user)
-  pythonf = cb['function'][3]
-  res = pythonf(offset, cb['user'])
-  return res
+  cdef BASSSTREAM strm = <BASSSTREAM?>user
+  strm.__file.seek(offset, os.SEEK_SET)
+  return True
 
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
-  cdef bint res = CFILESEEKPROC(offset, user)
-  return res
+  return CFILESEEKPROC(offset, user)
 
 cdef class BASSSTREAM(BASSCHANNEL):
 
@@ -243,6 +232,45 @@ cdef class BASSSTREAM(BASSCHANNEL):
     bass.__Evaluate()
     
     return BASSSTREAM(strm)
+
+  @staticmethod
+  def FromFileObj(obj, system = bass._STREAMFILE_BUFFER, flags = 0, device = None):
+    cdef HSTREAM strm
+    cdef DWORD cflags = <DWORD?>flags
+    cdef DWORD csystem = <DWORD?>system
+    cdef BASSDEVICE cdevice
+    cdef BASSSTREAM ostrm
+    cdef bass.BASS_FILEPROCS procs
+
+    if not is_filelike(obj):
+      raise BassStreamError("the object provided doesn't expose a file-like interface")
+      
+    if device != None:
+      cdevice = <BASSDEVICE?>device
+      cdevice.Set()
+
+    IF UNAME_SYSNAME == "Windows":
+      procs.close = <bass.FILECLOSEPROC*>CFILECLOSEPROC_STD
+      procs.read = <bass.FILEREADPROC*>CFILEREADPROC_STD
+      procs.length = <bass.FILELENPROC*>CFILELENPROC_STD
+      procs.seek = <bass.FILESEEKPROC*>CFILESEEKPROC_STD
+    ELSE:
+      procs.close = <bass.FILECLOSEPROC*>CFILECLOSEPROC
+      procs.read = <bass.FILEREADPROC*>CFILEREADPROC
+      procs.length = <bass.FILELENPROC*>CFILELENPROC
+      procs.seek = <bass.FILESEEKPROC*>CFILESEEKPROC
+
+    ostrm = BASSSTREAM(0)
+    ostrm.__file = obj
+
+    with nogil:
+      strm = bass.BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
+    bass.__Evaluate()
+    
+    ostrm.__channel = strm
+    ostrm.__initattributes()
+    
+    return ostrm
 
   property AutoFree:
     def __get__(BASSCHANNEL self):
