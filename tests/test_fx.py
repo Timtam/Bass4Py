@@ -1,6 +1,6 @@
-from Bass4Py import bass
+from Bass4Py.BASS import bass
 from Bass4Py.exceptions import BassOutOfRangeError
-from Bass4Py.fx.dx8_parameq import BASSFX_DX8PARAMEQ
+from Bass4Py.BASS.effects.dx8_parameq import FX_DX8_PARAMEQ
 import os.path
 import platform
 import unittest
@@ -15,7 +15,7 @@ class TestFX(unittest.TestCase):
     # load file
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
     self.stream = self.device.CreateStreamFromFile(path)
-    self.effect = BASSFX_DX8PARAMEQ()
+    self.effect = FX_DX8_PARAMEQ()
     
   def tearDown(self):
     self.stream.Free()

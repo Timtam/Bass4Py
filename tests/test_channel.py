@@ -1,5 +1,5 @@
-from Bass4Py import bass
-from Bass4Py.bassstream import BASSSTREAM
+from Bass4Py.BASS import bass
+from Bass4Py.BASS.stream import STREAM
 from Bass4Py.constants import BASS_STREAM_DECODE
 from Bass4Py.exceptions import BassError
 import os.path
@@ -61,7 +61,7 @@ class TestChannel(unittest.TestCase):
     data = f.read()
     f.close()
     
-    strm = BASSSTREAM.FromBytes(data)
+    strm = STREAM.FromBytes(data)
 
     self.assertEqual(strm.GetLength(), self.bass_wave.GetLength())
 

@@ -1,4 +1,4 @@
-from . cimport bass
+from .BASS cimport bass
 
 # only forward constants that are required/important at Python level
 

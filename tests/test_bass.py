@@ -1,4 +1,4 @@
-from Bass4Py import bass
+from Bass4Py.BASS import bass
 import unittest
 
 class TestBASS(unittest.TestCase):
