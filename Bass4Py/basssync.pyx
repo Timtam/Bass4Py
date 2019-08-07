@@ -16,7 +16,7 @@ cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void 
 
 cdef class BASSSYNC:
 
-  cpdef Set(BASSSYNC self, FUSED_CHANNEL chan):
+  cpdef Set(BASSSYNC self, BASSCHANNEL chan):
     cdef DWORD type = self.__type
     cdef HSYNC sync
     cdef SYNCPROC *cproc
@@ -40,19 +40,13 @@ cdef class BASSSYNC:
     ELSE:
       cproc = <SYNCPROC*>CSYNCPROC
 
-    if FUSED_CHANNEL is HCHANNEL:
-      sync = bass.BASS_ChannelSetSync(chan, self.__type, self.__param, cproc, <void*>self)
-    elif FUSED_CHANNEL is BASSCHANNEL:
-      sync = bass.BASS_ChannelSetSync(chan.__channel, self.__type, self.__param, cproc, <void*>self)
+    sync = bass.BASS_ChannelSetSync(chan.__channel, self.__type, self.__param, cproc, <void*>self)
 
     bass.__Evaluate()
     
     self.__sync = sync
     
-    if FUSED_CHANNEL is HCHANNEL:
-      self.Channel = BASSCHANNEL(chan)
-    elif FUSED_CHANNEL is BASSCHANNEL:
-      self.Channel = chan
+    self.Channel = chan
 
   cpdef Remove(BASSSYNC self):
     cdef bint res

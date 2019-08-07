@@ -8,10 +8,6 @@ from .bass cimport (
 
 from .basschannel cimport BASSCHANNEL
 
-ctypedef fused FUSED_CHANNEL:
-  HCHANNEL
-  BASSCHANNEL
-
 cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 
@@ -27,5 +23,5 @@ cdef class BASSSYNC:
   cdef object __func
   cdef object __user
   cpdef Remove(BASSSYNC self)
-  cpdef Set(BASSSYNC self, FUSED_CHANNEL chan)
+  cpdef Set(BASSSYNC self, BASSCHANNEL chan)
   cpdef _call_callback(BASSSYNC self, DWORD data)

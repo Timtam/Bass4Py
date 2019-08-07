@@ -6,13 +6,21 @@ from ..bass cimport (
                      MAKELONG
                     )
 
+from ..basschannel cimport BASSCHANNEL
+from ..bassmusic cimport BASSMUSIC
 from ..basssync cimport BASSSYNC
-from .exceptions import BassAPIError
+from ..exceptions import BassAPIError, BassSyncError
 
 cdef class BASSSYNC_MUSICINSTRUMENT(BASSSYNC):
   def __cinit__(BASSSYNC_MUSICINSTRUMENT self):
 
     self.__type = _BASS_SYNC_MUSICINST
+
+  cpdef Set(BASSSYNC_MUSICINSTRUMENT self, BASSCHANNEL chan):
+    if not isinstance(chan, BASSMUSIC):
+      raise BassSyncError("this sync can only be set to a music")
+    
+    super(BASSSYNC_MUSICINSTRUMENT, self).Set(chan)
 
   cpdef _call_callback(BASSSYNC_MUSICINSTRUMENT self, DWORD data):
     self.__func(self, LOWORD(data), HIWORD(data))
