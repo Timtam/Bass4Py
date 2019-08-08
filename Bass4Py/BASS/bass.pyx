@@ -2,6 +2,9 @@
 This module holds the class which is the main entry point to all BASS-related functionalities.
 """
 
+# api version supported by Bass4Py
+cdef DWORD _BASS4PY_API_VERSION = 0x2040e00
+
 from .device cimport DEVICE
 from .plugin cimport PLUGIN
 from .version cimport VERSION
@@ -24,7 +27,7 @@ cdef class BASS:
   It also provides methods to gain access to audio devices, represented as :class:`Bass4Py.DEVICE.DEVICE` classes which then further allow to create streams, samples etc.
   """
 
-  def __init__(BASS self):
+  def __cinit__(BASS self):
     PyEval_InitThreads()
 
   cpdef GetDevice(BASS self, int device = -1):
@@ -516,3 +519,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
       __Evaluate()
+
+  property APIVersion:
+    def __get__(BASS self):
+      return VERSION(_BASS4PY_API_VERSION)

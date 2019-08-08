@@ -22,11 +22,18 @@ cdef class PLUGIN:
 
   property Formats:
     def __get__(PLUGIN self):
+      cdef dict format
+      cdef list formats = []
       cdef int i
       cdef const BASS_PLUGININFO *info = self.__getinfo()
-      formats=[]
       bass.__Evaluate()
+
       for i in range(<int>info.formatc):
-        format={'Type':info.formats[i].ctype,'Name':info.formats[i].name,'Extensions':info.formats[i].exts}
+        format={
+          'Type': info.formats[i].ctype,
+          'Name': info.formats[i].name.decode('utf-8'),
+          'Extensions': info.formats[i].exts.decode('utf-8')
+        }
+
         formats.append(format)
       return formats

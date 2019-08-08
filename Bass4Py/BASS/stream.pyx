@@ -94,13 +94,13 @@ cdef class STREAM(CHANNEL):
     bass.__Evaluate()
     return res
 
-  cpdef DWORD PutData(STREAM self, char *buffer, DWORD length):
-    cdef DWORD res = bass.BASS_StreamPutData(self.__channel, <void*>buffer, length)
+  cpdef DWORD PutData(STREAM self, const unsigned char[:] buffer, DWORD length):
+    cdef DWORD res = bass.BASS_StreamPutData(self.__channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 
-  cpdef DWORD PutFileData(STREAM self, char *buffer, DWORD length):
-    cdef DWORD res = bass.BASS_StreamPutFileData(self.__channel, <void*>buffer, length)
+  cpdef DWORD PutFileData(STREAM self, const unsigned char[:] buffer, DWORD length):
+    cdef DWORD res = bass.BASS_StreamPutFileData(self.__channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 

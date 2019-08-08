@@ -10,6 +10,14 @@ cdef class VERSION:
   def __cinit__(VERSION self, DWORD version):
     self.Integer = version
 
+  def __eq__(VERSION self, object v):
+    if isinstance(v, VERSION):
+      return self.Integer == (<VERSION>v).Integer
+    elif isinstance(v, int):
+      return self.Integer == v
+    else:
+      return NotImplemented
+
   property String:
     """
     The version in a human-readable format

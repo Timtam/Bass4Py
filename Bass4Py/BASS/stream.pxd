@@ -20,5 +20,5 @@ cdef class STREAM(CHANNEL):
 
   cpdef Free(STREAM self)
   cpdef QWORD GetFilePosition(STREAM self, DWORD mode)
-  cpdef DWORD PutData(STREAM self, char *buffer, DWORD length)
-  cpdef DWORD PutFileData(STREAM self, char *buffer, DWORD length)
+  cpdef DWORD PutData(STREAM self, const unsigned char[:] buffer, DWORD length)
+  cpdef DWORD PutFileData(STREAM self, const unsigned char[:] buffer, DWORD length)
