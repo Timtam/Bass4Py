@@ -1,6 +1,6 @@
-from distutils.core import setup
-from distutils.command.build_ext import build_ext
-from distutils.extension import Extension
+from setuptools import setup
+from setuptools.command.build_ext import build_ext
+from setuptools.extension import Extension
 
 import os
 import os.path
