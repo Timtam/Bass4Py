@@ -190,7 +190,7 @@ cdef class DEVICE:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
-      return info.driver
+      return info.driver.decode('utf-8')
 
   property Status:
     def __get__(DEVICE self):
@@ -204,7 +204,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.flags
 
   property Memory:
@@ -212,7 +212,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.hwsize
 
   property MemoryFree:
@@ -220,7 +220,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info= self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.hwfree
 
   property FreeSamples:
@@ -228,7 +228,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.freesam
 
   property Free3D:
@@ -236,7 +236,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.free3d
 
   property MinimumRate:
@@ -244,7 +244,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.minrate
 
   property MaximumRate:
@@ -252,7 +252,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.maxrate
 
   property EAX:
@@ -260,7 +260,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.eax
 
   property DirectX:
@@ -268,7 +268,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.dsver
 
   property Buffer:
@@ -276,7 +276,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.minbuf
 
   property Latency:
@@ -284,7 +284,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.latency
 
   property InitFlags:
@@ -292,7 +292,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.initflags
 
   property Speakers:
@@ -300,7 +300,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.speakers
 
   property Frequency:
@@ -308,7 +308,7 @@ cdef class DEVICE:
       cdef BASS_INFO info
       self.Set()
       info = self.__getinfo()
-      self.__EvaluateSelected()
+      bass.__Evaluate()
       return info.freq
 
   property Volume:
