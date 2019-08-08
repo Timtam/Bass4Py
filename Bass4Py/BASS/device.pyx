@@ -146,6 +146,9 @@ cdef class DEVICE:
   cpdef CreateStream(DEVICE self):
     return STREAM.FromDevice(self)
 
+  cpdef CreateStream3D(DEVICE self):
+    return STREAM.FromDevice3D(self)
+
   cpdef CreateStreamFromFileObj(DEVICE self, object obj, DWORD system = bass._STREAMFILE_BUFFER, DWORD flags = 0):
     return STREAM.FromFileObj(obj, system, flags, self)
 

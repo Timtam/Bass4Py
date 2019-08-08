@@ -234,6 +234,18 @@ cdef class STREAM(CHANNEL):
     return STREAM(strm)
 
   @staticmethod
+  def FromDevice3D(device):
+    cdef HSTREAM strm
+    cdef DEVICE cdevice = <DEVICE?>device
+    
+    cdevice.Set()
+    
+    strm = bass.BASS_StreamCreate(0, 0, 0, <bass.STREAMPROC*>bass._STREAMPROC_DEVICE_3D, NULL)
+    bass.__Evaluate()
+    
+    return STREAM(strm)
+
+  @staticmethod
   def FromFileObj(obj, system = bass._STREAMFILE_BUFFER, flags = 0, device = None):
     cdef HSTREAM strm
     cdef DWORD cflags = <DWORD?>flags

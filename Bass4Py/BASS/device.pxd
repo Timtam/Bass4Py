@@ -20,6 +20,7 @@ cdef class DEVICE:
   cpdef CreateSampleFromFile(DEVICE self, object filename, DWORD max = ?, DWORD flags = ?, QWORD offset = ?)
   cpdef CreateSampleFromParameters(DEVICE self, DWORD length, DWORD freq, DWORD chans, DWORD max = ?, DWORD flags = ?)
   cpdef CreateStream(DEVICE self)
+  cpdef CreateStream3D(DEVICE self)
   cpdef CreateStreamFromBytes(DEVICE self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?)
   cpdef CreateStreamFromFile(DEVICE self, object filename, DWORD flags = ?, QWORD offset = ?)
   cpdef CreateStreamFromFileObj(DEVICE self, object obj, DWORD system = ?, DWORD flags = ?)
