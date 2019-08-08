@@ -3,7 +3,7 @@ from ..bass cimport (
                      _BASS_FX_DX8_COMPRESSOR
                     )
 from ..fx cimport FX
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_COMPRESSOR(FX):
 
@@ -25,11 +25,6 @@ cdef class FX_DX8_COMPRESSOR(FX):
     effect.fThreshold = -20.0
     effect.fRatio = 3.0
     effect.fPredelay = 4.0
-
-  def __dealloc__(FX_DX8_COMPRESSOR self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   property Gain:
     def __get__(FX_DX8_COMPRESSOR self):

@@ -10,7 +10,7 @@ from ..bass cimport (
 from ..channel cimport CHANNEL
 from ..fx cimport FX
 
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_PARAMEQ(FX):
 
@@ -29,11 +29,6 @@ cdef class FX_DX8_PARAMEQ(FX):
     effect.fCenter = 0.0
     effect.fBandwidth = 12.0
     effect.fGain = 0.0
-
-  def __dealloc__(FX_DX8_PARAMEQ self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   cpdef Set(FX_DX8_PARAMEQ self, CHANNEL chan, bint update = True):
     cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self.__effect)

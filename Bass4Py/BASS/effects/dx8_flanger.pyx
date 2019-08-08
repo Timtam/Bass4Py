@@ -7,7 +7,7 @@ from ..bass cimport (
                      DWORD
                     )
 from ..fx cimport FX
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_FLANGER(FX):
 
@@ -30,11 +30,6 @@ cdef class FX_DX8_FLANGER(FX):
     effect.lWaveform = 1
     effect.fDelay = 2.0
     effect.lPhase = _BASS_DX8_PHASE_ZERO
-
-  def __dealloc__(FX_DX8_FLANGER self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   property WetDryMix:
     def __get__(FX_DX8_FLANGER self):

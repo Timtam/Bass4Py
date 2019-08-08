@@ -1,8 +1,15 @@
 from . cimport bass
 from .channel cimport CHANNEL
 from ..exceptions import BassError, BassAPIError, BassOutOfRangeError
+from cpython.mem cimport PyMem_Free
 
 cdef class FX:
+
+  def __dealloc__(FX self):
+    if self.__effect != NULL:
+      PyMem_Free(self.__effect)
+      self.__effect = NULL
+
   cpdef Set(FX self, CHANNEL chan, bint update = True):
     cdef HFX fx
 

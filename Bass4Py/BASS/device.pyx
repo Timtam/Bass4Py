@@ -490,3 +490,11 @@ cdef class DEVICE:
         self.Set()
         bass.BASS_SetEAXParameters(-1, -1.0, -1.0, value)
         bass.__Evaluate()
+
+  property Started:
+    def __get__(DEVICE self):
+      cdef bint res
+      self.Set()
+      res = bass.BASS_IsStarted()
+      bass.__Evaluate()
+      return res

@@ -3,7 +3,7 @@ from ..bass cimport (
                      _BASS_FX_DX8_DISTORTION
                     )
 from ..fx cimport FX
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_DISTORTION(FX):
 
@@ -24,11 +24,6 @@ cdef class FX_DX8_DISTORTION(FX):
     effect.fPostEQCenterFrequency = 2400.0
     effect.fPostEQBandwidth = 2400.0
     effect.fPreLowpassCutoff = 8000.0
-
-  def __dealloc__(FX_DX8_DISTORTION self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   property Gain:
     def __get__(FX_DX8_DISTORTION self):

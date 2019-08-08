@@ -7,7 +7,7 @@ from ..bass cimport (
                      DWORD
                     )
 from ..fx cimport FX
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_CHORUS(FX):
 
@@ -30,11 +30,6 @@ cdef class FX_DX8_CHORUS(FX):
     effect.lWaveform = 1
     effect.fDelay = 16.0
     effect.lPhase = _BASS_DX8_PHASE_90
-
-  def __dealloc__(FX_DX8_CHORUS self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   property WetDryMix:
     def __get__(FX_DX8_CHORUS self):

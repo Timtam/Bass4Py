@@ -220,7 +220,22 @@ cdef class CHANNEL:
 
   property Device:
     def __get__(CHANNEL self):
-      return DEVICE(bass.BASS_ChannelGetDevice(self.__channel))
+      cdef DWORD dev = bass.BASS_ChannelGetDevice(self.__channel)
+
+      bass.__Evaluate()
+
+      if dev == bass._BASS_NODEVICE:
+        return None
+        
+      return DEVICE(dev)
+
+    def __set__(CHANNEL self, DEVICE dev):
+      if dev is None:
+        bass.BASS_ChannelSetDevice(self.__channel, bass._BASS_NODEVICE)
+      else:
+        bass.BASS_ChannelSetDevice(self.__channel, (<DEVICE?>dev).__device)
+
+      bass.__Evaluate()
 
   property Level:
     def __get__(CHANNEL self):

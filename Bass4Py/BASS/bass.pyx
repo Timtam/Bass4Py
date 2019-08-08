@@ -366,6 +366,14 @@ cdef class BASS:
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF, value)
       __Evaluate()
 
+  property NetPrebufWait:
+    def __get__(BASS self):
+      return <bint>BASS_GetConfig(_BASS_CONFIG_NET_PREBUF_WAIT)
+      
+    def __set__(BASS self, bint value):
+      BASS_SetConfig(_BASS_CONFIG_NET_PREBUF_WAIT, <DWORD>value)
+      __Evaluate()
+
   property NetTimeout:
     """
     .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_TIMEOUT.html>`_
@@ -523,3 +531,34 @@ cdef class BASS:
   property APIVersion:
     def __get__(BASS self):
       return VERSION(_BASS4PY_API_VERSION)
+      
+  property DeviceUpdatePeriod:
+    def __get__(BASS self):
+      return BASS_GetConfig(_BASS_CONFIG_DEV_PERIOD)
+
+    def __set__(BASS self, DWORD value):
+      BASS_SetConfig(_BASS_CONFIG_DEV_PERIOD, value)
+      __Evaluate()
+
+  property Handles:
+    def __get__(BASS self):
+      return BASS_GetConfig(_BASS_CONFIG_HANDLES)
+
+  IF UNAME_SYSNAME == "Windows":
+    property WASAPIPersist:
+      def __get__(BASS self):
+        return <bint>BASS_GetConfig(_BASS_CONFIG_WASAPI_PERSIST)
+      
+      def __set__(BASS self, bint value):
+        BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
+        __Evaluate()
+
+  IF UNAME_SYSNAME == "Linux":
+    property LibSSL:
+      def __get__(BASS self):
+        return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_LIBSSL)).decode('utf-8')
+      
+      def __set__(BASS self, object value):
+        cdef const unsigned char[:] data = to_readonly_bytes(value)
+        BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
+        __Evaluate()

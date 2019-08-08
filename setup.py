@@ -303,6 +303,16 @@ extensions = [
     language = "c"
   ),
   Extension(
+    "Bass4Py.BASS.effects.volume",
+    [
+      "Bass4Py/BASS/effects/volume.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
     "Bass4Py.BASS.syncs.set_position",
     [
       "Bass4Py/BASS/syncs/set_position.pyx"

@@ -4,7 +4,7 @@ from ..bass cimport (
                      DWORD
                     )
 from ..fx cimport FX
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
+from cpython.mem cimport PyMem_Malloc
 
 cdef class FX_DX8_GARGLE(FX):
 
@@ -22,11 +22,6 @@ cdef class FX_DX8_GARGLE(FX):
 
     effect.dwRateHz = 20
     effect.dwWaveShape = 0
-
-  def __dealloc__(FX_DX8_GARGLE self):
-    if self.__effect != NULL:
-      PyMem_Free(self.__effect)
-      self.__effect = NULL
 
   property RateHz:
     def __get__(FX_DX8_GARGLE self):
