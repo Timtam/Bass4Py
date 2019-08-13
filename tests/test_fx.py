@@ -9,7 +9,7 @@ class TestFX(unittest.TestCase):
 
   def setUp(self):
     self.bass = bass.BASS()
-    self.device = self.bass.GetDevice(0)
+    self.device = self.bass.GetOutputDevice(0)
     self.device.Init(44100, 0, 0)
 
     # load file

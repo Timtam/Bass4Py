@@ -1,7 +1,7 @@
 from . cimport bass
 from .channel cimport CHANNEL
 from .attribute cimport ATTRIBUTE
-from .device cimport DEVICE
+from .output_device cimport OUTPUT_DEVICE
 
 include "../transform.pxi"
 
@@ -27,7 +27,7 @@ cdef class MUSIC(CHANNEL):
     
   @staticmethod
   def FromBytes(data, flags = 0, length = 0, device_frequency = True, device = None):
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] cdata = data
     cdef DWORD cflags = <DWORD?>flags
     cdef QWORD clength = <QWORD?>length
@@ -38,7 +38,7 @@ cdef class MUSIC(CHANNEL):
       clength = cdata.shape[0]
 
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     if device_frequency:
@@ -52,13 +52,13 @@ cdef class MUSIC(CHANNEL):
   def FromFile(file, flags = 0, offset = 0, device_frequency = True, device = None):
     cdef DWORD cflags = <DWORD?>flags
     cdef QWORD coffset = <QWORD?>offset
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] filename
     cdef HMUSIC msc
     cdef DWORD cfreq = 0
     
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     if device_frequency:

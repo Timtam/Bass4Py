@@ -2,7 +2,7 @@ from libc.string cimport memmove
 from . cimport bass
 from .channel cimport CHANNEL
 from .attribute cimport ATTRIBUTE
-from .device cimport DEVICE
+from .output_device cimport OUTPUT_DEVICE
 from ..exceptions import BassStreamError
 from filelike import is_filelike
 import os
@@ -108,12 +108,12 @@ cdef class STREAM(CHANNEL):
   def FromFile(file, flags = 0, offset = 0, device = None):
     cdef DWORD cflags = <DWORD?>flags
     cdef QWORD coffset = <QWORD?>offset
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] filename
     cdef HSTREAM strm
     
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     filename = to_readonly_bytes(file)
@@ -124,7 +124,7 @@ cdef class STREAM(CHANNEL):
 
   @staticmethod
   def FromBytes(data, flags = 0, length = 0, device = None):
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] cdata = data
     cdef DWORD cflags = <DWORD?>flags
     cdef QWORD clength = <QWORD?>length
@@ -134,7 +134,7 @@ cdef class STREAM(CHANNEL):
       clength = cdata.shape[0]
 
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     strm = bass.BASS_StreamCreateFile(True, &(cdata[0]), 0, clength, cflags)
@@ -145,7 +145,7 @@ cdef class STREAM(CHANNEL):
   def FromURL(url, flags = 0, offset = 0, callback = None, device = None):
     cdef DWORD cflags = <DWORD?>flags
     cdef DWORD coffset = <DWORD?>offset
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] curl
     cdef HSTREAM strm
     cdef bass.DOWNLOADPROC *cproc
@@ -166,7 +166,7 @@ cdef class STREAM(CHANNEL):
     curl = to_readonly_bytes(url)
 
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     ostrm = STREAM(0)
@@ -189,7 +189,7 @@ cdef class STREAM(CHANNEL):
     cdef DWORD cchans = <DWORD?> chans
     cdef DWORD cflags = <DWORD?>flags
     cdef bass.STREAMPROC *cproc
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef STREAM ostrm
     
     if callback != None:
@@ -205,7 +205,7 @@ cdef class STREAM(CHANNEL):
       cproc = <bass.STREAMPROC*>bass._STREAMPROC_PUSH
     
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     ostrm = STREAM(0)
@@ -224,7 +224,7 @@ cdef class STREAM(CHANNEL):
   @staticmethod
   def FromDevice(device):
     cdef HSTREAM strm
-    cdef DEVICE cdevice = <DEVICE?>device
+    cdef OUTPUT_DEVICE cdevice = <OUTPUT_DEVICE?>device
     
     cdevice.Set()
     
@@ -236,7 +236,7 @@ cdef class STREAM(CHANNEL):
   @staticmethod
   def FromDevice3D(device):
     cdef HSTREAM strm
-    cdef DEVICE cdevice = <DEVICE?>device
+    cdef OUTPUT_DEVICE cdevice = <OUTPUT_DEVICE?>device
     
     cdevice.Set()
     
@@ -250,7 +250,7 @@ cdef class STREAM(CHANNEL):
     cdef HSTREAM strm
     cdef DWORD cflags = <DWORD?>flags
     cdef DWORD csystem = <DWORD?>system
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef STREAM ostrm
     cdef bass.BASS_FILEPROCS procs
 
@@ -258,7 +258,7 @@ cdef class STREAM(CHANNEL):
       raise BassStreamError("the object provided doesn't expose a file-like interface")
       
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     IF UNAME_SYSNAME == "Windows":

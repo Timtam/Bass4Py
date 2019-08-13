@@ -5,7 +5,7 @@ This module holds the class which is the main entry point to all BASS-related fu
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040e00
 
-from .device cimport DEVICE
+from .output_device cimport OUTPUT_DEVICE
 from .plugin cimport PLUGIN
 from .version cimport VERSION
 from ..exceptions import BassError, BassAPIError
@@ -33,7 +33,7 @@ cdef class BASS:
     IF UNAME_SYSNAME == "Windows":
       BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
 
-  cpdef GetDevice(BASS self, int device = -1):
+  cpdef GetOutputDevice(BASS self, int device = -1):
     """
     Retrieves any audio device for further usage.
     
@@ -43,9 +43,9 @@ cdef class BASS:
     """
 
     cdef int devicenumber = 0
-    cdef DEVICE odevice
+    cdef OUTPUT_DEVICE odevice
     if device >= 0:
-      odevice = DEVICE(device)
+      odevice = OUTPUT_DEVICE(device)
       try:
         odevice.Enabled
       except BassError:
@@ -53,7 +53,7 @@ cdef class BASS:
       return odevice
     elif device==-1:
       while True:
-        odevice = DEVICE(devicenumber)
+        odevice = OUTPUT_DEVICE(devicenumber)
         try:
           if odevice.Default:
             break
@@ -121,7 +121,7 @@ cdef class BASS:
     def __get__(BASS self):
       cdef DWORD device=BASS_GetDevice()
       __Evaluate()
-      return DEVICE(device)
+      return OUTPUT_DEVICE(device)
 
   property Error:
     """

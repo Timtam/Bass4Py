@@ -1,6 +1,6 @@
 from . cimport bass
 from .channel cimport CHANNEL
-from .device cimport DEVICE
+from .output_device cimport OUTPUT_DEVICE
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
@@ -38,10 +38,10 @@ cdef class SAMPLE:
     cdef DWORD cchans = <DWORD?>chans
     cdef DWORD cmax = <DWORD?>max
     cdef DWORD cflags = <DWORD?>flags
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     samp = bass.BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
@@ -51,7 +51,7 @@ cdef class SAMPLE:
 
   @staticmethod
   def FromBytes(data, max = 65535, flags = 0, length = 0, device = None):
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] cdata = data
     cdef DWORD cflags = <DWORD?>flags
     cdef DWORD clength = <QWORD?>length
@@ -62,7 +62,7 @@ cdef class SAMPLE:
       clength = cdata.shape[0]
 
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     samp = bass.BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
@@ -73,13 +73,13 @@ cdef class SAMPLE:
   def FromFile(file, max = 65535, flags = 0, offset = 0, device = None):
     cdef DWORD cflags = <DWORD?>flags
     cdef QWORD coffset = <QWORD?>offset
-    cdef DEVICE cdevice
+    cdef OUTPUT_DEVICE cdevice
     cdef const unsigned char[:] filename
     cdef HSAMPLE samp
     cdef DWORD cmax = <DWORD?>max
     
     if device != None:
-      cdevice = <DEVICE?>device
+      cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
     filename = to_readonly_bytes(file)

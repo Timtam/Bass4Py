@@ -2,7 +2,7 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.string cimport memmove
 from . cimport bass
 from .attribute cimport ATTRIBUTE
-from .device cimport DEVICE
+from .output_device cimport OUTPUT_DEVICE
 from .dsp cimport DSP
 from .plugin cimport PLUGIN
 from .sample cimport SAMPLE
@@ -227,13 +227,13 @@ cdef class CHANNEL:
       if dev == bass._BASS_NODEVICE:
         return None
         
-      return DEVICE(dev)
+      return OUTPUT_DEVICE(dev)
 
-    def __set__(CHANNEL self, DEVICE dev):
+    def __set__(CHANNEL self, OUTPUT_DEVICE dev):
       if dev is None:
         bass.BASS_ChannelSetDevice(self.__channel, bass._BASS_NODEVICE)
       else:
-        bass.BASS_ChannelSetDevice(self.__channel, (<DEVICE?>dev).__device)
+        bass.BASS_ChannelSetDevice(self.__channel, (<OUTPUT_DEVICE?>dev).__device)
 
       bass.__Evaluate()
 

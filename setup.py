@@ -103,9 +103,9 @@ extensions = [
     language="c"
   ),
   Extension(
-    "Bass4Py.BASS.device",
+    "Bass4Py.BASS.output_device",
     [
-      "Bass4Py/BASS/device.pyx"
+      "Bass4Py/BASS/output_device.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
