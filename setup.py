@@ -469,5 +469,9 @@ setup(
   ],
   cmdclass = {
     'build_ext': build_ext_compiler_check
-  }
+  },
+  install_requires = [
+    "filelike==0.5.0",
+    "aenum==2.2.1;python_version < '3.6'",
+  ]
 )

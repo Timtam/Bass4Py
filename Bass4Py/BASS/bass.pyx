@@ -30,6 +30,9 @@ cdef class BASS:
   def __cinit__(BASS self):
     PyEval_InitThreads()
 
+    IF UNAME_SYSNAME == "Windows":
+      BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
+
   cpdef GetDevice(BASS self, int device = -1):
     """
     Retrieves any audio device for further usage.
@@ -39,12 +42,12 @@ cdef class BASS:
     :rtype: :class:`Bass4Py.DEVICE.DEVICE` or None if the device isn't available
     """
 
-    cdef int devicenumber = 1
+    cdef int devicenumber = 0
     cdef DEVICE odevice
     if device >= 0:
       odevice = DEVICE(device)
       try:
-        odevice.Status
+        odevice.Enabled
       except BassError:
         return None
       return odevice
@@ -52,12 +55,12 @@ cdef class BASS:
       while True:
         odevice = DEVICE(devicenumber)
         try:
-          if odevice.Status & _BASS_DEVICE_DEFAULT == _BASS_DEVICE_DEFAULT:
+          if odevice.Default:
             break
         except BassError:
           pass
         devicenumber += 1
-      if odevice.Status & _BASS_DEVICE_DEFAULT != _BASS_DEVICE_DEFAULT:
+      if not odevice.Default:
         return None
       return odevice
     else:
@@ -353,6 +356,17 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST, value)
+      __Evaluate()
+
+  property NetPlaylistDepth:
+    """
+    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_NET_PLAYLIST_DEPTH.html>`_
+    """
+    def __get__(BASS self):
+      return BASS_GetConfig(_BASS_CONFIG_NET_PLAYLIST_DEPTH)
+
+    def __set__(BASS self, DWORD value):
+      BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST_DEPTH, value)
       __Evaluate()
 
   property NetPrebuf:

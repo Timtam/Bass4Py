@@ -1,3 +1,4 @@
+aenum==2.2.1;python_version < '3.6'
 cython==0.29.13
 filelike==0.5.0
 nose2==0.9.1

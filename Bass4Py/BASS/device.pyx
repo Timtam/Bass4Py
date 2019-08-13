@@ -3,6 +3,7 @@ from .music cimport MUSIC
 from .sample cimport SAMPLE
 from .stream cimport STREAM
 from .vector cimport VECTOR, VECTOR_Create
+from ..constants import DEVICE_TYPE
 from ..exceptions import BassAPIError
 
 __EAXPresets={
@@ -193,14 +194,39 @@ cdef class DEVICE:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
+      if info.driver == NULL:
+        return u''
       return info.driver.decode('utf-8')
 
-  property Status:
+  property Enabled:
     def __get__(DEVICE self):
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
-      return info.flags
+      return <bint>(info.flags&bass._BASS_DEVICE_ENABLED)
+
+  property Default:
+    def __get__(DEVICE self):
+      cdef BASS_DEVICEINFO info
+      info = self.__getdeviceinfo()
+      bass.__Evaluate()
+      return <bint>(info.flags&bass._BASS_DEVICE_DEFAULT)
+
+  property Initialized:
+    def __get__(DEVICE self):
+      cdef BASS_DEVICEINFO info
+      info = self.__getdeviceinfo()
+      bass.__Evaluate()
+      return <bint>(info.flags&bass._BASS_DEVICE_INIT)
+
+  property Type:
+    def __get__(DEVICE self):
+      cdef BASS_DEVICEINFO info
+      info = self.__getdeviceinfo()
+      bass.__Evaluate()
+      if info.flags&bass._BASS_DEVICE_TYPE_MASK:
+        return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
+      return None
 
   property Flags:
     def __get__(DEVICE self):
