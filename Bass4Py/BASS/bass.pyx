@@ -5,6 +5,7 @@ This module holds the class which is the main entry point to all BASS-related fu
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040e00
 
+from .input_device cimport INPUT_DEVICE
 from .output_device cimport OUTPUT_DEVICE
 from .plugin cimport PLUGIN
 from .version cimport VERSION
@@ -54,6 +55,31 @@ cdef class BASS:
     elif device==-1:
       while True:
         odevice = OUTPUT_DEVICE(devicenumber)
+        try:
+          if odevice.Default:
+            break
+        except BassError:
+          pass
+        devicenumber += 1
+      if not odevice.Default:
+        return None
+      return odevice
+    else:
+      return None
+
+  cpdef GetInputDevice(BASS self, int device = -1):
+    cdef int devicenumber = 0
+    cdef INPUT_DEVICE odevice
+    if device >= 0:
+      odevice = INPUT_DEVICE(device)
+      try:
+        odevice.Enabled
+      except BassError:
+        return None
+      return odevice
+    elif device==-1:
+      while True:
+        odevice = INPUT_DEVICE(devicenumber)
         try:
           if odevice.Default:
             break

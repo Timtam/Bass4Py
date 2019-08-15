@@ -811,6 +811,7 @@ cdef extern from "bass.h" nogil:
 
 cpdef __Evaluate()
 cdef class BASS:
+  cpdef GetInputDevice(BASS self, int device = ?)
   cpdef GetOutputDevice(BASS self, int device=?)
   cpdef LoadPlugin(BASS self, object filename, DWORD flags=?)
   cpdef Update(BASS self, DWORD length)

@@ -113,6 +113,16 @@ extensions = [
     language = "c"
   ),
   Extension(
+    "Bass4Py.BASS.input_device",
+    [
+      "Bass4Py/BASS/input_device.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
     "Bass4Py.BASS.dsp",
     [
       "Bass4Py/BASS/dsp.pyx"
