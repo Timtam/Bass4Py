@@ -1,5 +1,6 @@
 from . cimport bass
 from .input cimport INPUT
+from .record cimport RECORD
 from ..constants import DEVICE_TYPE
 from ..exceptions import BassAPIError
 
@@ -52,6 +53,9 @@ cdef class INPUT_DEVICE:
     self.Inputs = tuple(inputs)
 
     return res
+
+  cpdef Record(INPUT_DEVICE self, DWORD freq = 0, DWORD chans = 0, DWORD flags = 0, object callback = None, DWORD period = 100):
+    return RECORD.FromDevice(self, freq, chans, flags, callback, period)
 
   property Name:
     def __get__(INPUT_DEVICE self):

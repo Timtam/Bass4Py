@@ -8,6 +8,7 @@ from .plugin cimport PLUGIN
 from .sample cimport SAMPLE
 from .sync cimport SYNC
 from .vector cimport VECTOR, VECTOR_Create
+from ..constants import CHANNEL_TYPE
 from ..exceptions import BassError,BassAPIError
 
 cdef class CHANNEL:
@@ -179,7 +180,7 @@ cdef class CHANNEL:
     def __get__(CHANNEL self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
-      return info.ctype
+      return CHANNEL_TYPE(info.ctype)
 
   property Resolution:
     def __get__(CHANNEL self):
@@ -200,6 +201,9 @@ cdef class CHANNEL:
     def __get__(CHANNEL self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
+
+      if info.filename == NULL:
+        return u''
       return info.filename.decode('utf-8')
 
   property Sample:

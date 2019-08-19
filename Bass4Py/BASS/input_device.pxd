@@ -11,4 +11,5 @@ cdef class INPUT_DEVICE:
   cdef BASS_RECORDINFO __getinfo(INPUT_DEVICE self)
   cpdef Free(INPUT_DEVICE self)
   cpdef Init(INPUT_DEVICE self)
+  cpdef Record(INPUT_DEVICE self, DWORD freq = ?, DWORD chans = ?, DWORD flags = ?, object callback = ?, DWORD period = ?)
   cpdef Set(INPUT_DEVICE self)
