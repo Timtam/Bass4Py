@@ -1,3 +1,5 @@
+- with nogil for most function calls
+- enums for most constants
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - adding tag information as attributes into channel object
 - 3d attributes via dedicated object instead of attributes (better performance)

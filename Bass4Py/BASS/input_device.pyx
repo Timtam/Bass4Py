@@ -1,10 +1,12 @@
 from . cimport bass
+from .input cimport INPUT
 from ..constants import DEVICE_TYPE
 from ..exceptions import BassAPIError
 
 cdef class INPUT_DEVICE:
   def __cinit__(INPUT_DEVICE self, int device):
     self.__device=device
+    self.Inputs = ()
 
   cdef BASS_DEVICEINFO __getdeviceinfo(INPUT_DEVICE self):
     cdef BASS_DEVICEINFO info
@@ -19,6 +21,36 @@ cdef class INPUT_DEVICE:
   cpdef Set(INPUT_DEVICE self):
     cdef bint res = bass.BASS_RecordSetDevice(self.__device)
     bass.__Evaluate()
+    return res
+
+  cpdef Free(INPUT_DEVICE self):
+    cdef bint res
+    self.Set()
+    res = bass.BASS_RecordFree()
+    bass.__Evaluate()
+    self.Inputs = ()
+    return res
+
+  cpdef Init(INPUT_DEVICE self):
+    cdef BASS_RECORDINFO info
+    cdef list inputs = []
+    cdef bint res
+    cdef int i
+
+    res = bass.BASS_RecordInit(self.__device)
+    bass.__Evaluate()
+
+    info = self.__getinfo()
+    bass.__Evaluate()
+    
+    IF UNAME_SYSNAME != "Darwin":
+      inputs.append(INPUT(self, -1))
+    
+    for i in range(info.inputs):
+      inputs.append(INPUT(self, i))
+    
+    self.Inputs = tuple(inputs)
+
     return res
 
   property Name:
