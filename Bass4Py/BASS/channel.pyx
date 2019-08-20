@@ -2,26 +2,20 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.string cimport memmove
 from . cimport bass
 from .attribute cimport ATTRIBUTE
+from .channel_base cimport CHANNEL_BASE
 from .output_device cimport OUTPUT_DEVICE
 from .dsp cimport DSP
-from .plugin cimport PLUGIN
-from .sample cimport SAMPLE
 from .sync cimport SYNC
 from .vector cimport VECTOR, VECTOR_Create
-from ..constants import ACTIVE, CHANNEL_TYPE
+from ..constants import ACTIVE
 from ..exceptions import BassError,BassAPIError
 
-cdef class CHANNEL:
-  def __init__(CHANNEL self, HCHANNEL channel):
-
-    if channel != 0:
-      self.__sethandle(channel)
+cdef class CHANNEL(CHANNEL_BASE):
 
   cdef void __sethandle(CHANNEL self, HCHANNEL handle):
     cdef DWORD dev
 
-    self.__channel = handle
-    self.__initattributes()
+    CHANNEL_BASE.__sethandle(self, handle)
 
     dev = bass.BASS_ChannelGetDevice(self.__channel)
     
@@ -33,22 +27,15 @@ cdef class CHANNEL:
       self.__device = OUTPUT_DEVICE(dev)
 
   cdef void __initattributes(CHANNEL self):
+
+    CHANNEL_BASE.__initattributes(self)
+
     self.Buffer = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BUFFER)
     self.CPU = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_CPU, True)
-    self.Frequency = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_FREQ)
-    self.Pan = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_PAN)
     self.Ramping = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_NORAMP)
-    self.SRC = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_SRC)
-    self.Volume = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_VOL)
 
     IF UNAME_SYSNAME == "Windows":
       self.EAXMix = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_EAXMIX)
-
-  cdef BASS_CHANNELINFO __getinfo(CHANNEL self):
-    cdef BASS_CHANNELINFO info
-    cdef bint res
-    res=bass.BASS_ChannelGetInfo(self.__channel, &info)
-    return info
 
   cdef DWORD __getflags(CHANNEL self):
     return bass.BASS_ChannelFlags(self.__channel, 0, 0)
@@ -63,48 +50,6 @@ cdef class CHANNEL:
   cpdef Play(CHANNEL self, bint restart):
     cdef bint res = bass.BASS_ChannelPlay(self.__channel, restart)
     bass.__Evaluate()
-    return res
-
-  cpdef Pause(CHANNEL self):
-    cdef bint res = bass.BASS_ChannelPause(self.__channel)
-    bass.__Evaluate()
-    return res
-
-  cpdef Stop(CHANNEL self):
-    cdef bint res = bass.BASS_ChannelStop(self.__channel)
-    bass.__Evaluate()
-    return res
-
-  cpdef GetLevels(CHANNEL self, float length, DWORD flags):
-    cdef int chans = self.Channels
-    cdef int i=0
-    cdef float *levels
-    cdef list plevels=[]
-    levels = <float*>PyMem_Malloc(chans * sizeof(float))
-    if levels == NULL: return plevels
-    bass.BASS_ChannelGetLevelEx(self.__channel, levels, length, flags)
-    bass.__Evaluate()
-    for i in range(chans):
-      plevels.append(levels[i])
-    PyMem_Free(<void*>levels)
-    return tuple(plevels)
-
-  cpdef Lock(CHANNEL self):
-    cdef bint res
-
-    res = bass.BASS_ChannelLock(self.__channel, True)
-
-    bass.__Evaluate()
-    
-    return res
-
-  cpdef Unlock(CHANNEL self):
-    cdef bint res
-    
-    res = bass.BASS_ChannelLock(self.__channel, False)
-
-    bass.__Evaluate()
-    
     return res
 
   cpdef SetSync(CHANNEL self, SYNC sync):
@@ -131,116 +76,11 @@ cdef class CHANNEL:
     bass.__Evaluate()
     return res
 
-  cpdef GetPosition(CHANNEL self, DWORD mode = bass._BASS_POS_BYTE):
-    cdef QWORD res
-    res = bass.BASS_ChannelGetPosition(self.__channel, mode)
-    bass.__Evaluate()
-    return res
-  
   cpdef SetPosition(CHANNEL self, QWORD pos, DWORD mode = bass._BASS_POS_BYTE):
     cdef bint res = bass.BASS_ChannelSetPosition(self.__channel, pos, mode)
     bass.__Evaluate()
     return res
   
-  cpdef Bytes2Seconds(CHANNEL self, QWORD bytes):
-    cdef double secs
-    secs = bass.BASS_ChannelBytes2Seconds(self.__channel, bytes)
-    bass.__Evaluate()
-    return secs
-  
-  cpdef Seconds2Bytes(CHANNEL self, double secs):
-    cdef QWORD bytes
-    bytes = bass.BASS_ChannelSeconds2Bytes(self.__channel, secs)
-    bass.__Evaluate()
-    return bytes
-
-  cpdef GetData(CHANNEL self, DWORD length):
-    cdef DWORD l = length&0xfffffff
-    cdef void *buffer = <void*>PyMem_Malloc(l)
-    cdef bytes b
-
-    if buffer == NULL:
-      raise MemoryError()
-    
-    l = bass.BASS_ChannelGetData(self.__channel, buffer, length)
-    try:
-      bass.__Evaluate()
-    except BassError as e:
-      PyMem_Free(buffer)
-      raise e
-    b = (<char*>buffer)[:l]
-    PyMem_Free(buffer)
-    return b
-
-  cpdef GetLength(CHANNEL self, DWORD mode = bass._BASS_POS_BYTE):
-    cdef QWORD res = bass.BASS_ChannelGetLength(self.__channel, mode)
-    bass.__Evaluate()
-    return res
-
-  def __eq__(CHANNEL self, object y):
-    cdef CHANNEL chan
-    if isinstance(y, CHANNEL):
-      chan = <CHANNEL>y
-      return self.__channel == chan.__channel
-    return NotImplemented
-
-  property DefaultFrequency:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return info.freq
-
-  property Channels:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return info.chans
-
-  property Flags:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return info.flags
-
-  property Type:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return CHANNEL_TYPE(info.ctype)
-
-  property Resolution:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return info.origres
-
-  property Plugin:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      if info.plugin:
-        return PLUGIN(info.plugin)
-      else:
-        return None
-
-  property Name:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-
-      if info.filename == NULL:
-        return u''
-      return info.filename.decode('utf-8')
-
-  property Sample:
-    def __get__(CHANNEL self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      if info.sample:
-        return SAMPLE(info.sample)
-      else:
-        return None
-
   property Loop:
     def __get__(CHANNEL self):
       return self.__getflags()&bass._BASS_SAMPLE_LOOP == bass._BASS_SAMPLE_LOOP
@@ -264,25 +104,6 @@ cdef class CHANNEL:
         self.__device = None
       else:
         self.__device = (<OUTPUT_DEVICE>dev)
-
-  property Level:
-    def __get__(CHANNEL self):
-      cdef WORD left, right
-      cdef DWORD level = bass.BASS_ChannelGetLevel(self.__channel)
-      bass.__Evaluate()
-      left = LOWORD(level)
-      right = HIWORD(level)
-      return (left, right, )
-
-  property Active:
-    def __get__(CHANNEL self):
-      cdef DWORD act
-
-      act = bass.BASS_ChannelIsActive(self.__channel)
-
-      bass.__Evaluate()
-      
-      return ACTIVE(act)
 
   property Mode3D:
     def __get__(CHANNEL self):
@@ -386,10 +207,3 @@ cdef class CHANNEL:
       bass.BASS_ChannelSet3DPosition(self.__channel, NULL, NULL, &vel)
       bass.__Evaluate()
       bass.BASS_Apply3D()
-
-  @property
-  def DataAvailable(CHANNEL self):
-    cdef DWORD res
-    res = bass.BASS_ChannelGetData(self.__channel, NULL, bass._BASS_DATA_AVAILABLE)
-    bass.__Evaluate()
-    return res

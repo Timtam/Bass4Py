@@ -113,6 +113,16 @@ extensions = [
     language = "c"
   ),
   Extension(
+    "Bass4Py.BASS.channel_base",
+    [
+      "Bass4Py/BASS/channel_base.pyx"
+    ],
+    libraries = ["bass"],
+    library_dirs = library_dirs,
+    include_dirs = include_dirs,
+    language = "c"
+  ),
+  Extension(
     "Bass4Py.BASS.channel",
     [
       "Bass4Py/BASS/channel.pyx"
