@@ -705,7 +705,10 @@ cdef extern from "bass.h" nogil:
   cdef void *BASS_GetConfigPtr(DWORD option)
   cdef int BASS_ErrorGetCode()
   cdef bint BASS_GetDeviceInfo(DWORD device, BASS_DEVICEINFO *info)
-  cdef bint BASS_Init(int device, DWORD freq, DWORD flags, void *win, const void *dsguid)
+  IF UNAME_SYSNAME == "Windows":
+    cdef bint BASS_Init(int device, DWORD freq, DWORD flags, HWND win, const void *dsguid)
+  ELSE:
+    cdef bint BASS_Init(int device, DWORD freq, DWORD flags, void *win, const void *dsguid)
   cdef bint BASS_SetDevice(DWORD device)
   cdef DWORD BASS_GetDevice()
   cdef bint BASS_Free()

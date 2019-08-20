@@ -81,7 +81,11 @@ cdef class OUTPUT_DEVICE:
 
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Init.html>`_
     """
-    cdef HWND cwin = &win
+    IF UNAME_SYSNAME == "Windows":
+      cdef HWND cwin = &win
+    ELSE:
+      cdef void * cwin = &win
+
     if win == 0:
       cwin = NULL
     cdef bint res = bass.BASS_Init(self.__device, freq, flags, cwin, NULL)
