@@ -1,9 +1,9 @@
 from .BASS cimport bass
 
 try:
-  from enum import IntFlag, unique
+  from enum import IntFlag, IntEnum, unique
 except ImportError:
-  from aenum import IntFlag, unique
+  from aenum import IntFlag, IntEnum, unique
 
 # only forward constants that are required/important at Python level
 
@@ -217,11 +217,13 @@ BASS_FILEPOS_SOCKET = bass._BASS_FILEPOS_SOCKET
 BASS_FILEPOS_ASYNCBUF = bass._BASS_FILEPOS_ASYNCBUF
 BASS_FILEPOS_SIZE = bass._BASS_FILEPOS_SIZE
 
-BASS_ACTIVE_STOPPED = bass._BASS_ACTIVE_STOPPED
-BASS_ACTIVE_PLAYING = bass._BASS_ACTIVE_PLAYING
-BASS_ACTIVE_STALLED = bass._BASS_ACTIVE_STALLED
-BASS_ACTIVE_PAUSED = bass._BASS_ACTIVE_PAUSED
-BASS_ACTIVE_PAUSED_DEVICE = bass._BASS_ACTIVE_PAUSED_DEVICE
+@unique
+class ACTIVE(IntEnum):
+  STOPPED = bass._BASS_ACTIVE_STOPPED
+  PLAYING = bass._BASS_ACTIVE_PLAYING
+  STALLED = bass._BASS_ACTIVE_STALLED
+  PAUSED = bass._BASS_ACTIVE_PAUSED
+  PAUSED_DEVICE = bass._BASS_ACTIVE_PAUSED_DEVICE
 
 BASS_DATA_AVAILABLE = bass._BASS_DATA_AVAILABLE
 BASS_DATA_FIXED = bass._BASS_DATA_FIXED

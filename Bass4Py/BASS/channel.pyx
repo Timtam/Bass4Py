@@ -8,15 +8,29 @@ from .plugin cimport PLUGIN
 from .sample cimport SAMPLE
 from .sync cimport SYNC
 from .vector cimport VECTOR, VECTOR_Create
-from ..constants import CHANNEL_TYPE
+from ..constants import ACTIVE, CHANNEL_TYPE
 from ..exceptions import BassError,BassAPIError
 
 cdef class CHANNEL:
   def __init__(CHANNEL self, HCHANNEL channel):
-    self.__channel=channel
 
-    if self.__channel != 0:
-      self.__initattributes()
+    if channel != 0:
+      self.__sethandle(channel)
+
+  cdef void __sethandle(CHANNEL self, HCHANNEL handle):
+    cdef DWORD dev
+
+    self.__channel = handle
+    self.__initattributes()
+
+    dev = bass.BASS_ChannelGetDevice(self.__channel)
+    
+    bass.__Evaluate()
+    
+    if dev == bass._BASS_NODEVICE:
+      self.__device = None
+    else:
+      self.__device = OUTPUT_DEVICE(dev)
 
   cdef void __initattributes(CHANNEL self):
     self.Buffer = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_BUFFER)
@@ -76,10 +90,22 @@ cdef class CHANNEL:
     return tuple(plevels)
 
   cpdef Lock(CHANNEL self):
-    return bass.BASS_ChannelLock(self.__channel, True)
+    cdef bint res
+
+    res = bass.BASS_ChannelLock(self.__channel, True)
+
+    bass.__Evaluate()
+    
+    return res
 
   cpdef Unlock(CHANNEL self):
-    return bass.BASS_ChannelLock(self.__channel, False)
+    cdef bint res
+    
+    res = bass.BASS_ChannelLock(self.__channel, False)
+
+    bass.__Evaluate()
+    
+    return res
 
   cpdef SetSync(CHANNEL self, SYNC sync):
     (<object>sync).Set(self)
@@ -224,14 +250,7 @@ cdef class CHANNEL:
 
   property Device:
     def __get__(CHANNEL self):
-      cdef DWORD dev = bass.BASS_ChannelGetDevice(self.__channel)
-
-      bass.__Evaluate()
-
-      if dev == bass._BASS_NODEVICE:
-        return None
-        
-      return OUTPUT_DEVICE(dev)
+      return self.__device
 
     def __set__(CHANNEL self, OUTPUT_DEVICE dev):
       if dev is None:
@@ -241,6 +260,11 @@ cdef class CHANNEL:
 
       bass.__Evaluate()
 
+      if not dev:
+        self.__device = None
+      else:
+        self.__device = (<OUTPUT_DEVICE>dev)
+
   property Level:
     def __get__(CHANNEL self):
       cdef WORD left, right
@@ -248,11 +272,17 @@ cdef class CHANNEL:
       bass.__Evaluate()
       left = LOWORD(level)
       right = HIWORD(level)
-      return (left, right,)
+      return (left, right, )
 
-  property Status:
+  property Active:
     def __get__(CHANNEL self):
-      return bass.BASS_ChannelIsActive(self.__channel)
+      cdef DWORD act
+
+      act = bass.BASS_ChannelIsActive(self.__channel)
+
+      bass.__Evaluate()
+      
+      return ACTIVE(act)
 
   property Mode3D:
     def __get__(CHANNEL self):

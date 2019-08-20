@@ -12,10 +12,12 @@ from .bass cimport (
 from .attribute cimport ATTRIBUTE
 from .dsp cimport DSP
 from .fx cimport FX
+from .output_device cimport OUTPUT_DEVICE
 from .sync cimport SYNC
 
 cdef class CHANNEL:
   cdef HCHANNEL __channel
+  cdef OUTPUT_DEVICE __device
 
   # attributes
   cdef readonly ATTRIBUTE Buffer
@@ -32,6 +34,7 @@ cdef class CHANNEL:
   cdef BASS_CHANNELINFO __getinfo(CHANNEL self)
   cdef DWORD __getflags(CHANNEL self)
   cdef void __initattributes(CHANNEL self)
+  cdef void __sethandle(CHANNEL self, HCHANNEL handle)
   cpdef __setflags(CHANNEL self, DWORD flag, bint switch)
   cpdef GetLevels(CHANNEL self, float length, DWORD flags)
   cpdef Link(CHANNEL self, CHANNEL obj)

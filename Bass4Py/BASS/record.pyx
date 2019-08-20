@@ -1,10 +1,10 @@
-from cpython cimport PyMem_Free, PyMem_Malloc
+from cpython.mem cimport PyMem_Free, PyMem_Malloc
 
 from . cimport bass
 from .input_device cimport INPUT_DEVICE
 from .plugin cimport PLUGIN
 from .sample cimport SAMPLE
-from ..constants import CHANNEL_TYPE
+from ..constants import ACTIVE, CHANNEL_TYPE
 from ..exceptions import BassError, BassRecordError
 
 cdef bint CRECORDPROC(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
@@ -18,11 +18,25 @@ cdef bint __stdcall CRECORDPROC_STD(HRECORD handle, const void *buffer, DWORD le
 
 cdef class RECORD:
   def __cinit__(RECORD self, HRECORD record):
-    self.__record = record
 
     if record != 0:
-      self.__initattributes()
+      self.__sethandle(record)
       
+  cdef void __sethandle(RECORD self, HRECORD record):
+    cdef DWORD dev
+
+    self.__record = record
+    self.__initattributes()
+
+    dev = bass.BASS_ChannelGetDevice(self.__record)
+    
+    bass.__Evaluate()
+    
+    if dev == bass._BASS_NODEVICE:
+      self.__device = None
+    else:
+      self.__device = INPUT_DEVICE(dev)
+
   cdef void __initattributes(RECORD self):
     
     self.Frequency = ATTRIBUTE(self.__record, bass._BASS_ATTRIB_FREQ)
@@ -68,12 +82,10 @@ cdef class RECORD:
 
     bass.__Evaluate()
     
-    orec.__record = rec
+    orec.__sethandle(rec)
 
     if callback:
       orec.__func = callback
-
-    orec.__initattributes()
 
     return orec
   
@@ -125,6 +137,44 @@ cdef class RECORD:
     b = (<char*>buffer)[:l]
     PyMem_Free(buffer)
     return b
+
+  cpdef GetLevels(RECORD self, float length, DWORD flags):
+    cdef int chans = self.Channels
+    cdef int i=0
+    cdef float *levels
+    cdef list plevels=[]
+    levels = <float*>PyMem_Malloc(chans * sizeof(float))
+    if levels == NULL: return plevels
+    bass.BASS_ChannelGetLevelEx(self.__record, levels, length, flags)
+    bass.__Evaluate()
+    for i in range(chans):
+      plevels.append(levels[i])
+    PyMem_Free(<void*>levels)
+    return tuple(plevels)
+
+  cpdef GetPosition(RECORD self, DWORD mode = bass._BASS_POS_BYTE):
+    cdef QWORD res
+    res = bass.BASS_ChannelGetPosition(self.__record, mode)
+    bass.__Evaluate()
+    return res
+
+  cpdef Lock(RECORD self):
+    cdef bint res
+
+    res = bass.BASS_ChannelLock(self.__record, True)
+
+    bass.__Evaluate()
+    
+    return res
+
+  cpdef Unlock(RECORD self):
+    cdef bint res
+    
+    res = bass.BASS_ChannelLock(self.__record, False)
+
+    bass.__Evaluate()
+    
+    return res
 
   property DefaultFrequency:
     def __get__(RECORD self):
@@ -189,3 +239,39 @@ cdef class RECORD:
     res = bass.BASS_ChannelGetData(self.__record, NULL, bass._BASS_DATA_AVAILABLE)
     bass.__Evaluate()
     return res
+
+  property Device:
+    def __get__(RECORD self):
+      return self.__device
+
+    def __set__(RECORD self, INPUT_DEVICE dev):
+      if dev is None:
+        bass.BASS_ChannelSetDevice(self.__record, bass._BASS_NODEVICE)
+      else:
+        bass.BASS_ChannelSetDevice(self.__record, (<INPUT_DEVICE?>dev).__device)
+
+      bass.__Evaluate()
+
+      if not dev:
+        self.__device = None
+      else:
+        self.__device = (<INPUT_DEVICE>dev)
+
+  property Level:
+    def __get__(RECORD self):
+      cdef bass.WORD left, right
+      cdef DWORD level = bass.BASS_ChannelGetLevel(self.__record)
+      bass.__Evaluate()
+      left = bass.LOWORD(level)
+      right = bass.HIWORD(level)
+      return (left, right, )
+
+  property Active:
+    def __get__(RECORD self):
+      cdef DWORD act
+
+      act = bass.BASS_ChannelIsActive(self.__record)
+
+      bass.__Evaluate()
+      
+      return ACTIVE(act)

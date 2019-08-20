@@ -177,8 +177,7 @@ cdef class STREAM(CHANNEL):
     strm = bass.BASS_StreamCreateURL((<char *>&(curl[0])), coffset, flags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
-    ostrm.__channel = strm
-    ostrm.__initattributes()
+    ostrm.__sethandle(strm)
 
     return ostrm
 
@@ -216,8 +215,7 @@ cdef class STREAM(CHANNEL):
     strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
-    ostrm.__channel = strm
-    ostrm.__initattributes()
+    ostrm.__sethandle(strm)
     
     return ostrm
 
@@ -279,8 +277,7 @@ cdef class STREAM(CHANNEL):
       strm = bass.BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
     bass.__Evaluate()
     
-    ostrm.__channel = strm
-    ostrm.__initattributes()
+    ostrm.__sethandle(strm)
     
     return ostrm
 
