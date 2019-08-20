@@ -43,7 +43,7 @@ cdef class BASS:
     :rtype: :class:`Bass4Py.DEVICE.DEVICE` or None if the device isn't available
     """
 
-    cdef int devicenumber = 0
+    cdef int devicenumber = 1
     cdef OUTPUT_DEVICE odevice
     if device >= 0:
       odevice = OUTPUT_DEVICE(device)
@@ -59,10 +59,14 @@ cdef class BASS:
           if odevice.Default:
             break
         except BassError:
-          pass
+          break
         devicenumber += 1
-      if not odevice.Default:
-        return None
+
+      try:
+        if not odevice.Default:
+          return None
+      except BassError:
+        return OUTPUT_DEVICE(0)
       return odevice
     else:
       return None
@@ -84,8 +88,11 @@ cdef class BASS:
           if odevice.Default:
             break
         except BassError:
-          pass
+          if devicenumber == 0:
+            return None
+          break
         devicenumber += 1
+
       if not odevice.Default:
         return None
       return odevice

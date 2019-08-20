@@ -4,6 +4,8 @@ from setuptools.extension import Extension
 
 import os
 import os.path
+import platform
+import sys
 
 try:
   from Cython.Build import cythonize
@@ -13,6 +15,7 @@ except ImportError:
 
 USE_CYTHON = HAVE_CYTHON
 DEBUG_MODE = False
+IS_X64 = sys.maxsize > 2**32
 
 if 'USE_CYTHON' in os.environ:
   USE_CYTHON = os.environ['USE_CYTHON'].lower() in ('1', 'yes')
@@ -23,9 +26,36 @@ if 'DEBUG' in os.environ:
 if USE_CYTHON and not HAVE_CYTHON:
   raise RuntimeError("cython not found")
 
+library_dirs = []
+include_dirs = []
+
 cd=os.path.dirname(os.path.abspath(__file__))
-library_dirs=[os.path.join(cd, "bass24", "c")]
-include_dirs=[os.path.join(cd, "bass24", "c")]
+
+if platform.uname()[0] == "Windows":
+
+  lib_dir = os.path.join(cd, "bass24", "c")
+
+  if IS_X64:
+    lib_dir = os.path.join(lib_dir, "x64")
+
+elif platform.uname()[0] == "Linux":
+
+  lib_dir = os.path.join(cd, "bass24-linux")
+  
+  if IS_X64:
+    lib_dir = os.path.join(lib_dir, "x64")
+    
+library_dirs.append(lib_dir)
+
+if platform.uname()[0] == "Windows":
+
+  inc_dir = os.path.join(cd, "bass24", "c")
+
+elif platform.uname()[0] == "Linux":
+
+  inc_dir = os.path.join(cd, "bass24-linux")
+  
+include_dirs.append(inc_dir)
 
 try:
   library_dirs.append(os.environ["BASSLIB"])
