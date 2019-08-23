@@ -80,3 +80,12 @@ class TestChannel(unittest.TestCase):
   def test_parameterized_stream(self):
     strm = self.device.CreateStreamFromParameters(44100, 2)
     strm.Free()
+
+  def test_loading_from_file_obj(self):
+    path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
+
+    f = open(path, "rb")
+    
+    strm = STREAM.FromFileObj(f)
+
+    strm.Free()

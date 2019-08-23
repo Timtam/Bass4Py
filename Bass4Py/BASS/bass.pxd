@@ -713,9 +713,9 @@ cdef extern from "bass.h" nogil:
   cdef DWORD BASS_GetDevice()
   cdef bint BASS_Free()
   IF UNAME_SYSNAME=='Windows':
-   cdef void *BASS_GetDSoundObject(DWORD object)
-   cdef bint BASS_SetEAXParameters(int env, float vol, float decay, float damp)
-   cdef bint BASS_GetEAXParameters(DWORD *env, float *vol, float *decay, float *damp)
+    cdef void *BASS_GetDSoundObject(DWORD object)
+    cdef bint BASS_SetEAXParameters(int env, float vol, float decay, float damp)
+    cdef bint BASS_GetEAXParameters(DWORD *env, float *vol, float *decay, float *damp)
   cdef bint BASS_GetInfo(BASS_INFO *info)
   cdef bint BASS_IsStarted()
   cdef bint BASS_Update(DWORD length)

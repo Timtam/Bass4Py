@@ -32,6 +32,4 @@ cdef class OUTPUT_DEVICE:
   cpdef Set(OUTPUT_DEVICE self)
   cpdef Start(OUTPUT_DEVICE self)
   cpdef Stop(OUTPUT_DEVICE self)
-
-  IF UNAME_SYSNAME=="Windows":
-    cpdef EAXPreset(OUTPUT_DEVICE self, int preset)
+  cpdef EAXPreset(OUTPUT_DEVICE self, int preset)

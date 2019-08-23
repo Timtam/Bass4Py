@@ -1,16 +1,20 @@
-from ..exceptions import BassError,BassAPIError
+from ..exceptions import BassError,BassAPIError, BassPlatformError
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 cdef class ATTRIBUTE:
-  def __cinit__(ATTRIBUTE self, HCHANNEL channel, DWORD attribute, bint readonly = False):
+  def __cinit__(ATTRIBUTE self, HCHANNEL channel, DWORD attribute, bint readonly = False, bint not_available = False):
     self.__channel = channel
     self.__attrib = attribute
     self.__readonly = readonly
+    self.__not_available = not_available
 
   cpdef Get(ATTRIBUTE self):
     cdef float value
     cdef bint res
+
+    if self.__not_available:
+      raise BassPlatformError()
 
     if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
@@ -34,6 +38,9 @@ cdef class ATTRIBUTE:
   cpdef Set(ATTRIBUTE self, object value):
     cdef bint res
 
+    if self.__not_available:
+      raise BassPlatformError()
+
     if self.__readonly:
       raise BassError("attribute is readonly and thus cannot be set")
 
@@ -56,6 +63,9 @@ cdef class ATTRIBUTE:
 
   cpdef Slide(ATTRIBUTE self, object value, DWORD time):
     cdef bint res
+
+    if self.__not_available:
+      raise BassPlatformError()
 
     if self.__readonly:
       raise BassError("attribute is readonly and thus cannot be set")
@@ -127,6 +137,10 @@ cdef class ATTRIBUTE:
 
   property Sliding:
     def __get__(ATTRIBUTE self):
+
+      if self.__not_available:
+        raise BassPlatformError()
+
       return bass.BASS_ChannelIsSliding(self.__channel, self.__attrib)
       
   cpdef __getramping(ATTRIBUTE self):

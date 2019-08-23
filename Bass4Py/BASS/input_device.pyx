@@ -2,7 +2,7 @@ from . cimport bass
 from .input cimport INPUT
 from .record cimport RECORD
 from ..constants import DEVICE_TYPE
-from ..exceptions import BassAPIError
+from ..exceptions import BassAPIError, BassPlatformError
 
 cdef class INPUT_DEVICE:
   def __cinit__(INPUT_DEVICE self, int device):
@@ -110,10 +110,14 @@ cdef class INPUT_DEVICE:
         return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
       return None
 
-  IF UNAME_SYSNAME == "Windows":
-    property Flags:
-      def __get__(INPUT_DEVICE self):
-        cdef BASS_RECORDINFO info
+  property Flags:
+    def __get__(INPUT_DEVICE self):
+      cdef BASS_RECORDINFO info
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         self.Set()
         info = self.__getinfo()
         bass.__Evaluate()

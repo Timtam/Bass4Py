@@ -23,9 +23,7 @@ cdef class CHANNEL(CHANNEL_BASE):
   cdef readonly ATTRIBUTE Buffer
   cdef readonly ATTRIBUTE CPU
   cdef readonly ATTRIBUTE Ramping
-
-  IF UNAME_SYSNAME == "Windows":
-    cdef readonly ATTRIBUTE EAXMix
+  cdef readonly ATTRIBUTE EAXMix
 
   cdef DWORD __getflags(CHANNEL self)
   cpdef __setflags(CHANNEL self, DWORD flag, bint switch)

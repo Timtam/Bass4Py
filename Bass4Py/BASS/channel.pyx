@@ -36,6 +36,8 @@ cdef class CHANNEL(CHANNEL_BASE):
 
     IF UNAME_SYSNAME == "Windows":
       self.EAXMix = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_EAXMIX)
+    ELSE:
+      self.EAXMix = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_EAXMIX, False, True)
 
   cdef DWORD __getflags(CHANNEL self):
     return bass.BASS_ChannelFlags(self.__channel, 0, 0)

@@ -9,7 +9,7 @@ from .input_device cimport INPUT_DEVICE
 from .output_device cimport OUTPUT_DEVICE
 from .plugin cimport PLUGIN
 from .version cimport VERSION
-from ..exceptions import BassError, BassAPIError
+from ..exceptions import BassError, BassAPIError, BassPlatformError
 
 include "../transform.pxi"
 
@@ -591,21 +591,37 @@ cdef class BASS:
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_HANDLES)
 
-  IF UNAME_SYSNAME == "Windows":
-    property WASAPIPersist:
-      def __get__(BASS self):
+  property WASAPIPersist:
+    def __get__(BASS self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
         return <bint>BASS_GetConfig(_BASS_CONFIG_WASAPI_PERSIST)
       
-      def __set__(BASS self, bint value):
+    def __set__(BASS self, bint value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
         __Evaluate()
 
-  IF UNAME_SYSNAME == "Linux":
-    property LibSSL:
-      def __get__(BASS self):
+  property LibSSL:
+    def __get__(BASS self):
+
+      IF UNAME_SYSNAME != "Linux":
+        raise BassPlatformError()
+      ELSE:
         return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_LIBSSL)).decode('utf-8')
       
-      def __set__(BASS self, object value):
+    def __set__(BASS self, object value):
+
+      IF UNAME_SYSNAME != "Linux":
+        raise BassPlatformError()
+      ELSE:
+
         cdef const unsigned char[:] data = to_readonly_bytes(value)
         BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
         __Evaluate()

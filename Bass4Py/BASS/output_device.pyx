@@ -4,7 +4,7 @@ from .sample cimport SAMPLE
 from .stream cimport STREAM
 from .vector cimport VECTOR, VECTOR_Create
 from ..constants import DEVICE_TYPE
-from ..exceptions import BassAPIError
+from ..exceptions import BassAPIError, BassPlatformError
 
 __EAXPresets={
    bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
@@ -172,11 +172,16 @@ cdef class OUTPUT_DEVICE:
   cpdef CreateMusicFromFile(OUTPUT_DEVICE self, object filename, DWORD flags = 0, QWORD offset = 0, bint device_frequency = True):
     return MUSIC.FromFile(filename, flags, offset, device_frequency, self)
 
-  IF UNAME_SYSNAME == "Windows":
-    cpdef EAXPreset(OUTPUT_DEVICE self, int preset):
-      cdef int env
-      cdef float vol, decay, damp
+  cpdef EAXPreset(OUTPUT_DEVICE self, int preset):
+    cdef int env
+    cdef float vol, decay, damp
+
+    IF UNAME_SYSNAME != "Windows":
+      raise BassPlatformError()
+    ELSE:
+
       self.Set()
+
       if not preset in __EAXPresets:
         raise BassAPIError
       env = <int>__EAXPresets[preset][0]

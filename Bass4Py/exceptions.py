@@ -28,3 +28,7 @@ class BassStreamError(Exception):
 
 class BassSyncError(Exception):
   pass
+  
+class BassPlatformError(Exception):
+  def __init__(self):
+    super(BassPlatformError, self).__init__("This feature is not available for this operating system.")

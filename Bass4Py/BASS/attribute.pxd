@@ -5,6 +5,7 @@ cdef class ATTRIBUTE:
   cdef HCHANNEL __channel
   cdef DWORD __attrib
   cdef bint __readonly
+  cdef bint __not_available
 
   cpdef __getmusicvolchan(ATTRIBUTE self)
   cpdef __getbuffer(ATTRIBUTE self)
