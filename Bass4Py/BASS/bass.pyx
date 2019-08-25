@@ -31,6 +31,9 @@ cdef class BASS:
   def __cinit__(BASS self):
     PyEval_InitThreads()
 
+    self.Version = VERSION(BASS_GetVersion())
+    self.APIVersion = VERSION(_BASS4PY_API_VERSION)
+
     IF UNAME_SYSNAME == "Windows":
       BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
 
@@ -155,26 +158,6 @@ cdef class BASS:
       cdef DWORD device=BASS_GetDevice()
       __Evaluate()
       return OUTPUT_DEVICE(device)
-
-  property Error:
-    """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_ErrorGetCode.html>`_
-
-    .. note:: No setter implemented
-    """
-    def __get__(BASS self):
-      return BASS_ErrorGetCode()
-
-  property Version:
-    """
-    :rtype: :class:`Bass4Py.BASS.version.VERSION` object representing the version information of the loaded library (dll or so file)
-
-    .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_GetVersion.html>`_
-
-    .. note:: No setter implemented
-    """
-    def __get__(BASS self):
-      return VERSION(BASS_GetVersion())
 
   property NetAgent:
     """
@@ -498,17 +481,6 @@ cdef class BASS:
       BASS_SetConfig(_BASS_CONFIG_SRC_SAMPLE, value)
       __Evaluate()
 
-  property Unicode:
-    """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_UNICODE.html>`_
-    """
-    def __get__(BASS self):
-      return <bint>BASS_GetConfig(_BASS_CONFIG_UNICODE)
-
-    def __set__(BASS self, bint value):
-      BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>value)
-      __Evaluate()
-
   property UpdatePeriod:
     """
     .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_UPDATEPERIOD.html>`_
@@ -575,10 +547,6 @@ cdef class BASS:
       BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
       __Evaluate()
 
-  property APIVersion:
-    def __get__(BASS self):
-      return VERSION(_BASS4PY_API_VERSION)
-      
   property DeviceUpdatePeriod:
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_DEV_PERIOD)

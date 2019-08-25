@@ -473,55 +473,94 @@ cdef class OUTPUT_DEVICE:
       bass.__Evaluate()
       bass.BASS_Apply3D()
 
-  IF UNAME_SYSNAME == "Windows":
-    property EAXEnvironment:
-      def __get__(OUTPUT_DEVICE self):
+  property EAXEnvironment:
+    def __get__(OUTPUT_DEVICE self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         cdef DWORD env
         self.Set()
         bass.BASS_GetEAXParameters(&env, NULL, NULL, NULL)
         bass.__Evaluate()
         return <int>env
 
-      def __set__(OUTPUT_DEVICE self, int value):
+    def __set__(OUTPUT_DEVICE self, int value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         self.Set()
         bass.BASS_SetEAXParameters(value, -1.0, -1.0, -1.0)
         bass.__Evaluate()
 
-    property EAXVolume:
-      def __get__(OUTPUT_DEVICE self):
+  property EAXVolume:
+    def __get__(OUTPUT_DEVICE self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         cdef float vol
         self.Set()
         bass.BASS_GetEAXParameters(NULL, &vol, NULL, NULL)
         bass.__Evaluate()
         return vol
 
-      def __set__(OUTPUT_DEVICE self, float value):
+    def __set__(OUTPUT_DEVICE self, float value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         self.Set()
         bass.BASS_SetEAXParameters(-1, value, -1.0, -1.0)
         bass.__Evaluate()
 
-    property EAXDecay:
-      def __get__(OUTPUT_DEVICE self):
+  property EAXDecay:
+    def __get__(OUTPUT_DEVICE self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         cdef float decay
         self.Set()
         bass.BASS_GetEAXParameters(NULL, NULL, &decay, NULL)
         bass.__Evaluate()
         return decay
 
-      def __set__(OUTPUT_DEVICE self, float value):
+    def __set__(OUTPUT_DEVICE self, float value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         self.Set()
         bass.BASS_SetEAXParameters(-1, -1.0, value, -1.0)
         bass.__Evaluate()
 
-    property EAXDamping:
-      def __get__(OUTPUT_DEVICE self):
+  property EAXDamping:
+    def __get__(OUTPUT_DEVICE self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         cdef float damp
         self.Set()
         bass.BASS_GetEAXParameters(NULL, NULL, NULL, &damp)
         bass.__Evaluate()
         return damp
 
-      def __set__(OUTPUT_DEVICE self, float value):
+    def __set__(OUTPUT_DEVICE self, float value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise BassPlatformError()
+      ELSE:
+
         self.Set()
         bass.BASS_SetEAXParameters(-1, -1.0, -1.0, value)
         bass.__Evaluate()
