@@ -85,7 +85,9 @@ cdef class STREAM(CHANNEL):
     self.ScanInfo = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_SCANINFO)
   
   cpdef Free(STREAM self):
-    cdef bint res = bass.BASS_StreamFree(self.__channel)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_StreamFree(self.__channel)
     bass.__Evaluate()
     return res
 
@@ -95,12 +97,16 @@ cdef class STREAM(CHANNEL):
     return res
 
   cpdef DWORD PutData(STREAM self, const unsigned char[:] buffer, DWORD length):
-    cdef DWORD res = bass.BASS_StreamPutData(self.__channel, &(buffer[0]), length)
+    cdef DWORD res
+    with nogil:
+      res = bass.BASS_StreamPutData(self.__channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 
   cpdef DWORD PutFileData(STREAM self, const unsigned char[:] buffer, DWORD length):
-    cdef DWORD res = bass.BASS_StreamPutFileData(self.__channel, &(buffer[0]), length)
+    cdef DWORD res
+    with nogil:
+      res = bass.BASS_StreamPutFileData(self.__channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 
@@ -174,7 +180,8 @@ cdef class STREAM(CHANNEL):
     if callback != None:
       ostrm.__downloadproc = callback
 
-    strm = bass.BASS_StreamCreateURL((<char *>&(curl[0])), coffset, flags, cproc, <void*>ostrm)
+    with nogil:
+      strm = bass.BASS_StreamCreateURL((<char *>(&curl[0])), coffset, cflags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
     ostrm.__sethandle(strm)
@@ -212,7 +219,8 @@ cdef class STREAM(CHANNEL):
     if callback != None:
       ostrm.__streamproc = callback
     
-    strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
+    with nogil:
+      strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
     ostrm.__sethandle(strm)

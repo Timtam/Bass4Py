@@ -16,7 +16,9 @@ cdef class SAMPLE:
     return info
 
   cpdef Free(SAMPLE self):
-    cdef bint res = bass.BASS_SampleFree(self.__sample)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_SampleFree(self.__sample)
     bass.__Evaluate()
     return res
 
@@ -26,7 +28,9 @@ cdef class SAMPLE:
     return CHANNEL(res)
 
   cpdef Stop(SAMPLE self):
-    cdef bint res = bass.BASS_SampleStop(self.__sample)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_SampleStop(self.__sample)
     bass.__Evaluate()
     return res
 
@@ -44,7 +48,8 @@ cdef class SAMPLE:
       cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
-    samp = bass.BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
+    with nogil:
+      samp = bass.BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
     bass.__Evaluate()
     
     return SAMPLE(samp)
@@ -65,7 +70,8 @@ cdef class SAMPLE:
       cdevice = <OUTPUT_DEVICE?>device
       cdevice.Set()
 
-    samp = bass.BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
+    with nogil:
+      samp = bass.BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
     bass.__Evaluate()
     return SAMPLE(samp)
 
@@ -83,7 +89,8 @@ cdef class SAMPLE:
       cdevice.Set()
 
     filename = to_readonly_bytes(file)
-    samp = bass.BASS_SampleLoad(False, &(filename[0]), coffset, 0, cmax, cflags)
+    with nogil:
+      samp = bass.BASS_SampleLoad(False, &(filename[0]), coffset, 0, cmax, cflags)
     bass.__Evaluate()
     
     return SAMPLE(samp)
@@ -354,5 +361,6 @@ cdef class SAMPLE:
       if self.Length != data.shape[0]:
         raise BassSampleError("this sample requires data chunks of " + self.Length + " bytes")
 
-      res = bass.BASS_SampleSetData(self.__sample, &(data[0]))
+      with nogil:
+        res = bass.BASS_SampleSetData(self.__sample, &(data[0]))
       bass.__Evaluate()

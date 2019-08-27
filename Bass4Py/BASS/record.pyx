@@ -55,7 +55,8 @@ cdef class RECORD(CHANNEL_BASE):
     
     orec = RECORD(0)
 
-    rec = bass.BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
+    with nogil:
+      rec = bass.BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
 
     bass.__Evaluate()
     
@@ -68,7 +69,8 @@ cdef class RECORD(CHANNEL_BASE):
   
   cpdef Start(RECORD self):
     cdef bint res
-    res = bass.BASS_ChannelPlay(self.__channel, True)
+    with nogil:
+      res = bass.BASS_ChannelPlay(self.__channel, True)
     bass.__Evaluate()
     return res
 

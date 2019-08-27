@@ -1,5 +1,5 @@
-- with nogil for most function calls
 - enums for most constants
+- few BASS_Channel* methods are sample-compatible and thus need to be added to SAMPLE object
 - cpdef return values
 - BASS_ChannelFlags BASS_SPEAKER_xxx flags support
 - adding tag information as attributes into channel object

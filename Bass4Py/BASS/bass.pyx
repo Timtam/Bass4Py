@@ -198,17 +198,6 @@ cdef class BASS:
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
       __Evaluate()
 
-  property Airplay:
-    """
-    .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_AIRPLAY.html>`_
-    """
-    def __get__(BASS self):
-      return BASS_GetConfig(_BASS_CONFIG_AIRPLAY)
-
-    def __set__(BASS self, DWORD value):
-      BASS_SetConfig(_BASS_CONFIG_AIRPLAY, value)
-      __Evaluate()
-
   property AsyncBuffer:
     """
     .. seealso:: `<http://www.un4seen.com/doc/bass/_BASS_CONFIG_ASYNCFILE_BUFFER.html>`_

@@ -21,7 +21,9 @@ cdef class MUSIC(CHANNEL):
     self.Speed = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_MUSIC_SPEED)
 
   cpdef Free(MUSIC self):
-    cdef bint res = bass.BASS_MusicFree(self.__channel)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_MusicFree(self.__channel)
     bass.__Evaluate()
     return res
     
@@ -44,7 +46,8 @@ cdef class MUSIC(CHANNEL):
     if device_frequency:
       cfreq = 1
 
-    msc = bass.BASS_MusicLoad(True, &(cdata[0]), 0, clength, cflags, cfreq)
+    with nogil:
+      msc = bass.BASS_MusicLoad(True, &(cdata[0]), 0, clength, cflags, cfreq)
     bass.__Evaluate()
     return MUSIC(msc)
 
@@ -65,7 +68,8 @@ cdef class MUSIC(CHANNEL):
       cfreq = 1
 
     filename = to_readonly_bytes(file)
-    msc = bass.BASS_MusicLoad(False, &(filename[0]), coffset, 0, cflags, cfreq)
+    with nogil:
+      msc = bass.BASS_MusicLoad(False, &(filename[0]), coffset, 0, cflags, cfreq)
     bass.__Evaluate()
     
     return MUSIC(msc)

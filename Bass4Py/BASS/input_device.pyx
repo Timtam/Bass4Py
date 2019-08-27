@@ -20,14 +20,17 @@ cdef class INPUT_DEVICE:
     return info
 
   cpdef Set(INPUT_DEVICE self):
-    cdef bint res = bass.BASS_RecordSetDevice(self.__device)
+    cdef bint res 
+    with nogil:
+      res = bass.BASS_RecordSetDevice(self.__device)
     bass.__Evaluate()
     return res
 
   cpdef Free(INPUT_DEVICE self):
     cdef bint res
     self.Set()
-    res = bass.BASS_RecordFree()
+    with nogil:
+      res = bass.BASS_RecordFree()
     bass.__Evaluate()
     self.Inputs = ()
     return res

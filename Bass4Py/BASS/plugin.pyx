@@ -10,7 +10,9 @@ cdef class PLUGIN:
     return info
 
   cpdef Free(PLUGIN self):
-    cdef bint res = bass.BASS_PluginFree(self.__plugin)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_PluginFree(self.__plugin)
     bass.__Evaluate()
     return res
 

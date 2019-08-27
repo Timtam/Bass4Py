@@ -29,12 +29,16 @@ cdef class CHANNEL_BASE:
     return info
 
   cpdef Pause(CHANNEL_BASE self):
-    cdef bint res = bass.BASS_ChannelPause(self.__channel)
+    cdef bint res 
+    with nogil:
+      res = bass.BASS_ChannelPause(self.__channel)
     bass.__Evaluate()
     return res
 
   cpdef Stop(CHANNEL_BASE self):
-    cdef bint res = bass.BASS_ChannelStop(self.__channel)
+    cdef bint res 
+    with nogil:
+      res = bass.BASS_ChannelStop(self.__channel)
     bass.__Evaluate()
     return res
 

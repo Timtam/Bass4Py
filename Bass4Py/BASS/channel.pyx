@@ -50,7 +50,9 @@ cdef class CHANNEL(CHANNEL_BASE):
     bass.__Evaluate()
 
   cpdef Play(CHANNEL self, bint restart):
-    cdef bint res = bass.BASS_ChannelPlay(self.__channel, restart)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_ChannelPlay(self.__channel, restart)
     bass.__Evaluate()
     return res
 
@@ -61,7 +63,9 @@ cdef class CHANNEL(CHANNEL_BASE):
     (<object>fx).Set(self)
 
   cpdef ResetFX(CHANNEL self):
-    cdef bint res = bass.BASS_FXReset(self.__channel)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_FXReset(self.__channel)
     bass.__Evaluate()
     return res
 
@@ -69,17 +73,21 @@ cdef class CHANNEL(CHANNEL_BASE):
     dsp.Set(self)
 
   cpdef Link(CHANNEL self, CHANNEL obj):
-    cdef bint res = bass.BASS_ChannelSetLink(self.__channel, obj.__channel)
+    cdef bint res
+    res = bass.BASS_ChannelSetLink(self.__channel, obj.__channel)
     bass.__Evaluate()
     return res
 
   cpdef Unlink(CHANNEL self, CHANNEL obj):
-    cdef bint res = bass.BASS_ChannelRemoveLink(self.__channel, obj.__channel)
+    cdef bint res
+    res = bass.BASS_ChannelRemoveLink(self.__channel, obj.__channel)
     bass.__Evaluate()
     return res
 
   cpdef SetPosition(CHANNEL self, QWORD pos, DWORD mode = bass._BASS_POS_BYTE):
-    cdef bint res = bass.BASS_ChannelSetPosition(self.__channel, pos, mode)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_ChannelSetPosition(self.__channel, pos, mode)
     bass.__Evaluate()
     return res
   

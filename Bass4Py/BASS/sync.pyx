@@ -40,7 +40,8 @@ cdef class SYNC:
     ELSE:
       cproc = <SYNCPROC*>CSYNCPROC
 
-    sync = bass.BASS_ChannelSetSync(chan.__channel, self.__type, self.__param, cproc, <void*>self)
+    with nogil:
+      sync = bass.BASS_ChannelSetSync(chan.__channel, self.__type, self.__param, cproc, <void*>self)
 
     bass.__Evaluate()
     
@@ -54,7 +55,8 @@ cdef class SYNC:
     if self.__sync == 0:
       raise BassAPIError()
 
-    res = bass.BASS_ChannelRemoveSync(self.Channel.__channel, self.__sync)
+    with nogil:
+      res = bass.BASS_ChannelRemoveSync(self.Channel.__channel, self.__sync)
     bass.__Evaluate()
     self.Channel = None
     self.__sync = 0

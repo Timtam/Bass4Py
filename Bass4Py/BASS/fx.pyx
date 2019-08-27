@@ -16,7 +16,8 @@ cdef class FX:
     if self.__fx:
       raise BassAPIError()
 
-    fx = bass.BASS_ChannelSetFX(chan.__channel, self.__type, self.__priority)
+    with nogil:
+      fx = bass.BASS_ChannelSetFX(chan.__channel, self.__type, self.__priority)
 
     bass.__Evaluate()
 
@@ -25,7 +26,8 @@ cdef class FX:
     self.__fx = fx
 
     if update:
-      bass.BASS_FXSetParameters(self.__fx, self.__effect)
+      with nogil:
+        bass.BASS_FXSetParameters(self.__fx, self.__effect)
 
       try:
         bass.__Evaluate()
@@ -39,7 +41,8 @@ cdef class FX:
     if self.__fx == 0:
       raise BassAPIError()
 
-    res = bass.BASS_ChannelRemoveFX(self.Channel.__channel, self.__fx)
+    with nogil:
+      res = bass.BASS_ChannelRemoveFX(self.Channel.__channel, self.__fx)
     bass.__Evaluate()
     self.__fx = 0
     self.Channel = None
@@ -51,7 +54,8 @@ cdef class FX:
     if self.__fx == 0:
       raise BassAPIError()
 
-    res = bass.BASS_FXReset(self.__fx)
+    with nogil:
+      res = bass.BASS_FXReset(self.__fx)
     bass.__Evaluate()
     bass.BASS_FXGetParameters(self.__fx, self.__effect)
     return res
@@ -89,7 +93,8 @@ cdef class FX:
       self.__priority = priority
 
       if self.__fx:
-        bass.BASS_FXSetPriority(self.__fx, priority)
+        with nogil:
+          bass.BASS_FXSetPriority(self.__fx, priority)
 
         try:
           bass.__Evaluate()

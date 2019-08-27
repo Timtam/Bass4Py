@@ -27,11 +27,10 @@ cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD le
 
 cdef class DSP:
 
-  def __cinit__(DSP self):
-    pass
-
   cpdef Remove(DSP self):
-    cdef bint res=BASS_ChannelRemoveDSP(self.Channel.__channel, self.__dsp)
+    cdef bint res
+    with nogil:
+      res = BASS_ChannelRemoveDSP(self.Channel.__channel, self.__dsp)
     __Evaluate()
     return res
 
@@ -47,7 +46,8 @@ cdef class DSP:
     ELSE:
       cproc = <DSPPROC*>CDSPPROC
 
-    dsp = BASS_ChannelSetDSP(chan.__channel, cproc, <void*>self, self.__priority)
+    with nogil:
+      dsp = BASS_ChannelSetDSP(chan.__channel, cproc, <void*>self, self.__priority)
     
     __Evaluate()
     

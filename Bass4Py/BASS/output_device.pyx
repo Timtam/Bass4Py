@@ -63,7 +63,8 @@ cdef class OUTPUT_DEVICE:
     """
     cdef bint res
     self.Set()
-    res = bass.BASS_Free()
+    with nogil:
+      res = bass.BASS_Free()
     bass.__Evaluate()
     return res
 
@@ -102,7 +103,8 @@ cdef class OUTPUT_DEVICE:
     """
     cdef bint res
     self.Set()
-    res = bass.BASS_Pause()
+    with nogil:
+      res = bass.BASS_Pause()
     bass.__Evaluate()
     return res
 
@@ -118,21 +120,25 @@ cdef class OUTPUT_DEVICE:
     
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_SetDevice.html>`_
     """
-    cdef bint res = bass.BASS_SetDevice(self.__device)
+    cdef bint res
+    with nogil:
+      res = bass.BASS_SetDevice(self.__device)
     bass.__Evaluate()
     return res
 
   cpdef Start(OUTPUT_DEVICE self):
     cdef bint res
     self.Set()
-    res = bass.BASS_Start()
+    with nogil:
+      res = bass.BASS_Start()
     bass.__Evaluate()
     return res
 
   cpdef Stop(OUTPUT_DEVICE self):
     cdef bint res
     self.Set()
-    res = bass.BASS_Stop()
+    with nogil:
+      res = bass.BASS_Stop()
     bass.__Evaluate()
     return res
 
@@ -360,7 +366,8 @@ cdef class OUTPUT_DEVICE:
     def __set__(OUTPUT_DEVICE self, float value):
       cdef bint res
       self.Set()
-      res = bass.BASS_SetVolume(value)
+      with nogil:
+        res = bass.BASS_SetVolume(value)
       bass.__Evaluate()
 
   property Position3D:

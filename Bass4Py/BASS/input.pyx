@@ -27,7 +27,8 @@ cdef class INPUT:
       self.__device.Set()
       flags = bass.BASS_RecordGetInput(self.__input, NULL)
       bass.__Evaluate()
-      bass.BASS_RecordSetInput(self.__input, flags, vol)
+      with nogil:
+        bass.BASS_RecordSetInput(self.__input, flags, vol)
       bass.__Evaluate()
 
   property Enabled:
@@ -47,7 +48,8 @@ cdef class INPUT:
         flags = bass._BASS_INPUT_OFF
       
       self.__device.Set()
-      bass.BASS_RecordSetInput(self.__input, flags, -1)
+      with nogil:
+        bass.BASS_RecordSetInput(self.__input, flags, -1)
       bass.__Evaluate()
 
   property Type:
