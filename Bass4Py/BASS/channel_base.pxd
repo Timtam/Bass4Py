@@ -9,6 +9,7 @@ from ..exceptions import BassError
 
 cdef class CHANNEL_BASE:
   cdef HCHANNEL __channel
+  cdef object __flags_enum
 
   # attributes
   cdef readonly ATTRIBUTE Frequency

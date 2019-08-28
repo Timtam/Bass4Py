@@ -109,9 +109,7 @@ cdef class INPUT_DEVICE:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
-      if info.flags&bass._BASS_DEVICE_TYPE_MASK:
-        return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
-      return None
+      return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
 
   property Flags:
     def __get__(INPUT_DEVICE self):

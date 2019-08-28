@@ -1,5 +1,6 @@
 from . cimport bass
 from .channel cimport CHANNEL
+from ..constants import SAMPLE as C_SAMPLE
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
@@ -168,7 +169,7 @@ cdef class SAMPLE:
     def __get__(SAMPLE self):
       cdef BASS_SAMPLE info = self.__getinfo()
       bass.__Evaluate()
-      return info.flags
+      return SAMPLE(info.flags)
 
     def __set__(SAMPLE self, DWORD value):
       cdef BASS_SAMPLE info = self.__getinfo()

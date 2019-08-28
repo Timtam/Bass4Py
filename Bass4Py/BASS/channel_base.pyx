@@ -5,9 +5,12 @@ from .attribute cimport ATTRIBUTE
 from .plugin cimport PLUGIN
 from .sample cimport SAMPLE
 from ..constants import ACTIVE, CHANNEL_TYPE
+from ..constants import SAMPLE as C_SAMPLE
 
 cdef class CHANNEL_BASE:
   def __cinit__(CHANNEL_BASE self, HCHANNEL channel):
+
+    self.__flags_enum = C_SAMPLE
 
     if channel != 0:
       self.__sethandle(channel)
@@ -134,12 +137,6 @@ cdef class CHANNEL_BASE:
       bass.__Evaluate()
       return info.chans
 
-  property Flags:
-    def __get__(CHANNEL_BASE self):
-      cdef BASS_CHANNELINFO info = self.__getinfo()
-      bass.__Evaluate()
-      return info.flags
-
   property Type:
     def __get__(CHANNEL_BASE self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
@@ -204,3 +201,11 @@ cdef class CHANNEL_BASE:
     res = bass.BASS_ChannelGetData(self.__channel, NULL, bass._BASS_DATA_AVAILABLE)
     bass.__Evaluate()
     return res
+
+  property Flags:
+    def __get__(CHANNEL_BASE self):
+      cdef bass.BASS_CHANNELINFO info = self.__getinfo()
+      bass.__Evaluate()
+      if info.flags&bass._BASS_UNICODE:
+        return self.__flags_enum(info.flags^bass._BASS_UNICODE)
+      return self.__flags_enum(info.flags)

@@ -30,7 +30,7 @@ cdef class ATTRIBUTE:
     try:
       bass.__Evaluate()
     except BassError, e:
-      if e.error == bass._BASS_ERROR_ILLTYPE:
+      if e.Error == bass._BASS_ERROR_ILLTYPE:
         raise BassAPIError()
       raise e
     return value
@@ -56,7 +56,7 @@ cdef class ATTRIBUTE:
     try:
       bass.__Evaluate()
     except BassError, e:
-      if e.error == bass._BASS_ERROR_ILLTYPE:
+      if e.Error == bass._BASS_ERROR_ILLTYPE:
         raise BassAPIError()
       raise e
     return res
@@ -72,7 +72,7 @@ cdef class ATTRIBUTE:
 
     if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
-      return self.__slidemusicvolchan(<list>value, time)
+      return self.__slidemusicvolchan(<tuple?>value, time)
     elif self.__attrib == bass._BASS_ATTRIB_BUFFER:
       return self.__slidebuffer(<float>value, time)
     res = bass.BASS_ChannelSlideAttribute(self.__channel, self.__attrib, <float>value, time)
@@ -90,14 +90,14 @@ cdef class ATTRIBUTE:
         volumes.append(res)
         channel+=1
     except BassError, e:
-      if e.error != bass._BASS_ERROR_ILLTYPE:
+      if e.Error != bass._BASS_ERROR_ILLTYPE:
         raise e
       if len(volumes) == 0:
         raise e
-    return volumes
+    return tuple(volumes)
 
-  cpdef __setmusicvolchan(ATTRIBUTE self, list value):
-    cdef list current = self.__getmusicvolchan()
+  cpdef __setmusicvolchan(ATTRIBUTE self, tuple value):
+    cdef tuple current = self.__getmusicvolchan()
     cdef int i
     if len(value) != len(current):
       raise BassAPIError()
@@ -121,8 +121,8 @@ cdef class ATTRIBUTE:
     bass.__Evaluate()
     return True
 
-  cpdef __slidemusicvolchan(ATTRIBUTE self, list value, DWORD time):
-    cdef list current = self.__getmusicvolchan()
+  cpdef __slidemusicvolchan(ATTRIBUTE self, tuple value, DWORD time):
+    cdef tuple current = self.__getmusicvolchan()
     cdef int i
     if len(value) != len(current):
       raise BassAPIError()

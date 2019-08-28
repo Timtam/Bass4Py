@@ -1,8 +1,11 @@
+from .constants import ERROR
+
 class BassError(Exception):
-  def __init__(self,error):
-    self.error=error
+  def __init__(self, error):
+    self.Error = ERROR(error)
+
   def __str__(self):
-    return 'A library error occured. Please consult the documentation for more information. The error-code is: %d'%self.error
+    return 'A library error occured. Please consult the documentation for more information. The error is: ' + str(self.Error)
 
 class BassAPIError(Exception):
   def __str__(self):

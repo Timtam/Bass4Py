@@ -3,7 +3,7 @@ from .music cimport MUSIC
 from .sample cimport SAMPLE
 from .stream cimport STREAM
 from .vector cimport VECTOR, VECTOR_Create
-from ..constants import DEVICE_TYPE
+from ..constants import DEVICE, DEVICE_TYPE
 from ..exceptions import BassAPIError, BassPlatformError
 
 __EAXPresets={
@@ -337,7 +337,7 @@ cdef class OUTPUT_DEVICE:
       self.Set()
       info = self.__getinfo()
       bass.__Evaluate()
-      return info.initflags
+      return DEVICE(info.initflags)
 
   property Speakers:
     def __get__(OUTPUT_DEVICE self):

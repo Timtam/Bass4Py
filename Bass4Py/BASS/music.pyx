@@ -2,10 +2,14 @@ from . cimport bass
 from .channel cimport CHANNEL
 from .attribute cimport ATTRIBUTE
 from .output_device cimport OUTPUT_DEVICE
+from ..constants import MUSIC as C_MUSIC
 
 include "../transform.pxi"
 
 cdef class MUSIC(CHANNEL):
+
+  def __cinit__(MUSIC self, HMUSIC handle):
+    self.__flags_enum = C_MUSIC
 
   cdef void __initattributes(MUSIC self):
     CHANNEL.__initattributes(self)
