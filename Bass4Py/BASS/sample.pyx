@@ -1,6 +1,5 @@
 from . cimport bass
 from .channel cimport CHANNEL
-from .output_device cimport OUTPUT_DEVICE
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
@@ -8,7 +7,18 @@ include "../transform.pxi"
 
 cdef class SAMPLE:
   def __cinit__(SAMPLE self, HSAMPLE sample):
+    cdef DWORD dev
+
     self.__sample = sample
+
+    dev = bass.BASS_ChannelGetDevice(self.__sample)
+    
+    bass.__Evaluate()
+    
+    if dev == bass._BASS_NODEVICE:
+      self.__device = None
+    else:
+      self.__device = OUTPUT_DEVICE(dev)
 
   cdef BASS_SAMPLE __getinfo(SAMPLE self):
     cdef BASS_SAMPLE info
@@ -94,6 +104,23 @@ cdef class SAMPLE:
     bass.__Evaluate()
     
     return SAMPLE(samp)
+
+  cpdef Bytes2Seconds(SAMPLE self, QWORD bytes):
+    cdef double secs
+    secs = bass.BASS_ChannelBytes2Seconds(self.__sample, bytes)
+    bass.__Evaluate()
+    return secs
+  
+  cpdef Seconds2Bytes(SAMPLE self, double secs):
+    cdef QWORD bytes
+    bytes = bass.BASS_ChannelSeconds2Bytes(self.__sample, secs)
+    bass.__Evaluate()
+    return bytes
+
+  cpdef GetLength(SAMPLE self, DWORD mode = bass._BASS_POS_BYTE):
+    cdef QWORD res = bass.BASS_ChannelGetLength(self.__sample, mode)
+    bass.__Evaluate()
+    return res
 
   property ChannelCount:
     def __get__(SAMPLE self):
@@ -364,3 +391,20 @@ cdef class SAMPLE:
       with nogil:
         res = bass.BASS_SampleSetData(self.__sample, &(data[0]))
       bass.__Evaluate()
+
+  property Device:
+    def __get__(SAMPLE self):
+      return self.__device
+
+    def __set__(SAMPLE self, OUTPUT_DEVICE dev):
+      if dev is None:
+        bass.BASS_ChannelSetDevice(self.__sample, bass._BASS_NODEVICE)
+      else:
+        bass.BASS_ChannelSetDevice(self.__sample, (<OUTPUT_DEVICE?>dev).__device)
+
+      bass.__Evaluate()
+
+      if not dev:
+        self.__device = None
+      else:
+        self.__device = (<OUTPUT_DEVICE>dev)
