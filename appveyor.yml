@@ -4,63 +4,90 @@ branches:
   only:
     - master
     - appveyor
-
 environment:
   matrix:
-    - PYTHON: "C:\\Python27"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python27"
+      PYTHON_VERSION: "2.7"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python37"
+      PYTHON_VERSION: "3.7"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python27-x64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python37"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python37-x64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python36"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python36-x64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python35"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python35-x64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python34"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python34-x64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "64"
 
 # scripts to run before build
-before_build:
-  - ps: |
-      $wc = New-Object System.Net.WebClient
-      $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
-  - 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+for:
+  - 
+    matrix:
+      only:
+        - image: Visual Studio 2015
+    before_build:
+      - ps: |
+          $wc = New-Object System.Net.WebClient
+          $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
+      - 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+    install:
+      - "%PYTHON%\\python.exe --version"
+      - "%PYTHON%\\Scripts\\pip.exe --version"
+      - '%PYTHON%\\python.exe -m pip install -r requirements-dev.txt'
+    build_script:
+      - "%PYTHON%\\python.exe setup.py build_ext --inplace"
+      - "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - 
+    matrix:
+      only:
+        - image: Ubuntu
+    before_build:
+      - ps: |
+          $wc = New-Object System.Net.WebClient
+          $wc.DownloadFile("http://www.un4seen.com/files/bass24-linux.zip", "/home/appveyor/projects/bass4py/bass24-linux.zip")
+      - 7z x bass24-linux.zip -o/home/appveyor/bass4py/bass24-linux -r
+    install:
+      - "$PYTHON --version"
+      - "$PYTHON -m pip --version"
+      - '$PYTHON -m pip install -r requirements-dev.txt'
+    build_script:
+      - "$PYTHON setup.py build_ext --inplace"
+      - "$PYTHON setup.py bdist_wheel"
 init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
-install:
-  - "%PYTHON%\\python.exe --version"
-  - "%PYTHON%\\Scripts\\pip.exe --version"
-  - '%PYTHON%\\python.exe -m pip install -r requirements-dev.txt'
-build_script:
-  - "%PYTHON%\\python.exe setup.py build_ext --inplace"
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
 artifacts:
-  - path: dist\*
+  - path: dist/*
