@@ -62,3 +62,5 @@ install:
 build_script:
   - "%PYTHON%\\python.exe setup.py build_ext --inplace"
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
+artifacts:
+  - path: dist\*
