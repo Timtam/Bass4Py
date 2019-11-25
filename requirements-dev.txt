@@ -1,0 +1,6 @@
+-r requirements.txt
+cython==0.29.13
+nose2==0.9.1
+setuptools
+sphinx==1.8.1
+wheel
