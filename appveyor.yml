@@ -59,7 +59,7 @@ before_build:
   - cmd: 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
   - sh: |
       wget http://www.un4seen.com/files/bass24-linux.zip
-      7z x bass24-linux.zip -o/home/appveyor/bass4py/bass24-linux -r
+      7z x bass24-linux.zip -o/home/appveyor/projects/bass4py/bass24-linux -r
       
 install:
   - cmd: |
