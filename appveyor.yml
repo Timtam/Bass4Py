@@ -1,5 +1,6 @@
 version: 1.0-{build}
 build: off
+platform: Any CPU
 branches:
   only:
     - master
