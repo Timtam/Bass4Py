@@ -69,7 +69,7 @@ install:
   - sh: |
       $PYTHON --version
       $PYTHON -m pip --version
-      $PYTHON -m pip install -r requirements-dev.txt
+      sudo $PYTHON -m pip install -r requirements-dev.txt
 build_script:
   - cmd: |
       %PYTHON%\python.exe setup.py build_ext --inplace
