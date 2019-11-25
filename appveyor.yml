@@ -1,0 +1,68 @@
+version: 1.0-{build}
+build: off
+branches:
+  only:
+    - master
+    - appveyor
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python37"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python37-x64"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "3.5"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "64"
+
+# scripts to run before build
+before_build:
+  - ps: |
+      $wc = New-Object System.Net.WebClient
+      $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
+  - 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+  - copy /y bass24\c\bass.h tcview\tcview\bass.h
+  - copy /y bass24\c\bass.lib tcview\tcview\bass_x86.lib
+  - copy /y bass24\c\x64\bass.lib tcview\tcview\bass_x64.lib
+init:
+  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
+install:
+  - "%PYTHON%\\python.exe --version"
+  - "%PYTHON%\\Scripts\\pip.exe --version"
+  - "%PYTHON%\\Scripts\\wheel.exe version"
+  - '%PYTHON%\\python.exe -m pip install -r requirements.txt'
+build_script:
+  - "%PYTHON%\\python.exe setup.py build_ext --inplace"
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
