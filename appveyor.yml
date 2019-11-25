@@ -1,14 +1,28 @@
 version: 1.0-{build}
 build: off
+platform:
+  - x86
+  - x64
 branches:
   only:
     - master
     - appveyor
+matrix:
+  exclude:
+    - 
+      image: Visual Studio 2015
+      platform: x86
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python2.7"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3.4"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
