@@ -59,6 +59,10 @@ before_build:
       $wc = New-Object System.Net.WebClient
       $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
   - cmd: 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+  - sh: |
+      wget http://www.un4seen.com/files/bass24-linux.zip
+      7z x bass24-linux.zip -o/home/appveyor/bass4py/bass24-linux -r
+      
 install:
   - cmd: |
       %PYTHON%\python.exe --version
@@ -76,6 +80,7 @@ build_script:
      $PYTHON setup.py build_ext --inplace
      $PYTHON setup.py bdist_wheel
 init:
-  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
+  - cmd: |
+      ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%
 artifacts:
   - path: dist/*
