@@ -8,11 +8,9 @@ environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python27"
-      PYTHON_VERSION: "2.7"
+      PYTHON: "python2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python37"
-      PYTHON_VERSION: "3.7"
+      PYTHON: "python3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
