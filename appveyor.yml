@@ -61,8 +61,7 @@ init:
 install:
   - "%PYTHON%\\python.exe --version"
   - "%PYTHON%\\Scripts\\pip.exe --version"
-  - "%PYTHON%\\Scripts\\wheel.exe version"
-  - '%PYTHON%\\python.exe -m pip install -r requirements.txt'
+  - '%PYTHON%\\python.exe -m pip install -r requirements-dev.txt'
 build_script:
   - "%PYTHON%\\python.exe setup.py build_ext --inplace"
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
