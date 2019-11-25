@@ -61,20 +61,20 @@ before_build:
   - cmd: 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
 install:
   - cmd: |
-      "%PYTHON%\python.exe --version"
-      "%PYTHON%\Scripts\\pip.exe --version"
-      '%PYTHON%\python.exe -m pip install -r requirements-dev.txt'
+      %PYTHON%\python.exe --version
+      %PYTHON%\Scripts\pip.exe --version
+      %PYTHON%\python.exe -m pip install -r requirements-dev.txt
   - sh: |
-      "$PYTHON --version"
-      "$PYTHON -m pip --version"
-      '$PYTHON -m pip install -r requirements-dev.txt'
+      $PYTHON --version
+      $PYTHON -m pip --version
+      $PYTHON -m pip install -r requirements-dev.txt
 build_script:
   - cmd: |
-      "%PYTHON%\python.exe setup.py build_ext --inplace"
-      "%PYTHON%\python.exe setup.py bdist_wheel"
+      %PYTHON%\python.exe setup.py build_ext --inplace
+      %PYTHON%\python.exe setup.py bdist_wheel
   - sh: |
-     "$PYTHON setup.py build_ext --inplace"
-     "$PYTHON setup.py bdist_wheel"
+     $PYTHON setup.py build_ext --inplace
+     $PYTHON setup.py bdist_wheel
 init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
 artifacts:
