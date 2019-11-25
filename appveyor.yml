@@ -53,9 +53,6 @@ before_build:
       $wc = New-Object System.Net.WebClient
       $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
   - 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
-  - copy /y bass24\c\bass.h tcview\tcview\bass.h
-  - copy /y bass24\c\bass.lib tcview\tcview\bass_x86.lib
-  - copy /y bass24\c\x64\bass.lib tcview\tcview\bass_x64.lib
 init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
 install:
