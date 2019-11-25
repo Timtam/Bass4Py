@@ -5,6 +5,7 @@ branches:
     - master
     - appveyor
 environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python27"
@@ -53,40 +54,27 @@ environment:
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "64"
 
-# scripts to run before build
-for:
-  - 
-    matrix:
-      only:
-        - image: Visual Studio 2015
-    before_build:
-      - ps: |
-          $wc = New-Object System.Net.WebClient
-          $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
-      - 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
-    install:
-      - "%PYTHON%\\python.exe --version"
-      - "%PYTHON%\\Scripts\\pip.exe --version"
-      - '%PYTHON%\\python.exe -m pip install -r requirements-dev.txt'
-    build_script:
-      - "%PYTHON%\\python.exe setup.py build_ext --inplace"
-      - "%PYTHON%\\python.exe setup.py bdist_wheel"
-  - 
-    matrix:
-      only:
-        - image: Ubuntu
-    before_build:
-      - ps: |
-          $wc = New-Object System.Net.WebClient
-          $wc.DownloadFile("http://www.un4seen.com/files/bass24-linux.zip", "/home/appveyor/projects/bass4py/bass24-linux.zip")
-      - 7z x bass24-linux.zip -o/home/appveyor/bass4py/bass24-linux -r
-    install:
-      - "$PYTHON --version"
-      - "$PYTHON -m pip --version"
-      - '$PYTHON -m pip install -r requirements-dev.txt'
-    build_script:
-      - "$PYTHON setup.py build_ext --inplace"
-      - "$PYTHON setup.py bdist_wheel"
+before_build:
+  - ps: |
+      $wc = New-Object System.Net.WebClient
+      $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
+  - cmd: 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+install:
+  - cmd: |
+      "%PYTHON%\\python.exe --version"
+      "%PYTHON%\\Scripts\\pip.exe --version"
+      '%PYTHON%\\python.exe -m pip install -r requirements-dev.txt'
+  - sh: |
+      "$PYTHON --version"
+      "$PYTHON -m pip --version"
+      '$PYTHON -m pip install -r requirements-dev.txt'
+build_script:
+  - cmd: |
+      "%PYTHON%\\python.exe setup.py build_ext --inplace"
+      "%PYTHON%\\python.exe setup.py bdist_wheel"
+  - sh: |
+     "$PYTHON setup.py build_ext --inplace"
+     "$PYTHON setup.py bdist_wheel"
 init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
 artifacts:
