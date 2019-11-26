@@ -1,8 +1,5 @@
 version: 1.0-{build}
 build: off
-platform:
-  - x86
-  - x64
 branches:
   only:
     - master
@@ -23,18 +20,43 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "32"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python36"
-      PYTHON_VERSION: "3.6"
+      PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "64"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "32"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python37-x64"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "32"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "3.5"
+      PYTHON_ARCH: "32"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5"
+      PYTHON_ARCH: "64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "32"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "64"
 
 before_build:
   - ps: |
@@ -63,7 +85,6 @@ build_script:
      $PYTHON setup.py bdist_wheel
 init:
   - cmd: |
-      IF %PROCESSOR_ARCHITECTURE%==AMD64 SET PYTHON=%PYTHON%-x64
-      ECHO Python %PYTHON_VERSION% (%PROCESSOR_ARCHITECTURE%) from %PYTHON%
+      ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%
 artifacts:
   - path: dist/*
