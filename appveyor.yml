@@ -8,55 +8,72 @@ environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python2.7"
+      PYTHON: "python2"
+      STACK: "2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3.4"
+      PYTHON: "python3"
+      STACK: "3.4"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3.5"
+      PYTHON: "python3"
+      STACK: "3.5"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3.6"
+      PYTHON: "python3"
+      STACK: "3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3.7"
+      PYTHON: "python3"
+      STACK: "3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "32"
+      STACK: "2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
+      STACK: "2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "32"
+      STACK: "3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
+      STACK: "3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
+      STACK: "3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
+      STACK: "3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "32"
+      STACK: "3.5"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
+      STACK: "3.5"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "32"
+      STACK: "3.4"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "64"
+      STACK: "3.4"
+
+stack: python %STACK%
 
 before_build:
   - ps: |
