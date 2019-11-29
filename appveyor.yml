@@ -12,9 +12,6 @@ environment:
       STACK: "2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
-      STACK: "3.4"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3"
       STACK: "3.5"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
@@ -62,16 +59,6 @@ environment:
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
       STACK: "3.5"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4"
-      PYTHON_ARCH: "32"
-      STACK: "3.4"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4"
-      PYTHON_ARCH: "64"
-      STACK: "3.4"
 
 stack: python %STACK%
 
