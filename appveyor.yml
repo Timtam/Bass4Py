@@ -98,7 +98,7 @@ build_script:
 test_script:
   - sh: |
       export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
-  cmd: |
+  - cmd: |
       set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
   - nose2
 init:
