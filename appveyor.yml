@@ -87,6 +87,10 @@ build_script:
   - sh: |
      $PYTHON setup.py build_ext --inplace
      $PYTHON setup.py bdist_wheel
+test_script:
+  - sh: |
+    export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
+  - nose2
 init:
   - cmd: |
       ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%
