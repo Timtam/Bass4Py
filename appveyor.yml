@@ -90,7 +90,7 @@ build_script:
 test_script:
   - sh: |
     export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
-  - nose2
+    nose2
 init:
   - cmd: |
       ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%
