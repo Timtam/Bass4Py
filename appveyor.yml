@@ -24,41 +24,49 @@ environment:
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "32"
       STACK: "2.7"
+      BASSLIB: "bass24"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
       STACK: "2.7"
+      BASSLIB: "bass24\x64"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "32"
       STACK: "3.7"
+      BASSLIB: "bass24"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
       STACK: "3.7"
+      BASSLIB: "bass24\x64"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
       STACK: "3.6"
+      BASSLIB: "bass24"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       STACK: "3.6"
+      BASSLIB: "bass24\x64"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "32"
       STACK: "3.5"
+      BASSLIB: "bass24"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
       STACK: "3.5"
+      BASSLIB: "bass24\x64"
 
 stack: python %STACK%
 
@@ -90,6 +98,8 @@ build_script:
 test_script:
   - sh: |
       export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
+  cmd: |
+      set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
   - nose2
 init:
   - cmd: |
