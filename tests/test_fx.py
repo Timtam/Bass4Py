@@ -37,7 +37,7 @@ class TestFX(unittest.TestCase):
     if platform.uname()[0] == "Windows":
       bounds = (80.0, 16000.0, )
     else:
-      bounds = (1.0, 20.000, )
+      bounds = (1.0, 20000.0, )
 
     self.assertRaises(BassOutOfRangeError, set_center, bounds[1] + 1)
 
