@@ -96,13 +96,18 @@ build_script:
   - sh: |
      $PYTHON setup.py build_ext --inplace
      $PYTHON setup.py bdist_wheel
+
 before_test:
-  - sh: export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
-  - cmd: set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
+  - sh: |
+      export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
+  - cmd: |
+      set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
 
 test_script:
-  - sh: nose2 -X
-  - cmd: %PYTHON%\Scripts\nose2.exe -X
+  - sh: |
+      nose2 -X
+  - cmd: |
+      %PYTHON%\Scripts\nose2.exe -X
 
 after_test:
   - ps: |
