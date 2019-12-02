@@ -3,6 +3,7 @@ build: off
 branches:
   only:
     - master
+    - cython
     - appveyor
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
@@ -95,13 +96,21 @@ build_script:
   - sh: |
      $PYTHON setup.py build_ext --inplace
      $PYTHON setup.py bdist_wheel
+before_test:
+  - sh: export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
+  - cmd: set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
+
 test_script:
+  - sh: nose2 -X
+  - cmd: %PYTHON%\Scripts\nose2.exe -X
+
+after_test:
+  - ps: |
+      $wc = New-Object 'System.Net.WebClient'
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "C:/projects/bass4py/nose2-junit.xml")
   - sh: |
-      export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
-      nose2
-  - cmd: |
-      set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
-      %PYTHON%\Scripts\nose2.exe
+      curl -F "file=/home/appveyor/projects/bass4py/nose2-junit.xml", "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
+
 init:
   - cmd: |
       ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%
