@@ -109,7 +109,7 @@ test_script:
   - cmd: |
       %PYTHON%\Scripts\nose2.exe -X
 
-after_test:
+on_finish:
   - ps: |
       $wc = New-Object 'System.Net.WebClient'
       $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "C:/projects/bass4py/nose2-junit.xml")
