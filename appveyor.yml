@@ -11,74 +11,86 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python2"
       STACK: "2.7"
+      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.5"
+      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.6"
+      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.7"
+      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "32"
       STACK: "2.7"
       BASSLIB: "bass24"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
       STACK: "2.7"
       BASSLIB: "bass24\\x64"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "32"
       STACK: "3.7"
       BASSLIB: "bass24"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
       STACK: "3.7"
       BASSLIB: "bass24\\x64"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
       STACK: "3.6"
       BASSLIB: "bass24"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       STACK: "3.6"
       BASSLIB: "bass24\\x64"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "32"
       STACK: "3.5"
       BASSLIB: "bass24"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "3.5"
       PYTHON_ARCH: "64"
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
 
 stack: python %STACK%
 
 before_build:
   - ps: |
       $wc = New-Object System.Net.WebClient
-      $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "C:/projects/Bass4Py/bass24.zip")
-  - cmd: 7z x bass24.zip -oc:\projects\Bass4Py\bass24 -r
+      $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "$($env:BUILD_FOLDER)bass24.zip")
+  - cmd: 7z x bass24.zip -o%BUILD_FOLDER%bass24 -r
   - sh: |
       wget http://www.un4seen.com/files/bass24-linux.zip
-      7z x bass24-linux.zip -o/home/appveyor/projects/bass4py/bass24-linux -r
+      7z x bass24-linux.zip -o${BUILD_FOLDER}bass24-linux -r
       
 install:
   - cmd: |
@@ -99,9 +111,9 @@ build_script:
 
 before_test:
   - sh: |
-      export LD_LIBRARY_PATH=/home/appveyor/projects/bass4py/bass24-linux/x64/
+      export LD_LIBRARY_PATH=${BUILD_FOLDER}bass24-linux/x64/
   - cmd: |
-      set PATH=C:\projects\bass4py\%BASSLIB%;%PATH%
+      set PATH=%BUILD_FOLDER%%BASSLIB%;%PATH%
 
 test_script:
   - sh: |
@@ -112,9 +124,9 @@ test_script:
 on_finish:
   - ps: |
       $wc = New-Object 'System.Net.WebClient'
-      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "C:/projects/bass4py/nose2-junit.xml")
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
   - sh: |
-      curl -F "file=/home/appveyor/projects/bass4py/nose2-junit.xml", "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
+      curl -F "file=${BUILD_FOLDER}nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/${APPVEYOR_JOB_ID}"
 
 init:
   - cmd: |
