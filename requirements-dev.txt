@@ -1,5 +1,5 @@
 -r requirements.txt
-cython==0.29.13
+cython==0.29.14
 nose2==0.9.1
 setuptools
 sphinx==1.8.1
