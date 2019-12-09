@@ -111,11 +111,11 @@ install:
       $PYTHON -m pip install -r requirements-dev.txt
 build_script:
   - cmd: "
-      IF %%SDIST_ONLY%% == 1 (
-        %%PYTHON%%\python.exe setup.py sdist
+      IF %SDIST_ONLY% == 1 (
+        %PYTHON%\\python.exe setup.py sdist
       ) ELSE (
-        %%PYTHON%%\python.exe setup.py build_ext --inplace
-        %%PYTHON%%\python.exe setup.py bdist_wheel
+        %PYTHON%\\python.exe setup.py build_ext --inplace
+        %PYTHON%\\python.exe setup.py bdist_wheel
       )"
   - sh: |
       if [ -z ${SDIST_ONLY+x} ];
