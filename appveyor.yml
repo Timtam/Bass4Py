@@ -110,20 +110,20 @@ install:
       $PYTHON -m pip --version
       $PYTHON -m pip install -r requirements-dev.txt
 build_script:
-  - cmd: |
+  - cmd: "
       IF %SDIST_ONLY% == 1 (
         %PYTHON%\python.exe setup.py sdist
       ) ELSE (
         %PYTHON%\python.exe setup.py build_ext --inplace
         %PYTHON%\python.exe setup.py bdist_wheel
-      )
+      )"
   - sh: |
-      if [ $SDIST_ONLY -eq 1 ];
+      if [ -z ${SDIST_ONLY+x} ];
       then
-        $PYTHON setup.py sdist
-      else
         $PYTHON setup.py build_ext --inplace
         $PYTHON setup.py bdist_wheel
+      else
+        $PYTHON setup.py sdist
       fi
 
 before_test:
@@ -143,7 +143,7 @@ test_script:
 
 on_finish:
   - ps: |
-      if (TestPath "$($env:BUILD_FOLDER)nose2-junit.xml")
+      if (Test-Path "$($env:BUILD_FOLDER)nose2-junit.xml")
       {
         $wc = New-Object 'System.Net.WebClient'
         $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
@@ -151,7 +151,7 @@ on_finish:
   - sh: |
       if [ -f "${BUILD_FOLDER}nose2-junit.xml" ];
       then
-        curl -v -F "file=@${BUILD_FOLDER}nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/${APPVEYOR_JOB_ID}"
+        curl -F "file=@${BUILD_FOLDER}nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/${APPVEYOR_JOB_ID}"
       fi
 
 init:
