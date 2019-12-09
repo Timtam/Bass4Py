@@ -80,6 +80,14 @@ environment:
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "32"
+      STACK: "2.7"
+      BASSLIB: "bass24"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
+      SDIST_ONLY: 1
 
 stack: python %STACK%
 
@@ -103,11 +111,20 @@ install:
       $PYTHON -m pip install -r requirements-dev.txt
 build_script:
   - cmd: |
-      %PYTHON%\python.exe setup.py build_ext --inplace
-      %PYTHON%\python.exe setup.py bdist_wheel
+      IF %SDIST_ONLY% == 1 (
+        %PYTHON%\python.exe setup.py sdist
+      ) ELSE (
+        %PYTHON%\python.exe setup.py build_ext --inplace
+        %PYTHON%\python.exe setup.py bdist_wheel
+      )
   - sh: |
-     $PYTHON setup.py build_ext --inplace
-     $PYTHON setup.py bdist_wheel
+      if [ $SDIST_ONLY -eq 1 ];
+      then
+        $PYTHON setup.py sdist
+      else
+        $PYTHON setup.py build_ext --inplace
+        $PYTHON setup.py bdist_wheel
+      fi
 
 before_test:
   - sh: |
@@ -117,16 +134,25 @@ before_test:
 
 test_script:
   - sh: |
-      nose2 -X
+      if [ -z ${SDIST_ONLY+x} ];
+      then
+        nose2 -X
+      fi
   - cmd: |
-      %PYTHON%\Scripts\nose2.exe -X
+      if not defined SDIST_ONLY %PYTHON%\Scripts\nose2.exe -X
 
 on_finish:
   - ps: |
-      $wc = New-Object 'System.Net.WebClient'
-      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
+      if (TestPath "$($env:BUILD_FOLDER)nose2-junit.xml")
+      {
+        $wc = New-Object 'System.Net.WebClient'
+        $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
+      }
   - sh: |
-      curl -v -F "file=@${BUILD_FOLDER}nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/${APPVEYOR_JOB_ID}"
+      if [ -f "${BUILD_FOLDER}nose2-junit.xml" ];
+      then
+        curl -v -F "file=@${BUILD_FOLDER}nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/${APPVEYOR_JOB_ID}"
+      fi
 
 init:
   - cmd: |
