@@ -3,18 +3,18 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..channel cimport CHANNEL
-from ..stream cimport STREAM
-from ..sync cimport SYNC
+from ..channel cimport Channel
+from ..stream cimport Stream
+from ..sync cimport Sync
 from ...exceptions import BassSyncError
 
-cdef class SYNC_OGG_CHANGE(SYNC):
-  def __cinit__(SYNC_OGG_CHANGE self):
+cdef class OggChange(Sync):
+  def __cinit__(OggChange self):
 
     self.__type = _BASS_SYNC_OGG_CHANGE
 
-  cpdef Set(SYNC_OGG_CHANGE self, CHANNEL chan):
-    if not isinstance(chan, STREAM):
+  cpdef Set(OggChange self, Channel chan):
+    if not isinstance(chan, Stream):
       raise BassSyncError("this sync can only be set to a stream")
     
-    super(SYNC_OGG_CHANGE, self).Set(chan)
+    super(OggChange, self).Set(chan)

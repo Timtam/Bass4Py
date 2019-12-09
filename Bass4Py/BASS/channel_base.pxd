@@ -4,29 +4,29 @@ from .bass cimport (
                     HCHANNEL,
                     QWORD
                    )
-from .attribute cimport ATTRIBUTE
+from .attribute cimport Attribute
 from ..exceptions import BassError
 
-cdef class CHANNEL_BASE:
+cdef class ChannelBase:
   cdef HCHANNEL __channel
   cdef object __flags_enum
 
   # attributes
-  cdef readonly ATTRIBUTE Frequency
-  cdef readonly ATTRIBUTE Pan
-  cdef readonly ATTRIBUTE SRC
-  cdef readonly ATTRIBUTE Volume
+  cdef readonly Attribute Frequency
+  cdef readonly Attribute Pan
+  cdef readonly Attribute SRC
+  cdef readonly Attribute Volume
 
-  cdef BASS_CHANNELINFO __getinfo(CHANNEL_BASE self)
-  cdef void __initattributes(CHANNEL_BASE self)
-  cdef void __sethandle(CHANNEL_BASE self, HCHANNEL handle)
-  cpdef GetLevels(CHANNEL_BASE self, float length, DWORD flags)
-  cpdef Lock(CHANNEL_BASE self)
-  cpdef Pause(CHANNEL_BASE self)
-  cpdef Stop(CHANNEL_BASE self)
-  cpdef Unlock(CHANNEL_BASE self)
-  cpdef GetPosition(CHANNEL_BASE self, DWORD mode=?)
-  cpdef Bytes2Seconds(CHANNEL_BASE self, QWORD bytes)
-  cpdef Seconds2Bytes(CHANNEL_BASE self, double secs)
-  cpdef GetData(CHANNEL_BASE self, DWORD length)
-  cpdef GetLength(CHANNEL_BASE self, DWORD mode = ?)
+  cdef BASS_CHANNELINFO __getinfo(ChannelBase self)
+  cdef void __initattributes(ChannelBase self)
+  cdef void __sethandle(ChannelBase self, HCHANNEL handle)
+  cpdef GetLevels(ChannelBase self, float length, DWORD flags)
+  cpdef Lock(ChannelBase self)
+  cpdef Pause(ChannelBase self)
+  cpdef Stop(ChannelBase self)
+  cpdef Unlock(ChannelBase self)
+  cpdef GetPosition(ChannelBase self, DWORD mode=?)
+  cpdef Bytes2Seconds(ChannelBase self, QWORD bytes)
+  cpdef Seconds2Bytes(ChannelBase self, double secs)
+  cpdef GetData(ChannelBase self, DWORD length)
+  cpdef GetLength(ChannelBase self, DWORD mode = ?)

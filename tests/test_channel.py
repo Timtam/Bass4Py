@@ -1,5 +1,5 @@
-from Bass4Py.BASS import bass
-from Bass4Py.BASS.stream import STREAM
+from Bass4Py.BASS import BASS
+from Bass4Py.BASS import Stream
 from Bass4Py.constants import STREAM as C_STREAM
 from Bass4Py.exceptions import BassError
 import os.path
@@ -9,7 +9,7 @@ import wave
 class TestChannel(unittest.TestCase):
 
   def setUp(self):
-    self.bass = bass.BASS()
+    self.bass = BASS()
     self.device = self.bass.GetOutputDevice(0)
     self.device.Init(44100, 0, 0)
 
@@ -61,7 +61,7 @@ class TestChannel(unittest.TestCase):
     data = f.read()
     f.close()
     
-    strm = STREAM.FromBytes(data)
+    strm = Stream.FromBytes(data)
 
     self.assertEqual(strm.GetLength(), self.bass_wave.GetLength())
 
@@ -86,6 +86,6 @@ class TestChannel(unittest.TestCase):
 
     f = open(path, "rb")
     
-    strm = STREAM.FromFileObj(f)
+    strm = Stream.FromFileObj(f)
 
     strm.Free()

@@ -3,20 +3,20 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..sync cimport SYNC
+from ..sync cimport Sync
 from ...exceptions import BassAPIError
 
-cdef class SYNC_POSITION(SYNC):
-  def __cinit__(SYNC_POSITION self):
+cdef class Position(Sync):
+  def __cinit__(Position self):
 
     self.__type = _BASS_SYNC_POS
     self.__forceparam = True
 
   property Position:
-    def __get__(SYNC_POSITION self):
+    def __get__(Position self):
       return self.__param
       
-    def __set__(SYNC_POSITION self, DWORD value):
+    def __set__(Position self, DWORD value):
 
       if self.__sync:
         raise BassAPIError()

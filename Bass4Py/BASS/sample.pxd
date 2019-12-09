@@ -5,16 +5,16 @@ from .bass cimport (
                     HSAMPLE,
                     QWORD
                    )
-from .output_device cimport OUTPUT_DEVICE
+from .output_device cimport OutputDevice
 
-cdef class SAMPLE:
+cdef class Sample:
   cdef HSAMPLE __sample
-  cdef OUTPUT_DEVICE __device
+  cdef OutputDevice __device
 
-  cdef BASS_SAMPLE __getinfo(SAMPLE self)
-  cpdef Free(SAMPLE self)
-  cpdef GetChannel(SAMPLE self, bint onlynew)
-  cpdef GetLength(SAMPLE self, DWORD mode = ?)
-  cpdef Stop(SAMPLE self)
-  cpdef Bytes2Seconds(SAMPLE self, QWORD bytes)
-  cpdef Seconds2Bytes(SAMPLE self, double secs)
+  cdef BASS_SAMPLE __getinfo(Sample self)
+  cpdef Free(Sample self)
+  cpdef GetChannel(Sample self, bint onlynew)
+  cpdef GetLength(Sample self, DWORD mode = ?)
+  cpdef Stop(Sample self)
+  cpdef Bytes2Seconds(Sample self, QWORD bytes)
+  cpdef Seconds2Bytes(Sample self, double secs)

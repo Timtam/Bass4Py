@@ -1,51 +1,51 @@
 from cpython.mem cimport PyMem_Free, PyMem_Malloc
 
 from . cimport bass
-from .attribute cimport ATTRIBUTE
-from .plugin cimport PLUGIN
-from .sample cimport SAMPLE
+from .attribute cimport Attribute
+from .plugin cimport Plugin
+from .sample cimport Sample
 from ..constants import ACTIVE, CHANNEL_TYPE
 from ..constants import SAMPLE as C_SAMPLE
 
-cdef class CHANNEL_BASE:
-  def __cinit__(CHANNEL_BASE self, HCHANNEL channel):
+cdef class ChannelBase:
+  def __cinit__(ChannelBase self, HCHANNEL channel):
 
     self.__flags_enum = C_SAMPLE
 
     if channel != 0:
       self.__sethandle(channel)
 
-  cdef void __sethandle(CHANNEL_BASE self, HCHANNEL handle):
+  cdef void __sethandle(ChannelBase self, HCHANNEL handle):
     self.__channel = handle
     self.__initattributes()
 
-  cdef void __initattributes(CHANNEL_BASE self):
-    self.Frequency = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_FREQ)
-    self.Pan = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_PAN)
-    self.SRC = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_SRC)
-    self.Volume = ATTRIBUTE(self.__channel, bass._BASS_ATTRIB_VOL)
+  cdef void __initattributes(ChannelBase self):
+    self.Frequency = Attribute(self.__channel, bass._BASS_ATTRIB_FREQ)
+    self.Pan = Attribute(self.__channel, bass._BASS_ATTRIB_PAN)
+    self.SRC = Attribute(self.__channel, bass._BASS_ATTRIB_SRC)
+    self.Volume = Attribute(self.__channel, bass._BASS_ATTRIB_VOL)
 
-  cdef BASS_CHANNELINFO __getinfo(CHANNEL_BASE self):
+  cdef BASS_CHANNELINFO __getinfo(ChannelBase self):
     cdef BASS_CHANNELINFO info
     cdef bint res
     res=bass.BASS_ChannelGetInfo(self.__channel, &info)
     return info
 
-  cpdef Pause(CHANNEL_BASE self):
+  cpdef Pause(ChannelBase self):
     cdef bint res 
     with nogil:
       res = bass.BASS_ChannelPause(self.__channel)
     bass.__Evaluate()
     return res
 
-  cpdef Stop(CHANNEL_BASE self):
+  cpdef Stop(ChannelBase self):
     cdef bint res 
     with nogil:
       res = bass.BASS_ChannelStop(self.__channel)
     bass.__Evaluate()
     return res
 
-  cpdef GetLevels(CHANNEL_BASE self, float length, DWORD flags):
+  cpdef GetLevels(ChannelBase self, float length, DWORD flags):
     cdef int chans = self.Channels
     cdef int i=0
     cdef float *levels
@@ -59,7 +59,7 @@ cdef class CHANNEL_BASE:
     PyMem_Free(<void*>levels)
     return tuple(plevels)
 
-  cpdef Lock(CHANNEL_BASE self):
+  cpdef Lock(ChannelBase self):
     cdef bint res
 
     res = bass.BASS_ChannelLock(self.__channel, True)
@@ -68,7 +68,7 @@ cdef class CHANNEL_BASE:
     
     return res
 
-  cpdef Unlock(CHANNEL_BASE self):
+  cpdef Unlock(ChannelBase self):
     cdef bint res
     
     res = bass.BASS_ChannelLock(self.__channel, False)
@@ -77,25 +77,25 @@ cdef class CHANNEL_BASE:
     
     return res
 
-  cpdef GetPosition(CHANNEL_BASE self, DWORD mode = bass._BASS_POS_BYTE):
+  cpdef GetPosition(ChannelBase self, DWORD mode = bass._BASS_POS_BYTE):
     cdef QWORD res
     res = bass.BASS_ChannelGetPosition(self.__channel, mode)
     bass.__Evaluate()
     return res
   
-  cpdef Bytes2Seconds(CHANNEL_BASE self, QWORD bytes):
+  cpdef Bytes2Seconds(ChannelBase self, QWORD bytes):
     cdef double secs
     secs = bass.BASS_ChannelBytes2Seconds(self.__channel, bytes)
     bass.__Evaluate()
     return secs
   
-  cpdef Seconds2Bytes(CHANNEL_BASE self, double secs):
+  cpdef Seconds2Bytes(ChannelBase self, double secs):
     cdef QWORD bytes
     bytes = bass.BASS_ChannelSeconds2Bytes(self.__channel, secs)
     bass.__Evaluate()
     return bytes
 
-  cpdef GetData(CHANNEL_BASE self, DWORD length):
+  cpdef GetData(ChannelBase self, DWORD length):
     cdef DWORD l = length&0xfffffff
     cdef void *buffer = <void*>PyMem_Malloc(l)
     cdef bytes b
@@ -113,53 +113,53 @@ cdef class CHANNEL_BASE:
     PyMem_Free(buffer)
     return b
 
-  cpdef GetLength(CHANNEL_BASE self, DWORD mode = bass._BASS_POS_BYTE):
+  cpdef GetLength(ChannelBase self, DWORD mode = bass._BASS_POS_BYTE):
     cdef QWORD res = bass.BASS_ChannelGetLength(self.__channel, mode)
     bass.__Evaluate()
     return res
 
-  def __eq__(CHANNEL_BASE self, object y):
-    cdef CHANNEL_BASE chan
-    if isinstance(y, CHANNEL_BASE):
-      chan = <CHANNEL_BASE>y
+  def __eq__(ChannelBase self, object y):
+    cdef ChannelBase chan
+    if isinstance(y, ChannelBase):
+      chan = <ChannelBase>y
       return self.__channel == chan.__channel
     return NotImplemented
 
   property DefaultFrequency:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       return info.freq
 
   property Channels:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       return info.chans
 
   property Type:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       return CHANNEL_TYPE(info.ctype)
 
   property Resolution:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       return info.origres
 
   property Plugin:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       if info.plugin:
-        return PLUGIN(info.plugin)
+        return Plugin(info.plugin)
       else:
         return None
 
   property Name:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
 
@@ -168,16 +168,16 @@ cdef class CHANNEL_BASE:
       return info.filename.decode('utf-8')
 
   property Sample:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       if info.sample:
-        return SAMPLE(info.sample)
+        return Sample(info.sample)
       else:
         return None
 
   property Level:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef bass.WORD left, right
       cdef DWORD level = bass.BASS_ChannelGetLevel(self.__channel)
       bass.__Evaluate()
@@ -186,7 +186,7 @@ cdef class CHANNEL_BASE:
       return (left, right, )
 
   property Active:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef DWORD act
 
       act = bass.BASS_ChannelIsActive(self.__channel)
@@ -196,14 +196,14 @@ cdef class CHANNEL_BASE:
       return ACTIVE(act)
 
   @property
-  def DataAvailable(CHANNEL_BASE self):
+  def DataAvailable(ChannelBase self):
     cdef DWORD res
     res = bass.BASS_ChannelGetData(self.__channel, NULL, bass._BASS_DATA_AVAILABLE)
     bass.__Evaluate()
     return res
 
   property Flags:
-    def __get__(CHANNEL_BASE self):
+    def __get__(ChannelBase self):
       cdef bass.BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
       if info.flags&bass._BASS_UNICODE:

@@ -5,10 +5,10 @@ This module holds the class which is the main entry point to all BASS-related fu
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040e00
 
-from .input_device cimport INPUT_DEVICE
-from .output_device cimport OUTPUT_DEVICE
-from .plugin cimport PLUGIN
-from .version cimport VERSION
+from .input_device cimport InputDevice
+from .output_device cimport OutputDevice
+from .plugin cimport Plugin
+from .version cimport Version
 from ..exceptions import BassError, BassAPIError, BassPlatformError
 
 include "../transform.pxi"
@@ -25,14 +25,14 @@ cpdef __Evaluate():
 cdef class BASS:
   """
   This class offers multiple settings which can be changed to change how BASS works.
-  It also provides methods to gain access to audio devices, represented as :class:`Bass4Py.DEVICE.DEVICE` classes which then further allow to create streams, samples etc.
+  It also provides methods to gain access to audio devices, represented as :class:`Bass4Py.BASS.InputDevice` classes which then further allow to create streams, samples etc.
   """
 
   def __cinit__(BASS self):
     PyEval_InitThreads()
 
-    self.Version = VERSION(BASS_GetVersion())
-    self.APIVersion = VERSION(_BASS4PY_API_VERSION)
+    self.Version = Version(BASS_GetVersion())
+    self.APIVersion = Version(_BASS4PY_API_VERSION)
 
     IF UNAME_SYSNAME == "Windows":
       BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
@@ -43,13 +43,13 @@ cdef class BASS:
     
     :param device: device number to return, default is -1, which equals the current default device
     :type device: int
-    :rtype: :class:`Bass4Py.DEVICE.DEVICE` or None if the device isn't available
+    :rtype: :class:`Bass4Py.BASS.InputDevice` or None if the device isn't available
     """
 
     cdef int devicenumber = 1
-    cdef OUTPUT_DEVICE odevice
+    cdef OutputDevice odevice
     if device >= 0:
-      odevice = OUTPUT_DEVICE(device)
+      odevice = OutputDevice(device)
       try:
         odevice.Enabled
       except BassError:
@@ -57,7 +57,7 @@ cdef class BASS:
       return odevice
     elif device==-1:
       while True:
-        odevice = OUTPUT_DEVICE(devicenumber)
+        odevice = OutputDevice(devicenumber)
         try:
           if odevice.Default:
             break
@@ -69,16 +69,16 @@ cdef class BASS:
         if not odevice.Default:
           return None
       except BassError:
-        return OUTPUT_DEVICE(0)
+        return OutputDevice(0)
       return odevice
     else:
       return None
 
   cpdef GetInputDevice(BASS self, int device = -1):
     cdef int devicenumber = 0
-    cdef INPUT_DEVICE odevice
+    cdef InputDevice odevice
     if device >= 0:
-      odevice = INPUT_DEVICE(device)
+      odevice = InputDevice(device)
       try:
         odevice.Enabled
       except BassError:
@@ -86,7 +86,7 @@ cdef class BASS:
       return odevice
     elif device==-1:
       while True:
-        odevice = INPUT_DEVICE(devicenumber)
+        odevice = InputDevice(devicenumber)
         try:
           if odevice.Default:
             break
@@ -112,18 +112,18 @@ cdef class BASS:
     :type filename: string
     :param flags: flags which change the load procedure (see corresponding BASS documentation page)
     :type flags: int
-    :rtype: :class:`Bass4Py.PLUGIN.PLUGIN` object
+    :rtype: :class:`Bass4Py.BASS.Plugin` object
 
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_PluginLoad.html>`_
     """
     cdef const unsigned char[:] fn = to_readonly_bytes(filename)
     cdef HPLUGIN plugin = BASS_PluginLoad(<const char *>(&(fn[0])), flags)
     __Evaluate()
-    return PLUGIN(plugin)
+    return Plugin(plugin)
 
   cpdef Update(BASS self, DWORD length):
     """
-    Updates any :class:`Bass4Py.bassmusic.BASSMUSIC` and :class:`Bass4Py.bassstream.BASSSTREAM` playback buffers.
+    Updates any :class:`Bass4Py.BASS.MUSIC` and :class:`Bass4Py.BASS.STREAM` playback buffers.
     
     :param length: miliseconds of data to be rendered
     :type length: int
@@ -148,7 +148,7 @@ cdef class BASS:
 
   property Device:
     """
-    :rtype: :class:`Bass4Py.DEVICE.DEVICE` object with the currently active device
+    :rtype: :class:`Bass4Py.BASS.InputDevice` object with the currently active device
 
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_GetDevice.html>`_
 
@@ -157,7 +157,7 @@ cdef class BASS:
     def __get__(BASS self):
       cdef DWORD device=BASS_GetDevice()
       __Evaluate()
-      return OUTPUT_DEVICE(device)
+      return OutputDevice(device)
 
   property NetAgent:
     """

@@ -7,9 +7,9 @@ from ..fx cimport FX
 from ...exceptions import BassOutOfRangeError
 from cpython.mem cimport PyMem_Malloc
 
-cdef class FX_VOLUME(FX):
+cdef class Volume(FX):
 
-  def __cinit__(FX_VOLUME self):
+  def __cinit__(Volume self):
     cdef BASS_FX_VOLUME_PARAM *effect
 
     self.__type = _BASS_FX_VOLUME
@@ -27,11 +27,11 @@ cdef class FX_VOLUME(FX):
     effect.lCurve = 0
 
   property Target:
-    def __get__(FX_VOLUME self):
+    def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
       return effect.fTarget
 
-    def __set__(FX_VOLUME self, float value):
+    def __set__(Volume self, float value):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
 
       if value < 0.0:
@@ -40,11 +40,11 @@ cdef class FX_VOLUME(FX):
       effect.fTarget = value
 
   property Current:
-    def __get__(FX_VOLUME self):
+    def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
       return effect.fCurrent
 
-    def __set__(FX_VOLUME self, float value):
+    def __set__(Volume self, float value):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
 
       if value < -1.0:
@@ -53,11 +53,11 @@ cdef class FX_VOLUME(FX):
       effect.fCurrent = value
 
   property Time:
-    def __get__(FX_VOLUME self):
+    def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
       return effect.fTime
 
-    def __set__(FX_VOLUME self, float value):
+    def __set__(Volume self, float value):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
 
       if value < 0.0:
@@ -66,11 +66,11 @@ cdef class FX_VOLUME(FX):
       effect.fTime = value
 
   property Curve:
-    def __get__(FX_VOLUME self):
+    def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
       return effect.lCurve
 
-    def __set__(FX_VOLUME self, DWORD value):
+    def __set__(Volume self, DWORD value):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self.__effect)
 
       self._validate_range(value, 0.0, 1.0)

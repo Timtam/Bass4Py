@@ -1,6 +1,6 @@
-from Bass4Py.BASS import bass
-from Bass4Py.BASS.syncs.download import SYNC_DOWNLOAD
-from Bass4Py.BASS.syncs.music_instrument import SYNC_MUSIC_INSTRUMENT
+from Bass4Py.BASS import BASS
+from Bass4Py.BASS.syncs import Download
+from Bass4Py.BASS.syncs import MusicInstrument
 from Bass4Py.exceptions import BassSyncError
 import os.path
 import unittest
@@ -8,7 +8,7 @@ import unittest
 class TestSync(unittest.TestCase):
 
   def setUp(self):
-    self.bass = bass.BASS()
+    self.bass = BASS()
     self.device = self.bass.GetOutputDevice(0)
     self.device.Init(44100, 0, 0)
 
@@ -25,7 +25,7 @@ class TestSync(unittest.TestCase):
       pass
 
     music = self.device.CreateMusicFromFile(self.music_path)
-    sync = SYNC_DOWNLOAD()
+    sync = Download()
     sync.Callback = s_download
     self.assertRaises(BassSyncError, sync.Set, music)
     music.Free()
@@ -35,7 +35,7 @@ class TestSync(unittest.TestCase):
       pass
     
     stream = self.device.CreateStreamFromFile(self.stream_path)
-    minst = SYNC_MUSIC_INSTRUMENT()
+    minst = MusicInstrument()
     minst.Callback = s_music_instrument
     self.assertRaises(BassSyncError, minst.Set, stream)
     stream.Free()

@@ -7,7 +7,7 @@ from .bass cimport (
                     DSPPROC
                    )
 
-from .channel cimport CHANNEL
+from .channel cimport Channel
 from ..exceptions import BassAPIError
 
 cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil:
@@ -34,7 +34,7 @@ cdef class DSP:
     __Evaluate()
     return res
 
-  cpdef Set(DSP self, CHANNEL chan):
+  cpdef Set(DSP self, Channel chan):
     cdef HDSP dsp
     cdef DSPPROC *cproc
     

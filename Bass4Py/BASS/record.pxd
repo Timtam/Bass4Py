@@ -3,11 +3,11 @@ from .bass cimport (
                     HRECORD,
                     QWORD
                    )
-from .channel_base cimport CHANNEL_BASE
-from .input_device cimport INPUT_DEVICE
+from .channel_base cimport ChannelBase
+from .input_device cimport InputDevice
 
-cdef class RECORD(CHANNEL_BASE):
+cdef class Record(ChannelBase):
   cdef object __func
-  cdef INPUT_DEVICE __device
+  cdef InputDevice __device
 
-  cpdef Start(RECORD self)
+  cpdef Start(Record self)

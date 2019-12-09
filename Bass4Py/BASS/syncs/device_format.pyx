@@ -3,10 +3,10 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..sync cimport SYNC
+from ..sync cimport Sync
 
-cdef class SYNC_DEVICE_FORMAT(SYNC):
-  def __cinit__(SYNC_DEVICE_FORMAT self):
+cdef class DeviceFormat(Sync):
+  def __cinit__(DeviceFormat self):
 
     self.__type = _BASS_SYNC_DEV_FORMAT
     self.__forcemixtime = True

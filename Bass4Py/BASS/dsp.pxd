@@ -3,7 +3,7 @@ from .bass cimport (
                     DWORD
                    )
 
-from .channel cimport CHANNEL
+from .channel cimport Channel
 
 cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil
 cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil
@@ -12,6 +12,6 @@ cdef class DSP:
   cdef HDSP __dsp
   cdef int __priority
   cdef object __func
-  cdef readonly CHANNEL Channel
+  cdef readonly Channel Channel
   cpdef Remove(DSP self)
-  cpdef Set(DSP self, CHANNEL chan)
+  cpdef Set(DSP self, Channel chan)

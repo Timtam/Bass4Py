@@ -9,29 +9,29 @@ from .bass cimport (
                     BASS_3DVECTOR
                    )
 
-from .attribute cimport ATTRIBUTE
-from .channel_base cimport CHANNEL_BASE
+from .attribute cimport Attribute
+from .channel_base cimport ChannelBase
 from .dsp cimport DSP
 from .fx cimport FX
-from .output_device cimport OUTPUT_DEVICE
-from .sync cimport SYNC
+from .output_device cimport OutputDevice
+from .sync cimport Sync
 
-cdef class CHANNEL(CHANNEL_BASE):
-  cdef OUTPUT_DEVICE __device
+cdef class Channel(ChannelBase):
+  cdef OutputDevice __device
 
   # attributes
-  cdef readonly ATTRIBUTE Buffer
-  cdef readonly ATTRIBUTE CPU
-  cdef readonly ATTRIBUTE Ramping
-  cdef readonly ATTRIBUTE EAXMix
+  cdef readonly Attribute Buffer
+  cdef readonly Attribute CPU
+  cdef readonly Attribute Ramping
+  cdef readonly Attribute EAXMix
 
-  cdef DWORD __getflags(CHANNEL self)
-  cpdef __setflags(CHANNEL self, DWORD flag, bint switch)
-  cpdef Link(CHANNEL self, CHANNEL obj)
-  cpdef Play(CHANNEL self, bint restart)
-  cpdef ResetFX(CHANNEL self)
-  cpdef SetDSP(CHANNEL self, DSP dsp)
-  cpdef SetFX(CHANNEL self, FX fx)
-  cpdef SetSync(CHANNEL self, SYNC sync)
-  cpdef Unlink(CHANNEL self, CHANNEL obj)
-  cpdef SetPosition(CHANNEL self, QWORD pos, DWORD mode=?)
+  cdef DWORD __getflags(Channel self)
+  cpdef __setflags(Channel self, DWORD flag, bint switch)
+  cpdef Link(Channel self, Channel obj)
+  cpdef Play(Channel self, bint restart)
+  cpdef ResetFX(Channel self)
+  cpdef SetDSP(Channel self, DSP dsp)
+  cpdef SetFX(Channel self, FX fx)
+  cpdef SetSync(Channel self, Sync sync)
+  cpdef Unlink(Channel self, Channel obj)
+  cpdef SetPosition(Channel self, QWORD pos, DWORD mode=?)

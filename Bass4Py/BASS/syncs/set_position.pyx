@@ -3,12 +3,12 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..sync cimport SYNC
+from ..sync cimport Sync
 
-cdef class SYNC_SET_POSITION(SYNC):
-  def __cinit__(SYNC_SET_POSITION self):
+cdef class SetPosition(Sync):
+  def __cinit__(SetPosition self):
 
     self.__type = _BASS_SYNC_SETPOS
 
-  cpdef _call_callback(SYNC_SET_POSITION self, DWORD data):
+  cpdef _call_callback(SetPosition self, DWORD data):
     self.__func(self, bool(data))

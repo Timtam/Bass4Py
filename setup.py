@@ -283,9 +283,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_chorus",
+    "Bass4Py.BASS.effects.dx8.chorus",
     [
-      "Bass4Py/BASS/effects/dx8_chorus.pyx"
+      "Bass4Py/BASS/effects/dx8/chorus.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -293,9 +293,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_compressor",
+    "Bass4Py.BASS.effects.dx8.compressor",
     [
-      "Bass4Py/BASS/effects/dx8_compressor.pyx"
+      "Bass4Py/BASS/effects/dx8/compressor.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -303,9 +303,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_distortion",
+    "Bass4Py.BASS.effects.dx8.distortion",
     [
-      "Bass4Py/BASS/effects/dx8_distortion.pyx"
+      "Bass4Py/BASS/effects/dx8/distortion.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -313,9 +313,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_echo",
+    "Bass4Py.BASS.effects.dx8.echo",
     [
-      "Bass4Py/BASS/effects/dx8_echo.pyx"
+      "Bass4Py/BASS/effects/dx8/echo.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -323,9 +323,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_flanger",
+    "Bass4Py.BASS.effects.dx8.flanger",
     [
-      "Bass4Py/BASS/effects/dx8_flanger.pyx"
+      "Bass4Py/BASS/effects/dx8/flanger.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -333,9 +333,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_gargle",
+    "Bass4Py.BASS.effects.dx8.gargle",
     [
-      "Bass4Py/BASS/effects/dx8_gargle.pyx"
+      "Bass4Py/BASS/effects/dx8/gargle.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -343,9 +343,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_i3dl2reverb",
+    "Bass4Py.BASS.effects.dx8.i3dl2reverb",
     [
-      "Bass4Py/BASS/effects/dx8_i3dl2reverb.pyx"
+      "Bass4Py/BASS/effects/dx8/i3dl2reverb.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -353,9 +353,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_parameq",
+    "Bass4Py.BASS.effects.dx8.parameq",
     [
-      "Bass4Py/BASS/effects/dx8_parameq.pyx"
+      "Bass4Py/BASS/effects/dx8/parameq.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -363,9 +363,9 @@ extensions = [
     language = "c"
   ),
   Extension(
-    "Bass4Py.BASS.effects.dx8_reverb",
+    "Bass4Py.BASS.effects.dx8.reverb",
     [
-      "Bass4Py/BASS/effects/dx8_reverb.pyx"
+      "Bass4Py/BASS/effects/dx8/reverb.pyx"
     ],
     libraries = ["bass"],
     library_dirs = library_dirs,
@@ -536,6 +536,9 @@ setup(
   packages = [
     "Bass4Py",
     "Bass4Py.BASS",
+    "Bass4Py.BASS.effects",
+    "Bass4Py.BASS.effects.dx8",
+    #"Bass4Py.BASS.syncs",
   ],
   cmdclass = {
     'build_ext': build_ext_compiler_check

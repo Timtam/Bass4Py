@@ -6,30 +6,30 @@ from ..bass cimport (
                      MAKELONG
                     )
 
-from ..channel cimport CHANNEL
-from ..music cimport MUSIC
-from ..sync cimport SYNC
+from ..channel cimport Channel
+from ..music cimport Music
+from ..sync cimport Sync
 from ...exceptions import BassAPIError, BassSyncError
 
-cdef class SYNC_MUSIC_INSTRUMENT(SYNC):
-  def __cinit__(SYNC_MUSIC_INSTRUMENT self):
+cdef class MusicInstrument(Sync):
+  def __cinit__(MusicInstrument self):
 
     self.__type = _BASS_SYNC_MUSICINST
 
-  cpdef Set(SYNC_MUSIC_INSTRUMENT self, CHANNEL chan):
-    if not isinstance(chan, MUSIC):
+  cpdef Set(MusicInstrument self, Channel chan):
+    if not isinstance(chan, Music):
       raise BassSyncError("this sync can only be set to a music")
     
-    super(SYNC_MUSIC_INSTRUMENT, self).Set(chan)
+    super(MusicInstrument, self).Set(chan)
 
-  cpdef _call_callback(SYNC_MUSIC_INSTRUMENT self, DWORD data):
+  cpdef _call_callback(MusicInstrument self, DWORD data):
     self.__func(self, LOWORD(data), HIWORD(data))
 
   property Instrument:
-    def __get__(SYNC_MUSIC_INSTRUMENT self):
+    def __get__(MusicInstrument self):
       return LOWORD(self.__param)
     
-    def __set__(SYNC_MUSIC_INSTRUMENT self, int value):
+    def __set__(MusicInstrument self, int value):
 
       if self.__sync:
         raise BassAPIError()
@@ -40,10 +40,10 @@ cdef class SYNC_MUSIC_INSTRUMENT(SYNC):
       self.__param = MAKELONG(value, HIWORD(self.__param))
 
   property Note:
-    def __get__(SYNC_MUSIC_INSTRUMENT self):
+    def __get__(MusicInstrument self):
       return HIWORD(self.__param)
     
-    def __set__(SYNC_MUSIC_INSTRUMENT self, int value):
+    def __set__(MusicInstrument self, int value):
 
       if self.__sync:
         raise BassAPIError()

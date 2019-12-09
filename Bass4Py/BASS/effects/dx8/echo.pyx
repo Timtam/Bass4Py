@@ -1,13 +1,13 @@
-from ..bass cimport (
-                     BASS_DX8_ECHO,
-                     _BASS_FX_DX8_ECHO
-                    )
-from ..fx cimport FX
+from ...bass cimport (
+                      BASS_DX8_ECHO,
+                      _BASS_FX_DX8_ECHO
+                     )
+from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 
-cdef class FX_DX8_ECHO(FX):
+cdef class Echo(FX):
 
-  def __cinit__(FX_DX8_ECHO self):
+  def __cinit__(Echo self):
     cdef BASS_DX8_ECHO *effect
 
     self.__type = _BASS_FX_DX8_ECHO
@@ -26,51 +26,51 @@ cdef class FX_DX8_ECHO(FX):
     effect.lPanDelay = False
 
   property WetDryMix:
-    def __get__(FX_DX8_ECHO self):
+    def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       return effect.fWetDryMix
 
-    def __set__(FX_DX8_ECHO self, float value):
+    def __set__(Echo self, float value):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       self.__validate_range(value, 0.0, 100.0)
       effect.fWetDryMix = value
 
   property Feedback:
-    def __get__(FX_DX8_ECHO self):
+    def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       return effect.fFeedback
 
-    def __set__(FX_DX8_ECHO self, float value):
+    def __set__(Echo self, float value):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       self.__validate_range(value, 0.0, 100.0)
       effect.fFeedback = value
 
   property LeftDelay:
-    def __get__(FX_DX8_ECHO self):
+    def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       return effect.fLeftDelay
 
-    def __set__(FX_DX8_ECHO self,float value):
+    def __set__(Echo self,float value):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       self.__validate_range(value, 1.0, 2000.0)
       effect.fLeftDelay = value
 
   property RightDelay:
-    def __get__(FX_DX8_ECHO self):
+    def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       return effect.fRightDelay
 
-    def __set__(FX_DX8_ECHO self, float value):
+    def __set__(Echo self, float value):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       self.__validate_range(value, 1.0, 2000.0)
       effect.fRightDelay = value
 
   property PanDelay:
-    def __get__(FX_DX8_ECHO self):
+    def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       return effect.lPanDelay
 
-    def __set__(FX_DX8_ECHO self, bint value):
+    def __set__(Echo self, bint value):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self.__effect)
       self.__validate_range(value, False, True)
       effect.lPanDelay = value

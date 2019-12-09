@@ -813,13 +813,13 @@ cdef extern from "bass.h" nogil:
   cdef WORD MAKEWORD(QWORD a, QWORD b)
   cdef DWORD MAKELONG(QWORD a, QWORD b)
 
-from .version cimport VERSION
+from .version cimport Version
 
 cpdef __Evaluate()
 cdef class BASS:
 
-  cdef readonly VERSION Version
-  cdef readonly VERSION APIVersion
+  cdef readonly Version Version
+  cdef readonly Version APIVersion
 
   cpdef GetInputDevice(BASS self, int device = ?)
   cpdef GetOutputDevice(BASS self, int device=?)

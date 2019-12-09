@@ -3,15 +3,15 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..attribute cimport ATTRIBUTE
-from ..sync cimport SYNC
+from ..attribute cimport Attribute
+from ..sync cimport Sync
 
-cdef class SYNC_SLIDE(SYNC):
-  def __cinit__(SYNC_SLIDE self):
+cdef class Slide(Sync):
+  def __cinit__(Slide self):
 
     self.__type = _BASS_SYNC_SLIDE
     self.__forcemixtime = True
     self.__mixtime = True
 
-  cpdef _call_callback(SYNC_SLIDE self, DWORD data):
-    self.__func(self, ATTRIBUTE(self.__channel, data))
+  cpdef _call_callback(Slide self, DWORD data):
+    self.__func(self, Attribute(self.__channel, data))

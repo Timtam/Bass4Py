@@ -1,14 +1,14 @@
-from ..bass cimport (
-                     BASS_DX8_I3DL2REVERB,
-                     _BASS_FX_DX8_I3DL2REVERB,
-                     DWORD
-                    )
-from ..fx cimport FX
+from ...bass cimport (
+                      BASS_DX8_I3DL2REVERB,
+                      _BASS_FX_DX8_I3DL2REVERB,
+                      DWORD
+                     )
+from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 
-cdef class FX_DX8_I3DL2REVERB(FX):
+cdef class I3DL2Reverb(FX):
 
-  def __cinit__(FX_DX8_I3DL2REVERB self):
+  def __cinit__(I3DL2Reverb self):
     cdef BASS_DX8_I3DL2REVERB *effect
 
     self.__type = _BASS_FX_DX8_I3DL2REVERB
@@ -34,121 +34,121 @@ cdef class FX_DX8_I3DL2REVERB(FX):
     effect.flHFReference = 5000.0
 
   property Room:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.lRoom
 
-    def __set__(FX_DX8_I3DL2REVERB self, int value):
+    def __set__(I3DL2Reverb self, int value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, -10000, 0)
       effect.lRoom = value
 
   property RoomHF:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.lRoomHF
 
-    def __set__(FX_DX8_I3DL2REVERB self, int value):
+    def __set__(I3DL2Reverb self, int value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, -10000, 0)
       effect.lRoomHF = value
 
   property RoomRolloffFactor:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flRoomRolloffFactor
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.0, 10.0)
       effect.flRoomRolloffFactor = value
 
   property DecayTime:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flDecayTime
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.1, 20.0)
       effect.flDecayTime = value
 
   property DecayHFRatio:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flDecayHFRatio
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.1, 2.0)
       effect.flDecayHFRatio = value
 
   property Reflections:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.lReflections
 
-    def __set__(FX_DX8_I3DL2REVERB self, int value):
+    def __set__(I3DL2Reverb self, int value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, -10000, 1000)
       effect.lReflections = value
 
   property ReflectionsDelay:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flReflectionsDelay
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.0, 0.3)
       effect.flReflectionsDelay = value
 
   property Reverb:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.lReverb
 
-    def __set__(FX_DX8_I3DL2REVERB self, int value):
+    def __set__(I3DL2Reverb self, int value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, -10000, 2000)
       effect.lReverb = value
 
   property ReverbDelay:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flReverbDelay
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.0, 0.1)
       effect.flReverbDelay = value
 
   property Diffusion:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flDiffusion
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.0, 100.0)
       effect.flDiffusion = value
 
   property Density:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flDensity
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 0.0, 100.0)
       effect.flDensity = value
 
   property HFReference:
-    def __get__(FX_DX8_I3DL2REVERB self):
+    def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       return effect.flHFReference
 
-    def __set__(FX_DX8_I3DL2REVERB self, float value):
+    def __set__(I3DL2Reverb self, float value):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self.__effect)
       self.__validate_range(value, 20.0, 20000.0)
       effect.flHFReference = value

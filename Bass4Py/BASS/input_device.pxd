@@ -4,12 +4,12 @@ from .bass cimport (
                     BASS_RECORDINFO
                    )
 
-cdef class INPUT_DEVICE:
+cdef class InputDevice:
   cdef DWORD __device
   cdef readonly tuple Inputs
-  cdef BASS_DEVICEINFO __getdeviceinfo(INPUT_DEVICE self)
-  cdef BASS_RECORDINFO __getinfo(INPUT_DEVICE self)
-  cpdef Free(INPUT_DEVICE self)
-  cpdef Init(INPUT_DEVICE self)
-  cpdef Record(INPUT_DEVICE self, DWORD freq = ?, DWORD chans = ?, DWORD flags = ?, object callback = ?, DWORD period = ?)
-  cpdef Set(INPUT_DEVICE self)
+  cdef BASS_DEVICEINFO __getdeviceinfo(InputDevice self)
+  cdef BASS_RECORDINFO __getinfo(InputDevice self)
+  cpdef Free(InputDevice self)
+  cpdef Init(InputDevice self)
+  cpdef Record(InputDevice self, DWORD freq = ?, DWORD chans = ?, DWORD flags = ?, object callback = ?, DWORD period = ?)
+  cpdef Set(InputDevice self)

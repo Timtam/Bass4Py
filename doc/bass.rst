@@ -1,7 +1,7 @@
-:class:`Bass4Py.bass.BASS`
-==========================
+:class:`Bass4Py.BASS.BASS`
+===============================
 
-.. autoclass:: Bass4Py.bass.BASS
+.. autoclass:: Bass4Py.BASS.BASS
    :members:
    :undoc-members:
    :special-members:

@@ -4,21 +4,21 @@ from .bass cimport (
                     QWORD
                    )
 
-from .channel cimport CHANNEL
-from .attribute cimport ATTRIBUTE
+from .channel cimport Channel
+from .attribute cimport Attribute
 
-cdef class STREAM(CHANNEL):
+cdef class Stream(Channel):
 
   cdef object __downloadproc
   cdef object __file
   cdef object __streamproc
 
   # attributes
-  cdef readonly ATTRIBUTE Bitrate
-  cdef readonly ATTRIBUTE NetResume
-  cdef readonly ATTRIBUTE ScanInfo
+  cdef readonly Attribute Bitrate
+  cdef readonly Attribute NetResume
+  cdef readonly Attribute ScanInfo
 
-  cpdef Free(STREAM self)
-  cpdef QWORD GetFilePosition(STREAM self, DWORD mode)
-  cpdef DWORD PutData(STREAM self, const unsigned char[:] buffer, DWORD length)
-  cpdef DWORD PutFileData(STREAM self, const unsigned char[:] buffer, DWORD length)
+  cpdef Free(Stream self)
+  cpdef QWORD GetFilePosition(Stream self, DWORD mode)
+  cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length)
+  cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length)

@@ -1,9 +1,9 @@
 from .bass cimport BASS_3DVECTOR
 
-cdef VECTOR VECTOR_Create(BASS_3DVECTOR *vector)
+cdef Vector CreateVector(BASS_3DVECTOR *vector)
 
-cdef class VECTOR:
+cdef class Vector:
   cdef public float X
   cdef public float Y
   cdef public float Z
-  cdef void Resolve(VECTOR self, BASS_3DVECTOR *vector)
+  cdef void Resolve(Vector self, BASS_3DVECTOR *vector)

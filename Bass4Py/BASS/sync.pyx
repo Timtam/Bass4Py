@@ -1,9 +1,9 @@
 from . cimport bass
-from .channel cimport CHANNEL
+from .channel cimport Channel
 from ..exceptions import BassAPIError, BassSyncError
 
 cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
-  cdef SYNC sync = <SYNC?>user
+  cdef Sync sync = <Sync?>user
 
   (<object>sync)._call_callback(data)
 
@@ -14,9 +14,9 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
   CSYNCPROC(handle, channel, data, user)
 
-cdef class SYNC:
+cdef class Sync:
 
-  cpdef Set(SYNC self, CHANNEL chan):
+  cpdef Set(Sync self, Channel chan):
     cdef DWORD type = self.__type
     cdef HSYNC sync
     cdef SYNCPROC *cproc
@@ -49,7 +49,7 @@ cdef class SYNC:
     
     self.Channel = chan
 
-  cpdef Remove(SYNC self):
+  cpdef Remove(Sync self):
     cdef bint res
 
     if self.__sync == 0:
@@ -62,13 +62,13 @@ cdef class SYNC:
     self.__sync = 0
     return res
 
-  cpdef _call_callback(SYNC self, DWORD data):
+  cpdef _call_callback(Sync self, DWORD data):
     self.__func(self)
 
-  def __eq__(SYNC self, object y):
-    cdef SYNC sync
-    if isinstance(y, SYNC):
-      sync = <SYNC>y
+  def __eq__(Sync self, object y):
+    cdef Sync sync
+    if isinstance(y, Sync):
+      sync = <Sync>y
 
       if self.__sync == 0 and sync.__sync == 0:
         return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.__mixtime == sync.__mixtime and self.Channel.__channel == sync.Channel.__channel
@@ -77,10 +77,10 @@ cdef class SYNC:
     return NotImplemented
 
   property Mixtime:
-    def __get__(SYNC self):
+    def __get__(Sync self):
       return self.__mixtime
 
-    def __set__(SYNC self, bint value):
+    def __set__(Sync self, bint value):
 
       if not value and self.__forcemixtime:
         raise BassSyncError("this sync is mixtime-only")
@@ -91,20 +91,20 @@ cdef class SYNC:
       self.__mixtime = value
 
   property Onetime:
-    def __get__(SYNC self):
+    def __get__(Sync self):
       return self.__onetime
     
-    def __set__(SYNC self, bint value):
+    def __set__(Sync self, bint value):
       if self.__sync:
         raise BassAPIError()
 
       self.__onetime = value
 
   property Callback:
-    def __get__(SYNC self):
+    def __get__(Sync self):
       return self.__func
     
-    def __set__(SYNC self, object value):
+    def __set__(Sync self, object value):
     
       if not callable(value):
         raise TypeError("value must be callable")

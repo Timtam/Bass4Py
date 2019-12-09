@@ -6,13 +6,13 @@ from .bass cimport (
                     SYNCPROC
                    )
 
-from .channel cimport CHANNEL
+from .channel cimport Channel
 
 cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 
-cdef class SYNC:
-  cdef readonly CHANNEL Channel
+cdef class Sync:
+  cdef readonly Channel Channel
   cdef HSYNC __sync
   cdef bint __mixtime
   cdef DWORD __type
@@ -22,6 +22,6 @@ cdef class SYNC:
   cdef bint __forceparam
   cdef object __func
   cdef object __user
-  cpdef Remove(SYNC self)
-  cpdef Set(SYNC self, CHANNEL chan)
-  cpdef _call_callback(SYNC self, DWORD data)
+  cpdef Remove(Sync self)
+  cpdef Set(Sync self, Channel chan)
+  cpdef _call_callback(Sync self, DWORD data)

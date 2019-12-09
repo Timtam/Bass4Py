@@ -3,21 +3,21 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..channel cimport CHANNEL
-from ..stream cimport STREAM
-from ..sync cimport SYNC
+from ..channel cimport Channel
+from ..stream cimport Stream
+from ..sync cimport Sync
 from ...exceptions import BassSyncError
 
-cdef class SYNC_DOWNLOAD(SYNC):
-  def __cinit__(SYNC_DOWNLOAD self):
+cdef class Download(Sync):
+  def __cinit__(Download self):
 
     self.__type = _BASS_SYNC_DOWNLOAD
     self.__forcemixtime = True
     self.__mixtime = True
 
-  cpdef Set(SYNC_DOWNLOAD self, CHANNEL chan):
+  cpdef Set(Download self, Channel chan):
 
-    if not isinstance(chan, STREAM):
+    if not isinstance(chan, Stream):
       raise BassSyncError("this sync can only be set to a stream")
     
-    super(SYNC_DOWNLOAD, self).Set(chan)
+    super(Download, self).Set(chan)

@@ -3,6 +3,6 @@ API Reference
 
 .. toctree::
    bass
-   bassdevice
-   bassversion
+   input_device
+   version
    :maxdepth: 2

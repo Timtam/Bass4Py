@@ -1,4 +1,4 @@
 from .bass cimport DWORD,WORD
 
-cdef class VERSION:
+cdef class Version:
   cdef readonly DWORD Integer

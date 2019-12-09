@@ -3,14 +3,14 @@ from ..bass cimport (
                      DWORD
                     )
 
-from ..sync cimport SYNC
+from ..sync cimport Sync
 
-cdef class SYNC_STALL(SYNC):
-  def __cinit__(SYNC_STALL self):
+cdef class Stall(Sync):
+  def __cinit__(Stall self):
 
     self.__type = _BASS_SYNC_STALL
     self.__forcemixtime = True
     self.__mixtime = True
 
-  cpdef _call_callback(SYNC_STALL self, DWORD data):
+  cpdef _call_callback(Stall self, DWORD data):
     self.__func(self, bool(data))

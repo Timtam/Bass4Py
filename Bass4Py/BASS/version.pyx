@@ -1,18 +1,18 @@
 from . cimport bass
 
-cdef class VERSION:
+cdef class Version:
   """
   A helper class which represents BASS version information in a more human-readable format
 
   :ivar Integer: The actual version (readonly)
   """
 
-  def __cinit__(VERSION self, DWORD version):
+  def __cinit__(Version self, DWORD version):
     self.Integer = version
 
-  def __eq__(VERSION self, object v):
-    if isinstance(v, VERSION):
-      return self.Integer == (<VERSION>v).Integer
+  def __eq__(Version self, object v):
+    if isinstance(v, Version):
+      return self.Integer == (<Version>v).Integer
     elif isinstance(v, int):
       return self.Integer == v
     else:
@@ -24,7 +24,7 @@ cdef class VERSION:
 
     .. note:: no setter implemented
     """
-    def __get__(VERSION self):
+    def __get__(Version self):
       cdef WORD loword,hiword
       cdef int lowordcount,hiwordcount
       hiword=bass.HIWORD(self.Integer)

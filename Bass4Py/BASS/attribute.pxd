@@ -1,22 +1,21 @@
-from . cimport bass
 from .bass cimport DWORD, HCHANNEL
 
-cdef class ATTRIBUTE:
+cdef class Attribute:
   cdef HCHANNEL __channel
   cdef DWORD __attrib
   cdef bint __readonly
   cdef bint __not_available
 
-  cpdef __getmusicvolchan(ATTRIBUTE self)
-  cpdef __getbuffer(ATTRIBUTE self)
-  cpdef __getramping(ATTRIBUTE self)
-  cpdef __getscaninfo(ATTRIBUTE self)
-  cpdef __setmusicvolchan(ATTRIBUTE self, tuple value)
-  cpdef __setbuffer(ATTRIBUTE self, float value)
-  cpdef __setramping(ATTRIBUTE self, bint value)
-  cpdef __setscaninfo(ATTRIBUTE self, bytes info)
-  cpdef __slidemusicvolchan(ATTRIBUTE self, tuple value, DWORD time)
-  cpdef __slidebuffer(ATTRIBUTE self, float value, DWORD time)
-  cpdef Get(ATTRIBUTE self)
-  cpdef Set(ATTRIBUTE self, object value)
-  cpdef Slide(ATTRIBUTE self, object value, DWORD time)
+  cpdef __getmusicvolchan(Attribute self)
+  cpdef __getbuffer(Attribute self)
+  cpdef __getramping(Attribute self)
+  cpdef __getscaninfo(Attribute self)
+  cpdef __setmusicvolchan(Attribute self, tuple value)
+  cpdef __setbuffer(Attribute self, float value)
+  cpdef __setramping(Attribute self, bint value)
+  cpdef __setscaninfo(Attribute self, bytes info)
+  cpdef __slidemusicvolchan(Attribute self, tuple value, DWORD time)
+  cpdef __slidebuffer(Attribute self, float value, DWORD time)
+  cpdef Get(Attribute self)
+  cpdef Set(Attribute self, object value)
+  cpdef Slide(Attribute self, object value, DWORD time)

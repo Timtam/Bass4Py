@@ -5,20 +5,20 @@ from .bass cimport (
                     QWORD
                    )
 
-from .channel cimport CHANNEL
-from .attribute cimport ATTRIBUTE
+from .channel cimport Channel
+from .attribute cimport Attribute
 
-cdef class MUSIC(CHANNEL):
+cdef class Music(Channel):
 
   # attributes
-  cdef readonly ATTRIBUTE Active
-  cdef readonly ATTRIBUTE Amplification
-  cdef readonly ATTRIBUTE BPM
-  cdef readonly ATTRIBUTE ChannelVolumes
-  cdef readonly ATTRIBUTE GlobalVolume
-  cdef readonly ATTRIBUTE InstrumentVolumes
-  cdef readonly ATTRIBUTE PanSeparation
-  cdef readonly ATTRIBUTE PositionScaler
-  cdef readonly ATTRIBUTE Speed
+  cdef readonly Attribute Active
+  cdef readonly Attribute Amplification
+  cdef readonly Attribute BPM
+  cdef readonly Attribute ChannelVolumes
+  cdef readonly Attribute GlobalVolume
+  cdef readonly Attribute InstrumentVolumes
+  cdef readonly Attribute PanSeparation
+  cdef readonly Attribute PositionScaler
+  cdef readonly Attribute Speed
 
-  cpdef Free(MUSIC self)
+  cpdef Free(Music self)

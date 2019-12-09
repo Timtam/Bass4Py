@@ -1,15 +1,15 @@
 from . cimport bass
-from .version cimport VERSION
+from .version cimport Version
 
-cdef class PLUGIN:
+cdef class Plugin:
   def __cinit__(self, HPLUGIN plugin):
     self.__plugin = plugin
 
-  cdef const BASS_PLUGININFO* __getinfo(PLUGIN self):
+  cdef const BASS_PLUGININFO* __getinfo(Plugin self):
     cdef const BASS_PLUGININFO *info = bass.BASS_PluginGetInfo(self.__plugin)
     return info
 
-  cpdef Free(PLUGIN self):
+  cpdef Free(Plugin self):
     cdef bint res
     with nogil:
       res = bass.BASS_PluginFree(self.__plugin)
@@ -17,13 +17,13 @@ cdef class PLUGIN:
     return res
 
   property Version:
-    def __get__(PLUGIN self):
+    def __get__(Plugin self):
       cdef const BASS_PLUGININFO* info = self.__getinfo()
       bass.__Evaluate()
-      return VERSION(info.version)
+      return Version(info.version)
 
   property Formats:
-    def __get__(PLUGIN self):
+    def __get__(Plugin self):
       cdef dict format
       cdef list formats = []
       cdef int i
