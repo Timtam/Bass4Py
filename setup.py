@@ -538,7 +538,7 @@ setup(
     "Bass4Py.BASS",
     "Bass4Py.BASS.effects",
     "Bass4Py.BASS.effects.dx8",
-    #"Bass4Py.BASS.syncs",
+    "Bass4Py.BASS.syncs",
   ],
   cmdclass = {
     'build_ext': build_ext_compiler_check
