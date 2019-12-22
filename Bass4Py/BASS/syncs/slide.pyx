@@ -14,4 +14,4 @@ cdef class Slide(Sync):
     self.__mixtime = True
 
   cpdef _call_callback(Slide self, DWORD data):
-    self.__func(self, Attribute(self.__channel, data))
+    self.__func(self, Attribute(self.Channel.__channel, data))
