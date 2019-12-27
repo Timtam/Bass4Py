@@ -3,7 +3,7 @@ This module holds the class which is the main entry point to all BASS-related fu
 """
 
 # api version supported by Bass4Py
-cdef DWORD _BASS4PY_API_VERSION = 0x2040e00
+cdef DWORD _BASS4PY_API_VERSION = 0x2040f00
 
 from .input_device cimport InputDevice
 from .output_device cimport OutputDevice

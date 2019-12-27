@@ -12,8 +12,7 @@ cdef class Meta(Sync):
   def __cinit__(Meta self):
 
     self.__type = _BASS_SYNC_META
-    self.__forcemixtime = True
-    self.__mixtime = True
+    self._set_mixtime(True)
 
   cpdef Set(Meta self, Channel chan):
     if not isinstance(chan, Stream):

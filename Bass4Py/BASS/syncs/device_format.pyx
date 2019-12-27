@@ -9,5 +9,4 @@ cdef class DeviceFormat(Sync):
   def __cinit__(DeviceFormat self):
 
     self.__type = _BASS_SYNC_DEV_FORMAT
-    self.__forcemixtime = True
-    self.__mixtime = True
+    self._set_mixtime(True)

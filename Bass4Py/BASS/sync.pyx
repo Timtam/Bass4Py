@@ -32,8 +32,6 @@ cdef class Sync:
 
     if self.__onetime:
       type = type & bass._BASS_SYNC_ONETIME
-    if self.__mixtime:
-      type = type & bass._BASS_SYNC_MIXTIME
 
     IF UNAME_SYSNAME == "Windows":
       cproc = <SYNCPROC*>CSYNCPROC_STD
@@ -41,7 +39,7 @@ cdef class Sync:
       cproc = <SYNCPROC*>CSYNCPROC
 
     with nogil:
-      sync = bass.BASS_ChannelSetSync(chan.__channel, self.__type, self.__param, cproc, <void*>self)
+      sync = bass.BASS_ChannelSetSync(chan.__channel, type, self.__param, cproc, <void*>self)
 
     bass.__Evaluate()
     
@@ -62,6 +60,29 @@ cdef class Sync:
     self.__sync = 0
     return res
 
+  cpdef SetMixtime(Sync self, bint enable, bint threaded = False):
+
+    cdef DWORD type = self.__type
+    
+    if self.__forcemixtime and not enable:
+      raise BassSyncError('sync needs to be mixtime')
+
+    if enable:
+
+      type = type | bass._BASS_SYNC_MIXTIME
+
+      if threaded:
+        type = type | bass._BASS_SYNC_THREAD
+      elif type & bass._BASS_SYNC_THREAD:
+        type = type ^ bass._BASS_SYNC_THREAD
+    else:
+      if type & bass._BASS_SYNC_THREAD:
+        type = type ^ bass._BASS_SYNC_THREAD
+      if type & bass._BASS_SYNC_MIXTIME:
+        type = type ^ bass._BASS_SYNC_MIXTIME
+
+    self.__type = type
+
   cpdef _call_callback(Sync self, DWORD data):
     self.__func(self)
 
@@ -71,24 +92,15 @@ cdef class Sync:
       sync = <Sync>y
 
       if self.__sync == 0 and sync.__sync == 0:
-        return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.__mixtime == sync.__mixtime and self.Channel.__channel == sync.Channel.__channel
+        return self.__func == sync.__func and self.__param == sync.__param and self.__type == sync.__type and self.__onetime == sync.__onetime and self.Channel.__channel == sync.Channel.__channel
       else:
         return self.__sync == sync.__sync
     return NotImplemented
 
-  property Mixtime:
-    def __get__(Sync self):
-      return self.__mixtime
+  cdef void _set_mixtime(Sync self, bint enable, bint threaded = False):
 
-    def __set__(Sync self, bint value):
-
-      if not value and self.__forcemixtime:
-        raise BassSyncError("this sync is mixtime-only")
-
-      if self.__sync:
-        raise BassAPIError()
-
-      self.__mixtime = value
+    self.SetMixtime(enable, threaded)
+    self.__forcemixtime = True
 
   property Onetime:
     def __get__(Sync self):

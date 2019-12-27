@@ -12,8 +12,7 @@ cdef class Download(Sync):
   def __cinit__(Download self):
 
     self.__type = _BASS_SYNC_DOWNLOAD
-    self.__forcemixtime = True
-    self.__mixtime = True
+    self._set_mixtime(True)
 
   cpdef Set(Download self, Channel chan):
 
