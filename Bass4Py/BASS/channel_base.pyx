@@ -24,6 +24,7 @@ cdef class ChannelBase:
     self.Pan = Attribute(self.__channel, bass._BASS_ATTRIB_PAN)
     self.SRC = Attribute(self.__channel, bass._BASS_ATTRIB_SRC)
     self.Volume = Attribute(self.__channel, bass._BASS_ATTRIB_VOL)
+    self.Granularity = Attribute(self.__channel, bass._BASS_ATTRIB_GRANULE)
 
   cdef BASS_CHANNELINFO __getinfo(ChannelBase self):
     cdef BASS_CHANNELINFO info

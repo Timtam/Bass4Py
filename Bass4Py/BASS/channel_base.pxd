@@ -16,6 +16,7 @@ cdef class ChannelBase:
   cdef readonly Attribute Pan
   cdef readonly Attribute SRC
   cdef readonly Attribute Volume
+  cdef readonly Attribute Granularity
 
   cdef BASS_CHANNELINFO __getinfo(ChannelBase self)
   cdef void __initattributes(ChannelBase self)
