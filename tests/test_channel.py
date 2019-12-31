@@ -1,7 +1,7 @@
 from Bass4Py.BASS import BASS
 from Bass4Py.BASS import Stream
 from Bass4Py.constants import STREAM as C_STREAM
-from Bass4Py.exceptions import BassError
+from Bass4Py.exceptions import BassNotAvailableError
 import os.path
 import unittest
 import wave
@@ -75,7 +75,7 @@ class TestChannel(unittest.TestCase):
   def test_device_stream(self):
     strm = self.device.CreateStream()
 
-    self.assertRaises(BassError, strm.Free)
+    self.assertRaises(BassNotAvailableError, strm.Free)
 
   def test_parameterized_stream(self):
     strm = self.device.CreateStreamFromParameters(44100, 2)

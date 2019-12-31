@@ -2,7 +2,7 @@ from . cimport bass
 from .input cimport Input
 from .record cimport Record
 from ..constants import DEVICE_TYPE
-from ..exceptions import BassAPIError, BassPlatformError
+from ..exceptions import BassApiError, BassPlatformError
 
 cdef class InputDevice:
   def __cinit__(InputDevice self, int device):

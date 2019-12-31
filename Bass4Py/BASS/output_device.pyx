@@ -4,7 +4,7 @@ from .sample cimport Sample
 from .stream cimport Stream
 from .vector cimport Vector, CreateVector
 from ..constants import DEVICE, DEVICE_TYPE
-from ..exceptions import BassAPIError, BassPlatformError
+from ..exceptions import BassApiError, BassPlatformError
 
 __EAXPresets={
    bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
@@ -189,7 +189,7 @@ cdef class OutputDevice:
       self.Set()
 
       if not preset in __EAXPresets:
-        raise BassAPIError
+        raise BassApiError
       env = <int>__EAXPresets[preset][0]
       vol = <float>__EAXPresets[preset][1]
       decay = <float>__EAXPresets[preset][2]

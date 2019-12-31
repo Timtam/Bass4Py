@@ -2,7 +2,7 @@ from . cimport bass
 from .channel_base cimport ChannelBase
 from .input_device cimport InputDevice
 from ..constants import STREAM
-from ..exceptions import BassError, BassRecordError
+from ..exceptions import BassRecordError
 
 cdef bint CRECORDPROC(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
   cdef Record rec = <Record>user

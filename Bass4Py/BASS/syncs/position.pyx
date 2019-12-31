@@ -4,7 +4,7 @@ from ..bass cimport (
                     )
 
 from ..sync cimport Sync
-from ...exceptions import BassAPIError
+from ...exceptions import BassApiError
 
 cdef class Position(Sync):
   def __cinit__(Position self):
@@ -19,6 +19,6 @@ cdef class Position(Sync):
     def __set__(Position self, DWORD value):
 
       if self.__sync:
-        raise BassAPIError()
+        raise BassApiError()
         
       self.__param = value

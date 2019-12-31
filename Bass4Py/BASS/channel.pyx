@@ -8,7 +8,7 @@ from .dsp cimport DSP
 from .sync cimport Sync
 from .vector cimport Vector, CreateVector
 from ..constants import ACTIVE
-from ..exceptions import BassError,BassAPIError
+from ..exceptions import BassApiError
 
 cdef class Channel(ChannelBase):
 
@@ -159,7 +159,7 @@ cdef class Channel(ChannelBase):
       return [iangle, oangle]
 
     def __set__(Channel self, list angle):
-      if len(angle) != 2: raise BassAPIError()
+      if len(angle) != 2: raise BassApiError()
       bass.BASS_ChannelSet3DAttributes(self.__channel, -1, 0.0, 0.0, angle[0], angle[1], -1.0)
       bass.__Evaluate()
       bass.BASS_Apply3D()

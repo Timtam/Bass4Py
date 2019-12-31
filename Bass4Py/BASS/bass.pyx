@@ -9,7 +9,7 @@ from .input_device cimport InputDevice
 from .output_device cimport OutputDevice
 from .plugin cimport Plugin
 from .version cimport Version
-from ..exceptions import BassError, BassAPIError, BassPlatformError
+from .. import exceptions
 
 include "../transform.pxi"
 
@@ -19,8 +19,85 @@ cdef extern from "Python.h":
 cpdef __Evaluate():
   cdef DWORD error = BASS_ErrorGetCode()
 
-  if error != _BASS_OK:
-    raise BassError(error)
+  if error == _BASS_OK:
+    return
+
+  if error == _BASS_ERROR_MEM:
+    raise exceptions.BassMemoryError()
+  elif error == _BASS_ERROR_FILEOPEN:
+    raise exceptions.BassFileOpenError()
+  elif error == _BASS_ERROR_DRIVER:
+    raise exceptions.BassDriverError()
+  elif error == _BASS_ERROR_BUFLOST:
+    raise exceptions.BassBufferLostError()
+  elif error == _BASS_ERROR_HANDLE:
+    raise exceptions.BassHandleError()
+  elif error == _BASS_ERROR_FORMAT:
+    raise exceptions.BassFormatError()
+  elif error == _BASS_ERROR_POSITION:
+    raise exceptions.BassPositionError()
+  elif error == _BASS_ERROR_INIT:
+    raise exceptions.BassInitError()
+  elif error == _BASS_ERROR_START:
+    raise exceptions.BassStartError()
+  elif error == _BASS_ERROR_SSL:
+    raise exceptions.BassSslError()
+  elif error == _BASS_ERROR_ALREADY:
+    raise exceptions.BassAlreadyError()
+  elif error == _BASS_ERROR_NOCHAN:
+    raise exceptions.BassNoChannelError()
+  elif error == _BASS_ERROR_ILLTYPE:
+    raise exceptions.BassInvalidTypeError()
+  elif error == _BASS_ERROR_ILLPARAM:
+    raise exceptions.BassInvalidParameterError()
+  elif error == _BASS_ERROR_NO3D:
+    raise exceptions.BassNo3DError()
+  elif error == _BASS_ERROR_NOEAX:
+    raise exceptions.BassNoEaxError()
+  elif error == _BASS_ERROR_DEVICE:
+    raise exceptions.BassDeviceError()
+  elif error == _BASS_ERROR_NOPLAY:
+    raise exceptions.BassNoPlayError()
+  elif error == _BASS_ERROR_FREQ:
+    raise exceptions.BassFrequencyError()
+  elif error == _BASS_ERROR_NOTFILE:
+    raise exceptions.BassNotAFileError()
+  elif error == _BASS_ERROR_NOHW:
+    raise exceptions.BassNoHardwareError()
+  elif error == _BASS_ERROR_EMPTY:
+    raise exceptions.BassEmptyError()
+  elif error == _BASS_ERROR_NONET:
+    raise exceptions.BassNoNetworkError()
+  elif error == _BASS_ERROR_CREATE:
+    raise exceptions.BassCreateError()
+  elif error == _BASS_ERROR_NOFX:
+    raise exceptions.BassNoFxError()
+  elif error == _BASS_ERROR_NOTAVAIL:
+    raise exceptions.BassNotAvailableError()
+  elif error == _BASS_ERROR_DECODE:
+    raise exceptions.BassDecodeError()
+  elif error == _BASS_ERROR_DX:
+    raise exceptions.BassDxError()
+  elif error == _BASS_ERROR_TIMEOUT:
+    raise exceptions.BassTimeoutError()
+  elif error == _BASS_ERROR_FILEFORM:
+    raise exceptions.BassFileFormatError()
+  elif error == _BASS_ERROR_SPEAKER:
+    raise exceptions.BassSpeakerError()
+  elif error == _BASS_ERROR_VERSION:
+    raise exceptions.BassVersionError()
+  elif error == _BASS_ERROR_CODEC:
+    raise exceptions.BassCodecError()
+  elif error == _BASS_ERROR_ENDED:
+    raise exceptions.BassEndedError()
+  elif error == _BASS_ERROR_BUSY:
+    raise exceptions.BassBusyError()
+  elif error == _BASS_ERROR_NOTAUDIO:
+    raise exceptions.BassNotAudioError()
+  elif error == _BASS_ERROR_UNSTREAMABLE:
+    raise exceptions.BassUnstreamableError()
+  else:
+    raise exceptions.BassUnknownError()
 
 cdef class BASS:
   """
@@ -52,7 +129,7 @@ cdef class BASS:
       odevice = OutputDevice(device)
       try:
         odevice.Enabled
-      except BassError:
+      except exceptions.BassDeviceError:
         return None
       return odevice
     elif device==-1:
@@ -61,14 +138,14 @@ cdef class BASS:
         try:
           if odevice.Default:
             break
-        except BassError:
+        except exceptions.BassDeviceError:
           break
         devicenumber += 1
 
       try:
         if not odevice.Default:
           return None
-      except BassError:
+      except exceptions.BassDeviceError:
         return OutputDevice(0)
       return odevice
     else:
@@ -81,7 +158,7 @@ cdef class BASS:
       odevice = InputDevice(device)
       try:
         odevice.Enabled
-      except BassError:
+      except exceptions.BassDeviceError:
         return None
       return odevice
     elif device==-1:
@@ -90,7 +167,7 @@ cdef class BASS:
         try:
           if odevice.Default:
             break
-        except BassError:
+        except exceptions.BassDeviceError:
           if devicenumber == 0:
             return None
           break
@@ -552,14 +629,14 @@ cdef class BASS:
     def __get__(BASS self):
 
       IF UNAME_SYSNAME != "Windows":
-        raise BassPlatformError()
+        raise exceptions.BassPlatformError()
       ELSE:
         return <bint>BASS_GetConfig(_BASS_CONFIG_WASAPI_PERSIST)
       
     def __set__(BASS self, bint value):
 
       IF UNAME_SYSNAME != "Windows":
-        raise BassPlatformError()
+        raise exceptions.BassPlatformError()
       ELSE:
 
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
@@ -569,14 +646,14 @@ cdef class BASS:
     def __get__(BASS self):
 
       IF UNAME_SYSNAME != "Linux":
-        raise BassPlatformError()
+        raise exceptions.BassPlatformError()
       ELSE:
         return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_LIBSSL)).decode('utf-8')
       
     def __set__(BASS self, object value):
 
       IF UNAME_SYSNAME != "Linux":
-        raise BassPlatformError()
+        raise exceptions.BassPlatformError()
       ELSE:
 
         cdef const unsigned char[:] data = to_readonly_bytes(value)
