@@ -114,6 +114,13 @@ cdef class Stream(Channel):
     bass.__Evaluate()
     return res
 
+  cpdef Update(Stream self, DWORD length):
+    cdef bint res
+    with nogil:
+      res = bass.BASS_ChannelUpdate(self.__channel, length)
+    bass.__Evaluate()
+    return res
+
   @staticmethod
   def FromFile(file, flags = 0, offset = 0, device = None):
     cdef DWORD cflags = <DWORD?>flags

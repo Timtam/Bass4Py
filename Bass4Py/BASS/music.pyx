@@ -31,6 +31,13 @@ cdef class Music(Channel):
     bass.__Evaluate()
     return res
     
+  cpdef Update(Music self, DWORD length):
+    cdef bint res
+    with nogil:
+      res = bass.BASS_ChannelUpdate(self.__channel, length)
+    bass.__Evaluate()
+    return res
+  
   @staticmethod
   def FromBytes(data, flags = 0, length = 0, device_frequency = True, device = None):
     cdef OutputDevice cdevice

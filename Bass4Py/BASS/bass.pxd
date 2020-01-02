@@ -339,6 +339,7 @@ cdef extern from "bass.h" nogil:
   cdef DWORD _BASS_FILEPOS_SOCKET "BASS_FILEPOS_SOCKET"
   cdef DWORD _BASS_FILEPOS_ASYNCBUF "BASS_FILEPOS_ASYNCBUF"
   cdef DWORD _BASS_FILEPOS_SIZE "BASS_FILEPOS_SIZE"
+  cdef DWORD _BASS_FILEPOS_BUFFERING "BASS_FILEPOS_BUFFERING"
 
   cdef DWORD _BASS_SYNC_POS "BASS_SYNC_POS"
   cdef DWORD _BASS_SYNC_END "BASS_SYNC_END"
@@ -827,5 +828,5 @@ cdef class BASS:
 
   cpdef GetInputDevice(BASS self, int device = ?)
   cpdef GetOutputDevice(BASS self, int device=?)
-  cpdef LoadPlugin(BASS self, object filename, DWORD flags=?)
+  cpdef LoadPlugin(BASS self, object filename)
   cpdef Update(BASS self, DWORD length)

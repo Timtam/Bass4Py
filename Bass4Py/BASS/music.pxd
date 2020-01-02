@@ -22,3 +22,4 @@ cdef class Music(Channel):
   cdef readonly Attribute Speed
 
   cpdef Free(Music self)
+  cpdef Update(Music self, DWORD length)

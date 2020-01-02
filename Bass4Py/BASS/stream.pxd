@@ -22,3 +22,4 @@ cdef class Stream(Channel):
   cpdef QWORD GetFilePosition(Stream self, DWORD mode)
   cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length)
   cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length)
+  cpdef Update(Stream self, DWORD length)

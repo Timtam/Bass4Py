@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = u'Bass4Py'
-copyright = u'2018, Toni Barth'
+copyright = u'2019, Toni Barth'
 author = u'Toni Barth'
 
 # The short X.Y version
@@ -40,9 +40,11 @@ release = u'1.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
+    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -183,3 +185,6 @@ epub_exclude_files = ['search.html']
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+intersphinx_mapping = {
+  'python': ('https://docs.python.org/3', None),
+}
