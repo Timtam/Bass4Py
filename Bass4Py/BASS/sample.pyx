@@ -1,6 +1,5 @@
 from . cimport bass
 from .channel cimport Channel
-from ..constants import SAMPLE as C_SAMPLE
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 

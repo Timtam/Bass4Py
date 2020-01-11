@@ -1,3 +1,7 @@
+"""
+this is a test
+"""
+
 from .BASS cimport bass
 
 try:
@@ -288,3 +292,7 @@ BASS_DX8_PHASE_180 = bass._BASS_DX8_PHASE_180
 
 BASS_IOSNOTIFY_INTERRUPT = bass._BASS_IOSNOTIFY_INTERRUPT
 BASS_IOSNOTIFY_INTERRUPT_END = bass._BASS_IOSNOTIFY_INTERRUPT_END
+
+__all__ = [
+  'DEVICE',
+]

@@ -9,7 +9,7 @@ from ..bass cimport (
 from ..channel cimport Channel
 from ..music cimport Music
 from ..sync cimport Sync
-from ...exceptions import BassApiError, BassSyncError
+from ...exceptions import BassAPIError, BassSyncError
 
 cdef class MusicInstrument(Sync):
   def __cinit__(MusicInstrument self):
@@ -32,7 +32,7 @@ cdef class MusicInstrument(Sync):
     def __set__(MusicInstrument self, int value):
 
       if self.__sync:
-        raise BassApiError()
+        raise BassAPIError()
       
       if value <= 0:
         raise ValueError("value may not be <= 0")
@@ -46,7 +46,7 @@ cdef class MusicInstrument(Sync):
     def __set__(MusicInstrument self, int value):
 
       if self.__sync:
-        raise BassApiError()
+        raise BassAPIError()
       
       if value < 0:
         value = -1

@@ -1,8 +1,9 @@
 API Reference
 =============
 
-.. toctree::
-   bass
-   output_device
-   version
-   :maxdepth: 2
+.. autosummary::
+   :toctree: _autosummary
+   
+   Bass4Py.BASS
+   Bass4Py.constants
+   Bass4Py.exceptions

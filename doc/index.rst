@@ -8,7 +8,7 @@ Welcome to Bass4Py's documentation!
 
 .. toctree::
    apireference
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
 .. automodule:: Bass4Py

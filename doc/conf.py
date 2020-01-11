@@ -40,6 +40,7 @@ release = u'1.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
@@ -185,6 +186,14 @@ epub_exclude_files = ['search.html']
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
 intersphinx_mapping = {
   'python': ('https://docs.python.org/3', None),
+}
+
+autosummary_generate = True
+
+autodoc_default_options = {
+  "members": True,
+  "inherited-members": True,
 }

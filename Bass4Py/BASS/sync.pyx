@@ -1,6 +1,6 @@
 from . cimport bass
 from .channel cimport Channel
-from ..exceptions import BassApiError, BassSyncError
+from ..exceptions import BassAPIError, BassSyncError
 
 cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
   cdef Sync sync = <Sync?>user
@@ -28,7 +28,7 @@ cdef class Sync:
       raise BassSyncError("this sync requires a parameter to be defined. Please check the documentation for more information.")
 
     if self.__sync:
-      raise BassApiError()
+      raise BassAPIError()
 
     if self.__onetime:
       type = type & bass._BASS_SYNC_ONETIME
@@ -51,7 +51,7 @@ cdef class Sync:
     cdef bint res
 
     if self.__sync == 0:
-      raise BassApiError()
+      raise BassAPIError()
 
     with nogil:
       res = bass.BASS_ChannelRemoveSync(self.Channel.__channel, self.__sync)
@@ -108,7 +108,7 @@ cdef class Sync:
     
     def __set__(Sync self, bint value):
       if self.__sync:
-        raise BassApiError()
+        raise BassAPIError()
 
       self.__onetime = value
 
@@ -122,6 +122,6 @@ cdef class Sync:
         raise TypeError("value must be callable")
         
       if self.__sync:
-        raise BassApiError()
+        raise BassAPIError()
       
       self.__func = value

@@ -3,8 +3,7 @@ from .music cimport Music
 from .sample cimport Sample
 from .stream cimport Stream
 from .vector cimport Vector, CreateVector
-from ..constants import DEVICE, DEVICE_TYPE
-from ..exceptions import BassApiError, BassPlatformError
+from ..exceptions import BassAPIError, BassPlatformError
 
 __EAXPresets={
    bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
@@ -189,7 +188,7 @@ cdef class OutputDevice:
       self.Set()
 
       if not preset in __EAXPresets:
-        raise BassApiError
+        raise BassAPIError
       env = <int>__EAXPresets[preset][0]
       vol = <float>__EAXPresets[preset][1]
       decay = <float>__EAXPresets[preset][2]
@@ -239,7 +238,11 @@ cdef class OutputDevice:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
+
       if info.flags&bass._BASS_DEVICE_TYPE_MASK:
+
+        from ..constants import DEVICE_TYPE
+
         return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
       return None
 
@@ -337,6 +340,9 @@ cdef class OutputDevice:
       self.Set()
       info = self.__getinfo()
       bass.__Evaluate()
+
+      from ..constants import DEVICE
+
       return DEVICE(info.initflags)
 
   property Speakers:

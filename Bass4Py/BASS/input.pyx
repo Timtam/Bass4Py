@@ -1,5 +1,4 @@
 from . cimport bass
-from ..constants import INPUT_TYPE
 
 cdef class Input:
   def __cinit__(Input self, InputDevice device, int input):
@@ -58,4 +57,7 @@ cdef class Input:
       self.__device.Set()
       flags = bass.BASS_RecordGetInput(self.__input, NULL)
       bass.__Evaluate()
+
+      from ..constants import INPUT_TYPE
+
       return INPUT_TYPE(flags&bass._BASS_INPUT_TYPE_MASK)

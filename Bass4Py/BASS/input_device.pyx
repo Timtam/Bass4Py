@@ -1,8 +1,7 @@
 from . cimport bass
 from .input cimport Input
 from .record cimport Record
-from ..constants import DEVICE_TYPE
-from ..exceptions import BassApiError, BassPlatformError
+from ..exceptions import BassPlatformError
 
 cdef class InputDevice:
   def __cinit__(InputDevice self, int device):
@@ -109,6 +108,9 @@ cdef class InputDevice:
       cdef BASS_DEVICEINFO info
       info = self.__getdeviceinfo()
       bass.__Evaluate()
+
+      from ..constants import DEVICE_TYPE
+
       return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
 
   property Flags:

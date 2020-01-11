@@ -1,6 +1,6 @@
 from . cimport bass
 
-from .. import exceptions
+from ..exceptions import BassAPIError, BassAttributeError, BassInvalidTypeError, BassPlatformError
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
@@ -16,7 +16,7 @@ cdef class Attribute:
     cdef bint res
 
     if self.__not_available:
-      raise exceptions.BassPlatformError()
+      raise BassPlatformError()
 
     if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
@@ -31,18 +31,18 @@ cdef class Attribute:
     res = bass.BASS_ChannelGetAttribute(self.__channel, self.__attrib, &value)
     try:
       bass.__Evaluate()
-    except exceptions.BassInvalidTypeError:
-      raise exceptions.BassApiError()
+    except BassInvalidTypeError:
+      raise BassAPIError()
     return value
 
   cpdef Set(Attribute self, object value):
     cdef bint res
 
     if self.__not_available:
-      raise exceptions.BassPlatformError()
+      raise BassPlatformError()
 
     if self.__readonly:
-      raise exceptions.BassAttributeError("attribute is readonly and thus cannot be set")
+      raise BassAttributeError("attribute is readonly and thus cannot be set")
 
     if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self.__attrib==bass._BASS_ATTRIB_MUSIC_VOL_INST:
@@ -55,18 +55,18 @@ cdef class Attribute:
     res = bass.BASS_ChannelSetAttribute(self.__channel, self.__attrib, <float>value)
     try:
       bass.__Evaluate()
-    except exceptions.BassInvalidTypeError:
-      raise exceptions.BassApiError()
+    except BassInvalidTypeError:
+      raise BassAPIError()
     return res
 
   cpdef Slide(Attribute self, object value, DWORD time):
     cdef bint res
 
     if self.__not_available:
-      raise exceptions.BassPlatformError()
+      raise BassPlatformError()
 
     if self.__readonly:
-      raise exceptions.BassAttributeError("attribute is readonly and thus cannot be set")
+      raise BassAttributeError("attribute is readonly and thus cannot be set")
 
     if self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self.__attrib == bass._BASS_ATTRIB_MUSIC_VOL_INST:
@@ -87,16 +87,16 @@ cdef class Attribute:
         bass.__Evaluate()
         volumes.append(res)
         channel+=1
-    except exceptions.BassInvalidTypeError:
+    except BassInvalidTypeError:
       if len(volumes) == 0:
-        raise exceptions.BassInvalidTypeError()
+        raise BassInvalidTypeError()
     return tuple(volumes)
 
   cpdef __setmusicvolchan(Attribute self, tuple value):
     cdef tuple current = self.__getmusicvolchan()
     cdef int i
     if len(value) != len(current):
-      raise exceptions.BassApiError()
+      raise BassAPIError()
     for i in range(len(value)):
       bass.BASS_ChannelSetAttribute(self.__channel, self.__attrib+i, value[i])
     return True
@@ -121,7 +121,7 @@ cdef class Attribute:
     cdef tuple current = self.__getmusicvolchan()
     cdef int i
     if len(value) != len(current):
-      raise exceptions.BassApiError()
+      raise BassAPIError()
     for i in range(len(value)):
       bass.BASS_ChannelSlideAttribute(self.__channel, self.__attrib+i, value[i], time)
     return True
@@ -135,7 +135,7 @@ cdef class Attribute:
     def __get__(Attribute self):
 
       if self.__not_available:
-        raise exceptions.BassPlatformError()
+        raise BassPlatformError()
 
       return bass.BASS_ChannelIsSliding(self.__channel, self.__attrib)
       

@@ -1,7 +1,4 @@
 from . cimport bass
-from .channel_base cimport ChannelBase
-from .input_device cimport InputDevice
-from ..constants import STREAM
 from ..exceptions import BassRecordError
 
 cdef bint CRECORDPROC(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
@@ -16,6 +13,9 @@ cdef bint __stdcall CRECORDPROC_STD(HRECORD handle, const void *buffer, DWORD le
 cdef class Record(ChannelBase):
 
   def __cinit__(Record self, HRECORD handle):
+
+    from ..constants import STREAM
+
     self.__flags_enum = STREAM
 
   cdef void __sethandle(Record self, HRECORD record):

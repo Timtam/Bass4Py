@@ -3,7 +3,6 @@ from . cimport bass
 from .channel cimport Channel
 from .attribute cimport Attribute
 from .output_device cimport OutputDevice
-from ..constants import STREAM as C_STREAM
 from ..exceptions import BassStreamError
 from filelike import is_filelike
 import os
@@ -80,7 +79,10 @@ cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
 cdef class Stream(Channel):
 
   def __cinit__(Stream self, HSTREAM handle):
-    self.__flags_enum = C_STREAM
+
+    from ..constants import STREAM
+
+    self.__flags_enum = STREAM
 
   cdef void __initattributes(Stream self):
     Channel.__initattributes(self)

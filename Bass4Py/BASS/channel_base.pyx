@@ -4,13 +4,13 @@ from . cimport bass
 from .attribute cimport Attribute
 from .plugin cimport Plugin
 from .sample cimport Sample
-from ..constants import ACTIVE, CHANNEL_TYPE
-from ..constants import SAMPLE as C_SAMPLE
 
 cdef class ChannelBase:
   def __cinit__(ChannelBase self, HCHANNEL channel):
 
-    self.__flags_enum = C_SAMPLE
+    from ..constants import SAMPLE
+
+    self.__flags_enum = SAMPLE
 
     if channel != 0:
       self.__sethandle(channel)
@@ -142,6 +142,9 @@ cdef class ChannelBase:
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self.__getinfo()
       bass.__Evaluate()
+
+      from ..constants import CHANNEL_TYPE
+
       return CHANNEL_TYPE(info.ctype)
 
   property Resolution:
@@ -194,6 +197,8 @@ cdef class ChannelBase:
 
       bass.__Evaluate()
       
+      from ..constants import ACTIVE
+
       return ACTIVE(act)
 
   @property

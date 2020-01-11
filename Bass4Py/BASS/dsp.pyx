@@ -8,7 +8,7 @@ from .bass cimport (
                    )
 
 from .channel cimport Channel
-from ..exceptions import BassApiError
+from ..exceptions import BassAPIError
 
 cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil:
   cdef DSP odsp = <DSP?>user
@@ -39,7 +39,7 @@ cdef class DSP:
     cdef DSPPROC *cproc
     
     if self.__dsp:
-      raise BassApiError()
+      raise BassAPIError()
 
     IF UNAME_SYSNAME == "Windows":
       cproc = <DSPPROC*>CDSPPROC_STD
@@ -60,7 +60,7 @@ cdef class DSP:
     
     def __set__(DSP self, int priority):
       if self.__dsp:
-        raise BassApiError()
+        raise BassAPIError()
         
       self.__priority = priority
 
@@ -74,6 +74,6 @@ cdef class DSP:
         raise TypeError("value must be callable")
         
       if self.__dsp:
-        raise BassApiError()
+        raise BassAPIError()
       
       self.__func = value

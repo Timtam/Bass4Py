@@ -6,3 +6,9 @@ If there are any noticeable differences, this documentation will mention them. T
 
 The main class is the :class:`Bass4Py.BASS.BASS` class which should be consulted in order to get any project going.
 """
+
+from . import constants
+
+__all__ = [
+  'constants',
+]

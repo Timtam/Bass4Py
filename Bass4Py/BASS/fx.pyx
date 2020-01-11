@@ -1,6 +1,6 @@
 from . cimport bass
 from .channel cimport Channel
-from ..exceptions import BassApiError, BassOutOfRangeError
+from ..exceptions import BassAPIError, BassOutOfRangeError
 from cpython.mem cimport PyMem_Free
 
 cdef class FX:
@@ -14,7 +14,7 @@ cdef class FX:
     cdef HFX fx
 
     if self.__fx:
-      raise BassApiError()
+      raise BassAPIError()
 
     with nogil:
       fx = bass.BASS_ChannelSetFX(chan.__channel, self.__type, self.__priority)
@@ -39,7 +39,7 @@ cdef class FX:
     cdef bint res
 
     if self.__fx == 0:
-      raise BassApiError()
+      raise BassAPIError()
 
     with nogil:
       res = bass.BASS_ChannelRemoveFX(self.Channel.__channel, self.__fx)
@@ -52,7 +52,7 @@ cdef class FX:
     cdef bint res 
 
     if self.__fx == 0:
-      raise BassApiError()
+      raise BassAPIError()
 
     with nogil:
       res = bass.BASS_FXReset(self.__fx)
@@ -63,7 +63,7 @@ cdef class FX:
   cpdef Update(FX self):
 
     if self.__fx == 0:
-      raise BassApiError()
+      raise BassAPIError()
 
     bass.BASS_FXSetParameters(self.__hfx, self.__effect)
     bass.__Evaluate()
