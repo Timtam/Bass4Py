@@ -310,7 +310,7 @@ cdef class BASS:
 
   property CPU:
     """
-    :obj:`float`: Retrieves the current CPU usage of BASS. 
+    :obj:`float`: The current CPU usage of BASS. 
 
     This function includes the time taken to render stream 
     (:class:`Bass4Py.BASS.Stream`) and MOD music 
@@ -334,19 +334,18 @@ cdef class BASS:
 
     When using DirectSound output on Windows, the CPU usage does not include 
     sample channels (:class:`Bass4Py.BASS.Channel`), which are mixed by the 
-    output device/drivers (hardware 
-    mixing) or Windows (software mixing). On other platforms and when using 
-    WASAPI output on Windows, the CPU usage does include sample playback as 
-    well as the generation of the final output mix. On Windows, the CPU 
-    usage value does not include the decoding of internet (or "buffered" 
-    user file) streams that use Media Foundation codecs. 
+    output device/drivers (hardware mixing) or Windows (software mixing). On 
+    other platforms and when using WASAPI output on Windows, the CPU usage does 
+    include sample playback as well as the generation of the final output mix. 
+    On Windows, the CPU usage value does not include the decoding of internet 
+    (or "buffered" user file) streams that use Media Foundation codecs. 
     """
     def __get__(BASS self):
       return BASS_GetCPU()
 
   property Device:
     """
-    :class:`Bass4Py.BASS.OutputDevice` or :obj:`None`: Retrieves the device setting of the current thread. 
+    :class:`Bass4Py.BASS.OutputDevice` or :obj:`None`: the output device setting of the current thread. 
     """
     def __get__(BASS self):
       cdef DWORD device=BASS_GetDevice()
@@ -370,7 +369,6 @@ cdef class BASS:
       cdef const unsigned char[:] agent = to_readonly_bytes(value)
 
       BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, &(agent[0]))
-      __Evaluate()
 
   property NetProxy:
     """
@@ -384,7 +382,12 @@ cdef class BASS:
     without any authorization credentials. 
     """
     def __get__(BASS self):
-      return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_NET_PROXY)).decode('utf-8')
+      cdef void *proxy = BASS_GetConfigPtr(_BASS_CONFIG_NET_PROXY)
+
+      if proxy == NULL:
+        return None
+      
+      return (<char*>proxy).decode('utf-8')
 
     def __set__(BASS self, object value):
       cdef const unsigned char[:] proxy
@@ -395,8 +398,6 @@ cdef class BASS:
         proxy = to_readonly_bytes(value)
 
         BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, &(proxy[0]))
-
-      __Evaluate()
 
   property Algorithm3D:
     """
@@ -429,8 +430,6 @@ cdef class BASS:
       available then :attr:`Bass4Py.constants.ALGORITHM_3D.OFF` will 
       automatically be used instead. 
 
-    Remarks
-
     These algorithms only affect 3D channels that are being mixed in software. 
     :attr:`Bass4Py.BASS.ChannelBase.Flags` can be used to check whether a 
     channel is being software mixed. Changing the algorithm only affects 
@@ -449,7 +448,6 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
-      __Evaluate()
 
   property AsyncBuffer:
     """
@@ -457,8 +455,6 @@ cdef class BASS:
 
     The buffer length in bytes. This will be rounded up to the nearest 4096 
     byte (4KB) boundary. 
-
-    Remarks
 
     This determines the amount of file data that can be read ahead of time 
     with asynchronous file reading. The default setting is 65536 bytes (64KB). 
@@ -473,7 +469,6 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER, value)
-      __Evaluate()
 
   property Buffer:
     """
@@ -482,8 +477,6 @@ cdef class BASS:
     The buffer length in milliseconds. The minimum length is 10ms, the maximum 
     is 5000 milliseconds. If the length specified is outside this range, it 
     is automatically capped. 
-
-    Remarks
 
     The default buffer length is 500 milliseconds. Increasing the length, 
     decreases the chance of the sound possibly breaking-up on slower computers, 
@@ -514,15 +507,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_BUFFER, value)
-      __Evaluate()
 
   property CurveVolume:
     """
-    :obj:`bool`: The translation curve of volume values. 
-
-    Volume curve... False = linear, True = logarithmic. 
-
-    Remarks
+    :obj:`bool`: The translation curve of volume values. False = linear, True = logarithmic. 
 
     When using the linear curve, the volume range is from 0% (silent) to 100% 
     (full). When using the logarithmic curve, the volume range is from -100 dB 
@@ -534,15 +522,10 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_VOL, <DWORD>value)
-      __Evaluate()
 
   property CurvePan:
     """
-    :obj:`bool`: The translation curve of panning values. 
-
-    Panning curve... False = linear, True = logarithmic. 
-
-    Remarks
+    :obj:`bool`: The translation curve of panning values. False = linear, True = logarithmic. 
 
     The panning curve affects panning in exactly the same way as the volume 
     curve (:attr:`Bass4Py.BASS.BASS.CurveVolume`) affects the volume. The 
@@ -553,15 +536,10 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_PAN, <DWORD>value)
-      __Evaluate()
 
   property DeviceBuffer:
     """
-    :obj:`int`: The output device buffer length. 
-
-    The buffer length in milliseconds. 
-
-    Remarks
+    :obj:`int`: The output device buffer length in milliseconds. 
 
     The device buffer is where the final mix of all playing channels is 
     placed, ready for the device to play. Its length affects the latency of 
@@ -582,33 +560,26 @@ cdef class BASS:
 
     Platform-specific
 
-    The default setting is 30ms on Windows, 40ms on Linux and Android, 200ms 
-    on Windows CE. This option is not available on OSX or iOS; the device 
-    buffer length on those platforms is twice the device update period, 
+    The default setting is 30ms on Windows, 40ms on Linux and 200ms 
+    on Windows CE. This option is not available on OSX; the device 
+    buffer length on this platform is twice the device update period, 
     which can be set via the :attr:`Bass4Py.BASS.BASS.DeviceUpdatePeriod` 
     option. On Windows, this config option only applies when WASAPI output is 
     used. On Linux, BASS will attempt to set the device buffer-feeding thread 
     to real-time priority (as on other platforms) to reduce the chances of it 
     getting starved of CPU, but if that is not possible (eg. the user account 
     lacks permission) then it may be necessary to increase the buffer length 
-    to avoid breaks in the output when the CPU is busy. When using AudioTrack 
-    output on Android, the buffer length will be automatically raised to the 
-    minimum given by the AudioTrack getMinBufferSize method if necessary. 
+    to avoid breaks in the output when the CPU is busy.
     """
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_DEV_BUFFER)
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
-      __Evaluate()
 
   property DefaultDevice:
     """
     :obj:`bool`: Include a "Default" entry in the output device list?
-
-    If True, a "Default" device will be included in the device list. 
-
-    Remarks
 
     This option adds a "Default" entry to the output device list, which maps 
     to the device that is currently the system's default. Its output will 
@@ -630,19 +601,22 @@ cdef class BASS:
     the device's volume. 
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(_BASS_CONFIG_DEV_DEFAULT)
+
+      IF UNAME_SYSNAME != "Windows" and UNAME_SYSNAME != "Darwin":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return <bint>BASS_GetConfig(_BASS_CONFIG_DEV_DEFAULT)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(_BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
-      __Evaluate()
+
+      IF UNAME_SYSNAME != "Windows" and UNAME_SYSNAME != "Darwin":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
 
   property FloatDsp:
     """
-    :obj:`bool`: Pass 32-bit floating-point sample data to all DSP functions? 
-
-    If True, 32-bit floating-point sample data is passed to all :attr:`Bass4Py.BASS.Dsp.Callback` callback functions. 
-
-    Remarks
+    :obj:`bool`: Pass 32-bit floating-point sample data to all :attr:`Bass4Py.BASS.DSP.Callback` functions? 
 
     Normally DSP functions receive sample data in whatever format the channel 
     is using, ie. it can be 8, 16 or 32-bit. But when this config option is 
@@ -668,15 +642,10 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_FLOATDSP, <DWORD>value)
-      __Evaluate()
 
   property MusicVolume:
     """
-    :obj:`int`: The global MOD music volume level. 
-
-    MOD music global volume level... 0 (silent) to 10000 (full). 
-
-    Remarks
+    :obj:`int`: The global MOD music volume level. 0 (silent) to 10000 (full). 
 
     This config option allows you to have control over the volume levels of 
     all the MOD musics, which may be useful for setup options, eg. separate 
@@ -692,15 +661,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_MUSIC, value)
-      __Evaluate()
 
   property SampleVolume:
     """
-    :obj:`int`: The global sample volume level. 
-
-    Sample global volume level... 0 (silent) to 10000 (full). 
-
-    Remarks
+    :obj:`int`: The global sample volume level. 0 (silent) to 10000 (full). 
 
     This config option allows you to have control over the volume levels of 
     all the samples, which may be useful for setup options, eg. separate music 
@@ -715,15 +679,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_SAMPLE, value)
-      __Evaluate()
 
   property StreamVolume:
     """
-    :obj:`int`: The global stream volume level. 
-
-    Stream global volume level... 0 (silent) to 10000 (full). 
-
-    Remarks
+    :obj:`int`: The global stream volume level. 0 (silent) to 10000 (full). 
 
     This config option allows you to have control over the volume levels of 
     all the streams, which may be useful for setup options, eg. separate music 
@@ -738,7 +697,6 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_STREAM, value)
-      __Evaluate()
 
   property Video:
     """
@@ -749,11 +707,18 @@ cdef class BASS:
     This config option is only available on Windows. 
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(_BASS_CONFIG_MF_VIDEO)
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return <bint>BASS_GetConfig(_BASS_CONFIG_MF_VIDEO)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
-      __Evaluate()
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
 
   property VirtualChannels:
     """
@@ -761,8 +726,6 @@ cdef class BASS:
 
     The number of virtual channels... 1 (min) to 512 (max). If the value 
     specified is outside this range, it is automatically capped. 
-
-    Remarks
 
     This setting only affects IT files, as the other MOD music formats do not 
     have virtual channels. The default setting is 64. Changes only apply to 
@@ -773,16 +736,11 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_MUSIC_VIRTUAL, value)
-      __Evaluate()
 
   property NetBuffer:
     """
-    :obj:`int`: The internet download buffer length. 
+    :obj:`int`: The internet download buffer length in milliseconds. 
     
-    The buffer length in milliseconds. 
-    
-    Remarks
-
     Increasing the buffer length decreases the chance of the stream stalling, 
     but also increases the time taken to create the stream as more data has to 
     be pre-buffered (adjustable via the :attr:`Bass4Py.BASS.BASS.NetPrebuf` 
@@ -806,15 +764,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_BUFFER, value)
-      __Evaluate()
 
   property NetPassive:
     """
     :obj:`bool`: Use passive mode in FTP connections? 
-
-    If True, passive mode is used, otherwise normal/active mode is used. 
-
-    Remarks
 
     Changes take effect from the next internet stream creation call. By 
     default, passive mode is enabled. 
@@ -824,7 +777,6 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PASSIVE, <DWORD>value)
-      __Evaluate()
 
   property NetPlaylist:
     """
@@ -834,8 +786,6 @@ cdef class BASS:
     :meth:`Bass4Py.BASS.OutputDevice.CreateStreamFromURL` only, 2 = in 
     :meth:`Bass4Py.BASS.OutputDevice.CreateStreamFromFile` and 
     :meth:`Bass4Py.BASS.OutputDevice.CreateStreamFromFileObj` too. 
-
-    Remarks
 
     When enabled, BASS will process PLS and M3U playlists, trying each URL 
     until it finds one that it can play. :attr:`Bass4Py.BASS.ChannelBase.Name` 
@@ -849,16 +799,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST, value)
-      __Evaluate()
 
   property NetPlaylistDepth:
     """
-    :obj:`int`: Maximum nested playlist processing depth. 
-    
-    Maximum nested playlist processing depth... 0 = do not process nested 
-    playlists. 
-
-    Remarks
+    :obj:`int`: Maximum nested playlist processing depth. 0 = do not process nested playlists. 
 
     When playlist processing is enabled via the 
     :attr:`Bass4Py.BASS.BASS.NetPlaylist` option, this option limits how deep 
@@ -872,15 +816,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST_DEPTH, value)
-      __Evaluate()
 
   property NetPrebuf:
     """
-    :obj:`int`: Amount to pre-buffer before playing internet streams. 
-
-    Amount (percentage) to pre-buffer. 
-
-    Remarks
+    :obj:`int`: Amount (percentage) to pre-buffer before playing internet streams. 
 
     This setting determines what percentage of the buffer length (
     :attr:`Bass4Py.BASS.BASS.NetBuffer`) should be filled before starting 
@@ -898,13 +837,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF, value)
-      __Evaluate()
 
   property NetPrebufWait:
     """
     :obj:`bool`: Wait for pre-buffering when opening internet streams? 
-
-    Remarks
 
     This setting determines whether 
     :meth:`Bass4Py.BASS.OutputDevice.CreateStreamFromURL` will wait for an 
@@ -927,15 +863,10 @@ cdef class BASS:
       
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF_WAIT, <DWORD>value)
-      __Evaluate()
 
   property NetTimeout:
     """
-    :obj:`int`: The time to wait for a server to respond to a connection request. 
-
-    The time to wait, in milliseconds. 
-    
-    Remarks
+    :obj:`int`: The time in milliseconds to wait for a server to respond to a connection request. 
 
     The default timeout is 5 seconds (5000 milliseconds). When playlist 
     processing is enabled via the :attr:`Bass4Py.BASS.BASS.NetPlaylist` option, 
@@ -946,16 +877,11 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_TIMEOUT, value)
-      __Evaluate()
 
   property NetReadTimeout:
     """
-    :obj:`int`: The time to wait for a server to deliver more data for an internet stream. 
-
-    The time to wait, in milliseconds... 0 = no timeout. 
+    :obj:`int`: The time in milliseconds to wait for a server to deliver more data for an internet stream. 0 = no timeout. 
     
-    Remarks
-
     When the timeout is hit, the connection with the server will be closed. 
     The default setting is 0, no timeout. Changes only affect subsequently 
     created streams, not any that already exist. 
@@ -965,15 +891,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_READTIMEOUT, value)
-      __Evaluate()
 
   property OggPrescan:
     """
     :obj:`bool`: Pre-scan chained OGG files? 
-
-    If True, chained OGG files are pre-scanned. 
-
-    Remarks
 
     This option is enabled by default, and is equivalent to including the 
     :attr:`Bass4Py.constants.STREAM.PRESCAN` flag in a 
@@ -986,15 +907,10 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_OGG_PRESCAN, <DWORD>value)
-      __Evaluate()
 
   property PauseNoplay:
     """
     :obj:`bool`: Prevent channels being played while the output is paused? 
-
-    If True, channels cannot be played while the output is paused. 
-
-    Remarks
 
     When the output is paused using :meth:`Bass4Py.BASS.OutputDevice.Pause`, 
     and this config option is enabled, channels cannot be played until the 
@@ -1008,7 +924,6 @@ cdef class BASS:
 
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_PAUSE_NOPLAY, <DWORD>value)
-      __Evaluate()
 
   property RecordBuffer:
     """
@@ -1016,8 +931,6 @@ cdef class BASS:
 
     The buffer length in milliseconds... 1000 (min) - 5000 (max). If the 
     length specified is outside this range, it is automatically capped. 
-
-    Remarks
 
     Unlike a playback buffer, where the aim is to keep the buffer full, a 
     recording buffer is kept as empty as possible and so this setting has no 
@@ -1035,13 +948,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_REC_BUFFER, value)
-      __Evaluate()
 
   property SRC:
     """
     :obj:`int`: The default sample rate conversion quality. 
-    
-    The sample rate conversion quality... 
     
     * 0 = linear interpolation, 
     * 1 = 8 point sinc interpolation, 
@@ -1050,8 +960,6 @@ cdef class BASS:
     * 4 = 64 point sinc interpolation. 
     
     Other values are also accepted. 
-
-    Remarks
 
     This config option determines what sample rate conversion quality new 
     channels will initially have, except for sample channels (
@@ -1066,14 +974,11 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC, value)
-      __Evaluate()
 
   property SRCSample:
     """
     :obj:`int`: The default sample rate conversion quality for samples. 
 
-    The sample rate conversion quality... 
-    
     * 0 = linear interpolation, 
     * 1 = 8 point sinc interpolation, 
     * 2 = 16 point sinc interpolation, 
@@ -1081,8 +986,6 @@ cdef class BASS:
     * 4 = 64 point sinc interpolation.
     
     Other values are also accepted. 
-
-    Remarks
 
     This config option determines what sample rate conversion quality a new 
     sample channel will initially have, retrieved by 
@@ -1096,17 +999,14 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC_SAMPLE, value)
-      __Evaluate()
 
   property UpdatePeriod:
     """
-    :obj:`int`: The update period of :class:`Bass4Py.BASS.Stream` and :class:`Bass4Py.BASS.Music` channel playback buffers. 
+    :obj:`int`: The update period of :class:`Bass4Py.BASS.Stream` and :class:`Bass4Py.BASS.Music` channel playback buffers in milliseconds. 
 
     The update period in milliseconds... 0 = disable automatic updating. The 
     minimum period is 5ms, the maximum is 100ms. If the period specified is 
     outside this range, it is automatically capped. 
-
-    Remarks
 
     The update period is the amount of time between updates of the playback 
     buffers of :class:`Bass4Py.BASS.Stream` / :class:`Bass4Py.BASS.Music` 
@@ -1134,16 +1034,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATEPERIOD, value)
-      __Evaluate()
 
   property UpdateThreads:
     """
-    :obj:`int`: The number of threads to use for updating playback buffers. 
-
-    The number of threads to use... 0 = disable automatic updating. 
-
-
-    Remarks
+    :obj:`int`: The number of threads to use for updating playback buffers. 0 = disable automatic updating. 
 
     The number of update threads determines how many 
     :class:`Bass4Py.BASS.Stream` / :class:`Bass4Py.BASS.Music` channel 
@@ -1167,7 +1061,6 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATETHREADS, value)
-      __Evaluate()
 
   property Verify:
     """
@@ -1175,8 +1068,6 @@ cdef class BASS:
 
     The amount of data to check, in bytes... 1000 (min) to 1000000 (max). 
     If the value specified is outside this range, it is automatically capped. 
-
-    Remarks
 
     Of the file formats supported as standard, this setting only affects the 
     detection of MP3/MP2/MP1 formats, but it may also be used by add-ons (see 
@@ -1191,7 +1082,6 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY, value)
-      __Evaluate()
 
   property NetVerify:
     """
@@ -1201,8 +1091,6 @@ cdef class BASS:
     0 = 25% of the :attr:`Bass4Py.BASS.BASS.Verify` setting (with a minimum of 
     1000 bytes). If the value specified is outside this range, it is 
     automatically capped. 
-
-    Remarks
 
     Of the file formats supported as standard, this setting only affects the 
     detection of MP3/MP2/MP1 formats, but it may also be used by add-ons (see 
@@ -1217,16 +1105,10 @@ cdef class BASS:
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY_NET, value)
-      __Evaluate()
 
   property VistaSpeakers:
     """
     :obj:`bool`: Enable speaker assignment with panning/balance control on Windows Vista and newer? 
-
-    If True, speaker assignment with panning/balance control is enabled on 
-    Windows Vista and newer. 
-
-    Remarks
 
     Panning/balance control via the :attr:`Bass4Py.BASS.ChannelBase.Pan` 
     attribute is not available when speaker assignment is used on Windows with 
@@ -1247,20 +1129,22 @@ cdef class BASS:
     final mix, including when using WASAPI output on Windows. 
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_SPEAKERS)
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_SPEAKERS)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
-      __Evaluate()
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
 
   property VistaTruepos:
     """
     :obj:`bool`: Enable true play position mode on Windows Vista and newer? 
-
-    If True, DirectSound's "true play position" mode is enabled on Windows 
-    Vista and newer. 
-
-    Remarks
 
     Unless this option is enabled, the reported playback position will advance 
     in 10ms steps on Windows Vista and newer. As well as affecting the 
@@ -1280,19 +1164,22 @@ cdef class BASS:
     DirectSound output on Windows Vista and newer. 
     """
     def __get__(BASS self):
-      return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_TRUEPOS)
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_TRUEPOS)
 
     def __set__(BASS self, bint value):
-      BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
-      __Evaluate()
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
 
   property DeviceUpdatePeriod:
     """
-    :obj:`int`: The output device update period. 
-    
-    The update period in milliseconds, or in samples if negative. 
-
-    Remarks
+    :obj:`int`: The output device update period in milliseconds, or in samples if negative. 
 
     The device update period determines how often data is generated and placed 
     in an output device's buffer. A shorter period allows a smaller buffer and 
@@ -1306,17 +1193,14 @@ cdef class BASS:
     Platform-specific
 
     On Windows, this config option only applies to the "No Sound" device; the 
-    period with real devices is set by Windows (usually 10ms). On iOS, except 
-    on the "No Sound" device, negative (samples) settings are ignored and 
-    changes take immediate effect rather than being delayed until the next 
-    device initialization. On Windows CE, the default setting is 50ms. 
+    period with real devices is set by Windows (usually 10ms). 
+    On Windows CE, the default setting is 50ms. 
     """
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_DEV_PERIOD)
 
     def __set__(BASS self, int value):
       BASS_SetConfig(_BASS_CONFIG_DEV_PERIOD, value)
-      __Evaluate()
 
   property Handles:
     """
@@ -1335,10 +1219,6 @@ cdef class BASS:
     """
     :obj:`bool`: Retain Windows mixer settings across sessions? 
 
-    If True, Windows mixer settings will persist across sessions. 
-
-    Remarks
-
     When using WASAPI output, this option determines whether the volume and 
     mute settings in Windows mixer will persist across sessions, ie. the next 
     time your application runs. Those settings always persist when using 
@@ -1346,7 +1226,7 @@ cdef class BASS:
 
     Platform-specific
 
-    This config option in only available on Windows. 
+    This config option is only available on Windows. 
     """
     def __get__(BASS self):
 
@@ -1362,16 +1242,13 @@ cdef class BASS:
       ELSE:
 
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
-        __Evaluate()
 
   property LibSSL:
     """
     :obj:`str`: The OpenSSL (or compatible) library to use for handling HTTPS connections. 
 
-    The filename of the OpenSSL library to use... NULL = use default. This 
+    The filename of the OpenSSL library to use... :obj:`None` = use default. This 
     should include the full path if it is not in the system library search path. 
-
-    Remarks
 
     By default, BASS will try to use the system's OpenSSL library to handle 
     HTTPS connections. It will look for libssl.so, libssl.so.10, or 
@@ -1383,12 +1260,7 @@ cdef class BASS:
 
     Platform-specific
 
-    This option is only available on the Linux and Android platforms. On 
-    Android, BASS will look for the library in the app's library directory if 
-    a full path is not provided. A BASS_SSL add-on is available, which will be 
-    used by default when present. If that is not present then the default is 
-    to use the system's libssl.so or libboringssl.so library, but note that 
-    is not possible when targetting Android 7 (API level 24) or above. 
+    This option is only available on the Linux platform.
     """
     def __get__(BASS self):
 
@@ -1405,4 +1277,3 @@ cdef class BASS:
 
         cdef const unsigned char[:] data = to_readonly_bytes(value)
         BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
-        __Evaluate()
