@@ -1,4 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+try:
+  from abc import ABC
+except ImportError:
+  # Python 2 compatibility
+  from abc import ABCMeta
+  
+  ABC = ABCMeta('ABC', (object,), {'__slots__': ()}) 
 
 class ExtensionHandler(ABC):
 
