@@ -30,7 +30,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "2.7"
       BASSLIB: "bass24"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
@@ -38,7 +38,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "2.7"
       BASSLIB: "bass24\\x64"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
@@ -46,7 +46,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.7"
       BASSLIB: "bass24"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
@@ -54,7 +54,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.7"
       BASSLIB: "bass24\\x64"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
@@ -62,7 +62,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.6"
       BASSLIB: "bass24"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
@@ -70,7 +70,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.6"
       BASSLIB: "bass24\\x64"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
@@ -78,7 +78,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.5"
       BASSLIB: "bass24"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
@@ -86,7 +86,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
@@ -94,7 +94,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "2.7"
       BASSLIB: "bass24"
-      TAGSLIB="tags18"
+      TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
       SDIST_ONLY: 1
 
