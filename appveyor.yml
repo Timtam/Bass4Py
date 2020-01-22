@@ -30,6 +30,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "2.7"
       BASSLIB: "bass24"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
@@ -37,6 +38,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "2.7"
       BASSLIB: "bass24\\x64"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
@@ -44,6 +46,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.7"
       BASSLIB: "bass24"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
@@ -51,6 +54,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.7"
       BASSLIB: "bass24\\x64"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
@@ -58,6 +62,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.6"
       BASSLIB: "bass24"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
@@ -65,6 +70,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.6"
       BASSLIB: "bass24\\x64"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
@@ -72,6 +78,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "3.5"
       BASSLIB: "bass24"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
@@ -79,6 +86,7 @@ environment:
       PYTHON_ARCH: "64"
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
@@ -86,6 +94,7 @@ environment:
       PYTHON_ARCH: "32"
       STACK: "2.7"
       BASSLIB: "bass24"
+      TAGSLIB="tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
       SDIST_ONLY: 1
 
@@ -95,10 +104,14 @@ before_build:
   - ps: |
       $wc = New-Object System.Net.WebClient
       $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "$($env:BUILD_FOLDER)bass24.zip")
+      $wc.DownloadFile("http://www.un4seen.com/files/z/3/tags18.zip", "$($env:BUILD_FOLDER)tags18.zip")
   - cmd: 7z x bass24.zip -o%BUILD_FOLDER%bass24 -r
+  - cmd: 7z x tags18.zip -o%BUILD_FOLDER%tags18 -r
   - sh: |
       wget http://www.un4seen.com/files/bass24-linux.zip
+      wget http://www.un4seen.com/files/z/3/tags18-linux.zip
       7z x bass24-linux.zip -o${BUILD_FOLDER}bass24-linux -r
+      7z x tags18-linux.zip -o${BUILD_FOLDER}tags18-linux -r
       
 install:
   - cmd: |
@@ -128,9 +141,9 @@ build_script:
 
 before_test:
   - sh: |
-      export LD_LIBRARY_PATH=${BUILD_FOLDER}bass24-linux/x64/
+      export LD_LIBRARY_PATH=${BUILD_FOLDER}bass24-linux/x64/:${BUILD_FOLDER}tags18-linux/x64/
   - cmd: |
-      set PATH=%BUILD_FOLDER%%BASSLIB%;%PATH%
+      set PATH=%BUILD_FOLDER%%BASSLIB%;%BUILD_FOLDER%%TAGSLIB%;%PATH%
 
 test_script:
   - sh: |
