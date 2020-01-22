@@ -3,6 +3,12 @@ from .channel cimport Channel
 from .attribute cimport Attribute
 from .output_device cimport OutputDevice
 
+# optional add-ons
+try:
+  from Bass4Py.TAGS.tags import Tags
+except ImportError:
+  Tags = lambda obj: None
+
 include "../transform.pxi"
 
 cdef class Music(Channel):
@@ -12,6 +18,10 @@ cdef class Music(Channel):
     from ..constants import MUSIC
 
     self.__flags_enum = MUSIC
+
+  def __init__(self, *args, **kwargs):
+  
+    self.Tags = Tags(self)
 
   cdef void __initattributes(Music self):
     Channel.__initattributes(self)

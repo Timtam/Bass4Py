@@ -1,11 +1,15 @@
-from setuptools import setup
-from setuptools.command.build_ext import build_ext
-from setuptools.extension import Extension
+from distutils.errors import (
+  CCompilerError,
+  DistutilsExecError,
+  DistutilsPlatformError)
 
 import os
-import os.path
-import platform
-import sys
+from setuptools import setup
+from setuptools.command.build_ext import build_ext
+import warnings
+
+from setup.bass import BASSExtensionHandler
+from setup.tags import TAGSExtensionHandler
 
 try:
   from Cython.Build import cythonize
@@ -15,7 +19,6 @@ except ImportError:
 
 USE_CYTHON = HAVE_CYTHON
 DEBUG_MODE = False
-IS_X64 = sys.maxsize > 2**32
 
 if 'USE_CYTHON' in os.environ:
   USE_CYTHON = os.environ['USE_CYTHON'].lower() in ('1', 'yes')
@@ -26,53 +29,69 @@ if 'DEBUG' in os.environ:
 if USE_CYTHON and not HAVE_CYTHON:
   raise RuntimeError("cython not found")
 
+extensions = []
 library_dirs = []
 include_dirs = []
+packages = []
+requirement_flags = []
 
-cd=os.path.dirname(os.path.abspath(__file__))
+def LoadExtensions(exthandler):
 
-if platform.uname()[0] == "Windows":
-
-  lib_dir = os.path.join(cd, "bass24", "c")
-
-  if IS_X64:
-    lib_dir = os.path.join(lib_dir, "x64")
-
-elif platform.uname()[0] == "Linux":
-
-  lib_dir = os.path.join(cd, "bass24-linux")
+  global extensions, include_dirs, library_dirs, packages, requirement_flags
   
-  if IS_X64:
-    lib_dir = os.path.join(lib_dir, "x64")
-    
-library_dirs.append(lib_dir)
+  exts = exthandler.GetExtensions()
 
-if platform.uname()[0] == "Windows":
-
-  inc_dir = os.path.join(cd, "bass24", "c")
-
-elif platform.uname()[0] == "Linux":
-
-  inc_dir = os.path.join(cd, "bass24-linux")
+  extensions += exts
   
-include_dirs.append(inc_dir)
+  requirement_flags += [exthandler.IsRequired()] * len(exts)
+  
+  library_dirs += exthandler.GetLibraryDirectories()
+  
+  include_dirs += exthandler.GetIncludeDirectories()
+  
+  packages += exthandler.GetContainedPackages()
 
-try:
-  library_dirs.append(os.environ["BASSLIB"])
-except KeyError:
-  pass
+  try:
+    library_dirs.append(os.environ[exthandler.GetLibraryVariable()])
+  except KeyError:
+    pass
 
-try:
-  include_dirs.append(os.environ["BASSINC"])
-except KeyError:
+  try:
+    include_dirs.append(os.environ[exthandler.GetIncludeVariable()])
+  except KeyError:
+    pass
+
+class BuildFailure(Exception):
   pass
 
 class build_ext_compiler_check(build_ext):
+
+  def build_extension(self, ext):
+  
+    global extensions, requirement_flags
+    
+    i = extensions.index(ext)
+    required = requirement_flags[i]
+    
+    try:
+      build_ext.build_extension(self, ext)
+    except (CCompilerError, DistutilsExecError, DistutilsPlatformError):
+      
+      if required:
+        raise BuildFailure('extension {name} is required'.format(name = ext.name))
+      else:
+        warnings.warn('extension {name} is not required, ignoring build failure'.format(name = ext.name))
+
   def build_extensions(self):
+
+    global include_dirs, library_dirs
+
     compiler = self.compiler.compiler_type
-    for ext in self.extensions:
+    for i, ext in enumerate(self.extensions):
+
       comp_args = []
       link_args = []
+
       if compiler == 'mingw32' or compiler == 'unix' or compiler == 'cygwin':
         if ext.language == "c++":
           comp_args.append('-std=c++11')
@@ -84,7 +103,18 @@ class build_ext_compiler_check(build_ext):
           link_args.append('-debug')
       ext.extra_compile_args = comp_args
       ext.extra_link_args = link_args
+      ext.library_dirs = library_dirs
+      ext.include_dirs = include_dirs
+
     build_ext.build_extensions(self)
+
+  # ensure that failed extensions won't get copied
+  # otherwise builds with --inplace flag will crash
+  def copy_extensions_to_source(self):
+  
+    self.extensions = [ext for ext in self.extensions if os.path.exists(os.path.join(self.build_lib, self.get_ext_filename(self.get_ext_fullname(ext.name))))]
+
+    build_ext.copy_extensions_to_source(self)
 
 def no_cythonize(extensions, **_ignore):
   for extension in extensions:
@@ -101,418 +131,9 @@ def no_cythonize(extensions, **_ignore):
     extension.sources[:] = sources
   return extensions
 
-extensions = [
-  Extension(
-    "Bass4Py.BASS.bass",
-    [
-      "Bass4Py/BASS/bass.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.channel_base",
-    [
-      "Bass4Py/BASS/channel_base.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.channel",
-    [
-      "Bass4Py/BASS/channel.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.attribute",
-    [
-      "Bass4Py/BASS/attribute.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language="c"
-  ),
-  Extension(
-    "Bass4Py.BASS.output_device",
-    [
-      "Bass4Py/BASS/output_device.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.input_device",
-    [
-      "Bass4Py/BASS/input_device.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.record",
-    [
-      "Bass4Py/BASS/record.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.input",
-    [
-      "Bass4Py/BASS/input.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.dsp",
-    [
-      "Bass4Py/BASS/dsp.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.fx",
-    [
-      "Bass4Py/BASS/fx.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.music",
-    [
-      "Bass4Py/BASS/music.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.plugin",
-    [
-      "Bass4Py/BASS/plugin.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.sample",
-    [
-      "Bass4Py/BASS/sample.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.stream",
-    [
-      "Bass4Py/BASS/stream.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.sync",
-    [
-      "Bass4Py/BASS/sync.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.vector",
-    [
-      "Bass4Py/BASS/vector.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.version",
-    [
-      "Bass4Py/BASS/version.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.constants",
-    [
-      "Bass4Py/constants.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.chorus",
-    [
-      "Bass4Py/BASS/effects/dx8/chorus.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.compressor",
-    [
-      "Bass4Py/BASS/effects/dx8/compressor.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.distortion",
-    [
-      "Bass4Py/BASS/effects/dx8/distortion.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.echo",
-    [
-      "Bass4Py/BASS/effects/dx8/echo.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.flanger",
-    [
-      "Bass4Py/BASS/effects/dx8/flanger.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.gargle",
-    [
-      "Bass4Py/BASS/effects/dx8/gargle.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.i3dl2reverb",
-    [
-      "Bass4Py/BASS/effects/dx8/i3dl2reverb.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.parameq",
-    [
-      "Bass4Py/BASS/effects/dx8/parameq.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.dx8.reverb",
-    [
-      "Bass4Py/BASS/effects/dx8/reverb.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.effects.volume",
-    [
-      "Bass4Py/BASS/effects/volume.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.set_position",
-    [
-      "Bass4Py/BASS/syncs/set_position.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.slide",
-    [
-      "Bass4Py/BASS/syncs/slide.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.position",
-    [
-      "Bass4Py/BASS/syncs/position.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.stall",
-    [
-      "Bass4Py/BASS/syncs/stall.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.ogg_change",
-    [
-      "Bass4Py/BASS/syncs/ogg_change.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.meta",
-    [
-      "Bass4Py/BASS/syncs/meta.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.free",
-    [
-      "Bass4Py/BASS/syncs/free.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.end",
-    [
-      "Bass4Py/BASS/syncs/end.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.download",
-    [
-      "Bass4Py/BASS/syncs/download.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.device_format",
-    [
-      "Bass4Py/BASS/syncs/device_format.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.device_fail",
-    [
-      "Bass4Py/BASS/syncs/device_fail.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.music_position",
-    [
-      "Bass4Py/BASS/syncs/music_position.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-  Extension(
-    "Bass4Py.BASS.syncs.music_instrument",
-    [
-      "Bass4Py/BASS/syncs/music_instrument.pyx"
-    ],
-    libraries = ["bass"],
-    library_dirs = library_dirs,
-    include_dirs = include_dirs,
-    language = "c"
-  ),
-]
+# loading all extensions
+LoadExtensions(BASSExtensionHandler())
+LoadExtensions(TAGSExtensionHandler())
 
 if USE_CYTHON:
   extensions = cythonize(
@@ -533,13 +154,7 @@ setup(
   author_email="software@satoprogs.de",
   url="https://github.com/Timtam/Bass4Py",
   ext_modules = extensions,
-  packages = [
-    "Bass4Py",
-    "Bass4Py.BASS",
-    "Bass4Py.BASS.effects",
-    "Bass4Py.BASS.effects.dx8",
-    "Bass4Py.BASS.syncs",
-  ],
+  packages = packages,
   cmdclass = {
     'build_ext': build_ext_compiler_check
   },

@@ -18,6 +18,8 @@ cdef class Stream(Channel):
   cdef readonly Attribute NetResume
   cdef readonly Attribute ScanInfo
 
+  cdef readonly object Tags
+
   cpdef Free(Stream self)
   cpdef QWORD GetFilePosition(Stream self, DWORD mode)
   cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length)

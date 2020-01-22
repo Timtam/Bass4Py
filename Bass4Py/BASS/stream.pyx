@@ -7,6 +7,12 @@ from ..exceptions import BassStreamError
 from filelike import is_filelike
 import os
 
+# optional add-ons
+try:
+  from Bass4Py.TAGS.tags import Tags
+except ImportError:
+  Tags = lambda obj: None
+
 include "../transform.pxi"
 
 cdef void CDOWNLOADPROC(const void *buffer, DWORD length, void *user) with gil:
@@ -83,6 +89,10 @@ cdef class Stream(Channel):
     from ..constants import STREAM
 
     self.__flags_enum = STREAM
+
+  def __init__(self, *args, **kwargs):
+
+    self.Tags = Tags(self)
 
   cdef void __initattributes(Stream self):
     Channel.__initattributes(self)

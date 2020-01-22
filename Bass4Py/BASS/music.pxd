@@ -21,5 +21,7 @@ cdef class Music(Channel):
   cdef readonly Attribute PositionScaler
   cdef readonly Attribute Speed
 
+  cdef readonly object Tags
+
   cpdef Free(Music self)
   cpdef Update(Music self, DWORD length)
