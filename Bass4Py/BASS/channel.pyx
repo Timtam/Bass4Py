@@ -90,6 +90,13 @@ cdef class Channel(ChannelBase):
     bass.__Evaluate()
     return res
   
+  cpdef GetTags(Channel self, DWORD tagtype):
+    cdef char *res = bass.BASS_ChannelGetTags(self.__channel, tagtype)
+    
+    bass.__Evaluate()
+    
+    return res.decode('utf-8')
+
   property Loop:
     def __get__(Channel self):
       return self.__getflags()&bass._BASS_SAMPLE_LOOP == bass._BASS_SAMPLE_LOOP

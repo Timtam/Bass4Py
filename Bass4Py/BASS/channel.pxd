@@ -27,6 +27,7 @@ cdef class Channel(ChannelBase):
 
   cdef DWORD __getflags(Channel self)
   cpdef __setflags(Channel self, DWORD flag, bint switch)
+  cpdef GetTags(Channel self, DWORD tagtype)
   cpdef Link(Channel self, Channel obj)
   cpdef Play(Channel self, bint restart)
   cpdef ResetFX(Channel self)
