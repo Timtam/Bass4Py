@@ -283,7 +283,7 @@ cdef class Stream(Channel):
     cdef Stream ostrm
     cdef bass.BASS_FILEPROCS procs
 
-    if not is_filelike(obj):
+    if not is_filelike(obj, 'r'):
       raise BassStreamError("the object provided doesn't expose a file-like interface")
       
     if device != None:
