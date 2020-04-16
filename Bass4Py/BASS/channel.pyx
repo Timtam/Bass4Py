@@ -91,10 +91,26 @@ cdef class Channel(ChannelBase):
     return res
   
   cpdef GetTags(Channel self, DWORD tagtype):
+    cdef DWORD offset = 0
+    cdef DWORD length = 0
     cdef char *res = bass.BASS_ChannelGetTags(self.__channel, tagtype)
     
     bass.__Evaluate()
     
+    if tagtype == bass._BASS_TAG_ID3V2:
+      # first three bytes are ID3
+      # two bytes describe the version information of the tag
+      # one byte describes the flags
+      offset += 6
+      # next 4 bytes note the length of the remaining tag
+      length |= res[offset] << 21
+      length |= res[offset + 1] << 14
+      length |= res[offset + 2] << 7
+      length |= res[offset + 3]
+      offset += 4
+      
+      return res[:length + 10]
+
     return res.decode('utf-8')
 
   property Loop:
