@@ -63,3 +63,7 @@ cdef class Tags:
       TAGS_ReadEx(self.__channel, "%DISC", tagtype, 65001).decode('utf-8'),
       TAGS_ReadEx(self.__channel, "%PUBL", tagtype, 65001).decode('utf-8')
     )
+  
+  property Error:
+    def __get__(Tags self):
+      return (<char*>TAGS_GetLastErrorDesc()).decode('utf-8')
