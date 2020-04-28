@@ -1,10 +1,5 @@
 version: 1.0-{build}
 build: off
-branches:
-  only:
-    - master
-    - cython
-    - appveyor
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
