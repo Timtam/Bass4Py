@@ -13,14 +13,14 @@ cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void 
 
 cdef class Sync:
   cdef readonly Channel Channel
-  cdef HSYNC __sync
-  cdef DWORD __type
-  cdef QWORD __param
-  cdef bint __onetime
-  cdef bint __forceparam
-  cdef bint __forcemixtime
-  cdef object __func
-  cdef object __user
+  cdef HSYNC _sync
+  cdef DWORD _type
+  cdef QWORD _param
+  cdef bint _onetime
+  cdef bint _forceparam
+  cdef bint _forcemixtime
+  cdef object _func
+  cdef object _user
   cpdef Remove(Sync self)
   cpdef Set(Sync self, Channel chan)
   cpdef SetMixtime(Sync self, bint enable, bint threaded = ?)

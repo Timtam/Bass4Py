@@ -9,9 +9,9 @@ from .attribute cimport Attribute
 
 cdef class Stream(Channel):
 
-  cdef object __downloadproc
-  cdef object __file
-  cdef object __streamproc
+  cdef object _downloadproc
+  cdef object _file
+  cdef object _streamproc
 
   # attributes
   cdef readonly Attribute Bitrate

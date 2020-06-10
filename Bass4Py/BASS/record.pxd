@@ -7,7 +7,7 @@ from .channel_base cimport ChannelBase
 from .input_device cimport InputDevice
 
 cdef class Record(ChannelBase):
-  cdef object __func
-  cdef InputDevice __device
+  cdef object _func
+  cdef InputDevice _device
 
   cpdef Start(Record self)

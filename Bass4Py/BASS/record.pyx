@@ -4,7 +4,7 @@ from ..exceptions import BassRecordError
 cdef bint CRECORDPROC(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
   cdef Record rec = <Record>user
   cdef bytes data = (<char*>buffer)[:length]
-  cdef bint res = <bint>(rec.__func(rec, data))
+  cdef bint res = <bint>(rec._func(rec, data))
   return res
 
 cdef bint __stdcall CRECORDPROC_STD(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
@@ -16,21 +16,21 @@ cdef class Record(ChannelBase):
 
     from ..constants import STREAM
 
-    self.__flags_enum = STREAM
+    self._flags_enum = STREAM
 
-  cdef void __sethandle(Record self, HRECORD record):
+  cdef void _sethandle(Record self, HRECORD record):
     cdef DWORD dev
 
-    ChannelBase.__sethandle(self, record)
+    ChannelBase._sethandle(self, record)
 
-    dev = bass.BASS_ChannelGetDevice(self.__channel)
+    dev = bass.BASS_ChannelGetDevice(self._channel)
     
     bass.__Evaluate()
     
     if dev == bass._BASS_NODEVICE:
-      self.__device = None
+      self._device = None
     else:
-      self.__device = InputDevice(dev)
+      self._device = InputDevice(dev)
 
   @staticmethod
   def FromDevice(device, freq = 0, chans = 0, flags = 0, callback = None, period = 100):
@@ -65,33 +65,33 @@ cdef class Record(ChannelBase):
 
     bass.__Evaluate()
     
-    orec.__sethandle(rec)
+    orec._sethandle(rec)
 
     if callback:
-      orec.__func = callback
+      orec._func = callback
 
     return orec
   
   cpdef Start(Record self):
     cdef bint res
     with nogil:
-      res = bass.BASS_ChannelPlay(self.__channel, True)
+      res = bass.BASS_ChannelPlay(self._channel, True)
     bass.__Evaluate()
     return res
 
   property Device:
     def __get__(Record self):
-      return self.__device
+      return self._device
 
     def __set__(Record self, InputDevice dev):
       if dev is None:
-        bass.BASS_ChannelSetDevice(self.__record, bass._BASS_NODEVICE)
+        bass.BASS_ChannelSetDevice(self._channel, bass._BASS_NODEVICE)
       else:
-        bass.BASS_ChannelSetDevice(self.__record, (<InputDevice?>dev).__device)
+        bass.BASS_ChannelSetDevice(self._channel, (<InputDevice?>dev)._device)
 
       bass.__Evaluate()
 
       if not dev:
-        self.__device = None
+        self._device = None
       else:
-        self.__device = (<InputDevice>dev)
+        self._device = (<InputDevice>dev)

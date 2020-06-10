@@ -9,9 +9,9 @@ cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *us
 cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil
 
 cdef class DSP:
-  cdef HDSP __dsp
-  cdef int __priority
-  cdef object __func
+  cdef HDSP _dsp
+  cdef int _priority
+  cdef object _func
   cdef readonly Channel Channel
   cpdef Remove(DSP self)
   cpdef Set(DSP self, Channel chan)

@@ -12,9 +12,9 @@ cdef class Tags:
 
   def __cinit__(Tags self, Channel chan):
   
-    self.__channel = (<Channel>chan).__channel
+    self._channel = (<Channel>chan)._channel
     
-    self.__tagresult = namedtuple(
+    self._tagresult = namedtuple(
       'TagResult',
       [
         'Title',
@@ -44,24 +44,24 @@ cdef class Tags:
 
       c_fmt = to_readonly_bytes(fmt)
     
-      res = TAGS_ReadEx(self.__channel, <char *>(&(c_fmt[0])), tagtype, 65001)
+      res = TAGS_ReadEx(self._channel, <char *>(&(c_fmt[0])), tagtype, 65001)
     
       return res.decode('utf-8')
 
     return self.__tagresult(
-      TAGS_ReadEx(self.__channel, "%TITL", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%ARTI", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%ALBM", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%GNRE", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%YEAR", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%CMNT", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%TRCK", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%COMP", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%COPY", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%SUBT", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%AART", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%DISC", tagtype, 65001).decode('utf-8'),
-      TAGS_ReadEx(self.__channel, "%PUBL", tagtype, 65001).decode('utf-8')
+      TAGS_ReadEx(self._channel, "%TITL", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%ARTI", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%ALBM", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%GNRE", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%YEAR", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%CMNT", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%TRCK", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%COMP", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%COPY", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%SUBT", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%AART", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%DISC", tagtype, 65001).decode('utf-8'),
+      TAGS_ReadEx(self._channel, "%PUBL", tagtype, 65001).decode('utf-8')
     )
   
   property Error:

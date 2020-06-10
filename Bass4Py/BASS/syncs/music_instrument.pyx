@@ -14,7 +14,7 @@ from ...exceptions import BassAPIError, BassSyncError
 cdef class MusicInstrument(Sync):
   def __cinit__(MusicInstrument self):
 
-    self.__type = _BASS_SYNC_MUSICINST
+    self._type = _BASS_SYNC_MUSICINST
 
   cpdef Set(MusicInstrument self, Channel chan):
     if not isinstance(chan, Music):
@@ -23,7 +23,7 @@ cdef class MusicInstrument(Sync):
     super(MusicInstrument, self).Set(chan)
 
   cpdef _call_callback(MusicInstrument self, DWORD data):
-    self.__func(self, LOWORD(data), HIWORD(data))
+    self._func(self, LOWORD(data), HIWORD(data))
 
   property Instrument:
     def __get__(MusicInstrument self):
@@ -31,13 +31,13 @@ cdef class MusicInstrument(Sync):
     
     def __set__(MusicInstrument self, int value):
 
-      if self.__sync:
+      if self._sync:
         raise BassAPIError()
       
       if value <= 0:
         raise ValueError("value may not be <= 0")
 
-      self.__param = MAKELONG(value, HIWORD(self.__param))
+      self._param = MAKELONG(value, HIWORD(self._param))
 
   property Note:
     def __get__(MusicInstrument self):
@@ -45,7 +45,7 @@ cdef class MusicInstrument(Sync):
     
     def __set__(MusicInstrument self, int value):
 
-      if self.__sync:
+      if self._sync:
         raise BassAPIError()
       
       if value < 0:
@@ -54,4 +54,4 @@ cdef class MusicInstrument(Sync):
       if value > 119:
         raise ValueError("value may not be larger than 119")
 
-      self.__param = MAKELONG(LOWORD(self.__param), value)
+      self._param = MAKELONG(LOWORD(self._param), value)

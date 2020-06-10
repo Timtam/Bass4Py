@@ -9,16 +9,16 @@ from ...exceptions import BassAPIError
 cdef class Position(Sync):
   def __cinit__(Position self):
 
-    self.__type = _BASS_SYNC_POS
+    self._type = _BASS_SYNC_POS
     self.__forceparam = True
 
   property Position:
     def __get__(Position self):
-      return self.__param
+      return self._param
       
     def __set__(Position self, DWORD value):
 
-      if self.__sync:
+      if self._sync:
         raise BassAPIError()
         
-      self.__param = value
+      self._param = value

@@ -12,8 +12,8 @@ cpdef GetVersion()
 
 cdef class Tags:
 
-  cdef HCHANNEL __channel
-  cdef object __tagresult
+  cdef HCHANNEL _channel
+  cdef object _tagresult
   
   cpdef Read(Tags self, object fmt = ?, DWORD tagtype = ?)
   

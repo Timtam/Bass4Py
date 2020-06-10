@@ -11,7 +11,7 @@ from ...exceptions import BassSyncError
 cdef class OggChange(Sync):
   def __cinit__(OggChange self):
 
-    self.__type = _BASS_SYNC_OGG_CHANGE
+    self._type = _BASS_SYNC_OGG_CHANGE
 
   cpdef Set(OggChange self, Channel chan):
     if not isinstance(chan, Stream):

@@ -11,7 +11,7 @@ from ...exceptions import BassSyncError
 cdef class Meta(Sync):
   def __cinit__(Meta self):
 
-    self.__type = _BASS_SYNC_META
+    self._type = _BASS_SYNC_META
     self._set_mixtime(True)
 
   cpdef Set(Meta self, Channel chan):

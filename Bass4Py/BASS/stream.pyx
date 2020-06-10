@@ -18,7 +18,7 @@ include "../transform.pxi"
 cdef void CDOWNLOADPROC(const void *buffer, DWORD length, void *user) with gil:
   cdef Stream strm = <Stream?>user
   cdef bytes data = (<char *>buffer)[:length]
-  strm.__downloadproc(strm, data)
+  strm._downloadproc(strm, data)
 
 cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer, DWORD length, void *user) with gil:
   CDOWNLOADPROC(buffer, length, user)
@@ -26,7 +26,7 @@ cdef void __stdcall CDOWNLOADPROC_STD(const void *buffer, DWORD length, void *us
 cdef DWORD CSTREAMPROC(DWORD handle, void *buffer, DWORD length, void *user) with gil:
   cdef DWORD blen
   cdef Stream strm = <Stream?>user
-  cdef bytes pbuf = strm.__streamproc(strm, length)
+  cdef bytes pbuf = strm._streamproc(strm, length)
 
   blen = len(pbuf)
   if blen > length:
@@ -42,18 +42,18 @@ cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle, void *buffer, DWORD length, v
 
 cdef void CFILECLOSEPROC(void *user) with gil:
   cdef Stream strm = <Stream?>user
-  strm.__file.close()
+  strm._file.close()
 
 cdef void __stdcall CFILECLOSEPROC_STD(void *user) with gil:
   CFILECLOSEPROC(user)
 
 cdef QWORD CFILELENPROC(void *user) with gil:
   cdef Stream strm = <Stream?>user
-  cdef Py_ssize_t current_pos = strm.__file.tell()
+  cdef Py_ssize_t current_pos = strm._file.tell()
   cdef Py_ssize_t blen
-  strm.__file.seek(0, os.SEEK_END)
-  blen = strm.__file.tell()
-  strm.__file.seek(current_pos, os.SEEK_SET)
+  strm._file.seek(0, os.SEEK_END)
+  blen = strm._file.tell()
+  strm._file.seek(current_pos, os.SEEK_SET)
   return <QWORD>blen
 
 cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
@@ -61,7 +61,7 @@ cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
 
 cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
   cdef Stream strm = <Stream?>user
-  cdef bytes data = strm.__file.read(length)
+  cdef bytes data = strm._file.read(length)
   cdef DWORD blen = len(data)
 
   if blen > length:
@@ -76,7 +76,7 @@ cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer, DWORD length, void *user) w
 
 cdef bint CFILESEEKPROC(QWORD offset, void *user) with gil:
   cdef Stream strm = <Stream?>user
-  strm.__file.seek(offset, os.SEEK_SET)
+  strm._file.seek(offset, os.SEEK_SET)
   return True
 
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
@@ -88,48 +88,48 @@ cdef class Stream(Channel):
 
     from ..constants import STREAM
 
-    self.__flags_enum = STREAM
+    self._flags_enum = STREAM
 
   def __init__(self, *args, **kwargs):
 
     self.Tags = Tags(self)
 
-  cdef void __initattributes(Stream self):
-    Channel.__initattributes(self)
-    self.Bitrate = Attribute(self.__channel, bass._BASS_ATTRIB_BITRATE, True)
-    self.NetResume = Attribute(self.__channel, bass._BASS_ATTRIB_NET_RESUME)
-    self.ScanInfo = Attribute(self.__channel, bass._BASS_ATTRIB_SCANINFO)
+  cdef void _initattributes(Stream self):
+    Channel._initattributes(self)
+    self.Bitrate = Attribute(self._channel, bass._BASS_ATTRIB_BITRATE, True)
+    self.NetResume = Attribute(self._channel, bass._BASS_ATTRIB_NET_RESUME)
+    self.ScanInfo = Attribute(self._channel, bass._BASS_ATTRIB_SCANINFO)
   
   cpdef Free(Stream self):
     cdef bint res
     with nogil:
-      res = bass.BASS_StreamFree(self.__channel)
+      res = bass.BASS_StreamFree(self._channel)
     bass.__Evaluate()
     return res
 
   cpdef QWORD GetFilePosition(Stream self, DWORD mode):
-    cdef QWORD res = bass.BASS_StreamGetFilePosition(self.__channel, mode)
+    cdef QWORD res = bass.BASS_StreamGetFilePosition(self._channel, mode)
     bass.__Evaluate()
     return res
 
   cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
-      res = bass.BASS_StreamPutData(self.__channel, &(buffer[0]), length)
+      res = bass.BASS_StreamPutData(self._channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 
   cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
-      res = bass.BASS_StreamPutFileData(self.__channel, &(buffer[0]), length)
+      res = bass.BASS_StreamPutFileData(self._channel, &(buffer[0]), length)
     bass.__Evaluate()
     return res
 
   cpdef Update(Stream self, DWORD length):
     cdef bint res
     with nogil:
-      res = bass.BASS_ChannelUpdate(self.__channel, length)
+      res = bass.BASS_ChannelUpdate(self._channel, length)
     bass.__Evaluate()
     return res
 
@@ -201,13 +201,13 @@ cdef class Stream(Channel):
     ostrm = Stream(0)
 
     if callback != None:
-      ostrm.__downloadproc = callback
+      ostrm._downloadproc = callback
 
     with nogil:
       strm = bass.BASS_StreamCreateURL((<char *>(&curl[0])), coffset, cflags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
-    ostrm.__sethandle(strm)
+    ostrm._sethandle(strm)
 
     return ostrm
 
@@ -240,13 +240,13 @@ cdef class Stream(Channel):
     ostrm = Stream(0)
     
     if callback != None:
-      ostrm.__streamproc = callback
+      ostrm._streamproc = callback
     
     with nogil:
       strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
     bass.__Evaluate()
     
-    ostrm.__sethandle(strm)
+    ostrm._sethandle(strm)
     
     return ostrm
 
@@ -302,26 +302,26 @@ cdef class Stream(Channel):
       procs.seek = <bass.FILESEEKPROC*>CFILESEEKPROC
 
     ostrm = Stream(0)
-    ostrm.__file = obj
+    ostrm._file = obj
 
     with nogil:
       strm = bass.BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
     bass.__Evaluate()
     
-    ostrm.__sethandle(strm)
+    ostrm._sethandle(strm)
     
     return ostrm
 
   property AutoFree:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_STREAM_AUTOFREE == bass._BASS_STREAM_AUTOFREE
+      return self._getflags()&bass._BASS_STREAM_AUTOFREE == bass._BASS_STREAM_AUTOFREE
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_STREAM_AUTOFREE, switch)
+      self._setflags(bass._BASS_STREAM_AUTOFREE, switch)
 
   property RestrictDownload:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_STREAM_RESTRATE == bass._BASS_STREAM_RESTRATE
+      return self._getflags()&bass._BASS_STREAM_RESTRATE == bass._BASS_STREAM_RESTRATE
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_STREAM_RESTRATE, switch)
+      self._setflags(bass._BASS_STREAM_RESTRATE, switch)

@@ -6,7 +6,7 @@ from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassPlatformError
 
 __EAXPresets={
-   bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
+  bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
   bass.EAX_PRESET_PADDEDCELL: (bass.EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
   bass.EAX_PRESET_ROOM: (bass.EAX_ENVIRONMENT_ROOM, 0.417, 0.4, 0.666,),
   bass.EAX_PRESET_BATHROOM: (bass.EAX_ENVIRONMENT_BATHROOM, 0.653, 1.499, 0.166,),
@@ -36,18 +36,18 @@ __EAXPresets={
 
 cdef class OutputDevice:
   def __cinit__(OutputDevice self, int device):
-    self.__device=device
+    self._device=device
 
   def __richcmp__(OutputDevice self, other, int op):
     if op == 2:
-      return (type(self) == type(other)) and (self.__device == other.__device)
+      return (type(self) == type(other)) and (self._device == other._device)
 
-  cdef BASS_DEVICEINFO __getdeviceinfo(OutputDevice self):
+  cdef BASS_DEVICEINFO _getdeviceinfo(OutputDevice self):
     cdef BASS_DEVICEINFO info
-    bass.BASS_GetDeviceInfo(self.__device, &info)
+    bass.BASS_GetDeviceInfo(self._device, &info)
     return info
 
-  cdef BASS_INFO __getinfo(OutputDevice self):
+  cdef BASS_INFO _getinfo(OutputDevice self):
     cdef BASS_INFO info
     cdef bint res = bass.BASS_GetInfo(&info)
     return info
@@ -88,7 +88,7 @@ cdef class OutputDevice:
 
     if win == 0:
       cwin = NULL
-    cdef bint res = bass.BASS_Init(self.__device, freq, flags, cwin, NULL)
+    cdef bint res = bass.BASS_Init(self._device, freq, flags, cwin, NULL)
     bass.__Evaluate()
     return res
 
@@ -121,7 +121,7 @@ cdef class OutputDevice:
     """
     cdef bint res
     with nogil:
-      res = bass.BASS_SetDevice(self.__device)
+      res = bass.BASS_SetDevice(self._device)
     bass.__Evaluate()
     return res
 
@@ -199,14 +199,14 @@ cdef class OutputDevice:
   property Name:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
       return info.name.decode('utf-8')
 
   property Driver:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
       if info.driver == NULL:
         return u''
@@ -215,28 +215,28 @@ cdef class OutputDevice:
   property Enabled:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
       return <bint>(info.flags&bass._BASS_DEVICE_ENABLED)
 
   property Default:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
       return <bint>(info.flags&bass._BASS_DEVICE_DEFAULT)
 
   property Initialized:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
       return <bint>(info.flags&bass._BASS_DEVICE_INIT)
 
   property Type:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
-      info = self.__getdeviceinfo()
+      info = self._getdeviceinfo()
       bass.__Evaluate()
 
       if info.flags&bass._BASS_DEVICE_TYPE_MASK:
@@ -250,7 +250,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.flags
 
@@ -258,7 +258,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.hwsize
 
@@ -266,7 +266,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info= self.__getinfo()
+      info= self._getinfo()
       bass.__Evaluate()
       return info.hwfree
 
@@ -274,7 +274,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.freesam
 
@@ -282,7 +282,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.free3d
 
@@ -290,7 +290,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.minrate
 
@@ -298,7 +298,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.maxrate
 
@@ -306,7 +306,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.eax
 
@@ -314,7 +314,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.dsver
 
@@ -322,7 +322,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.minbuf
 
@@ -330,7 +330,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.latency
 
@@ -338,7 +338,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
 
       from ..constants import DEVICE
@@ -349,7 +349,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.speakers
 
@@ -357,7 +357,7 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_INFO info
       self.Set()
-      info = self.__getinfo()
+      info = self._getinfo()
       bass.__Evaluate()
       return info.freq
 

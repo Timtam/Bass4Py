@@ -12,13 +12,13 @@ ctypedef fused PARAMETER_TYPE:
   
 cdef class FX:
   cdef readonly Channel Channel
-  cdef HFX __fx
-  cdef DWORD __type
-  cdef int __priority
-  cdef void *__effect
+  cdef HFX _fx
+  cdef DWORD _type
+  cdef int _priority
+  cdef void *_effect
 
   cpdef Remove(FX self)
   cpdef Reset(FX self)
   cpdef Set(FX self, Channel chan, bint update = *)
   cpdef Update(FX self)
-  cpdef __validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound)
+  cpdef _validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound)

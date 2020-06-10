@@ -8,8 +8,8 @@ from .attribute cimport Attribute
 from ..exceptions import BassError
 
 cdef class ChannelBase:
-  cdef HCHANNEL __channel
-  cdef object __flags_enum
+  cdef HCHANNEL _channel
+  cdef object _flags_enum
 
   # attributes
   cdef readonly Attribute Frequency
@@ -18,9 +18,9 @@ cdef class ChannelBase:
   cdef readonly Attribute Volume
   cdef readonly Attribute Granularity
 
-  cdef BASS_CHANNELINFO __getinfo(ChannelBase self)
-  cdef void __initattributes(ChannelBase self)
-  cdef void __sethandle(ChannelBase self, HCHANNEL handle)
+  cdef BASS_CHANNELINFO _getinfo(ChannelBase self)
+  cdef void _initattributes(ChannelBase self)
+  cdef void _sethandle(ChannelBase self, HCHANNEL handle)
   cpdef GetLevels(ChannelBase self, float length, DWORD flags)
   cpdef Lock(ChannelBase self)
   cpdef Pause(ChannelBase self)

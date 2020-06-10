@@ -17,7 +17,7 @@ from .output_device cimport OutputDevice
 from .sync cimport Sync
 
 cdef class Channel(ChannelBase):
-  cdef OutputDevice __device
+  cdef OutputDevice _device
 
   # attributes
   cdef readonly Attribute Buffer
@@ -25,8 +25,8 @@ cdef class Channel(ChannelBase):
   cdef readonly Attribute Ramping
   cdef readonly Attribute EAXMix
 
-  cdef DWORD __getflags(Channel self)
-  cpdef __setflags(Channel self, DWORD flag, bint switch)
+  cdef DWORD _getflags(Channel self)
+  cpdef _setflags(Channel self, DWORD flag, bint switch)
   cpdef GetTags(Channel self, DWORD tagtype)
   cpdef Link(Channel self, Channel obj)
   cpdef Play(Channel self, bint restart)

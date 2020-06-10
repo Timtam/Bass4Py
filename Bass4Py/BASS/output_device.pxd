@@ -11,9 +11,9 @@ from .bass cimport (
                    )
 
 cdef class OutputDevice:
-  cdef DWORD __device
-  cdef BASS_INFO __getinfo(OutputDevice self)
-  cdef BASS_DEVICEINFO __getdeviceinfo(OutputDevice self)
+  cdef DWORD _device
+  cdef BASS_INFO _getinfo(OutputDevice self)
+  cdef BASS_DEVICEINFO _getdeviceinfo(OutputDevice self)
   cpdef CreateMusicFromBytes(OutputDevice self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?, bint device_frequency = ?)
   cpdef CreateMusicFromFile(OutputDevice self, object file, DWORD flags = ?, QWORD offset = ?, bint device_frequency = ?)
   cpdef CreateSampleFromBytes(OutputDevice self, const unsigned char[:] data, DWORD max = ?, DWORD flags = ?, DWORD length = ?)

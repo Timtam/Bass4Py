@@ -17,36 +17,36 @@ cdef class Music(Channel):
 
     from ..constants import MUSIC
 
-    self.__flags_enum = MUSIC
+    self._flags_enum = MUSIC
 
   def __init__(self, *args, **kwargs):
   
     self.Tags = Tags(self)
 
-  cdef void __initattributes(Music self):
-    Channel.__initattributes(self)
+  cdef void _initattributes(Music self):
+    Channel._initattributes(self)
 
-    self.Active = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_ACTIVE, True)
-    self.Amplification = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_AMPLIFY)
-    self.BPM = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_BPM)
-    self.ChannelVolumes = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_VOL_CHAN)
-    self.GlobalVolume = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_VOL_GLOBAL)
-    self.InstrumentVolumes = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_VOL_INST)
-    self.PanSeparation = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_PANSEP)
-    self.PositionScaler = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_PSCALER)
-    self.Speed = Attribute(self.__channel, bass._BASS_ATTRIB_MUSIC_SPEED)
+    self.Active = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_ACTIVE, True)
+    self.Amplification = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_AMPLIFY)
+    self.BPM = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_BPM)
+    self.ChannelVolumes = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_VOL_CHAN)
+    self.GlobalVolume = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_VOL_GLOBAL)
+    self.InstrumentVolumes = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_VOL_INST)
+    self.PanSeparation = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_PANSEP)
+    self.PositionScaler = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_PSCALER)
+    self.Speed = Attribute(self._channel, bass._BASS_ATTRIB_MUSIC_SPEED)
 
   cpdef Free(Music self):
     cdef bint res
     with nogil:
-      res = bass.BASS_MusicFree(self.__channel)
+      res = bass.BASS_MusicFree(self._channel)
     bass.__Evaluate()
     return res
     
   cpdef Update(Music self, DWORD length):
     cdef bint res
     with nogil:
-      res = bass.BASS_ChannelUpdate(self.__channel, length)
+      res = bass.BASS_ChannelUpdate(self._channel, length)
     bass.__Evaluate()
     return res
   
@@ -99,77 +99,77 @@ cdef class Music(Channel):
 
   property InterpolationNone:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_NONINTER == bass._BASS_MUSIC_NONINTER
+      return self._getflags()&bass._BASS_MUSIC_NONINTER == bass._BASS_MUSIC_NONINTER
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_NONINTER, switch)
+      self._setflags(bass._BASS_MUSIC_NONINTER, switch)
 
   property InterpolationSinc:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_SINCINTER == bass._BASS_MUSIC_SINCINTER
+      return self._getflags()&bass._BASS_MUSIC_SINCINTER == bass._BASS_MUSIC_SINCINTER
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_SINCINTER, switch)
+      self._setflags(bass._BASS_MUSIC_SINCINTER, switch)
 
   property RampNormal:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_RAMP == bass._BASS_MUSIC_RAMP
+      return self._getflags()&bass._BASS_MUSIC_RAMP == bass._BASS_MUSIC_RAMP
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_RAMP, switch)
+      self._setflags(bass._BASS_MUSIC_RAMP, switch)
 
   property RampSensitive:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_RAMPS == bass._BASS_MUSIC_RAMPS
+      return self._getflags()&bass._BASS_MUSIC_RAMPS == bass._BASS_MUSIC_RAMPS
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_RAMPS, switch)
+      self._setflags(bass._BASS_MUSIC_RAMPS, switch)
 
   property Surround:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_SURROUND == bass._BASS_MUSIC_SURROUND
+      return self._getflags()&bass._BASS_MUSIC_SURROUND == bass._BASS_MUSIC_SURROUND
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_SURROUND, switch)
+      self._setflags(bass._BASS_MUSIC_SURROUND, switch)
 
   property Surround2:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_SURROUND2 == bass._BASS_MUSIC_SURROUND2
+      return self._getflags()&bass._BASS_MUSIC_SURROUND2 == bass._BASS_MUSIC_SURROUND2
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_SURROUND2, switch)
+      self._setflags(bass._BASS_MUSIC_SURROUND2, switch)
 
   property ModFT2:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_FT2MOD == bass._BASS_MUSIC_FT2MOD
+      return self._getflags()&bass._BASS_MUSIC_FT2MOD == bass._BASS_MUSIC_FT2MOD
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_FT2MOD, switch)
+      self._setflags(bass._BASS_MUSIC_FT2MOD, switch)
 
   property ModPT1:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_PT1MOD == bass._BASS_MUSIC_PT1MOD
+      return self._getflags()&bass._BASS_MUSIC_PT1MOD == bass._BASS_MUSIC_PT1MOD
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_PT1MOD, switch)
+      self._setflags(bass._BASS_MUSIC_PT1MOD, switch)
 
   property StopSeeking:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_POSRESET == bass._BASS_MUSIC_POSRESET
+      return self._getflags()&bass._BASS_MUSIC_POSRESET == bass._BASS_MUSIC_POSRESET
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_POSRESET, switch)
+      self._setflags(bass._BASS_MUSIC_POSRESET, switch)
 
   property StopAllSeeking:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_POSRESETEX == bass._BASS_MUSIC_POSRESETEX
+      return self._getflags()&bass._BASS_MUSIC_POSRESETEX == bass._BASS_MUSIC_POSRESETEX
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_POSRESETEX, switch)
+      self._setflags(bass._BASS_MUSIC_POSRESETEX, switch)
 
   property StopBackward:
     def __get__(Channel self):
-      return self.__getflags()&bass._BASS_MUSIC_STOPBACK == bass._BASS_MUSIC_STOPBACK
+      return self._getflags()&bass._BASS_MUSIC_STOPBACK == bass._BASS_MUSIC_STOPBACK
 
     def __set__(Channel self, bint switch):
-      self.__setflags(bass._BASS_MUSIC_STOPBACK, switch)
+      self._setflags(bass._BASS_MUSIC_STOPBACK, switch)
