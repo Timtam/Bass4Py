@@ -1,7 +1,6 @@
-from .bass cimport (
-                    HDSP,
-                    DWORD
-                   )
+from ..bindings.bass cimport (
+  HDSP,
+  DWORD)
 
 from .channel cimport Channel
 

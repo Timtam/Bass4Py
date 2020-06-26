@@ -1,17 +1,17 @@
-from .bass cimport (
-                    BASS_SAMPLE,
-                    DWORD,
-                    HCHANNEL,
-                    HSAMPLE,
-                    QWORD
-                   )
+from ..bindings.bass cimport (
+  BASS_SAMPLE,
+  DWORD,
+  HCHANNEL,
+  HSAMPLE,
+  QWORD)
+
 from .output_device cimport OutputDevice
 
 cdef class Sample:
-  cdef HSAMPLE __sample
-  cdef OutputDevice __device
+  cdef HSAMPLE _sample
+  cdef OutputDevice _device
 
-  cdef BASS_SAMPLE __getinfo(Sample self)
+  cdef BASS_SAMPLE _getinfo(Sample self)
   cpdef Free(Sample self)
   cpdef GetChannel(Sample self, bint onlynew)
   cpdef GetLength(Sample self, DWORD mode = ?)

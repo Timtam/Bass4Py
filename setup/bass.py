@@ -12,137 +12,137 @@ class BASSExtensionHandler(ExtensionHandler):
   def GetExtensions(self):
     return [
       Extension(
-        "Bass4Py.BASS.bass",
+        "Bass4Py.bass.bass",
         [
-          "Bass4Py/BASS/bass.pyx"
+          "Bass4Py/bass/bass.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.channel_base",
+        "Bass4Py.bass.channel_base",
         [
-          "Bass4Py/BASS/channel_base.pyx"
+          "Bass4Py/bass/channel_base.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.channel",
+        "Bass4Py.bass.channel",
         [
-          "Bass4Py/BASS/channel.pyx"
+          "Bass4Py/bass/channel.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.attribute",
+        "Bass4Py.bass.attribute",
         [
-          "Bass4Py/BASS/attribute.pyx"
+          "Bass4Py/bass/attribute.pyx"
         ],
         libraries = ["bass"],
         language="c"
       ),
       Extension(
-        "Bass4Py.BASS.output_device",
+        "Bass4Py.bass.output_device",
         [
-          "Bass4Py/BASS/output_device.pyx"
+          "Bass4Py/bass/output_device.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.input_device",
+        "Bass4Py.bass.input_device",
         [
-          "Bass4Py/BASS/input_device.pyx"
+          "Bass4Py/bass/input_device.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.record",
+        "Bass4Py.bass.record",
         [
-          "Bass4Py/BASS/record.pyx"
+          "Bass4Py/bass/record.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.input",
+        "Bass4Py.bass.input",
         [
-          "Bass4Py/BASS/input.pyx"
+          "Bass4Py/bass/input.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.dsp",
+        "Bass4Py.bass.dsp",
         [
-          "Bass4Py/BASS/dsp.pyx"
+          "Bass4Py/bass/dsp.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.fx",
+        "Bass4Py.bass.fx",
         [
-          "Bass4Py/BASS/fx.pyx"
+          "Bass4Py/bass/fx.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.music",
+        "Bass4Py.bass.music",
         [
-          "Bass4Py/BASS/music.pyx"
+          "Bass4Py/bass/music.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.plugin",
+        "Bass4Py.bass.plugin",
         [
-          "Bass4Py/BASS/plugin.pyx"
+          "Bass4Py/bass/plugin.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.sample",
+        "Bass4Py.bass.sample",
         [
-          "Bass4Py/BASS/sample.pyx"
+          "Bass4Py/bass/sample.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.stream",
+        "Bass4Py.bass.stream",
         [
-          "Bass4Py/BASS/stream.pyx"
+          "Bass4Py/bass/stream.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.sync",
+        "Bass4Py.bass.sync",
         [
-          "Bass4Py/BASS/sync.pyx"
+          "Bass4Py/bass/sync.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.vector",
+        "Bass4Py.bass.vector",
         [
-          "Bass4Py/BASS/vector.pyx"
+          "Bass4Py/bass/vector.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.version",
+        "Bass4Py.bass.version",
         [
-          "Bass4Py/BASS/version.pyx"
+          "Bass4Py/bass/version.pyx"
         ],
         libraries = ["bass"],
         language = "c"
@@ -156,185 +156,185 @@ class BASSExtensionHandler(ExtensionHandler):
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.chorus",
+        "Bass4Py.bass.effects.dx8.chorus",
         [
-          "Bass4Py/BASS/effects/dx8/chorus.pyx"
+          "Bass4Py/bass/effects/dx8/chorus.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.compressor",
+        "Bass4Py.bass.effects.dx8.compressor",
         [
-          "Bass4Py/BASS/effects/dx8/compressor.pyx"
+          "Bass4Py/bass/effects/dx8/compressor.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.distortion",
+        "Bass4Py.bass.effects.dx8.distortion",
         [
-          "Bass4Py/BASS/effects/dx8/distortion.pyx"
+          "Bass4Py/bass/effects/dx8/distortion.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.echo",
+        "Bass4Py.bass.effects.dx8.echo",
         [
-          "Bass4Py/BASS/effects/dx8/echo.pyx"
+          "Bass4Py/bass/effects/dx8/echo.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.flanger",
+        "Bass4Py.bass.effects.dx8.flanger",
         [
-          "Bass4Py/BASS/effects/dx8/flanger.pyx"
+          "Bass4Py/bass/effects/dx8/flanger.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.gargle",
+        "Bass4Py.bass.effects.dx8.gargle",
         [
-          "Bass4Py/BASS/effects/dx8/gargle.pyx"
+          "Bass4Py/bass/effects/dx8/gargle.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.i3dl2reverb",
+        "Bass4Py.bass.effects.dx8.i3dl2reverb",
         [
-          "Bass4Py/BASS/effects/dx8/i3dl2reverb.pyx"
+          "Bass4Py/bass/effects/dx8/i3dl2reverb.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.parameq",
+        "Bass4Py.bass.effects.dx8.parameq",
         [
-          "Bass4Py/BASS/effects/dx8/parameq.pyx"
+          "Bass4Py/bass/effects/dx8/parameq.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.dx8.reverb",
+        "Bass4Py.bass.effects.dx8.reverb",
         [
-          "Bass4Py/BASS/effects/dx8/reverb.pyx"
+          "Bass4Py/bass/effects/dx8/reverb.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.effects.volume",
+        "Bass4Py.bass.effects.volume",
         [
-          "Bass4Py/BASS/effects/volume.pyx"
+          "Bass4Py/bass/effects/volume.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.set_position",
+        "Bass4Py.bass.syncs.set_position",
         [
-          "Bass4Py/BASS/syncs/set_position.pyx"
+          "Bass4Py/bass/syncs/set_position.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.slide",
+        "Bass4Py.bass.syncs.slide",
         [
-          "Bass4Py/BASS/syncs/slide.pyx"
+          "Bass4Py/bass/syncs/slide.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.position",
+        "Bass4Py.bass.syncs.position",
         [
-          "Bass4Py/BASS/syncs/position.pyx"
+          "Bass4Py/bass/syncs/position.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.stall",
+        "Bass4Py.bass.syncs.stall",
         [
-          "Bass4Py/BASS/syncs/stall.pyx"
+          "Bass4Py/bass/syncs/stall.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.ogg_change",
+        "Bass4Py.bass.syncs.ogg_change",
         [
-          "Bass4Py/BASS/syncs/ogg_change.pyx"
+          "Bass4Py/bass/syncs/ogg_change.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.meta",
+        "Bass4Py.bass.syncs.meta",
         [
-          "Bass4Py/BASS/syncs/meta.pyx"
+          "Bass4Py/bass/syncs/meta.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.free",
+        "Bass4Py.bass.syncs.free",
         [
-          "Bass4Py/BASS/syncs/free.pyx"
+          "Bass4Py/bass/syncs/free.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.end",
+        "Bass4Py.bass.syncs.end",
         [
-          "Bass4Py/BASS/syncs/end.pyx"
+          "Bass4Py/bass/syncs/end.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.download",
+        "Bass4Py.bass.syncs.download",
         [
-          "Bass4Py/BASS/syncs/download.pyx"
+          "Bass4Py/bass/syncs/download.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.device_format",
+        "Bass4Py.bass.syncs.device_format",
         [
-          "Bass4Py/BASS/syncs/device_format.pyx"
+          "Bass4Py/bass/syncs/device_format.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.device_fail",
+        "Bass4Py.bass.syncs.device_fail",
         [
-          "Bass4Py/BASS/syncs/device_fail.pyx"
+          "Bass4Py/bass/syncs/device_fail.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.music_position",
+        "Bass4Py.bass.syncs.music_position",
         [
-          "Bass4Py/BASS/syncs/music_position.pyx"
+          "Bass4Py/bass/syncs/music_position.pyx"
         ],
         libraries = ["bass"],
         language = "c"
       ),
       Extension(
-        "Bass4Py.BASS.syncs.music_instrument",
+        "Bass4Py.bass.syncs.music_instrument",
         [
-          "Bass4Py/BASS/syncs/music_instrument.pyx"
+          "Bass4Py/bass/syncs/music_instrument.pyx"
         ],
         libraries = ["bass"],
         language = "c"
@@ -371,8 +371,8 @@ class BASSExtensionHandler(ExtensionHandler):
   def GetContainedPackages(self):
     return (
       "Bass4Py",
-      "Bass4Py.BASS",
-      "Bass4Py.BASS.effects",
-      "Bass4Py.BASS.effects.dx8",
-      "Bass4Py.BASS.syncs",
+      "Bass4Py.bass",
+      "Bass4Py.bass.effects",
+      "Bass4Py.bass.effects.dx8",
+      "Bass4Py.bass.syncs",
     )

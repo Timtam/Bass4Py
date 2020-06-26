@@ -1,7 +1,7 @@
-from .bass cimport (
-                    DWORD,
-                    HFX
-                   )
+from ..bindings.bass cimport (
+  DWORD,
+  HFX)
+
 from .channel cimport Channel
 
 ctypedef fused PARAMETER_TYPE:

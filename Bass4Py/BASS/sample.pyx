@@ -1,4 +1,23 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_NODEVICE,
+  _BASS_POS_BYTE,
+  BASS_ChannelBytes2Seconds,
+  BASS_ChannelGetDevice,
+  BASS_ChannelGetLength,
+  BASS_ChannelSeconds2Bytes,
+  BASS_ChannelSetDevice,
+  BASS_SampleCreate,
+  BASS_SampleFree,
+  BASS_SampleGetChannel,
+  BASS_SampleGetChannels,
+  BASS_SampleGetData,
+  BASS_SampleGetInfo,
+  BASS_SampleLoad,
+  BASS_SampleSetData,
+  BASS_SampleSetInfo,
+  BASS_SampleStop)
+
 from .channel cimport Channel
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
@@ -9,39 +28,39 @@ cdef class Sample:
   def __cinit__(Sample self, HSAMPLE sample):
     cdef DWORD dev
 
-    self.__sample = sample
+    self._sample = sample
 
-    dev = bass.BASS_ChannelGetDevice(self.__sample)
+    dev = BASS_ChannelGetDevice(self._sample)
     
-    bass.__Evaluate()
+    __Evaluate()
     
-    if dev == bass._BASS_NODEVICE:
-      self.__device = None
+    if dev == _BASS_NODEVICE:
+      self._device = None
     else:
-      self.__device = OutputDevice(dev)
+      self._device = OutputDevice(dev)
 
-  cdef BASS_SAMPLE __getinfo(Sample self):
+  cdef BASS_SAMPLE _getinfo(Sample self):
     cdef BASS_SAMPLE info
-    cdef bint res = bass.BASS_SampleGetInfo(self.__sample, &info)
+    cdef bint res = BASS_SampleGetInfo(self._sample, &info)
     return info
 
   cpdef Free(Sample self):
     cdef bint res
     with nogil:
-      res = bass.BASS_SampleFree(self.__sample)
-    bass.__Evaluate()
+      res = BASS_SampleFree(self._sample)
+    __Evaluate()
     return res
 
   cpdef GetChannel(Sample self, bint onlynew):
-    cdef HCHANNEL res = bass.BASS_SampleGetChannel(self.__sample, onlynew)
-    bass.__Evaluate()
+    cdef HCHANNEL res = BASS_SampleGetChannel(self._sample, onlynew)
+    __Evaluate()
     return Channel(res)
 
   cpdef Stop(Sample self):
     cdef bint res
     with nogil:
-      res = bass.BASS_SampleStop(self.__sample)
-    bass.__Evaluate()
+      res = BASS_SampleStop(self._sample)
+    __Evaluate()
     return res
 
   @staticmethod
@@ -59,8 +78,8 @@ cdef class Sample:
       cdevice.Set()
 
     with nogil:
-      samp = bass.BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
-    bass.__Evaluate()
+      samp = BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
+    __Evaluate()
     
     return Sample(samp)
 
@@ -81,8 +100,8 @@ cdef class Sample:
       cdevice.Set()
 
     with nogil:
-      samp = bass.BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
-    bass.__Evaluate()
+      samp = BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
+    __Evaluate()
     return Sample(samp)
 
   @staticmethod
@@ -100,237 +119,237 @@ cdef class Sample:
 
     filename = to_readonly_bytes(file)
     with nogil:
-      samp = bass.BASS_SampleLoad(False, &(filename[0]), coffset, 0, cmax, cflags)
-    bass.__Evaluate()
+      samp = BASS_SampleLoad(False, &(filename[0]), coffset, 0, cmax, cflags)
+    __Evaluate()
     
     return Sample(samp)
 
   cpdef Bytes2Seconds(Sample self, QWORD bytes):
     cdef double secs
-    secs = bass.BASS_ChannelBytes2Seconds(self.__sample, bytes)
-    bass.__Evaluate()
+    secs = BASS_ChannelBytes2Seconds(self._sample, bytes)
+    __Evaluate()
     return secs
   
   cpdef Seconds2Bytes(Sample self, double secs):
     cdef QWORD bytes
-    bytes = bass.BASS_ChannelSeconds2Bytes(self.__sample, secs)
-    bass.__Evaluate()
+    bytes = BASS_ChannelSeconds2Bytes(self._sample, secs)
+    __Evaluate()
     return bytes
 
-  cpdef GetLength(Sample self, DWORD mode = bass._BASS_POS_BYTE):
-    cdef QWORD res = bass.BASS_ChannelGetLength(self.__sample, mode)
-    bass.__Evaluate()
+  cpdef GetLength(Sample self, DWORD mode = _BASS_POS_BYTE):
+    cdef QWORD res = BASS_ChannelGetLength(self._sample, mode)
+    __Evaluate()
     return res
 
   property ChannelCount:
     def __get__(Sample self):
-      cdef DWORD res = bass.BASS_SampleGetChannels(self.__sample, NULL)
-      bass.__Evaluate()
+      cdef DWORD res = BASS_SampleGetChannels(self._sample, NULL)
+      __Evaluate()
       return res
 
   property Frequency:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.freq
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.freq=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Volume:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.volume
 
     def __set__(Sample self, float value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.volume=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Pan:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.pan
 
     def __set__(Sample self, float value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.pan=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Flags:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return Sample(info.flags)
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.flags=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Length:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.length
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.length=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Max:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.max
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.max=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Resolution:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.origres
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.origres=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property InitChannelCount:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.chans
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.chans=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property MinimumGap:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.mingap
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.mingap=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Mode3D:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.mode3d
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.mode3d=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property MinimumDistance:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.mindist
 
     def __set__(Sample self, float value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.mindist=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property MaximumDistance:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.maxdist
 
     def __set__(Sample self, float value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.maxdist=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property InnerAngle:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.iangle
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.iangle=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property OuterAngle:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.oangle
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.oangle=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property OuterVolume:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.outvol
 
     def __set__(Sample self, float value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.outvol=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property VAM:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.vam
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.vam=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Priority:
     def __get__(Sample self):
-      cdef BASS_SAMPLE info = self.__getinfo()
-      bass.__Evaluate()
+      cdef BASS_SAMPLE info = self._getinfo()
+      __Evaluate()
       return info.priority
 
     def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self.__getinfo()
+      cdef BASS_SAMPLE info = self._getinfo()
       info.priority=value
-      bass.BASS_SampleSetInfo(self.__sample, &info)
-      bass.__Evaluate()
+      BASS_SampleSetInfo(self._sample, &info)
+      __Evaluate()
 
   property Channels:
     def __get__(Sample self):
@@ -345,11 +364,11 @@ cdef class Sample:
       if channels == NULL:
         return []
 
-      res = bass.BASS_SampleGetChannels(self.__sample, channels)
+      res = BASS_SampleGetChannels(self._sample, channels)
 
       if res == -1:
         PyMem_Free(<void*>channels)
-        bass.__Evaluate()
+        __Evaluate()
 
       for i in range(chans):
         ret.append(Channel(channels[i]))
@@ -371,11 +390,11 @@ cdef class Sample:
       if buffer == NULL:
         return b''
 
-      res = bass.BASS_SampleGetData(self.__sample, buffer)
+      res = BASS_SampleGetData(self._sample, buffer)
 
       if not res:
         PyMem_Free(buffer)
-        bass.__Evaluate()
+        __Evaluate()
 
       cbuffer = <char*>buffer
       ret = cbuffer[:len-1]
@@ -389,22 +408,22 @@ cdef class Sample:
         raise BassSampleError("this sample requires data chunks of " + self.Length + " bytes")
 
       with nogil:
-        res = bass.BASS_SampleSetData(self.__sample, &(data[0]))
-      bass.__Evaluate()
+        res = BASS_SampleSetData(self._sample, &(data[0]))
+      __Evaluate()
 
   property Device:
     def __get__(Sample self):
-      return self.__device
+      return self._device
 
     def __set__(Sample self, OutputDevice dev):
       if dev is None:
-        bass.BASS_ChannelSetDevice(self.__sample, bass._BASS_NODEVICE)
+        BASS_ChannelSetDevice(self._sample, _BASS_NODEVICE)
       else:
-        bass.BASS_ChannelSetDevice(self.__sample, (<OutputDevice?>dev).__device)
+        BASS_ChannelSetDevice(self._sample, (<OutputDevice?>dev)._device)
 
-      bass.__Evaluate()
+      __Evaluate()
 
       if not dev:
-        self.__device = None
+        self._device = None
       else:
-        self.__device = (<OutputDevice>dev)
+        self._device = (<OutputDevice>dev)

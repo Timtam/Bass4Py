@@ -1,3 +1,9 @@
+from ..bindings.tags cimport (
+  TAGS_GetLastErrorDesc,
+  TAGS_GetVersion,
+  TAGS_ReadEx,
+  TAGS_SetUTF8)
+
 from Bass4Py.BASS.channel cimport Channel
 from Bass4Py.BASS.version cimport Version
 

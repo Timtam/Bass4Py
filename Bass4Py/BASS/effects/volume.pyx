@@ -1,8 +1,8 @@
-from ..bass cimport (
-                     BASS_FX_VOLUME_PARAM,
-                     _BASS_FX_VOLUME,
-                     DWORD
-                    )
+from ...bindings.bass cimport (
+  BASS_FX_VOLUME_PARAM,
+  _BASS_FX_VOLUME,
+  DWORD)
+
 from ..fx cimport FX
 from ...exceptions import BassOutOfRangeError
 from cpython.mem cimport PyMem_Malloc

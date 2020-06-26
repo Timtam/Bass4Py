@@ -1,63 +1,71 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_INPUT_OFF,
+  _BASS_INPUT_ON,
+  _BASS_INPUT_TYPE_MASK,
+  BASS_RecordGetInput,
+  BASS_RecordGetInputName,
+  BASS_RecordSetInput,
+  )
 
 cdef class Input:
   def __cinit__(Input self, InputDevice device, int input):
-    self.__device = device
-    self.__input = input
+    self._device = device
+    self._input = input
 
   property Name:
     def __get__(Input self):
       cdef char * name
-      self.__device.Set()
-      name = bass.BASS_RecordGetInputName(self.__input)
-      bass.__Evaluate()
+      self._device.Set()
+      name = BASS_RecordGetInputName(self._input)
+      __Evaluate()
       return name.decode('utf-8')
 
   property Volume:
     def __get__(Input self):
       cdef float vol
-      self.__device.Set()
-      bass.BASS_RecordGetInput(self.__input, &vol)
-      bass.__Evaluate()
+      self._device.Set()
+      BASS_RecordGetInput(self._input, &vol)
+      __Evaluate()
       return vol
     
     def __set__(Input self, float vol):
       cdef DWORD flags
-      self.__device.Set()
-      flags = bass.BASS_RecordGetInput(self.__input, NULL)
-      bass.__Evaluate()
+      self._device.Set()
+      flags = BASS_RecordGetInput(self._input, NULL)
+      __Evaluate()
       with nogil:
-        bass.BASS_RecordSetInput(self.__input, flags, vol)
-      bass.__Evaluate()
+        BASS_RecordSetInput(self._input, flags, vol)
+      __Evaluate()
 
   property Enabled:
     def __get__(Input self):
       cdef DWORD flags
-      self.__device.Set()
-      flags = bass.BASS_RecordGetInput(self.__input, NULL)
-      bass.__Evaluate()
-      return not <bint>(flags&bass._BASS_INPUT_OFF)
+      self._device.Set()
+      flags = BASS_RecordGetInput(self._input, NULL)
+      __Evaluate()
+      return not <bint>(flags&_BASS_INPUT_OFF)
     
     def __set__(Input self, bint enable):
       cdef DWORD flags
       
       if enable:
-        flags = bass._BASS_INPUT_ON
+        flags = _BASS_INPUT_ON
       else:
-        flags = bass._BASS_INPUT_OFF
+        flags = _BASS_INPUT_OFF
       
-      self.__device.Set()
+      self._device.Set()
       with nogil:
-        bass.BASS_RecordSetInput(self.__input, flags, -1)
-      bass.__Evaluate()
+        BASS_RecordSetInput(self._input, flags, -1)
+      __Evaluate()
 
   property Type:
     def __get__(Input self):
       cdef DWORD flags
-      self.__device.Set()
-      flags = bass.BASS_RecordGetInput(self.__input, NULL)
-      bass.__Evaluate()
+      self._device.Set()
+      flags = BASS_RecordGetInput(self._input, NULL)
+      __Evaluate()
 
       from ..constants import INPUT_TYPE
 
-      return INPUT_TYPE(flags&bass._BASS_INPUT_TYPE_MASK)
+      return INPUT_TYPE(flags&_BASS_INPUT_TYPE_MASK)

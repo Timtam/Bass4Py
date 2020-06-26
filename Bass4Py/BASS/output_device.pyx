@@ -1,4 +1,81 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_DEVICE_DEFAULT,
+  _BASS_DEVICE_ENABLED,
+  _BASS_DEVICE_INIT,
+  _BASS_DEVICE_TYPE_MASK,
+  _STREAMFILE_BUFFER,
+  BASS_Apply3D,
+  BASS_Free,
+  BASS_Get3DFactors,
+  BASS_Get3DPosition,
+  BASS_GetDeviceInfo,
+  BASS_GetEAXParameters,
+  BASS_GetInfo,
+  BASS_GetVolume,
+  BASS_Init,
+  BASS_IsStarted,
+  BASS_Pause,
+  BASS_Set3DFactors,
+  BASS_Set3DPosition,
+  BASS_SetDevice,
+  BASS_SetEAXParameters,
+  BASS_SetVolume,
+  BASS_Start,
+  BASS_Stop,
+  EAX_PRESET_GENERIC,
+  EAX_ENVIRONMENT_GENERIC,
+  EAX_PRESET_PADDEDCELL,
+  EAX_ENVIRONMENT_PADDEDCELL,
+  EAX_PRESET_ROOM,
+  EAX_ENVIRONMENT_ROOM,
+  EAX_PRESET_BATHROOM,
+  EAX_ENVIRONMENT_BATHROOM,
+  EAX_PRESET_LIVINGROOM,
+  EAX_ENVIRONMENT_LIVINGROOM,
+  EAX_PRESET_STONEROOM,
+  EAX_ENVIRONMENT_STONEROOM,
+  EAX_PRESET_AUDITORIUM,
+  EAX_ENVIRONMENT_AUDITORIUM,
+  EAX_PRESET_CONCERTHALL,
+  EAX_ENVIRONMENT_CONCERTHALL,
+  EAX_PRESET_CAVE,
+  EAX_ENVIRONMENT_CAVE,
+  EAX_PRESET_ARENA,
+  EAX_ENVIRONMENT_ARENA,
+  EAX_PRESET_HANGAR,
+  EAX_ENVIRONMENT_HANGAR,
+  EAX_PRESET_CARPETEDHALLWAY,
+  EAX_ENVIRONMENT_CARPETEDHALLWAY,
+  EAX_PRESET_HALLWAY,
+  EAX_ENVIRONMENT_HALLWAY,
+  EAX_PRESET_STONECORRIDOR,
+  EAX_ENVIRONMENT_STONECORRIDOR,
+  EAX_PRESET_ALLEY,
+  EAX_ENVIRONMENT_ALLEY,
+  EAX_PRESET_FOREST,
+  EAX_ENVIRONMENT_FOREST,
+  EAX_PRESET_CITY,
+  EAX_ENVIRONMENT_CITY,
+  EAX_PRESET_MOUNTAINS,
+  EAX_ENVIRONMENT_MOUNTAINS,
+  EAX_PRESET_QUARRY,
+  EAX_ENVIRONMENT_QUARRY,
+  EAX_PRESET_PLAIN,
+  EAX_ENVIRONMENT_PLAIN,
+  EAX_PRESET_PARKINGLOT,
+  EAX_ENVIRONMENT_PARKINGLOT,
+  EAX_PRESET_SEWERPIPE,
+  EAX_ENVIRONMENT_SEWERPIPE,
+  EAX_PRESET_UNDERWATER,
+  EAX_ENVIRONMENT_UNDERWATER,
+  EAX_PRESET_DRUGGED,
+  EAX_ENVIRONMENT_DRUGGED,
+  EAX_PRESET_DIZZY,
+  EAX_ENVIRONMENT_DIZZY,
+  EAX_PRESET_PSYCHOTIC,
+  EAX_ENVIRONMENT_PSYCHOTIC)
+
 from .music cimport Music
 from .sample cimport Sample
 from .stream cimport Stream
@@ -6,32 +83,32 @@ from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassPlatformError
 
 __EAXPresets={
-  bass.EAX_PRESET_GENERIC: (bass.EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
-  bass.EAX_PRESET_PADDEDCELL: (bass.EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
-  bass.EAX_PRESET_ROOM: (bass.EAX_ENVIRONMENT_ROOM, 0.417, 0.4, 0.666,),
-  bass.EAX_PRESET_BATHROOM: (bass.EAX_ENVIRONMENT_BATHROOM, 0.653, 1.499, 0.166,),
-  bass.EAX_PRESET_LIVINGROOM: (bass.EAX_ENVIRONMENT_LIVINGROOM, 0.208, 0.478, 0.0,),
-  bass.EAX_PRESET_STONEROOM: (bass.EAX_ENVIRONMENT_STONEROOM, 0.5, 2.309, 0.888,),
-  bass.EAX_PRESET_AUDITORIUM: (bass.EAX_ENVIRONMENT_AUDITORIUM, 0.403, 4.279, 0.5,),
-  bass.EAX_PRESET_CONCERTHALL: (bass.EAX_ENVIRONMENT_CONCERTHALL, 0.5, 3.961, 0.5,),
-  bass.EAX_PRESET_CAVE: (bass.EAX_ENVIRONMENT_CAVE, 0.5, 2.886, 1.304,),
-  bass.EAX_PRESET_ARENA: (bass.EAX_ENVIRONMENT_ARENA, 0.361, 7.284, 0.332,),
-  bass.EAX_PRESET_HANGAR: (bass.EAX_ENVIRONMENT_HANGAR, 0.5, 10.0, 0.3,),
-  bass.EAX_PRESET_CARPETEDHALLWAY: (bass.EAX_ENVIRONMENT_CARPETEDHALLWAY, 0.153, 0.259, 2.0,),
-  bass.EAX_PRESET_HALLWAY: (bass.EAX_ENVIRONMENT_HALLWAY, 0.361, 1.493, 0.0,),
-  bass.EAX_PRESET_STONECORRIDOR: (bass.EAX_ENVIRONMENT_STONECORRIDOR, 0.444, 2.697, 0.638,),
-  bass.EAX_PRESET_ALLEY: (bass.EAX_ENVIRONMENT_ALLEY, 0.25, 1.752, 0.776,),
-  bass.EAX_PRESET_FOREST: (bass.EAX_ENVIRONMENT_FOREST, 0.111, 3.145, 0.472,),
-  bass.EAX_PRESET_CITY: (bass.EAX_ENVIRONMENT_CITY, 0.111, 2.767, 0.224,),
-  bass.EAX_PRESET_MOUNTAINS: (bass.EAX_ENVIRONMENT_MOUNTAINS, 0.194, 7.841, 0.472,),
-  bass.EAX_PRESET_QUARRY: (bass.EAX_ENVIRONMENT_QUARRY, 1.0, 1.499, 0.5,),
-  bass.EAX_PRESET_PLAIN: (bass.EAX_ENVIRONMENT_PLAIN, 0.097, 2.767, 0.224,),
-  bass.EAX_PRESET_PARKINGLOT: (bass.EAX_ENVIRONMENT_PARKINGLOT, 0.208, 1.652, 1.5,),
-  bass.EAX_PRESET_SEWERPIPE: (bass.EAX_ENVIRONMENT_SEWERPIPE, 0.652, 2.886, 0.25,),
-  bass.EAX_PRESET_UNDERWATER: (bass.EAX_ENVIRONMENT_UNDERWATER, 1.0, 1.499, 0.0,),
-  bass.EAX_PRESET_DRUGGED: (bass.EAX_ENVIRONMENT_DRUGGED, 0.875, 8.392, 1.388,),
-  bass.EAX_PRESET_DIZZY: (bass.EAX_ENVIRONMENT_DIZZY, 0.139, 17.234, 0.666,),
-  bass.EAX_PRESET_PSYCHOTIC: (bass.EAX_ENVIRONMENT_PSYCHOTIC, 0.486, 7.563, 0.806,)
+  EAX_PRESET_GENERIC: (EAX_ENVIRONMENT_GENERIC, 0.5, 1.493, 0.5,),
+  EAX_PRESET_PADDEDCELL: (EAX_ENVIRONMENT_PADDEDCELL, 0.25, 0.1, 0.0,),
+  EAX_PRESET_ROOM: (EAX_ENVIRONMENT_ROOM, 0.417, 0.4, 0.666,),
+  EAX_PRESET_BATHROOM: (EAX_ENVIRONMENT_BATHROOM, 0.653, 1.499, 0.166,),
+  EAX_PRESET_LIVINGROOM: (EAX_ENVIRONMENT_LIVINGROOM, 0.208, 0.478, 0.0,),
+  EAX_PRESET_STONEROOM: (EAX_ENVIRONMENT_STONEROOM, 0.5, 2.309, 0.888,),
+  EAX_PRESET_AUDITORIUM: (EAX_ENVIRONMENT_AUDITORIUM, 0.403, 4.279, 0.5,),
+  EAX_PRESET_CONCERTHALL: (EAX_ENVIRONMENT_CONCERTHALL, 0.5, 3.961, 0.5,),
+  EAX_PRESET_CAVE: (EAX_ENVIRONMENT_CAVE, 0.5, 2.886, 1.304,),
+  EAX_PRESET_ARENA: (EAX_ENVIRONMENT_ARENA, 0.361, 7.284, 0.332,),
+  EAX_PRESET_HANGAR: (EAX_ENVIRONMENT_HANGAR, 0.5, 10.0, 0.3,),
+  EAX_PRESET_CARPETEDHALLWAY: (EAX_ENVIRONMENT_CARPETEDHALLWAY, 0.153, 0.259, 2.0,),
+  EAX_PRESET_HALLWAY: (EAX_ENVIRONMENT_HALLWAY, 0.361, 1.493, 0.0,),
+  EAX_PRESET_STONECORRIDOR: (EAX_ENVIRONMENT_STONECORRIDOR, 0.444, 2.697, 0.638,),
+  EAX_PRESET_ALLEY: (EAX_ENVIRONMENT_ALLEY, 0.25, 1.752, 0.776,),
+  EAX_PRESET_FOREST: (EAX_ENVIRONMENT_FOREST, 0.111, 3.145, 0.472,),
+  EAX_PRESET_CITY: (EAX_ENVIRONMENT_CITY, 0.111, 2.767, 0.224,),
+  EAX_PRESET_MOUNTAINS: (EAX_ENVIRONMENT_MOUNTAINS, 0.194, 7.841, 0.472,),
+  EAX_PRESET_QUARRY: (EAX_ENVIRONMENT_QUARRY, 1.0, 1.499, 0.5,),
+  EAX_PRESET_PLAIN: (EAX_ENVIRONMENT_PLAIN, 0.097, 2.767, 0.224,),
+  EAX_PRESET_PARKINGLOT: (EAX_ENVIRONMENT_PARKINGLOT, 0.208, 1.652, 1.5,),
+  EAX_PRESET_SEWERPIPE: (EAX_ENVIRONMENT_SEWERPIPE, 0.652, 2.886, 0.25,),
+  EAX_PRESET_UNDERWATER: (EAX_ENVIRONMENT_UNDERWATER, 1.0, 1.499, 0.0,),
+  EAX_PRESET_DRUGGED: (EAX_ENVIRONMENT_DRUGGED, 0.875, 8.392, 1.388,),
+  EAX_PRESET_DIZZY: (EAX_ENVIRONMENT_DIZZY, 0.139, 17.234, 0.666,),
+  EAX_PRESET_PSYCHOTIC: (EAX_ENVIRONMENT_PSYCHOTIC, 0.486, 7.563, 0.806,)
 }
 
 cdef class OutputDevice:
@@ -44,12 +121,12 @@ cdef class OutputDevice:
 
   cdef BASS_DEVICEINFO _getdeviceinfo(OutputDevice self):
     cdef BASS_DEVICEINFO info
-    bass.BASS_GetDeviceInfo(self._device, &info)
+    BASS_GetDeviceInfo(self._device, &info)
     return info
 
   cdef BASS_INFO _getinfo(OutputDevice self):
     cdef BASS_INFO info
-    cdef bint res = bass.BASS_GetInfo(&info)
+    cdef bint res = BASS_GetInfo(&info)
     return info
 
   cpdef Free(OutputDevice self):
@@ -63,8 +140,8 @@ cdef class OutputDevice:
     cdef bint res
     self.Set()
     with nogil:
-      res = bass.BASS_Free()
-    bass.__Evaluate()
+      res = BASS_Free()
+    __Evaluate()
     return res
 
   cpdef Init(OutputDevice self, DWORD freq, DWORD flags, int win):
@@ -88,8 +165,8 @@ cdef class OutputDevice:
 
     if win == 0:
       cwin = NULL
-    cdef bint res = bass.BASS_Init(self._device, freq, flags, cwin, NULL)
-    bass.__Evaluate()
+    cdef bint res = BASS_Init(self._device, freq, flags, cwin, NULL)
+    __Evaluate()
     return res
 
   cpdef Pause(OutputDevice self):
@@ -103,8 +180,8 @@ cdef class OutputDevice:
     cdef bint res
     self.Set()
     with nogil:
-      res = bass.BASS_Pause()
-    bass.__Evaluate()
+      res = BASS_Pause()
+    __Evaluate()
     return res
 
   cpdef Set(OutputDevice self):
@@ -121,24 +198,24 @@ cdef class OutputDevice:
     """
     cdef bint res
     with nogil:
-      res = bass.BASS_SetDevice(self._device)
-    bass.__Evaluate()
+      res = BASS_SetDevice(self._device)
+    __Evaluate()
     return res
 
   cpdef Start(OutputDevice self):
     cdef bint res
     self.Set()
     with nogil:
-      res = bass.BASS_Start()
-    bass.__Evaluate()
+      res = BASS_Start()
+    __Evaluate()
     return res
 
   cpdef Stop(OutputDevice self):
     cdef bint res
     self.Set()
     with nogil:
-      res = bass.BASS_Stop()
-    bass.__Evaluate()
+      res = BASS_Stop()
+    __Evaluate()
     return res
 
   cpdef CreateStreamFromParameters(OutputDevice self, DWORD freq, DWORD chans, DWORD flags = 0, object callback = None):
@@ -159,7 +236,7 @@ cdef class OutputDevice:
   cpdef CreateStream3D(OutputDevice self):
     return Stream.FromDevice3D(self)
 
-  cpdef CreateStreamFromFileObj(OutputDevice self, object obj, DWORD system = bass._STREAMFILE_BUFFER, DWORD flags = 0):
+  cpdef CreateStreamFromFileObj(OutputDevice self, object obj, DWORD system = _STREAMFILE_BUFFER, DWORD flags = 0):
     return Stream.FromFileObj(obj, system, flags, self)
 
   cpdef CreateSampleFromBytes(OutputDevice self, const unsigned char[:] data, DWORD max = 65535, DWORD flags = 0, DWORD length = 0):
@@ -193,21 +270,21 @@ cdef class OutputDevice:
       vol = <float>__EAXPresets[preset][1]
       decay = <float>__EAXPresets[preset][2]
       damp = <float>__EAXPresets[preset][3]
-      bass.BASS_SetEAXParameters(env, vol, decay, damp)
-      bass.__Evaluate()
+      BASS_SetEAXParameters(env, vol, decay, damp)
+      __Evaluate()
 
   property Name:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.name.decode('utf-8')
 
   property Driver:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
+      __Evaluate()
       if info.driver == NULL:
         return u''
       return info.driver.decode('utf-8')
@@ -216,34 +293,34 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
-      return <bint>(info.flags&bass._BASS_DEVICE_ENABLED)
+      __Evaluate()
+      return <bint>(info.flags&_BASS_DEVICE_ENABLED)
 
   property Default:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
-      return <bint>(info.flags&bass._BASS_DEVICE_DEFAULT)
+      __Evaluate()
+      return <bint>(info.flags&_BASS_DEVICE_DEFAULT)
 
   property Initialized:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
-      return <bint>(info.flags&bass._BASS_DEVICE_INIT)
+      __Evaluate()
+      return <bint>(info.flags&_BASS_DEVICE_INIT)
 
   property Type:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      bass.__Evaluate()
+      __Evaluate()
 
-      if info.flags&bass._BASS_DEVICE_TYPE_MASK:
+      if info.flags&_BASS_DEVICE_TYPE_MASK:
 
         from ..constants import DEVICE_TYPE
 
-        return DEVICE_TYPE(info.flags&bass._BASS_DEVICE_TYPE_MASK)
+        return DEVICE_TYPE(info.flags&_BASS_DEVICE_TYPE_MASK)
       return None
 
   property Flags:
@@ -251,7 +328,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.flags
 
   property Memory:
@@ -259,7 +336,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.hwsize
 
   property MemoryFree:
@@ -267,7 +344,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info= self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.hwfree
 
   property FreeSamples:
@@ -275,7 +352,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.freesam
 
   property Free3D:
@@ -283,7 +360,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.free3d
 
   property MinimumRate:
@@ -291,7 +368,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.minrate
 
   property MaximumRate:
@@ -299,7 +376,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.maxrate
 
   property EAX:
@@ -307,7 +384,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.eax
 
   property DirectX:
@@ -315,7 +392,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.dsver
 
   property Buffer:
@@ -323,7 +400,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.minbuf
 
   property Latency:
@@ -331,7 +408,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.latency
 
   property InitFlags:
@@ -339,7 +416,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
 
       from ..constants import DEVICE
 
@@ -350,7 +427,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.speakers
 
   property Frequency:
@@ -358,30 +435,30 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      bass.__Evaluate()
+      __Evaluate()
       return info.freq
 
   property Volume:
     def __get__(OutputDevice self):
       cdef float volume
       self.Set()
-      volume = bass.BASS_GetVolume()
-      bass.__Evaluate()
+      volume = BASS_GetVolume()
+      __Evaluate()
       return volume
 
     def __set__(OutputDevice self, float value):
       cdef bint res
       self.Set()
       with nogil:
-        res = bass.BASS_SetVolume(value)
-      bass.__Evaluate()
+        res = BASS_SetVolume(value)
+      __Evaluate()
 
   property Position3D:
     def __get__(OutputDevice self):
       cdef BASS_3DVECTOR pos
       self.Set()
-      bass.BASS_Get3DPosition(&pos, NULL, NULL, NULL)
-      bass.__Evaluate()
+      BASS_Get3DPosition(&pos, NULL, NULL, NULL)
+      __Evaluate()
       return CreateVector(&pos)
 
     def __set__(OutputDevice self, Vector value):
@@ -389,102 +466,102 @@ cdef class OutputDevice:
       cdef bint res
       self.Set()
       value.Resolve(&pos)
-      res = bass.BASS_Set3DPosition(&pos, NULL, NULL, NULL)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      res = BASS_Set3DPosition(&pos, NULL, NULL, NULL)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Velocity3D:
     def __get__(OutputDevice self):
       cdef BASS_3DVECTOR vel
       self.Set()
-      bass.BASS_Get3DPosition(NULL, &vel, NULL, NULL)
-      bass.__Evaluate()
+      BASS_Get3DPosition(NULL, &vel, NULL, NULL)
+      __Evaluate()
       return CreateVector(&vel)
     def __set__(OutputDevice self,Vector value):
       cdef BASS_3DVECTOR vel
       cdef bint res
       self.Set()
       value.Resolve(&vel)
-      res = bass.BASS_Set3DPosition(NULL, &vel, NULL, NULL)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      res = BASS_Set3DPosition(NULL, &vel, NULL, NULL)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Front3D:
     def __get__(OutputDevice self):
       cdef BASS_3DVECTOR front, top
       self.Set()
-      bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
-      bass.__Evaluate()
+      BASS_Get3DPosition(NULL, NULL, &front, &top)
+      __Evaluate()
       return CreateVector(&front)
     def __set__(OutputDevice self, Vector value):
       cdef BASS_3DVECTOR front, top
       cdef bint res
       self.Set()
-      bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
+      BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&front)
-      res = bass.BASS_Set3DPosition(NULL, NULL, &front, &top)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      res = BASS_Set3DPosition(NULL, NULL, &front, &top)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Top3D:
     def __get__(OutputDevice self):
       cdef BASS_3DVECTOR front, top
       self.Set()
-      bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
-      bass.__Evaluate()
+      BASS_Get3DPosition(NULL, NULL, &front, &top)
+      __Evaluate()
       return CreateVector(&top)
 
     def __set__(OutputDevice self,Vector value):
       cdef BASS_3DVECTOR front, top
       cdef bint res
       self.Set()
-      bass.BASS_Get3DPosition(NULL, NULL, &front, &top)
+      BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&top)
-      res = bass.BASS_Set3DPosition(NULL, NULL, &front, &top)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      res = BASS_Set3DPosition(NULL, NULL, &front, &top)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Distance:
     def __get__(OutputDevice self):
       cdef float distf
       self.Set()
-      bass.BASS_Get3DFactors(&distf, NULL, NULL)
-      bass.__Evaluate()
+      BASS_Get3DFactors(&distf, NULL, NULL)
+      __Evaluate()
       return distf
 
     def __set__(OutputDevice self, float value):
       self.Set()
-      bass.BASS_Set3DFactors(value,-1.0,-1.0)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      BASS_Set3DFactors(value,-1.0,-1.0)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Rolloff:
     def __get__(OutputDevice self):
       cdef float rollf
       self.Set()
-      bass.BASS_Get3DFactors(NULL, &rollf, NULL)
-      bass.__Evaluate()
+      BASS_Get3DFactors(NULL, &rollf, NULL)
+      __Evaluate()
       return rollf
 
     def __set__(OutputDevice self,float value):
       self.Set()
-      bass.BASS_Set3DFactors(-1.0, value, -1.0)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      BASS_Set3DFactors(-1.0, value, -1.0)
+      __Evaluate()
+      BASS_Apply3D()
 
   property Doppler:
     def __get__(OutputDevice self):
       cdef float doppf
       self.Set()
-      bass.BASS_Get3DFactors(NULL, NULL, &doppf)
-      bass.__Evaluate()
+      BASS_Get3DFactors(NULL, NULL, &doppf)
+      __Evaluate()
       return doppf
 
     def __set__(OutputDevice self,float value):
       self.Set()
-      bass.BASS_Set3DFactors(-1.0, -1.0, value)
-      bass.__Evaluate()
-      bass.BASS_Apply3D()
+      BASS_Set3DFactors(-1.0, -1.0, value)
+      __Evaluate()
+      BASS_Apply3D()
 
   property EAXEnvironment:
     def __get__(OutputDevice self):
@@ -495,8 +572,8 @@ cdef class OutputDevice:
 
         cdef DWORD env
         self.Set()
-        bass.BASS_GetEAXParameters(&env, NULL, NULL, NULL)
-        bass.__Evaluate()
+        BASS_GetEAXParameters(&env, NULL, NULL, NULL)
+        __Evaluate()
         return <int>env
 
     def __set__(OutputDevice self, int value):
@@ -506,8 +583,8 @@ cdef class OutputDevice:
       ELSE:
 
         self.Set()
-        bass.BASS_SetEAXParameters(value, -1.0, -1.0, -1.0)
-        bass.__Evaluate()
+        BASS_SetEAXParameters(value, -1.0, -1.0, -1.0)
+        __Evaluate()
 
   property EAXVolume:
     def __get__(OutputDevice self):
@@ -518,8 +595,8 @@ cdef class OutputDevice:
 
         cdef float vol
         self.Set()
-        bass.BASS_GetEAXParameters(NULL, &vol, NULL, NULL)
-        bass.__Evaluate()
+        BASS_GetEAXParameters(NULL, &vol, NULL, NULL)
+        __Evaluate()
         return vol
 
     def __set__(OutputDevice self, float value):
@@ -529,8 +606,8 @@ cdef class OutputDevice:
       ELSE:
 
         self.Set()
-        bass.BASS_SetEAXParameters(-1, value, -1.0, -1.0)
-        bass.__Evaluate()
+        BASS_SetEAXParameters(-1, value, -1.0, -1.0)
+        __Evaluate()
 
   property EAXDecay:
     def __get__(OutputDevice self):
@@ -541,8 +618,8 @@ cdef class OutputDevice:
 
         cdef float decay
         self.Set()
-        bass.BASS_GetEAXParameters(NULL, NULL, &decay, NULL)
-        bass.__Evaluate()
+        BASS_GetEAXParameters(NULL, NULL, &decay, NULL)
+        __Evaluate()
         return decay
 
     def __set__(OutputDevice self, float value):
@@ -552,8 +629,8 @@ cdef class OutputDevice:
       ELSE:
 
         self.Set()
-        bass.BASS_SetEAXParameters(-1, -1.0, value, -1.0)
-        bass.__Evaluate()
+        BASS_SetEAXParameters(-1, -1.0, value, -1.0)
+        __Evaluate()
 
   property EAXDamping:
     def __get__(OutputDevice self):
@@ -564,8 +641,8 @@ cdef class OutputDevice:
 
         cdef float damp
         self.Set()
-        bass.BASS_GetEAXParameters(NULL, NULL, NULL, &damp)
-        bass.__Evaluate()
+        BASS_GetEAXParameters(NULL, NULL, NULL, &damp)
+        __Evaluate()
         return damp
 
     def __set__(OutputDevice self, float value):
@@ -575,13 +652,13 @@ cdef class OutputDevice:
       ELSE:
 
         self.Set()
-        bass.BASS_SetEAXParameters(-1, -1.0, -1.0, value)
-        bass.__Evaluate()
+        BASS_SetEAXParameters(-1, -1.0, -1.0, value)
+        __Evaluate()
 
   property Started:
     def __get__(OutputDevice self):
       cdef bint res
       self.Set()
-      res = bass.BASS_IsStarted()
-      bass.__Evaluate()
+      res = BASS_IsStarted()
+      __Evaluate()
       return res

@@ -1,7 +1,6 @@
-from ..bass cimport (
-                     _BASS_SYNC_DOWNLOAD,
-                     DWORD
-                    )
+from ...bindings.bass cimport (
+  _BASS_SYNC_DOWNLOAD,
+  DWORD)
 
 from ..channel cimport Channel
 from ..stream cimport Stream

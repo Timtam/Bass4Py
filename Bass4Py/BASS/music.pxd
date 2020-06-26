@@ -1,9 +1,8 @@
-from .bass cimport (
-                    DWORD,
-                    HCHANNEL,
-                    HMUSIC,
-                    QWORD
-                   )
+from ..bindings.bass cimport (
+  DWORD,
+  HCHANNEL,
+  HMUSIC,
+  QWORD)
 
 from .channel cimport Channel
 from .attribute cimport Attribute

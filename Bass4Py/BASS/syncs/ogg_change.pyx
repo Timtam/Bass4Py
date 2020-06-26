@@ -1,7 +1,6 @@
-from ..bass cimport (
-                     _BASS_SYNC_OGG_CHANGE,
-                     DWORD
-                    )
+from ...bindings.bass cimport (
+  _BASS_SYNC_OGG_CHANGE,
+  DWORD)
 
 from ..channel cimport Channel
 from ..stream cimport Stream

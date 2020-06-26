@@ -1,4 +1,5 @@
-from .bass cimport BASS_3DVECTOR
+from ..bindings.bass cimport (
+  BASS_3DVECTOR)
 
 cdef Vector CreateVector(BASS_3DVECTOR *vector)
 

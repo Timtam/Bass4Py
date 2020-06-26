@@ -1,4 +1,14 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_NODEVICE,
+  BASS_ChannelGetDevice,
+  BASS_ChannelPlay,
+  BASS_ChannelSetDevice,
+  BASS_RecordStart,
+  MAKELONG,
+  RECORDPROC,
+  )
+
 from ..exceptions import BassRecordError
 
 cdef bint CRECORDPROC(HRECORD handle, const void *buffer, DWORD length, void *user) with gil:
@@ -23,11 +33,11 @@ cdef class Record(ChannelBase):
 
     ChannelBase._sethandle(self, record)
 
-    dev = bass.BASS_ChannelGetDevice(self._channel)
+    dev = BASS_ChannelGetDevice(self._channel)
     
-    bass.__Evaluate()
+    __Evaluate()
     
-    if dev == bass._BASS_NODEVICE:
+    if dev == _BASS_NODEVICE:
       self._device = None
     else:
       self._device = InputDevice(dev)
@@ -39,7 +49,7 @@ cdef class Record(ChannelBase):
     cdef DWORD cflags = <DWORD?>flags
     cdef DWORD cperiod = <DWORD?>period
     cdef InputDevice cdevice = <InputDevice?>device
-    cdef bass.RECORDPROC *proc
+    cdef RECORDPROC *proc
     cdef HRECORD rec
     cdef Record orec
     
@@ -50,20 +60,20 @@ cdef class Record(ChannelBase):
     else:
     
       IF UNAME_SYSNAME == "Windows":
-        proc = <bass.RECORDPROC*>CRECORDPROC_STD
+        proc = <RECORDPROC*>CRECORDPROC_STD
       ELSE:
-        proc = <bass.RECORDPROC*>CRECORDPROC
+        proc = <RECORDPROC*>CRECORDPROC
 
     cdevice.Set()
     
-    cflags = bass.MAKELONG(cflags, cperiod)
+    cflags = MAKELONG(cflags, cperiod)
     
     orec = Record(0)
 
     with nogil:
-      rec = bass.BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
+      rec = BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
 
-    bass.__Evaluate()
+    __Evaluate()
     
     orec._sethandle(rec)
 
@@ -75,8 +85,8 @@ cdef class Record(ChannelBase):
   cpdef Start(Record self):
     cdef bint res
     with nogil:
-      res = bass.BASS_ChannelPlay(self._channel, True)
-    bass.__Evaluate()
+      res = BASS_ChannelPlay(self._channel, True)
+    __Evaluate()
     return res
 
   property Device:
@@ -85,11 +95,11 @@ cdef class Record(ChannelBase):
 
     def __set__(Record self, InputDevice dev):
       if dev is None:
-        bass.BASS_ChannelSetDevice(self._channel, bass._BASS_NODEVICE)
+        BASS_ChannelSetDevice(self._channel, _BASS_NODEVICE)
       else:
-        bass.BASS_ChannelSetDevice(self._channel, (<InputDevice?>dev)._device)
+        BASS_ChannelSetDevice(self._channel, (<InputDevice?>dev)._device)
 
-      bass.__Evaluate()
+      __Evaluate()
 
       if not dev:
         self._device = None

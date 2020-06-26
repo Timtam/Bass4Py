@@ -9,9 +9,9 @@ class TAGSExtensionHandler(ExtensionHandler):
   def GetExtensions(self):
     return [
       Extension(
-        "Bass4Py.TAGS.tags",
+        "Bass4Py.tags.tags",
         [
-          "Bass4Py/TAGS/tags.pyx"
+          "Bass4Py/tags/tags.pyx"
         ],
         libraries = ["tags", "bass"],
         language = "c"
@@ -47,5 +47,5 @@ class TAGSExtensionHandler(ExtensionHandler):
 
   def GetContainedPackages(self):
     return (
-      "Bass4Py.TAGS",
+      "Bass4Py.tags",
     )

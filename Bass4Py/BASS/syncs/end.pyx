@@ -1,7 +1,6 @@
-from ..bass cimport (
-                     _BASS_SYNC_END,
-                     DWORD
-                    )
+from ...bindings.bass cimport (
+  _BASS_SYNC_END,
+  DWORD)
 
 from ..sync cimport Sync
 

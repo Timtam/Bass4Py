@@ -1,7 +1,7 @@
-from ...bass cimport (
-                      BASS_DX8_ECHO,
-                      _BASS_FX_DX8_ECHO
-                     )
+from ....bindings.bass cimport (
+  BASS_DX8_ECHO,
+  _BASS_FX_DX8_ECHO)
+
 from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 

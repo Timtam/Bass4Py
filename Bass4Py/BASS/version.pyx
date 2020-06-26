@@ -1,4 +1,6 @@
-from . cimport bass
+from ..bindings.bass cimport (
+  HIWORD,
+  LOWORD)
 
 cdef class Version:
   """
@@ -13,8 +15,8 @@ cdef class Version:
 
     self.Integer = version
 
-    hiword=bass.HIWORD(self.Integer)
-    loword=bass.LOWORD(self.Integer)
+    hiword=HIWORD(self.Integer)
+    loword=LOWORD(self.Integer)
     hiwordcount=int(hiword/0x100)
     lowordcount=int(loword/0x100)
     self.String = '{0}.{1}.{2}.{3}'.format(hiwordcount, hiword-hiwordcount*0x100, lowordcount, loword-lowordcount*0x100)

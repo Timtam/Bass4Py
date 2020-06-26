@@ -1,5 +1,5 @@
-from Bass4Py.BASS import BASS
-from Bass4Py.BASS import Stream
+from Bass4Py.bass import BASS
+from Bass4Py.bass import Stream
 from Bass4Py.constants import STREAM as C_STREAM
 from Bass4Py.exceptions import BassNotAvailableError
 import os.path

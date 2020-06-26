@@ -1,6 +1,6 @@
-from Bass4Py.BASS import BASS
-from Bass4Py.BASS.syncs import Download
-from Bass4Py.BASS.syncs import MusicInstrument
+from Bass4Py.bass import BASS
+from Bass4Py.bass.syncs import Download
+from Bass4Py.bass.syncs import MusicInstrument
 from Bass4Py.exceptions import BassSyncError
 import os.path
 import unittest

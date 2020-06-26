@@ -1,14 +1,13 @@
-from .bass cimport (
-                    DWORD,
-                    QWORD,
-                    HWND,
-                    BASS_DEVICEINFO,
-                    BASS_INFO,
-                    HSAMPLE,
-                    HSTREAM,
-                    HMUSIC,
-                    BASS_3DVECTOR
-                   )
+from ..bindings.bass cimport (
+  DWORD,
+  QWORD,
+  HWND,
+  BASS_DEVICEINFO,
+  BASS_INFO,
+  HSAMPLE,
+  HSTREAM,
+  HMUSIC,
+  BASS_3DVECTOR)
 
 cdef class OutputDevice:
   cdef DWORD _device

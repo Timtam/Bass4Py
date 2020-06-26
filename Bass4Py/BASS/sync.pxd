@@ -1,10 +1,9 @@
-from .bass cimport (
-                    DWORD,
-                    HCHANNEL,
-                    HSYNC,
-                    QWORD,
-                    SYNCPROC
-                   )
+from ..bindings.bass cimport (
+  DWORD,
+  HCHANNEL,
+  HSYNC,
+  QWORD,
+  SYNCPROC)
 
 from .channel cimport Channel
 

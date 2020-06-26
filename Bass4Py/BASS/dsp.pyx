@@ -1,11 +1,10 @@
 from libc.string cimport memmove
 
-from .bass cimport (
-                    __Evaluate,
-                    BASS_ChannelSetDSP,
-                    BASS_ChannelRemoveDSP,
-                    DSPPROC
-                   )
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  BASS_ChannelSetDSP,
+  BASS_ChannelRemoveDSP,
+  DSPPROC)
 
 from .channel cimport Channel
 from ..exceptions import BassAPIError

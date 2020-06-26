@@ -1,13 +1,12 @@
-from .bass cimport (
-                    HCHANNEL,
-                    BASS_CHANNELINFO,
-                    DWORD,
-                    QWORD,
-                    WORD,
-                    LOWORD,
-                    HIWORD,
-                    BASS_3DVECTOR
-                   )
+from ..bindings.bass cimport (
+  HCHANNEL,
+  BASS_CHANNELINFO,
+  DWORD,
+  QWORD,
+  WORD,
+  LOWORD,
+  HIWORD,
+  BASS_3DVECTOR)
 
 from .attribute cimport Attribute
 from .channel_base cimport ChannelBase
@@ -33,6 +32,6 @@ cdef class Channel(ChannelBase):
   cpdef ResetFX(Channel self)
   cpdef SetDSP(Channel self, DSP dsp)
   cpdef SetFX(Channel self, FX fx)
+  cpdef SetPosition(Channel self, QWORD pos, DWORD mode=?)
   cpdef SetSync(Channel self, Sync sync)
   cpdef Unlink(Channel self, Channel obj)
-  cpdef SetPosition(Channel self, QWORD pos, DWORD mode=?)

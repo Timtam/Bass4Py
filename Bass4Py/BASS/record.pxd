@@ -1,8 +1,8 @@
-from .bass cimport (
-                    DWORD,
-                    HRECORD,
-                    QWORD
-                   )
+from ..bindings.bass cimport (
+  DWORD,
+  HRECORD,
+  QWORD)
+
 from .channel_base cimport ChannelBase
 from .input_device cimport InputDevice
 

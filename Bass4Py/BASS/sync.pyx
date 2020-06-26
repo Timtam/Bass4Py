@@ -1,4 +1,11 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_SYNC_MIXTIME,
+  _BASS_SYNC_ONETIME,
+  _BASS_SYNC_THREAD,
+  BASS_ChannelRemoveSync,
+  BASS_ChannelSetSync)
+
 from .channel cimport Channel
 from ..exceptions import BassAPIError, BassSyncError
 
@@ -31,7 +38,7 @@ cdef class Sync:
       raise BassAPIError()
 
     if self._onetime:
-      type = type & bass._BASS_SYNC_ONETIME
+      type = type & _BASS_SYNC_ONETIME
 
     IF UNAME_SYSNAME == "Windows":
       cproc = <SYNCPROC*>CSYNCPROC_STD
@@ -39,9 +46,9 @@ cdef class Sync:
       cproc = <SYNCPROC*>CSYNCPROC
 
     with nogil:
-      sync = bass.BASS_ChannelSetSync(chan._channel, type, self._param, cproc, <void*>self)
+      sync = BASS_ChannelSetSync(chan._channel, type, self._param, cproc, <void*>self)
 
-    bass.__Evaluate()
+    __Evaluate()
     
     self._sync = sync
     
@@ -54,8 +61,8 @@ cdef class Sync:
       raise BassAPIError()
 
     with nogil:
-      res = bass.BASS_ChannelRemoveSync(self.Channel._channel, self._sync)
-    bass.__Evaluate()
+      res = BASS_ChannelRemoveSync(self.Channel._channel, self._sync)
+    __Evaluate()
     self.Channel = None
     self._sync = 0
     return res
@@ -69,17 +76,17 @@ cdef class Sync:
 
     if enable:
 
-      type = type | bass._BASS_SYNC_MIXTIME
+      type = type | _BASS_SYNC_MIXTIME
 
       if threaded:
-        type = type | bass._BASS_SYNC_THREAD
-      elif type & bass._BASS_SYNC_THREAD:
-        type = type ^ bass._BASS_SYNC_THREAD
+        type = type | _BASS_SYNC_THREAD
+      elif type & _BASS_SYNC_THREAD:
+        type = type ^ _BASS_SYNC_THREAD
     else:
-      if type & bass._BASS_SYNC_THREAD:
-        type = type ^ bass._BASS_SYNC_THREAD
-      if type & bass._BASS_SYNC_MIXTIME:
-        type = type ^ bass._BASS_SYNC_MIXTIME
+      if type & _BASS_SYNC_THREAD:
+        type = type ^ _BASS_SYNC_THREAD
+      if type & _BASS_SYNC_MIXTIME:
+        type = type ^ _BASS_SYNC_MIXTIME
 
     self._type = type
 

@@ -1,4 +1,12 @@
-from . cimport bass
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  BASS_ChannelRemoveFX,
+  BASS_ChannelSetFX,
+  BASS_FXGetParameters,
+  BASS_FXReset,
+  BASS_FXSetParameters,
+  BASS_FXSetPriority)
+
 from .channel cimport Channel
 from ..exceptions import BassAPIError, BassOutOfRangeError
 from cpython.mem cimport PyMem_Free
@@ -17,9 +25,9 @@ cdef class FX:
       raise BassAPIError()
 
     with nogil:
-      fx = bass.BASS_ChannelSetFX(chan._channel, self._type, self._priority)
+      fx = BASS_ChannelSetFX(chan._channel, self._type, self._priority)
 
-    bass.__Evaluate()
+    __Evaluate()
 
     self.Channel = chan
 
@@ -27,10 +35,10 @@ cdef class FX:
 
     if update:
       with nogil:
-        bass.BASS_FXSetParameters(self._fx, self._effect)
+        BASS_FXSetParameters(self._fx, self._effect)
 
       try:
-        bass.__Evaluate()
+        __Evaluate()
       except Exception, e:
         self.Remove()
         raise e
@@ -42,8 +50,8 @@ cdef class FX:
       raise BassAPIError()
 
     with nogil:
-      res = bass.BASS_ChannelRemoveFX(self.Channel._channel, self._fx)
-    bass.__Evaluate()
+      res = BASS_ChannelRemoveFX(self.Channel._channel, self._fx)
+    __Evaluate()
     self._fx = 0
     self.Channel = None
     return res
@@ -55,9 +63,9 @@ cdef class FX:
       raise BassAPIError()
 
     with nogil:
-      res = bass.BASS_FXReset(self._fx)
-    bass.__Evaluate()
-    bass.BASS_FXGetParameters(self._fx, self._effect)
+      res = BASS_FXReset(self._fx)
+    __Evaluate()
+    BASS_FXGetParameters(self._fx, self._effect)
     return res
 
   cpdef Update(FX self):
@@ -65,8 +73,8 @@ cdef class FX:
     if self._fx == 0:
       raise BassAPIError()
 
-    bass.BASS_FXSetParameters(self._fx, self._effect)
-    bass.__Evaluate()
+    BASS_FXSetParameters(self._fx, self._effect)
+    __Evaluate()
 
   cpdef _validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound):
 
@@ -94,10 +102,10 @@ cdef class FX:
 
       if self._fx:
         with nogil:
-          bass.BASS_FXSetPriority(self._fx, priority)
+          BASS_FXSetPriority(self._fx, priority)
 
         try:
-          bass.__Evaluate()
+          __Evaluate()
         except Exception as e:
           self._priority = old_priority
           raise e

@@ -1,8 +1,8 @@
-from ...bass cimport (
-                      BASS_DX8_REVERB,
-                      _BASS_FX_DX8_REVERB,
-                      DWORD
-                     )
+from ....bindings.bass cimport (
+  BASS_DX8_REVERB,
+  _BASS_FX_DX8_REVERB,
+  DWORD)
+
 from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 

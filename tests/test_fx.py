@@ -1,6 +1,6 @@
-from Bass4Py.BASS import BASS
+from Bass4Py.bass import BASS
 from Bass4Py.exceptions import BassOutOfRangeError
-from Bass4Py.BASS.effects.dx8 import Parameq
+from Bass4Py.bass.effects.dx8 import Parameq
 import os.path
 import platform
 import unittest

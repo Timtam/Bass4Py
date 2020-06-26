@@ -2,7 +2,7 @@
 this is a test
 """
 
-from .BASS cimport bass
+from .bindings cimport bass
 
 try:
   from enum import IntFlag, IntEnum, unique

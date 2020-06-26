@@ -1,8 +1,7 @@
-from .bass cimport (
-                    HSTREAM,
-                    DWORD,
-                    QWORD
-                   )
+from ..bindings.bass cimport (
+  HSTREAM,
+  DWORD,
+  QWORD)
 
 from .channel cimport Channel
 from .attribute cimport Attribute

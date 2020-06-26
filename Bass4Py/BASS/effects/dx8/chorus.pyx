@@ -1,11 +1,11 @@
-from ...bass cimport (
-                      BASS_DX8_CHORUS,
-                      _BASS_DX8_PHASE_NEG_180,
-                      _BASS_DX8_PHASE_90,
-                      _BASS_DX8_PHASE_180,
-                      _BASS_FX_DX8_CHORUS,
-                      DWORD
-                     )
+from ....bindings.bass cimport (
+  BASS_DX8_CHORUS,
+  _BASS_DX8_PHASE_NEG_180,
+  _BASS_DX8_PHASE_90,
+  _BASS_DX8_PHASE_180,
+  _BASS_FX_DX8_CHORUS,
+  DWORD)
+
 from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 

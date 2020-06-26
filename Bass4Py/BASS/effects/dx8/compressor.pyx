@@ -1,7 +1,7 @@
-from ...bass cimport (
-                      BASS_DX8_COMPRESSOR,
-                      _BASS_FX_DX8_COMPRESSOR
-                     )
+from ....bindings.bass cimport (
+  BASS_DX8_COMPRESSOR,
+  _BASS_FX_DX8_COMPRESSOR)
+
 from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 

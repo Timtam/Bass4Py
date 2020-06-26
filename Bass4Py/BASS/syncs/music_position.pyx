@@ -1,10 +1,9 @@
-from ..bass cimport (
-                     _BASS_SYNC_MUSICPOS,
-                     DWORD,
-                     HIWORD,
-                     LOWORD,
-                     MAKELONG
-                    )
+from ...bindings.bass cimport (
+  _BASS_SYNC_MUSICPOS,
+  DWORD,
+  HIWORD,
+  LOWORD,
+  MAKELONG)
 
 from ..channel cimport Channel
 from ..music cimport Music

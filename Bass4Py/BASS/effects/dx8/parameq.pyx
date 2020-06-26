@@ -1,12 +1,12 @@
-from ...bass cimport (
-                      __Evaluate,
-                      BASS_CHANNELINFO,
-                      BASS_DX8_PARAMEQ,
-                      _BASS_FX_DX8_PARAMEQ,
-                      BASS_FXGetParameters,
-                      BASS_FXSetParameters,
-                      DWORD
-                     )
+from ...bass cimport __Evaluate
+from ....bindings.bass cimport (
+  BASS_CHANNELINFO,
+  BASS_DX8_PARAMEQ,
+  _BASS_FX_DX8_PARAMEQ,
+  BASS_FXGetParameters,
+  BASS_FXSetParameters,
+  DWORD)
+
 from ...channel cimport Channel
 from ...fx cimport FX
 

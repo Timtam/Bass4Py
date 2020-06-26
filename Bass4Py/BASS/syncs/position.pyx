@@ -1,7 +1,6 @@
-from ..bass cimport (
-                     _BASS_SYNC_POS,
-                     DWORD
-                    )
+from ...bindings.bass cimport (
+  _BASS_SYNC_POS,
+  DWORD)
 
 from ..sync cimport Sync
 from ...exceptions import BassAPIError

@@ -1,5 +1,34 @@
 from libc.string cimport memmove
-from . cimport bass
+
+from .bass cimport __Evaluate
+from ..bindings.bass cimport (
+  _BASS_ATTRIB_BITRATE,
+  _BASS_ATTRIB_NET_RESUME,
+  _BASS_ATTRIB_SCANINFO,
+  _BASS_STREAM_AUTOFREE,
+  _BASS_STREAM_RESTRATE,
+  _STREAMFILE_BUFFER,
+  _STREAMPROC_DEVICE,
+  _STREAMPROC_DEVICE_3D,
+  _STREAMPROC_PUSH,
+  BASS_ChannelUpdate,
+  BASS_FILEPROCS,
+  BASS_StreamCreate,
+  BASS_StreamCreateFile,
+  BASS_StreamCreateFileUser,
+  BASS_StreamCreateURL,
+  BASS_StreamFree,
+  BASS_StreamGetFilePosition,
+  BASS_StreamPutData,
+  BASS_StreamPutFileData,
+  DOWNLOADPROC,
+  FILECLOSEPROC,
+  FILELENPROC,
+  FILEREADPROC,
+  FILESEEKPROC,
+  STREAMPROC,
+  )
+
 from .channel cimport Channel
 from .attribute cimport Attribute
 from .output_device cimport OutputDevice
@@ -96,41 +125,41 @@ cdef class Stream(Channel):
 
   cdef void _initattributes(Stream self):
     Channel._initattributes(self)
-    self.Bitrate = Attribute(self._channel, bass._BASS_ATTRIB_BITRATE, True)
-    self.NetResume = Attribute(self._channel, bass._BASS_ATTRIB_NET_RESUME)
-    self.ScanInfo = Attribute(self._channel, bass._BASS_ATTRIB_SCANINFO)
+    self.Bitrate = Attribute(self._channel, _BASS_ATTRIB_BITRATE, True)
+    self.NetResume = Attribute(self._channel, _BASS_ATTRIB_NET_RESUME)
+    self.ScanInfo = Attribute(self._channel, _BASS_ATTRIB_SCANINFO)
   
   cpdef Free(Stream self):
     cdef bint res
     with nogil:
-      res = bass.BASS_StreamFree(self._channel)
-    bass.__Evaluate()
+      res = BASS_StreamFree(self._channel)
+    __Evaluate()
     return res
 
   cpdef QWORD GetFilePosition(Stream self, DWORD mode):
-    cdef QWORD res = bass.BASS_StreamGetFilePosition(self._channel, mode)
-    bass.__Evaluate()
+    cdef QWORD res = BASS_StreamGetFilePosition(self._channel, mode)
+    __Evaluate()
     return res
 
   cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
-      res = bass.BASS_StreamPutData(self._channel, &(buffer[0]), length)
-    bass.__Evaluate()
+      res = BASS_StreamPutData(self._channel, &(buffer[0]), length)
+    __Evaluate()
     return res
 
   cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
-      res = bass.BASS_StreamPutFileData(self._channel, &(buffer[0]), length)
-    bass.__Evaluate()
+      res = BASS_StreamPutFileData(self._channel, &(buffer[0]), length)
+    __Evaluate()
     return res
 
   cpdef Update(Stream self, DWORD length):
     cdef bint res
     with nogil:
-      res = bass.BASS_ChannelUpdate(self._channel, length)
-    bass.__Evaluate()
+      res = BASS_ChannelUpdate(self._channel, length)
+    __Evaluate()
     return res
 
   @staticmethod
@@ -146,8 +175,8 @@ cdef class Stream(Channel):
       cdevice.Set()
 
     filename = to_readonly_bytes(file)
-    strm = bass.BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, cflags)
-    bass.__Evaluate()
+    strm = BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, cflags)
+    __Evaluate()
     
     return Stream(strm)
 
@@ -166,8 +195,8 @@ cdef class Stream(Channel):
       cdevice = <OutputDevice?>device
       cdevice.Set()
 
-    strm = bass.BASS_StreamCreateFile(True, &(cdata[0]), 0, clength, cflags)
-    bass.__Evaluate()
+    strm = BASS_StreamCreateFile(True, &(cdata[0]), 0, clength, cflags)
+    __Evaluate()
     return Stream(strm)
 
   @staticmethod
@@ -177,7 +206,7 @@ cdef class Stream(Channel):
     cdef OutputDevice cdevice
     cdef const unsigned char[:] curl
     cdef HSTREAM strm
-    cdef bass.DOWNLOADPROC *cproc
+    cdef DOWNLOADPROC *cproc
     cdef Stream ostrm
 
     if callback != None:
@@ -185,9 +214,9 @@ cdef class Stream(Channel):
         raise BassStreamError("callback needs to be callable")
 
       IF UNAME_SYSNAME == "Windows":
-        cproc = <bass.DOWNLOADPROC*>CDOWNLOADPROC_STD
+        cproc = <DOWNLOADPROC*>CDOWNLOADPROC_STD
       ELSE:
-        cproc = <bass.DOWNLOADPROC*>CDOWNLOADPROC
+        cproc = <DOWNLOADPROC*>CDOWNLOADPROC
 
     else:
       cproc = NULL
@@ -204,8 +233,8 @@ cdef class Stream(Channel):
       ostrm._downloadproc = callback
 
     with nogil:
-      strm = bass.BASS_StreamCreateURL((<char *>(&curl[0])), coffset, cflags, cproc, <void*>ostrm)
-    bass.__Evaluate()
+      strm = BASS_StreamCreateURL((<char *>(&curl[0])), coffset, cflags, cproc, <void*>ostrm)
+    __Evaluate()
     
     ostrm._sethandle(strm)
 
@@ -217,7 +246,7 @@ cdef class Stream(Channel):
     cdef DWORD cfreq = <DWORD?>freq
     cdef DWORD cchans = <DWORD?> chans
     cdef DWORD cflags = <DWORD?>flags
-    cdef bass.STREAMPROC *cproc
+    cdef STREAMPROC *cproc
     cdef OutputDevice cdevice
     cdef Stream ostrm
     
@@ -226,12 +255,12 @@ cdef class Stream(Channel):
         raise BassStreamError("callback needs to be callable")
 
       IF UNAME_SYSNAME == "Windows":
-        cproc = <bass.STREAMPROC*>CSTREAMPROC_STD
+        cproc = <STREAMPROC*>CSTREAMPROC_STD
       ELSE:
-        cproc = <bass.STREAMPROC*>CSTREAMPROC
+        cproc = <STREAMPROC*>CSTREAMPROC
 
     else:
-      cproc = <bass.STREAMPROC*>bass._STREAMPROC_PUSH
+      cproc = <STREAMPROC*>_STREAMPROC_PUSH
     
     if device != None:
       cdevice = <OutputDevice?>device
@@ -243,8 +272,8 @@ cdef class Stream(Channel):
       ostrm._streamproc = callback
     
     with nogil:
-      strm = bass.BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
-    bass.__Evaluate()
+      strm = BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
+    __Evaluate()
     
     ostrm._sethandle(strm)
     
@@ -257,8 +286,8 @@ cdef class Stream(Channel):
     
     cdevice.Set()
     
-    strm = bass.BASS_StreamCreate(0, 0, 0, <bass.STREAMPROC*>bass._STREAMPROC_DEVICE, NULL)
-    bass.__Evaluate()
+    strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE, NULL)
+    __Evaluate()
     
     return Stream(strm)
 
@@ -269,19 +298,19 @@ cdef class Stream(Channel):
     
     cdevice.Set()
     
-    strm = bass.BASS_StreamCreate(0, 0, 0, <bass.STREAMPROC*>bass._STREAMPROC_DEVICE_3D, NULL)
-    bass.__Evaluate()
+    strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE_3D, NULL)
+    __Evaluate()
     
     return Stream(strm)
 
   @staticmethod
-  def FromFileObj(obj, system = bass._STREAMFILE_BUFFER, flags = 0, device = None):
+  def FromFileObj(obj, system = _STREAMFILE_BUFFER, flags = 0, device = None):
     cdef HSTREAM strm
     cdef DWORD cflags = <DWORD?>flags
     cdef DWORD csystem = <DWORD?>system
     cdef OutputDevice cdevice
     cdef Stream ostrm
-    cdef bass.BASS_FILEPROCS procs
+    cdef BASS_FILEPROCS procs
 
     if not is_filelike(obj, 'r'):
       raise BassStreamError("the object provided doesn't expose a file-like interface")
@@ -291,22 +320,22 @@ cdef class Stream(Channel):
       cdevice.Set()
 
     IF UNAME_SYSNAME == "Windows":
-      procs.close = <bass.FILECLOSEPROC*>CFILECLOSEPROC_STD
-      procs.read = <bass.FILEREADPROC*>CFILEREADPROC_STD
-      procs.length = <bass.FILELENPROC*>CFILELENPROC_STD
-      procs.seek = <bass.FILESEEKPROC*>CFILESEEKPROC_STD
+      procs.close = <FILECLOSEPROC*>CFILECLOSEPROC_STD
+      procs.read = <FILEREADPROC*>CFILEREADPROC_STD
+      procs.length = <FILELENPROC*>CFILELENPROC_STD
+      procs.seek = <FILESEEKPROC*>CFILESEEKPROC_STD
     ELSE:
-      procs.close = <bass.FILECLOSEPROC*>CFILECLOSEPROC
-      procs.read = <bass.FILEREADPROC*>CFILEREADPROC
-      procs.length = <bass.FILELENPROC*>CFILELENPROC
-      procs.seek = <bass.FILESEEKPROC*>CFILESEEKPROC
+      procs.close = <FILECLOSEPROC*>CFILECLOSEPROC
+      procs.read = <FILEREADPROC*>CFILEREADPROC
+      procs.length = <FILELENPROC*>CFILELENPROC
+      procs.seek = <FILESEEKPROC*>CFILESEEKPROC
 
     ostrm = Stream(0)
     ostrm._file = obj
 
     with nogil:
-      strm = bass.BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
-    bass.__Evaluate()
+      strm = BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
+    __Evaluate()
     
     ostrm._sethandle(strm)
     
@@ -314,14 +343,14 @@ cdef class Stream(Channel):
 
   property AutoFree:
     def __get__(Channel self):
-      return self._getflags()&bass._BASS_STREAM_AUTOFREE == bass._BASS_STREAM_AUTOFREE
+      return self._getflags()&_BASS_STREAM_AUTOFREE == _BASS_STREAM_AUTOFREE
 
     def __set__(Channel self, bint switch):
-      self._setflags(bass._BASS_STREAM_AUTOFREE, switch)
+      self._setflags(_BASS_STREAM_AUTOFREE, switch)
 
   property RestrictDownload:
     def __get__(Channel self):
-      return self._getflags()&bass._BASS_STREAM_RESTRATE == bass._BASS_STREAM_RESTRATE
+      return self._getflags()&_BASS_STREAM_RESTRATE == _BASS_STREAM_RESTRATE
 
     def __set__(Channel self, bint switch):
-      self._setflags(bass._BASS_STREAM_RESTRATE, switch)
+      self._setflags(_BASS_STREAM_RESTRATE, switch)

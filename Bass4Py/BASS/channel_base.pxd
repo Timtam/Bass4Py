@@ -1,9 +1,9 @@
-from .bass cimport (
-                    BASS_CHANNELINFO,
-                    DWORD,
-                    HCHANNEL,
-                    QWORD
-                   )
+from ..bindings.bass cimport (
+  BASS_CHANNELINFO,
+  DWORD,
+  HCHANNEL,
+  QWORD)
+
 from .attribute cimport Attribute
 from ..exceptions import BassError
 
