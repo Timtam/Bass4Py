@@ -19,6 +19,10 @@ environment:
       PYTHON: "python3"
       STACK: "3.7"
       BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3"
+      STACK: "3.8"
+      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
@@ -32,6 +36,22 @@ environment:
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
       STACK: "2.7"
+      BASSLIB: "bass24\\x64"
+      TAGSLIB: "tags18"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python38"
+      PYTHON_VERSION: "3.8"
+      PYTHON_ARCH: "32"
+      STACK: "3.8"
+      BASSLIB: "bass24"
+      TAGSLIB: "tags18"
+      BUILD_FOLDER: "C:\\projects\\bass4py\\"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python38-x64"
+      PYTHON_VERSION: "3.8"
+      PYTHON_ARCH: "64"
+      STACK: "3.8"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
       BUILD_FOLDER: "C:\\projects\\bass4py\\"
