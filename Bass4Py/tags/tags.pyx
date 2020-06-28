@@ -4,8 +4,8 @@ from ..bindings.tags cimport (
   TAGS_ReadEx,
   TAGS_SetUTF8)
 
-from Bass4Py.BASS.channel cimport Channel
-from Bass4Py.BASS.version cimport Version
+from Bass4Py.bass.channel cimport Channel
+from Bass4Py.bass.version cimport Version
 
 from collections import namedtuple
 
