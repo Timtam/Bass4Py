@@ -1,9 +1,9 @@
 """
 Bass4Py provides access to all functionalities the BASS audio library from `un4seen.com <http://www.un4seen.com/>`_ has to offer, organized in a nice object-oriented interface.
 
-The main class is the :class:`Bass4Py.BASS.BASS` class which should be consulted in order to get any project going.
+The main class is the :class:`Bass4Py.bass.BASS` class which should be consulted in order to get any project going.
 
-.. currentmodule:: Bass4Py.BASS
+.. currentmodule:: Bass4Py.bass
 
 .. autosummary::
    :toctree:
