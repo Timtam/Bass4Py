@@ -152,7 +152,6 @@ class BASSExtensionHandler(ExtensionHandler):
         [
           "Bass4Py/constants.pyx"
         ],
-        libraries = ["bass"],
         language = "c"
       ),
       Extension(
