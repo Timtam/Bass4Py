@@ -28,6 +28,10 @@ The main class is the :class:`Bass4Py.bass.BASS` class which should be consulted
 
 """
 
+from Bass4Py.utils import prepare_imports
+
+prepare_imports()
+
 from .bass import BASS
 from .attribute import Attribute
 from .channel_base import ChannelBase
