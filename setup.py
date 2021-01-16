@@ -8,6 +8,7 @@ from setuptools import setup
 from setuptools.command.build_ext import build_ext
 import warnings
 
+from Bass4Py import __version__
 from setup.bass import BASSExtensionHandler
 from setup.tags import TAGSExtensionHandler
 
@@ -149,7 +150,7 @@ else:
 
 setup(
   name="Bass4Py",
-  version="1.0",
+  version=__version__,
   author="Toni Barth",
   author_email="software@satoprogs.de",
   url="https://github.com/Timtam/Bass4Py",

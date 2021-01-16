@@ -16,17 +16,18 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
+from Bass4Py import __version__
 
 # -- Project information -----------------------------------------------------
 
 project = u'Bass4Py'
-copyright = u'2019, Toni Barth'
+copyright = u'2019-2021, Toni Barth'
 author = u'Toni Barth'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'1.0'
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
