@@ -150,9 +150,9 @@ build_script:
 
 before_test:
   - sh: |
-      export LD_LIBRARY_PATH=$(pwd)/bass24-linux/x64/:$(pwd)/tags18-linux/x64/
+      $PYTHON setup.py install
   - cmd: |
-      set PATH=%cd%\%BASSLIB%;%cd%\%TAGSLIB%;%PATH%
+      %PYTHON%\\python.exe setup.py install
 
 test_script:
   - sh: |
