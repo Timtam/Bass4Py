@@ -7,12 +7,4 @@ If there are any noticeable differences, this documentation will mention them. T
 The main class is the :class:`Bass4Py.bass.BASS` class which should be consulted in order to get any project going.
 """
 
-from Bass4Py import constants
-from Bass4Py import exceptions
-
-__all__ = [
-  'constants',
-  'exceptions',
-]
-
 __version__ = '0.1.0-a1'
