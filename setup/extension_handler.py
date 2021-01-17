@@ -31,3 +31,6 @@ class ExtensionHandler(ABC):
   
   def GetContainedPackages(self):
     return tuple()
+  
+  def GetDataFiles():
+    return {}
