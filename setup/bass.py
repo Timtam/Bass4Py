@@ -1,4 +1,5 @@
 import os.path
+import platform
 from setuptools.extension import Extension
 
 from .extension_handler import ExtensionHandler
@@ -375,3 +376,18 @@ class BASSExtensionHandler(ExtensionHandler):
       "Bass4Py.bass.effects.dx8",
       "Bass4Py.bass.syncs",
     )
+  
+  def GetDataFiles(self):
+  
+    if platform.system() == 'Windows':
+      if IsX64():
+        return {'Bass4Py.bass': [os.path.join('bass24', 'x64', 'bass.dll')]}
+      else:
+        return {'Bass4Py.bass': [os.path.join('bass24', 'bass.dll')]}
+    elif platform.system() == 'Linux':
+      if IsX64():
+        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'x64', 'libbass.so')]}
+      else:
+        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]}
+
+    return {}

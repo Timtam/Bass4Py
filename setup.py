@@ -4,8 +4,10 @@ from distutils.errors import (
   DistutilsPlatformError)
 
 import os
+import os.path
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
+import shutil
 import warnings
 
 from Bass4Py import __version__
@@ -35,10 +37,11 @@ library_dirs = []
 include_dirs = []
 packages = []
 requirement_flags = []
+data_files = {}
 
 def LoadExtensions(exthandler):
 
-  global extensions, include_dirs, library_dirs, packages, requirement_flags
+  global extensions, include_dirs, library_dirs, packages, requirement_flags, data_files
   
   exts = exthandler.GetExtensions()
 
@@ -51,6 +54,8 @@ def LoadExtensions(exthandler):
   include_dirs += exthandler.GetIncludeDirectories()
   
   packages += exthandler.GetContainedPackages()
+
+  data_files.update(exthandler.GetDataFiles())
 
   try:
     library_dirs.append(os.environ[exthandler.GetLibraryVariable()])
@@ -148,19 +153,47 @@ if USE_CYTHON:
 else:
   extensions = no_cythonize(extensions)
 
-setup(
-  name="Bass4Py",
-  version=__version__,
-  author="Toni Barth",
-  author_email="software@satoprogs.de",
-  url="https://github.com/Timtam/Bass4Py",
-  ext_modules = extensions,
-  packages = packages,
-  cmdclass = {
-    'build_ext': build_ext_compiler_check
-  },
-  install_requires = [
-    "filelike==0.5.0",
-    "aenum==2.2.1;python_version < '3.6'",
-  ]
-)
+for package, files in data_files.items():
+
+  package_dir = package.replace('.', os.path.sep)
+
+  for i, _ in enumerate(files):
+
+    file_path = files[i]
+    file = os.path.split(file_path)[-1]
+
+    if not os.path.exists(file_path) or os.path.exists(os.path.join(package_dir, file)):
+      continue
+    
+    files[i] = file
+    shutil.copyfile(file_path, os.path.join(package_dir, file))
+
+print(data_files)
+
+try:
+  setup(
+    name="Bass4Py",
+    version=__version__,
+    author="Toni Barth",
+    author_email="software@satoprogs.de",
+    url="https://github.com/Timtam/Bass4Py",
+    ext_modules = extensions,
+    include_package_data=True,
+    packages = packages,
+    package_data = data_files,
+    cmdclass = {
+      'build_ext': build_ext_compiler_check
+    },
+    install_requires = [
+      "filelike==0.5.0",
+      "aenum==2.2.1;python_version < '3.6'",
+    ]
+  )
+finally:
+
+  for package, files in data_files.items():
+  
+    package_dir = package.replace('.', os.path.sep)
+
+    for file in files:
+      os.unlink(os.path.join(package_dir, file))
