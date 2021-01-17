@@ -120,13 +120,13 @@ before_build:
         $wc = New-Object System.Net.WebClient
         $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "$($env:BUILD_FOLDER)bass24.zip")
         $wc.DownloadFile("http://www.un4seen.com/files/z/3/tags18.zip", "$($env:BUILD_FOLDER)tags18.zip")
-        7z x bass24.zip -o$($env:BUILD_FOLDER)bass24 -r
-        7z x tags18.zip -o$($env:BUILD_FOLDER)tags18 -r
+        & 7z x bass24.zip -o$($env:BUILD_FOLDER)bass24 -r
+        & 7z x tags18.zip -o$($env:BUILD_FOLDER)tags18 -r
       } else {
-        wget http://www.un4seen.com/files/bass24-linux.zip
-        wget http://www.un4seen.com/files/z/3/tags18-linux.zip
-        7z x bass24-linux.zip -o$($env:BUILD_FOLDER)bass24-linux -r
-        7z x tags18-linux.zip -o$($env:BUILD_FOLDER)tags18-linux -r
+        & wget http://www.un4seen.com/files/bass24-linux.zip
+        & wget http://www.un4seen.com/files/z/3/tags18-linux.zip
+        & 7z x bass24-linux.zip -o$($env:BUILD_FOLDER)bass24-linux -r
+        & 7z x tags18-linux.zip -o$($env:BUILD_FOLDER)tags18-linux -r
       }
       
 install:
@@ -179,7 +179,7 @@ on_finish:
           $wc = New-Object 'System.Net.WebClient'
           $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
         } else {
-          curl --% -F "file=@$($env:BUILD_FOLDER)nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
+          & curl --% -F "file=@$($env:BUILD_FOLDER)nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
         }
       }
 
@@ -189,7 +189,7 @@ init:
       {
         $version = &"$($env:PYTHON)\python.exe" -c --% "from Bass4Py import __version__; import sys; _ = sys.stdout.write(__version__)"
       } else {
-        $($env:PYTHON) -c --% "from Bass4Py import __version__; import sys; _ = sys.stdout.write(__version__)"
+        $version = & $($env:PYTHON) -c --% "from Bass4Py import __version__; import sys; _ = sys.stdout.write(__version__)"
       }
       Update-AppveyorBuild -Version "$($version)+$($env:APPVEYOR_BUILD_NUMBER)"
 
