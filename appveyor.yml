@@ -4,23 +4,18 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python2"
       STACK: "2.7"
-      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.5"
-      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.6"
-      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.7"
-      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.8"
-      BUILD_FOLDER: "/home/appveyor/projects/bass4py/"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
@@ -28,7 +23,6 @@ environment:
       STACK: "2.7"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
@@ -36,7 +30,6 @@ environment:
       STACK: "2.7"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python38"
       PYTHON_VERSION: "3.8"
@@ -44,7 +37,6 @@ environment:
       STACK: "3.8"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python38-x64"
       PYTHON_VERSION: "3.8"
@@ -52,7 +44,6 @@ environment:
       STACK: "3.8"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37"
       PYTHON_VERSION: "3.7"
@@ -60,7 +51,6 @@ environment:
       STACK: "3.7"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python37-x64"
       PYTHON_VERSION: "3.7"
@@ -68,7 +58,6 @@ environment:
       STACK: "3.7"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6"
@@ -76,7 +65,6 @@ environment:
       STACK: "3.6"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python36-x64"
       PYTHON_VERSION: "3.6"
@@ -84,7 +72,6 @@ environment:
       STACK: "3.6"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5"
@@ -92,7 +79,6 @@ environment:
       STACK: "3.5"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python35-x64"
       PYTHON_VERSION: "3.5"
@@ -100,7 +86,6 @@ environment:
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7"
@@ -108,7 +93,6 @@ environment:
       STACK: "2.7"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-      BUILD_FOLDER: "C:\\projects\\bass4py\\"
       SDIST_ONLY: 1
 
 stack: python %STACK%
@@ -165,9 +149,9 @@ build_script:
 
 before_test:
   - sh: |
-      export LD_LIBRARY_PATH=${BUILD_FOLDER}bass24-linux/x64/:${BUILD_FOLDER}tags18-linux/x64/
+      export LD_LIBRARY_PATH=$(pwd)/bass24-linux/x64/:$(pwd)/tags18-linux/x64/
   - cmd: |
-      set PATH=%BUILD_FOLDER%%BASSLIB%;%BUILD_FOLDER%%TAGSLIB%;%PATH%
+      set PATH=%cd%\%BASSLIB%;%cd%\%TAGSLIB%;%PATH%
 
 test_script:
   - sh: |
@@ -180,14 +164,14 @@ test_script:
 
 on_finish:
   - ps: |
-      if (Test-Path "$($env:BUILD_FOLDER)nose2-junit.xml")
+      if (Test-Path "nose2-junit.xml")
       {
         if($isWindows)
         {
           $wc = New-Object 'System.Net.WebClient'
-          $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "$($env:BUILD_FOLDER)nose2-junit.xml")
+          $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "nose2-junit.xml")
         } else {
-          & curl --% -F "file=@$($env:BUILD_FOLDER)nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
+          & curl --% -F "file=@nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
         }
       }
 
