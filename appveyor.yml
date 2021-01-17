@@ -1,3 +1,4 @@
+version: "{build}"
 build: off
 environment:
   matrix:
@@ -104,13 +105,13 @@ before_build:
         $wc = New-Object System.Net.WebClient
         $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "bass24.zip")
         $wc.DownloadFile("http://www.un4seen.com/files/z/3/tags18.zip", "tags18.zip")
-        & 7z --% x -bb3 bass24.zip -obass24 -r
-        & 7z --% x -bb3 tags18.zip -otags18 -r
+        & 7z --% x bass24.zip -obass24 -r
+        & 7z --% x tags18.zip -otags18 -r
       } else {
         & wget http://www.un4seen.com/files/bass24-linux.zip
         & wget http://www.un4seen.com/files/z/3/tags18-linux.zip
-        & 7z --% x -bb3 bass24-linux.zip -obass24-linux -r
-        & 7z --% x -bb3 tags18-linux.zip -otags18-linux -r
+        & 7z --% x bass24-linux.zip -obass24-linux -r
+        & 7z --% x tags18-linux.zip -otags18-linux -r
       }
       
 install:
@@ -164,6 +165,7 @@ test_script:
 
 on_finish:
   - ps: |
+      $escapeparser = '--%'
       if (Test-Path "nose2-junit.xml")
       {
         if($isWindows)
@@ -171,7 +173,7 @@ on_finish:
           $wc = New-Object 'System.Net.WebClient'
           $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", "nose2-junit.xml")
         } else {
-          & curl --% -F "file=@nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
+          & curl $escapeparser -F "file=@nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
         }
       }
 
