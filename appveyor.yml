@@ -120,13 +120,13 @@ before_build:
         $wc = New-Object System.Net.WebClient
         $wc.DownloadFile("http://www.un4seen.com/files/bass24.zip", "$($env:BUILD_FOLDER)bass24.zip")
         $wc.DownloadFile("http://www.un4seen.com/files/z/3/tags18.zip", "$($env:BUILD_FOLDER)tags18.zip")
-        & 7z --% x bass24.zip -o$($env:BUILD_FOLDER)bass24 -r
-        & 7z --% x tags18.zip -o$($env:BUILD_FOLDER)tags18 -r
+        & 7z --% x -bb3 bass24.zip -o$($env:BUILD_FOLDER)bass24 -r
+        & 7z --% x -bb3 tags18.zip -o$($env:BUILD_FOLDER)tags18 -r
       } else {
         & wget http://www.un4seen.com/files/bass24-linux.zip
         & wget http://www.un4seen.com/files/z/3/tags18-linux.zip
-        & 7z --% x bass24-linux.zip -o$($env:BUILD_FOLDER)bass24-linux -r
-        & 7z --% x tags18-linux.zip -o$($env:BUILD_FOLDER)tags18-linux -r
+        & 7z --% x -bb3 bass24-linux.zip -o$($env:BUILD_FOLDER)bass24-linux -r
+        & 7z --% x -bb3 tags18-linux.zip -o$($env:BUILD_FOLDER)tags18-linux -r
       }
       
 install:
