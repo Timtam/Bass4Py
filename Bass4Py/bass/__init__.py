@@ -30,7 +30,7 @@ The main class is the :class:`Bass4Py.bass.BASS` class which should be consulted
 
 from Bass4Py.utils import prepare_imports
 
-prepare_imports()
+prepare_imports("bass")
 
 from .bass import BASS
 from .attribute import Attribute
@@ -50,7 +50,7 @@ from .sync import Sync
 from .vector import Vector
 from .version import Version
 
-__all__ = [
+__all__ = (
   'Attribute',
   'BASS',
   'Channel',
@@ -68,4 +68,4 @@ __all__ = [
   'Sync',
   'Vector',
   'Version',
-]
+)

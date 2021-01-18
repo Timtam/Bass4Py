@@ -168,8 +168,6 @@ for package, files in data_files.items():
     files[i] = file
     shutil.copyfile(file_path, os.path.join(package_dir, file))
 
-print(data_files)
-
 try:
   setup(
     name="Bass4Py",
