@@ -151,8 +151,6 @@ build_script:
 before_test:
   - sh: |
       export LD_LIBRARY_PATH=$(pwd)/bass24-linux/x64/:$(pwd)/tags18-linux/x64/
-  - cmd: |
-      set PATH=%cd%\%BASSLIB%;%cd%\%TAGSLIB%;%PATH%
 
 test_script:
   - sh: |

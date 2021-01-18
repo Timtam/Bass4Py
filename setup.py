@@ -162,38 +162,33 @@ for package, files in data_files.items():
     file_path = files[i]
     file = os.path.split(file_path)[-1]
 
-    if not os.path.exists(file_path) or os.path.exists(os.path.join(package_dir, file)):
+    if not os.path.exists(file_path):
+      continue
+
+    files[i] = file
+
+    if os.path.exists(os.path.join(package_dir, file)):
       continue
     
-    files[i] = file
+    print(os.path.join(package_dir, file) + " doesn't exist; copying...")
+
     shutil.copyfile(file_path, os.path.join(package_dir, file))
 
-print(data_files)
-
-try:
-  setup(
-    name="Bass4Py",
-    version=__version__,
-    author="Toni Barth",
-    author_email="software@satoprogs.de",
-    url="https://github.com/Timtam/Bass4Py",
-    ext_modules = extensions,
-    include_package_data=True,
-    packages = packages,
-    package_data = data_files,
-    cmdclass = {
-      'build_ext': build_ext_compiler_check
-    },
-    install_requires = [
-      "filelike==0.5.0",
-      "aenum==2.2.1;python_version < '3.6'",
-    ]
-  )
-finally:
-
-  for package, files in data_files.items():
-  
-    package_dir = package.replace('.', os.path.sep)
-
-    for file in files:
-      os.unlink(os.path.join(package_dir, file))
+setup(
+  name="Bass4Py",
+  version=__version__,
+  author="Toni Barth",
+  author_email="software@satoprogs.de",
+  url="https://github.com/Timtam/Bass4Py",
+  ext_modules = extensions,
+  include_package_data=True,
+  packages = packages,
+  package_data = data_files,
+  cmdclass = {
+    'build_ext': build_ext_compiler_check
+  },
+  install_requires = [
+    "filelike==0.5.0",
+    "aenum==2.2.1;python_version < '3.6'",
+  ]
+)
