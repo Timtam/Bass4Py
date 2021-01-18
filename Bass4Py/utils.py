@@ -33,8 +33,3 @@ def prepare_imports(package):
       # Python 3.8+ use os.add_dll_directory for locating dll files
       for path in paths:
         os.add_dll_directory(path)
-    
-  elif platform.system() == 'Linux':
-  
-    # Linux requires setting the LD_LIBRARY_PATH environment variable
-    os.environ["LD_LIBRARY_PATH"] = ':'.join(paths) + ':' + os.environ["LD_LIBRARY_PATH"]
