@@ -3,6 +3,7 @@ cython==3.0a5
 nose2==0.9.1
 setuptools
 sphinx==1.8.5;python_version < '3.5'
-sphinx==3.1.2;python_version >= '3.5'
-sphinx-autodoc-typehints==1.11.1
+sphinx==3.4.3;python_version >= '3.5'
+sphinx-autodoc-typehints==1.11.1; python_version >= '3.5'
+sphinx-autodoc-typehints==1.6.0; python_version < '3.5'
 wheel

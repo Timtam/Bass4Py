@@ -279,7 +279,7 @@ cdef class BASS(_Evaluable):
     self._evaluate()
     return res
 
-  property CPU:
+  property cpu:
     """
     :obj:`float`: The current CPU usage of BASS. 
 
@@ -314,7 +314,7 @@ cdef class BASS(_Evaluable):
     def __get__(BASS self):
       return BASS_GetCPU()
 
-  property Device:
+  property device:
     """
     :class:`Bass4Py.bass.OutputDevice` or :obj:`None`: the output device setting of the current thread. 
     """
@@ -326,7 +326,7 @@ cdef class BASS(_Evaluable):
         return None
       return OutputDevice(device)
 
-  property NetAgent:
+  property net_agent:
     """
     :obj:`str`: The "User-Agent" request header sent to servers. 
 
@@ -341,7 +341,7 @@ cdef class BASS(_Evaluable):
 
       BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, &(agent[0]))
 
-  property NetProxy:
+  property net_proxy:
     """
     :obj:`str` or :obj:`None`: Proxy server settings. 
 
@@ -370,7 +370,7 @@ cdef class BASS(_Evaluable):
 
         BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, &(proxy[0]))
 
-  property Algorithm3D:
+  property algorithm_3d:
     """
     :class:`Bass4Py.constants.ALGORITHM_3D`: The 3D algorithm for software mixed 3D channels. 
 
@@ -420,7 +420,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
 
-  property AsyncBuffer:
+  property async_buffer:
     """
     :obj:`int`: The buffer length for asynchronous file reading. 
 
@@ -441,7 +441,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER, value)
 
-  property Buffer:
+  property buffer:
     """
     :obj:`int`: The playback buffer length for :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channels. 
 
@@ -479,7 +479,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_BUFFER, value)
 
-  property CurveVolume:
+  property curve_volume:
     """
     :obj:`bool`: The translation curve of volume values. False = linear, True = logarithmic. 
 
@@ -494,7 +494,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_VOL, <DWORD>value)
 
-  property CurvePan:
+  property curve_pan:
     """
     :obj:`bool`: The translation curve of panning values. False = linear, True = logarithmic. 
 
@@ -508,7 +508,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_PAN, <DWORD>value)
 
-  property DeviceBuffer:
+  property device_buffer:
     """
     :obj:`int`: The output device buffer length in milliseconds. 
 
@@ -548,7 +548,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
 
-  property DefaultDevice:
+  property default_device:
     """
     :obj:`bool`: Include a "Default" entry in the output device list?
 
@@ -585,7 +585,7 @@ cdef class BASS(_Evaluable):
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
 
-  property FloatDsp:
+  property float_dsp:
     """
     :obj:`bool`: Pass 32-bit floating-point sample data to all :attr:`Bass4Py.bass.DSP.Callback` functions? 
 
@@ -614,7 +614,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_FLOATDSP, <DWORD>value)
 
-  property MusicVolume:
+  property music_volume:
     """
     :obj:`int`: The global MOD music volume level. 0 (silent) to 10000 (full). 
 
@@ -633,7 +633,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_MUSIC, value)
 
-  property SampleVolume:
+  property sample_volume:
     """
     :obj:`int`: The global sample volume level. 0 (silent) to 10000 (full). 
 
@@ -651,7 +651,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_SAMPLE, value)
 
-  property StreamVolume:
+  property stream_volume:
     """
     :obj:`int`: The global stream volume level. 0 (silent) to 10000 (full). 
 
@@ -669,7 +669,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_STREAM, value)
 
-  property Video:
+  property video:
     """
     :obj:`bool`: Play the audio from video files using Media Foundation? 
 
@@ -691,7 +691,7 @@ cdef class BASS(_Evaluable):
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
 
-  property VirtualChannels:
+  property virtual_channels:
     """
     :obj:`int`: The maximum number of virtual channels to use in the rendering of IT files. 
 
@@ -708,7 +708,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_MUSIC_VIRTUAL, value)
 
-  property NetBuffer:
+  property net_buffer:
     """
     :obj:`int`: The internet download buffer length in milliseconds. 
     
@@ -736,7 +736,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_BUFFER, value)
 
-  property NetPassive:
+  property net_passive:
     """
     :obj:`bool`: Use passive mode in FTP connections? 
 
@@ -749,7 +749,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PASSIVE, <DWORD>value)
 
-  property NetPlaylist:
+  property net_playlist:
     """
     :obj:`int`: Process URLs in PLS and M3U playlists? 
     
@@ -771,7 +771,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST, value)
 
-  property NetPlaylistDepth:
+  property net_playlist_depth:
     """
     :obj:`int`: Maximum nested playlist processing depth. 0 = do not process nested playlists. 
 
@@ -788,7 +788,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST_DEPTH, value)
 
-  property NetPrebuf:
+  property net_prebuf:
     """
     :obj:`int`: Amount (percentage) to pre-buffer before playing internet streams. 
 
@@ -809,7 +809,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF, value)
 
-  property NetPrebufWait:
+  property net_prebuf_wait:
     """
     :obj:`bool`: Wait for pre-buffering when opening internet streams? 
 
@@ -835,7 +835,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF_WAIT, <DWORD>value)
 
-  property NetTimeout:
+  property net_timeout:
     """
     :obj:`int`: The time in milliseconds to wait for a server to respond to a connection request. 
 
@@ -849,7 +849,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_TIMEOUT, value)
 
-  property NetReadTimeout:
+  property net_read_timeout:
     """
     :obj:`int`: The time in milliseconds to wait for a server to deliver more data for an internet stream. 0 = no timeout. 
     
@@ -863,7 +863,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_READTIMEOUT, value)
 
-  property OggPrescan:
+  property ogg_prescan:
     """
     :obj:`bool`: Pre-scan chained OGG files? 
 
@@ -879,7 +879,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_OGG_PRESCAN, <DWORD>value)
 
-  property PauseNoplay:
+  property pause_noplay:
     """
     :obj:`bool`: Prevent channels being played while the output is paused? 
 
@@ -896,7 +896,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_PAUSE_NOPLAY, <DWORD>value)
 
-  property RecordBuffer:
+  property record_buffer:
     """
     :obj:`int`: The buffer length for recording channels. 
 
@@ -920,7 +920,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_REC_BUFFER, value)
 
-  property SRC:
+  property src:
     """
     :obj:`int`: The default sample rate conversion quality. 
     
@@ -946,7 +946,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC, value)
 
-  property SRCSample:
+  property src_sample:
     """
     :obj:`int`: The default sample rate conversion quality for samples. 
 
@@ -971,7 +971,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC_SAMPLE, value)
 
-  property UpdatePeriod:
+  property update_period:
     """
     :obj:`int`: The update period of :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channel playback buffers in milliseconds. 
 
@@ -1006,7 +1006,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATEPERIOD, value)
 
-  property UpdateThreads:
+  property update_threads:
     """
     :obj:`int`: The number of threads to use for updating playback buffers. 0 = disable automatic updating. 
 
@@ -1033,7 +1033,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATETHREADS, value)
 
-  property Verify:
+  property verify:
     """
     :obj:`int`: The amount of data to check in order to verify/detect the file format. 
 
@@ -1054,7 +1054,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY, value)
 
-  property NetVerify:
+  property net_verify:
     """
     :obj:`int`: The amount of data to check in order to verify/detect the file format of internet streams. 
 
@@ -1077,7 +1077,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY_NET, value)
 
-  property VistaSpeakers:
+  property vista_speakers:
     """
     :obj:`bool`: Enable speaker assignment with panning/balance control on Windows Vista and newer? 
 
@@ -1113,7 +1113,7 @@ cdef class BASS(_Evaluable):
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
 
-  property VistaTruepos:
+  property vista_truepos:
     """
     :obj:`bool`: Enable true play position mode on Windows Vista and newer? 
 
@@ -1148,7 +1148,7 @@ cdef class BASS(_Evaluable):
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
 
-  property DeviceUpdatePeriod:
+  property device_update_period:
     """
     :obj:`int`: The output device update period in milliseconds, or in samples if negative. 
 
@@ -1173,7 +1173,7 @@ cdef class BASS(_Evaluable):
     def __set__(BASS self, int value):
       BASS_SetConfig(_BASS_CONFIG_DEV_PERIOD, value)
 
-  property Handles:
+  property handles:
     """
     :obj:`int`: Number of existing :class:`Bass4Py.bass.Music` / :class:`Bass4Py.bass.Record` / :class:`Bass4Py.bass.Sample` / :class:`Bass4Py.bass.Stream` handles. 
 
@@ -1186,7 +1186,7 @@ cdef class BASS(_Evaluable):
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_HANDLES)
 
-  property WASAPIPersist:
+  property wasapi_persist:
     """
     :obj:`bool`: Retain Windows mixer settings across sessions? 
 
@@ -1214,7 +1214,7 @@ cdef class BASS(_Evaluable):
 
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
 
-  property LibSSL:
+  property lib_ssl:
     """
     :obj:`str`: The OpenSSL (or compatible) library to use for handling HTTPS connections. 
 
