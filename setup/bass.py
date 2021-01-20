@@ -379,15 +379,22 @@ class BASSExtensionHandler(ExtensionHandler):
   
   def GetDataFiles(self):
   
+    files = {}
+
     if platform.system() == 'Windows':
       if IsX64():
-        return {'Bass4Py.bass': [os.path.join('bass24', 'x64', 'bass.dll')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24', 'x64', 'bass.dll')]})
       else:
-        return {'Bass4Py.bass': [os.path.join('bass24', 'bass.dll')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24', 'bass.dll')]})
     elif platform.system() == 'Linux':
       if IsX64():
-        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'x64', 'libbass.so')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24-linux', 'x64', 'libbass.so')]})
       else:
-        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]})
 
-    return {}
+    files.update({
+      'Bass4Py': ['*.pyi'],
+      'Bass4Py.bass': ['*.pyi'],
+    })
+
+    return files

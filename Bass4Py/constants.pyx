@@ -1,7 +1,3 @@
-"""
-this is a test
-"""
-
 from .bindings cimport bass
 
 try:

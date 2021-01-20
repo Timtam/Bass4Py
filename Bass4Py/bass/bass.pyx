@@ -1,7 +1,3 @@
-"""
-This module holds the class which is the main entry point to all BASS-related functionalities.
-"""
-
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040f00
 
@@ -189,25 +185,31 @@ cpdef __Evaluate():
   else:
     raise exceptions.BassUnknownError()
 
+PyEval_InitThreads()
+
 cdef class BASS:
   """
   This class represents the main entrypoint to all Bass4Py related 
   functionalities. It allows to control various global settings and gain access 
-  to output devices (:class:`Bass4Py.bass.OutputDevice`) and input devices 
-  (:class:`Bass4Py.bass.InputDevice`) classes to playback audio data or 
-  record from various input sources.
+  to :class:`output devices <Bass4Py.bass.OutputDevice>` and 
+  :class:`input devices <Bass4Py.bass.InputDevice>` to playback audio 
+  data or record from various input sources. All global properties are also 
+  accessible through this class.
+  
+  See :meth:`~Bass4Py.bass.BASS.get_input_device` or 
+  :meth:`~Bass4Py.bass.BASS.get_output_device` to get further access to the 
+  really important features.
   """
 
   def __cinit__(BASS self):
-    PyEval_InitThreads()
 
-    self.Version = Version(BASS_GetVersion())
-    self.APIVersion = Version(_BASS4PY_API_VERSION)
+    self.api_version = Version(_BASS4PY_API_VERSION)
+    self.version = Version(BASS_GetVersion())
 
     IF UNAME_SYSNAME == "Windows":
       BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
 
-  cpdef GetOutputDevice(BASS self, int device = -1):
+  cpdef get_output_device(BASS self, int device = -1):
     """
     Retrieves any output device for further usage.
     
@@ -254,7 +256,7 @@ cdef class BASS:
     else:
       return None
 
-  cpdef GetInputDevice(BASS self, int device = -1):
+  cpdef get_input_device(BASS self, int device = -1):
     """
     Retrieves any input device for further usage.
     
@@ -299,7 +301,7 @@ cdef class BASS:
     else:
       return None
 
-  cpdef LoadPlugin(BASS self, object filename):
+  cpdef load_plugin(BASS self, object filename):
     """
     Plugs an "add-on" into the standard stream and sample creation functions.
 
@@ -365,7 +367,7 @@ cdef class BASS:
     __Evaluate()
     return Plugin(plugin)
 
-  cpdef Update(BASS self, DWORD length):
+  cpdef update(BASS self, DWORD length):
     """
     Updates the :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` 
     channel playback buffers.
@@ -378,7 +380,7 @@ cdef class BASS:
     Returns
     -------
     :obj:`bool`
-      True
+      success
 
     Raises
     ------
@@ -675,7 +677,7 @@ cdef class BASS:
     to the device that is currently the system's default. Its output will 
     automatically switch over when the system's default device setting 
     changes. When enabled, the "Default" device will also become the default 
-    device to :meth:`Bass4Py.bass.BASS.GetOutputDevice` (with device = -1). 
+    device to :meth:`Bass4Py.bass.BASS.get_output_device` (with device = -1). 
     Both it and the device that it currently maps to will have the 
     :attr:`Bass4Py.bass.OutputDevice.Default` attribute set. This option can 
     only be set before :meth:`Bass4Py.bass.OutputDevice.Init` has been called. 

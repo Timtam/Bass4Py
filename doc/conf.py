@@ -47,6 +47,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
+    "sphinx_autodoc_typehints",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -198,3 +199,5 @@ autodoc_default_options = {
   "members": True,
   "inherited-members": True,
 }
+
+napoleon_use_param = True
