@@ -1,4 +1,3 @@
-from .bass cimport __Evaluate
 from ..bindings.bass cimport (
   _BASS_ATTRIB_MUSIC_ACTIVE,
   _BASS_ATTRIB_MUSIC_AMPLIFY,
@@ -66,14 +65,14 @@ cdef class Music(Channel):
     cdef bint res
     with nogil:
       res = BASS_MusicFree(self._channel)
-    __Evaluate()
+    self._evaluate()
     return res
     
   cpdef Update(Music self, DWORD length):
     cdef bint res
     with nogil:
       res = BASS_ChannelUpdate(self._channel, length)
-    __Evaluate()
+    self._evaluate()
     return res
   
   @staticmethod
@@ -97,7 +96,7 @@ cdef class Music(Channel):
 
     with nogil:
       msc = BASS_MusicLoad(True, &(cdata[0]), 0, clength, cflags, cfreq)
-    __Evaluate()
+    Music._evaluate()
     return Music(msc)
 
   @staticmethod
@@ -119,7 +118,7 @@ cdef class Music(Channel):
     filename = to_readonly_bytes(file)
     with nogil:
       msc = BASS_MusicLoad(False, &(filename[0]), coffset, 0, cflags, cfreq)
-    __Evaluate()
+    Music._evaluate()
     
     return Music(msc)
 

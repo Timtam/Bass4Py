@@ -1,3 +1,4 @@
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   BASS_SAMPLE,
   DWORD,
@@ -7,7 +8,7 @@ from ..bindings.bass cimport (
 
 from .output_device cimport OutputDevice
 
-cdef class Sample:
+cdef class Sample(_Evaluable):
   cdef HSAMPLE _sample
   cdef OutputDevice _device
 

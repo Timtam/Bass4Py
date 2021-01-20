@@ -1,7 +1,6 @@
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.string cimport memmove
 
-from .bass cimport __Evaluate
 from ..bindings.bass cimport (
   _BASS_ATTRIB_BUFFER,
   _BASS_ATTRIB_CPU,
@@ -43,7 +42,7 @@ cdef class Channel(ChannelBase):
 
     dev = BASS_ChannelGetDevice(self._channel)
     
-    __Evaluate()
+    self._evaluate()
     
     if dev == _BASS_NODEVICE:
       self._device = None
@@ -71,13 +70,13 @@ cdef class Channel(ChannelBase):
       BASS_ChannelFlags(self._channel, flag, flag)
     else:
       BASS_ChannelFlags(self._channel, 0, flag)
-    __Evaluate()
+    self._evaluate()
 
   cpdef Play(Channel self, bint restart):
     cdef bint res
     with nogil:
       res = BASS_ChannelPlay(self._channel, restart)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef SetSync(Channel self, Sync sync):
@@ -90,7 +89,7 @@ cdef class Channel(ChannelBase):
     cdef bint res
     with nogil:
       res = BASS_FXReset(self._channel)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef SetDSP(Channel self, DSP dsp):
@@ -99,20 +98,20 @@ cdef class Channel(ChannelBase):
   cpdef Link(Channel self, Channel obj):
     cdef bint res
     res = BASS_ChannelSetLink(self._channel, obj._channel)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Unlink(Channel self, Channel obj):
     cdef bint res
     res = BASS_ChannelRemoveLink(self._channel, obj._channel)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef SetPosition(Channel self, QWORD pos, DWORD mode = _BASS_POS_BYTE):
     cdef bint res
     with nogil:
       res = BASS_ChannelSetPosition(self._channel, pos, mode)
-    __Evaluate()
+    self._evaluate()
     return res
   
   cpdef GetTags(Channel self, DWORD tagtype):
@@ -120,7 +119,7 @@ cdef class Channel(ChannelBase):
     cdef DWORD length = 0
     cdef char *res = BASS_ChannelGetTags(self._channel, tagtype)
     
-    __Evaluate()
+    self._evaluate()
     
     if tagtype == _BASS_TAG_ID3V2:
       # first three bytes are ID3
@@ -155,7 +154,7 @@ cdef class Channel(ChannelBase):
       else:
         BASS_ChannelSetDevice(self._channel, (<OutputDevice?>dev)._device)
 
-      __Evaluate()
+      self._evaluate()
 
       if not dev:
         self._device = None
@@ -166,101 +165,101 @@ cdef class Channel(ChannelBase):
     def __get__(Channel self):
       cdef DWORD mode
       BASS_ChannelGet3DAttributes(self._channel, &mode, NULL, NULL, NULL, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return mode
 
     def __set__(Channel self, int mode):
       BASS_ChannelSet3DAttributes(self._channel, mode, 0.0, 0.0, -1, -1, -1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property MinimumDistance:
     def __get__(Channel self):
       cdef float min
       BASS_ChannelGet3DAttributes(self._channel, NULL, &min, NULL, NULL, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return min
 
     def __set__(Channel self, float min):
       BASS_ChannelSet3DAttributes(self._channel, -1, min, 0.0, -1, -1, -1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property MaximumDistance:
     def __get__(Channel self):
       cdef float max
       BASS_ChannelGet3DAttributes(self._channel, NULL, NULL, &max, NULL, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return max
 
     def __set__(Channel self, float max):
       BASS_ChannelSet3DAttributes(self._channel, -1, 0.0, max, -1, -1, -1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Angle:
     def __get__(Channel self):
       cdef DWORD iangle,oangle
       BASS_ChannelGet3DAttributes(self._channel, NULL, NULL, NULL, &iangle, &oangle, NULL)
-      __Evaluate()
+      self._evaluate()
       return [iangle, oangle]
 
     def __set__(Channel self, list angle):
       if len(angle) != 2: raise BassAPIError()
       BASS_ChannelSet3DAttributes(self._channel, -1, 0.0, 0.0, angle[0], angle[1], -1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property OuterVolume:
     def __get__(Channel self):
       cdef float outvol
       BASS_ChannelGet3DAttributes(self._channel, NULL, NULL, NULL, NULL, NULL, &outvol)
-      __Evaluate()
+      self._evaluate()
       return outvol
 
     def __set__(Channel self, float outvol):
       BASS_ChannelSet3DAttributes(self._channel, -1, 0.0, 0.0, -1, -1, outvol)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Position3D:
     def __get__(Channel self):
       cdef BASS_3DVECTOR pos
       BASS_ChannelGet3DPosition(self._channel, &pos, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&pos)
 
     def __set__(Channel self, Vector value):
       cdef BASS_3DVECTOR pos
       value.Resolve(&pos)
       BASS_ChannelSet3DPosition(self._channel, &pos, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Orientation3D:
     def __get__(Channel self):
       cdef BASS_3DVECTOR orient
       BASS_ChannelGet3DPosition(self._channel, NULL, &orient, NULL)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&orient)
 
     def __set__(Channel self, Vector value):
       cdef BASS_3DVECTOR orient
       value.Resolve(&orient)
       BASS_ChannelSet3DPosition(self._channel, NULL, &orient, NULL)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Velocity3D:
     def __get__(Channel self):
       cdef BASS_3DVECTOR vel
       BASS_ChannelGet3DPosition(self._channel, NULL, NULL, &vel)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&vel)
 
     def __set__(Channel self, Vector value):
       cdef BASS_3DVECTOR vel
       value.Resolve(&vel)
       BASS_ChannelSet3DPosition(self._channel, NULL, NULL, &vel)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()

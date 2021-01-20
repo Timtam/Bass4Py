@@ -7,4 +7,4 @@ class TestBASS(unittest.TestCase):
     self.bass = BASS()
 
   def test_available_devices(self):
-    self.assertEqual(self.bass.GetOutputDevice(0).Name, "No sound")
+    self.assertEqual(self.bass.get_output_device(0).Name, "No sound")

@@ -1,5 +1,4 @@
-from ..bindings.bass cimport DWORD, WORD
+from ..bindings.bass cimport DWORD
 
-cdef class Version:
-  cdef readonly DWORD Integer
-  cdef readonly unicode String
+cdef class Version(str):
+  cdef DWORD _version

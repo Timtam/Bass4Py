@@ -1,6 +1,5 @@
-from Bass4Py.bass import BASS
-from Bass4Py.bass import Stream
-from Bass4Py.constants import STREAM as C_STREAM
+from Bass4Py.bass import BASS, Stream
+from Bass4Py.constants import STREAM
 from Bass4Py.exceptions import BassNotAvailableError
 import os.path
 import unittest
@@ -10,13 +9,13 @@ class TestChannel(unittest.TestCase):
 
   def setUp(self):
     self.bass = BASS()
-    self.device = self.bass.GetOutputDevice(0)
+    self.device = self.bass.get_output_device(0)
     self.device.Init(44100, 0, 0)
 
     # load files
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
     self.python_wave = wave.open(path, "rb")
-    self.bass_wave = self.device.CreateStreamFromFile(path, C_STREAM.DECODE)
+    self.bass_wave = self.device.CreateStreamFromFile(path, STREAM.DECODE)
     
   def tearDown(self):
     self.bass_wave.Free()
@@ -50,7 +49,7 @@ class TestChannel(unittest.TestCase):
   def test_inequality(self):
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
 
-    strm = self.device.CreateStreamFromFile(path, C_STREAM.DECODE)
+    strm = self.device.CreateStreamFromFile(path, STREAM.DECODE)
     self.assertNotEqual(self.bass_wave, strm)
     strm.Free()
 

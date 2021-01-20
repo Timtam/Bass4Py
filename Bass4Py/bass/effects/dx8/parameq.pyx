@@ -1,4 +1,3 @@
-from ...bass cimport __Evaluate
 from ....bindings.bass cimport (
   BASS_CHANNELINFO,
   BASS_DX8_PARAMEQ,
@@ -45,7 +44,7 @@ cdef class Parameq(FX):
       BASS_FXSetParameters(self._fx, self._effect)
 
       try:
-        __Evaluate()
+        self._evaluate()
       except Exception, e:
         self.Remove()
         raise e

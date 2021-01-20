@@ -1,4 +1,4 @@
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   _BASS_DEVICE_DEFAULT,
   _BASS_DEVICE_ENABLED,
@@ -116,7 +116,7 @@ from .stream cimport Stream
 from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassPlatformError
 
-cdef class OutputDevice:
+cdef class OutputDevice(_Evaluable):
   def __cinit__(OutputDevice self, int device):
     self._device=device
 
@@ -146,7 +146,7 @@ cdef class OutputDevice:
     self.Set()
     with nogil:
       res = BASS_Free()
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Init(OutputDevice self, DWORD freq, DWORD flags, int win):
@@ -171,7 +171,7 @@ cdef class OutputDevice:
     if win == 0:
       cwin = NULL
     cdef bint res = BASS_Init(self._device, freq, flags, cwin, NULL)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Pause(OutputDevice self):
@@ -186,7 +186,7 @@ cdef class OutputDevice:
     self.Set()
     with nogil:
       res = BASS_Pause()
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Set(OutputDevice self):
@@ -204,7 +204,7 @@ cdef class OutputDevice:
     cdef bint res
     with nogil:
       res = BASS_SetDevice(self._device)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Start(OutputDevice self):
@@ -212,7 +212,7 @@ cdef class OutputDevice:
     self.Set()
     with nogil:
       res = BASS_Start()
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Stop(OutputDevice self):
@@ -220,7 +220,7 @@ cdef class OutputDevice:
     self.Set()
     with nogil:
       res = BASS_Stop()
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef CreateStreamFromParameters(OutputDevice self, DWORD freq, DWORD chans, DWORD flags = 0, object callback = None):
@@ -276,20 +276,20 @@ cdef class OutputDevice:
       decay = <float>__EAXPresets[preset][2]
       damp = <float>__EAXPresets[preset][3]
       BASS_SetEAXParameters(env, vol, decay, damp)
-      __Evaluate()
+      self._evaluate()
 
   property Name:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return info.name.decode('utf-8')
 
   property Driver:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       if info.driver == NULL:
         return u''
       return info.driver.decode('utf-8')
@@ -298,28 +298,28 @@ cdef class OutputDevice:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_ENABLED)
 
   property Default:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_DEFAULT)
 
   property Initialized:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_INIT)
 
   property Type:
     def __get__(OutputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
 
       if info.flags&_BASS_DEVICE_TYPE_MASK:
 
@@ -333,7 +333,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.flags
 
   property Memory:
@@ -341,7 +341,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.hwsize
 
   property MemoryFree:
@@ -349,7 +349,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info= self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.hwfree
 
   property FreeSamples:
@@ -357,7 +357,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.freesam
 
   property Free3D:
@@ -365,7 +365,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.free3d
 
   property MinimumRate:
@@ -373,7 +373,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.minrate
 
   property MaximumRate:
@@ -381,7 +381,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.maxrate
 
   property EAX:
@@ -389,7 +389,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.eax
 
   property DirectX:
@@ -397,7 +397,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.dsver
 
   property Buffer:
@@ -405,7 +405,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.minbuf
 
   property Latency:
@@ -413,7 +413,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.latency
 
   property InitFlags:
@@ -421,7 +421,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
 
       from ..constants import DEVICE
 
@@ -432,7 +432,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.speakers
 
   property Frequency:
@@ -440,7 +440,7 @@ cdef class OutputDevice:
       cdef BASS_INFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.freq
 
   property Volume:
@@ -448,7 +448,7 @@ cdef class OutputDevice:
       cdef float volume
       self.Set()
       volume = BASS_GetVolume()
-      __Evaluate()
+      self._evaluate()
       return volume
 
     def __set__(OutputDevice self, float value):
@@ -456,14 +456,14 @@ cdef class OutputDevice:
       self.Set()
       with nogil:
         res = BASS_SetVolume(value)
-      __Evaluate()
+      self._evaluate()
 
   property Position3D:
     def __get__(OutputDevice self):
       cdef BASS_3DVECTOR pos
       self.Set()
       BASS_Get3DPosition(&pos, NULL, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&pos)
 
     def __set__(OutputDevice self, Vector value):
@@ -472,7 +472,7 @@ cdef class OutputDevice:
       self.Set()
       value.Resolve(&pos)
       res = BASS_Set3DPosition(&pos, NULL, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Velocity3D:
@@ -480,7 +480,7 @@ cdef class OutputDevice:
       cdef BASS_3DVECTOR vel
       self.Set()
       BASS_Get3DPosition(NULL, &vel, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&vel)
     def __set__(OutputDevice self,Vector value):
       cdef BASS_3DVECTOR vel
@@ -488,7 +488,7 @@ cdef class OutputDevice:
       self.Set()
       value.Resolve(&vel)
       res = BASS_Set3DPosition(NULL, &vel, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Front3D:
@@ -496,7 +496,7 @@ cdef class OutputDevice:
       cdef BASS_3DVECTOR front, top
       self.Set()
       BASS_Get3DPosition(NULL, NULL, &front, &top)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&front)
     def __set__(OutputDevice self, Vector value):
       cdef BASS_3DVECTOR front, top
@@ -505,7 +505,7 @@ cdef class OutputDevice:
       BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&front)
       res = BASS_Set3DPosition(NULL, NULL, &front, &top)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Top3D:
@@ -513,7 +513,7 @@ cdef class OutputDevice:
       cdef BASS_3DVECTOR front, top
       self.Set()
       BASS_Get3DPosition(NULL, NULL, &front, &top)
-      __Evaluate()
+      self._evaluate()
       return CreateVector(&top)
 
     def __set__(OutputDevice self,Vector value):
@@ -523,7 +523,7 @@ cdef class OutputDevice:
       BASS_Get3DPosition(NULL, NULL, &front, &top)
       value.Resolve(&top)
       res = BASS_Set3DPosition(NULL, NULL, &front, &top)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Distance:
@@ -531,13 +531,13 @@ cdef class OutputDevice:
       cdef float distf
       self.Set()
       BASS_Get3DFactors(&distf, NULL, NULL)
-      __Evaluate()
+      self._evaluate()
       return distf
 
     def __set__(OutputDevice self, float value):
       self.Set()
       BASS_Set3DFactors(value,-1.0,-1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Rolloff:
@@ -545,13 +545,13 @@ cdef class OutputDevice:
       cdef float rollf
       self.Set()
       BASS_Get3DFactors(NULL, &rollf, NULL)
-      __Evaluate()
+      self._evaluate()
       return rollf
 
     def __set__(OutputDevice self,float value):
       self.Set()
       BASS_Set3DFactors(-1.0, value, -1.0)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property Doppler:
@@ -559,13 +559,13 @@ cdef class OutputDevice:
       cdef float doppf
       self.Set()
       BASS_Get3DFactors(NULL, NULL, &doppf)
-      __Evaluate()
+      self._evaluate()
       return doppf
 
     def __set__(OutputDevice self,float value):
       self.Set()
       BASS_Set3DFactors(-1.0, -1.0, value)
-      __Evaluate()
+      self._evaluate()
       BASS_Apply3D()
 
   property EAXEnvironment:
@@ -578,7 +578,7 @@ cdef class OutputDevice:
         cdef DWORD env
         self.Set()
         BASS_GetEAXParameters(&env, NULL, NULL, NULL)
-        __Evaluate()
+        self._evaluate()
         return <int>env
 
     def __set__(OutputDevice self, int value):
@@ -589,7 +589,7 @@ cdef class OutputDevice:
 
         self.Set()
         BASS_SetEAXParameters(value, -1.0, -1.0, -1.0)
-        __Evaluate()
+        self._evaluate()
 
   property EAXVolume:
     def __get__(OutputDevice self):
@@ -601,7 +601,7 @@ cdef class OutputDevice:
         cdef float vol
         self.Set()
         BASS_GetEAXParameters(NULL, &vol, NULL, NULL)
-        __Evaluate()
+        self._evaluate()
         return vol
 
     def __set__(OutputDevice self, float value):
@@ -612,7 +612,7 @@ cdef class OutputDevice:
 
         self.Set()
         BASS_SetEAXParameters(-1, value, -1.0, -1.0)
-        __Evaluate()
+        self._evaluate()
 
   property EAXDecay:
     def __get__(OutputDevice self):
@@ -624,7 +624,7 @@ cdef class OutputDevice:
         cdef float decay
         self.Set()
         BASS_GetEAXParameters(NULL, NULL, &decay, NULL)
-        __Evaluate()
+        self._evaluate()
         return decay
 
     def __set__(OutputDevice self, float value):
@@ -635,7 +635,7 @@ cdef class OutputDevice:
 
         self.Set()
         BASS_SetEAXParameters(-1, -1.0, value, -1.0)
-        __Evaluate()
+        self._evaluate()
 
   property EAXDamping:
     def __get__(OutputDevice self):
@@ -647,7 +647,7 @@ cdef class OutputDevice:
         cdef float damp
         self.Set()
         BASS_GetEAXParameters(NULL, NULL, NULL, &damp)
-        __Evaluate()
+        self._evaluate()
         return damp
 
     def __set__(OutputDevice self, float value):
@@ -658,12 +658,12 @@ cdef class OutputDevice:
 
         self.Set()
         BASS_SetEAXParameters(-1, -1.0, -1.0, value)
-        __Evaluate()
+        self._evaluate()
 
   property Started:
     def __get__(OutputDevice self):
       cdef bint res
       self.Set()
       res = BASS_IsStarted()
-      __Evaluate()
+      self._evaluate()
       return res

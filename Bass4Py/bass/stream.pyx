@@ -1,6 +1,5 @@
 from libc.string cimport memmove
 
-from .bass cimport __Evaluate
 from ..bindings.bass cimport (
   _BASS_ATTRIB_BITRATE,
   _BASS_ATTRIB_NET_RESUME,
@@ -133,33 +132,33 @@ cdef class Stream(Channel):
     cdef bint res
     with nogil:
       res = BASS_StreamFree(self._channel)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef QWORD GetFilePosition(Stream self, DWORD mode):
     cdef QWORD res = BASS_StreamGetFilePosition(self._channel, mode)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
       res = BASS_StreamPutData(self._channel, &(buffer[0]), length)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length):
     cdef DWORD res
     with nogil:
       res = BASS_StreamPutFileData(self._channel, &(buffer[0]), length)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Update(Stream self, DWORD length):
     cdef bint res
     with nogil:
       res = BASS_ChannelUpdate(self._channel, length)
-    __Evaluate()
+    self._evaluate()
     return res
 
   @staticmethod
@@ -176,7 +175,7 @@ cdef class Stream(Channel):
 
     filename = to_readonly_bytes(file)
     strm = BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, cflags)
-    __Evaluate()
+    Stream._evaluate()
     
     return Stream(strm)
 
@@ -196,7 +195,7 @@ cdef class Stream(Channel):
       cdevice.Set()
 
     strm = BASS_StreamCreateFile(True, &(cdata[0]), 0, clength, cflags)
-    __Evaluate()
+    Stream._evaluate()
     return Stream(strm)
 
   @staticmethod
@@ -234,7 +233,7 @@ cdef class Stream(Channel):
 
     with nogil:
       strm = BASS_StreamCreateURL((<char *>(&curl[0])), coffset, cflags, cproc, <void*>ostrm)
-    __Evaluate()
+    Stream._evaluate()
     
     ostrm._sethandle(strm)
 
@@ -273,7 +272,7 @@ cdef class Stream(Channel):
     
     with nogil:
       strm = BASS_StreamCreate(cfreq, cchans, cflags, cproc, <void*>ostrm)
-    __Evaluate()
+    Stream._evaluate()
     
     ostrm._sethandle(strm)
     
@@ -287,7 +286,7 @@ cdef class Stream(Channel):
     cdevice.Set()
     
     strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE, NULL)
-    __Evaluate()
+    Stream._evaluate()
     
     return Stream(strm)
 
@@ -299,7 +298,7 @@ cdef class Stream(Channel):
     cdevice.Set()
     
     strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE_3D, NULL)
-    __Evaluate()
+    Stream._evaluate()
     
     return Stream(strm)
 
@@ -335,7 +334,7 @@ cdef class Stream(Channel):
 
     with nogil:
       strm = BASS_StreamCreateFileUser(csystem, cflags, &procs, (<void*>ostrm))
-    __Evaluate()
+    Stream._evaluate()
     
     ostrm._sethandle(strm)
     

@@ -9,7 +9,7 @@ class TestSync(unittest.TestCase):
 
   def setUp(self):
     self.bass = BASS()
-    self.device = self.bass.GetOutputDevice(0)
+    self.device = self.bass.get_output_device(0)
     self.device.Init(44100, 0, 0)
 
     # paths

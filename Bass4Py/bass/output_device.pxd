@@ -1,3 +1,4 @@
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   DWORD,
   QWORD,
@@ -9,7 +10,7 @@ from ..bindings.bass cimport (
   HMUSIC,
   BASS_3DVECTOR)
 
-cdef class OutputDevice:
+cdef class OutputDevice(_Evaluable):
   cdef DWORD _device
   cdef BASS_INFO _getinfo(OutputDevice self)
   cdef BASS_DEVICEINFO _getdeviceinfo(OutputDevice self)

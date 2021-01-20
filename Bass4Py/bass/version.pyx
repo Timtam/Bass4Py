@@ -1,39 +1,32 @@
 from ..bindings.bass cimport (
   HIWORD,
-  LOWORD)
+  LOWORD,
+  WORD)
 
-cdef class Version:
+cdef class Version(str):
   """
   A helper class which represents BASS version information in a more human-readable format
-
-  :ivar Integer: The actual version (readonly)
   """
 
   def __cinit__(Version self, DWORD version):
+    self._version = version
+
+  def __str__(self):
     cdef WORD loword,hiword
     cdef int lowordcount,hiwordcount
-
-    self.Integer = version
 
     hiword=HIWORD(self.Integer)
     loword=LOWORD(self.Integer)
     hiwordcount=int(hiword/0x100)
     lowordcount=int(loword/0x100)
-    self.String = '{0}.{1}.{2}.{3}'.format(hiwordcount, hiword-hiwordcount*0x100, lowordcount, loword-lowordcount*0x100)
 
-  def __eq__(Version self, object v):
-    if isinstance(v, Version):
-      return self.Integer == (<Version>v).Integer
-    elif isinstance(v, int):
-      return self.Integer == v
-    else:
-      return NotImplemented
+    return '{0}.{1}.{2}.{3}'.format(hiwordcount, hiword-hiwordcount*0x100, lowordcount, loword-lowordcount*0x100)
 
-  def __str__(self):
-    return self.String
-  
+  def __repr__(self):
+    return self.__str__()
+
   def __int__(self):
-    return self.Integer
+    return self._version
 
   def __index__(self):
-    return self.Integer
+    return self._version

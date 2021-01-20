@@ -1,6 +1,6 @@
 from libc.string cimport memmove
 
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   BASS_ChannelSetDSP,
   BASS_ChannelRemoveDSP,
@@ -24,13 +24,13 @@ cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *us
 cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil:
   CDSPPROC(dsp, channel, buffer, length, user)
 
-cdef class DSP:
+cdef class DSP(_Evaluable):
 
   cpdef Remove(DSP self):
     cdef bint res
     with nogil:
       res = BASS_ChannelRemoveDSP(self.Channel._channel, self._dsp)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Set(DSP self, Channel chan):
@@ -48,7 +48,7 @@ cdef class DSP:
     with nogil:
       dsp = BASS_ChannelSetDSP(chan._channel, cproc, <void*>self, self._priority)
     
-    __Evaluate()
+    self._evaluate()
     
     self._dsp = dsp
     self.Channel = chan

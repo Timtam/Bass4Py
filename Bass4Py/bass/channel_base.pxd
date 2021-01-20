@@ -5,9 +5,10 @@ from ..bindings.bass cimport (
   QWORD)
 
 from .attribute cimport Attribute
+from .._evaluable cimport _Evaluable
 from ..exceptions import BassError
 
-cdef class ChannelBase:
+cdef class ChannelBase(_Evaluable):
   cdef HCHANNEL _channel
   cdef object _flags_enum
 

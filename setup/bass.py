@@ -145,6 +145,13 @@ class BASSExtensionHandler(ExtensionHandler):
         [
           "Bass4Py/bass/version.pyx"
         ],
+        language = "c"
+      ),
+      Extension(
+        "Bass4Py._evaluable",
+        [
+          "Bass4Py/_evaluable.pyx"
+        ],
         libraries = ["bass"],
         language = "c"
       ),

@@ -1,9 +1,9 @@
 from ..bindings.bass cimport DWORD
 
+from .._evaluable cimport _Evaluable
 from .version cimport Version
 
-cpdef __Evaluate()
-cdef class BASS:
+cdef class BASS(_Evaluable):
 
   cdef readonly Version api_version
   """

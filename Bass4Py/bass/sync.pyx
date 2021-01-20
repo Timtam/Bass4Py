@@ -1,4 +1,4 @@
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   _BASS_SYNC_MIXTIME,
   _BASS_SYNC_ONETIME,
@@ -21,7 +21,7 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
   CSYNCPROC(handle, channel, data, user)
 
-cdef class Sync:
+cdef class Sync(_Evaluable):
 
   cpdef Set(Sync self, Channel chan):
     cdef DWORD type = self._type
@@ -48,7 +48,7 @@ cdef class Sync:
     with nogil:
       sync = BASS_ChannelSetSync(chan._channel, type, self._param, cproc, <void*>self)
 
-    __Evaluate()
+    self._evaluate()
     
     self._sync = sync
     
@@ -62,7 +62,7 @@ cdef class Sync:
 
     with nogil:
       res = BASS_ChannelRemoveSync(self.Channel._channel, self._sync)
-    __Evaluate()
+    self._evaluate()
     self.Channel = None
     self._sync = 0
     return res

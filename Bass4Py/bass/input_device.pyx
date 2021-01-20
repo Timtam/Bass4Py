@@ -1,4 +1,4 @@
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   _BASS_DEVICE_DEFAULT,
   _BASS_DEVICE_ENABLED,
@@ -16,7 +16,7 @@ from .input cimport Input
 from .record cimport Record
 from ..exceptions import BassPlatformError
 
-cdef class InputDevice:
+cdef class InputDevice(_Evaluable):
   def __cinit__(InputDevice self, int device):
     self._device=device
     self.Inputs = ()
@@ -35,7 +35,7 @@ cdef class InputDevice:
     cdef bint res 
     with nogil:
       res = BASS_RecordSetDevice(self._device)
-    __Evaluate()
+    self._evaluate()
     return res
 
   cpdef Free(InputDevice self):
@@ -43,7 +43,7 @@ cdef class InputDevice:
     self.Set()
     with nogil:
       res = BASS_RecordFree()
-    __Evaluate()
+    self._evaluate()
     self.Inputs = ()
     return res
 
@@ -54,10 +54,10 @@ cdef class InputDevice:
     cdef int i
 
     res = BASS_RecordInit(self._device)
-    __Evaluate()
+    self._evaluate()
 
     info = self._getinfo()
-    __Evaluate()
+    self._evaluate()
     
     IF UNAME_SYSNAME != "Darwin":
       inputs.append(Input(self, -1))
@@ -76,14 +76,14 @@ cdef class InputDevice:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return info.name.decode('utf-8')
 
   property Driver:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       if info.driver == NULL:
         return u''
       return info.driver.decode('utf-8')
@@ -92,35 +92,35 @@ cdef class InputDevice:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_ENABLED)
 
   property Default:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_DEFAULT)
 
   property Initialized:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_INIT)
 
   property Loopback:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_LOOPBACK)
 
   property Type:
     def __get__(InputDevice self):
       cdef BASS_DEVICEINFO info
       info = self._getdeviceinfo()
-      __Evaluate()
+      self._evaluate()
 
       from ..constants import DEVICE_TYPE
 
@@ -136,7 +136,7 @@ cdef class InputDevice:
 
         self.Set()
         info = self._getinfo()
-        __Evaluate()
+        self._evaluate()
         return info.flags
 
   property Formats:
@@ -144,7 +144,7 @@ cdef class InputDevice:
       cdef BASS_RECORDINFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.formats & 0xffffff
 
   property Channels:
@@ -152,7 +152,7 @@ cdef class InputDevice:
       cdef BASS_RECORDINFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.formats >> 24
 
   property SingleInput:
@@ -160,7 +160,7 @@ cdef class InputDevice:
       cdef BASS_RECORDINFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return <bint>info.singlein
 
   property Frequency:
@@ -168,5 +168,5 @@ cdef class InputDevice:
       cdef BASS_RECORDINFO info
       self.Set()
       info = self._getinfo()
-      __Evaluate()
+      self._evaluate()
       return info.freq

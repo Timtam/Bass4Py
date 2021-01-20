@@ -1,4 +1,3 @@
-from .bass cimport __Evaluate
 from ..bindings.bass cimport (
   _BASS_NODEVICE,
   BASS_ChannelGetDevice,
@@ -35,7 +34,7 @@ cdef class Record(ChannelBase):
 
     dev = BASS_ChannelGetDevice(self._channel)
     
-    __Evaluate()
+    self._evaluate()
     
     if dev == _BASS_NODEVICE:
       self._device = None
@@ -73,7 +72,7 @@ cdef class Record(ChannelBase):
     with nogil:
       rec = BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
 
-    __Evaluate()
+    Record._evaluate()
     
     orec._sethandle(rec)
 
@@ -86,7 +85,7 @@ cdef class Record(ChannelBase):
     cdef bint res
     with nogil:
       res = BASS_ChannelPlay(self._channel, True)
-    __Evaluate()
+    self._evaluate()
     return res
 
   property Device:
@@ -99,7 +98,7 @@ cdef class Record(ChannelBase):
       else:
         BASS_ChannelSetDevice(self._channel, (<InputDevice?>dev)._device)
 
-      __Evaluate()
+      self._evaluate()
 
       if not dev:
         self._device = None
