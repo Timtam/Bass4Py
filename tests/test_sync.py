@@ -28,7 +28,7 @@ class TestSync(unittest.TestCase):
     sync = Download()
     sync.Callback = s_download
     self.assertRaises(BassSyncError, sync.Set, music)
-    music.Free()
+    music.free()
 
   def test_music_only_sync(self):
     def s_music_instrument(msc, *args, **kwargs):
@@ -38,4 +38,4 @@ class TestSync(unittest.TestCase):
     minst = MusicInstrument()
     minst.Callback = s_music_instrument
     self.assertRaises(BassSyncError, minst.Set, stream)
-    stream.Free()
+    stream.free()

@@ -13,22 +13,22 @@ cdef class ChannelBase(_Evaluable):
   cdef object _flags_enum
 
   # attributes
-  cdef readonly Attribute Frequency
-  cdef readonly Attribute Pan
-  cdef readonly Attribute SRC
-  cdef readonly Attribute Volume
-  cdef readonly Attribute Granularity
+  cdef readonly Attribute frequency
+  cdef readonly Attribute pan
+  cdef readonly Attribute src
+  cdef readonly Attribute volume
+  cdef readonly Attribute granularity
 
-  cdef BASS_CHANNELINFO _getinfo(ChannelBase self)
-  cdef void _initattributes(ChannelBase self)
-  cdef void _sethandle(ChannelBase self, HCHANNEL handle)
-  cpdef GetLevels(ChannelBase self, float length, DWORD flags)
-  cpdef Lock(ChannelBase self)
-  cpdef Pause(ChannelBase self)
-  cpdef Stop(ChannelBase self)
-  cpdef Unlock(ChannelBase self)
-  cpdef GetPosition(ChannelBase self, DWORD mode=?)
-  cpdef Bytes2Seconds(ChannelBase self, QWORD bytes)
-  cpdef Seconds2Bytes(ChannelBase self, double secs)
-  cpdef GetData(ChannelBase self, DWORD length)
-  cpdef GetLength(ChannelBase self, DWORD mode = ?)
+  cdef BASS_CHANNELINFO _get_info(ChannelBase self)
+  cdef void _init_attributes(ChannelBase self)
+  cdef void _set_handle(ChannelBase self, HCHANNEL handle)
+  cpdef get_levels(ChannelBase self, float length, DWORD flags)
+  cpdef lock(ChannelBase self)
+  cpdef pause(ChannelBase self)
+  cpdef stop(ChannelBase self)
+  cpdef unlock(ChannelBase self)
+  cpdef get_position(ChannelBase self, DWORD mode=?)
+  cpdef bytes_to_seconds(ChannelBase self, QWORD bytes)
+  cpdef seconds_to_bytes(ChannelBase self, double secs)
+  cpdef get_data(ChannelBase self, DWORD length)
+  cpdef get_length(ChannelBase self, DWORD mode = ?)

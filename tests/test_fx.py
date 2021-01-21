@@ -18,16 +18,16 @@ class TestFX(unittest.TestCase):
     self.effect = Parameq()
     
   def tearDown(self):
-    self.stream.Free()
+    self.stream.free()
     self.device.free()
 
   def get_bounds(self):
     if platform.uname()[0] == "Windows":
       lbound = 80.0
-      ubound = int(self.stream.DefaultFrequency/3) - 1
+      ubound = int(self.stream.default_frequency/3) - 1
     else:
       lbound = 1.0
-      ubound = int(self.stream.DefaultFrequency/2) - 1
+      ubound = int(self.stream.default_frequency/2) - 1
     return (lbound, ubound, )
 
   def test_limits_before_link(self):

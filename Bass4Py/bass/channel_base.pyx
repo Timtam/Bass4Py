@@ -39,41 +39,41 @@ cdef class ChannelBase(_Evaluable):
     self._flags_enum = SAMPLE
 
     if channel != 0:
-      self._sethandle(channel)
+      self._set_handle(channel)
 
-  cdef void _sethandle(ChannelBase self, HCHANNEL handle):
+  cdef void _set_handle(ChannelBase self, HCHANNEL handle):
     self._channel = handle
-    self._initattributes()
+    self._init_attributes()
 
-  cdef void _initattributes(ChannelBase self):
-    self.Frequency = Attribute(self._channel, _BASS_ATTRIB_FREQ)
-    self.Pan = Attribute(self._channel, _BASS_ATTRIB_PAN)
-    self.SRC = Attribute(self._channel, _BASS_ATTRIB_SRC)
-    self.Volume = Attribute(self._channel, _BASS_ATTRIB_VOL)
-    self.Granularity = Attribute(self._channel, _BASS_ATTRIB_GRANULE)
+  cdef void _init_attributes(ChannelBase self):
+    self.frequency = Attribute(self._channel, _BASS_ATTRIB_FREQ)
+    self.pan = Attribute(self._channel, _BASS_ATTRIB_PAN)
+    self.src = Attribute(self._channel, _BASS_ATTRIB_SRC)
+    self.volume = Attribute(self._channel, _BASS_ATTRIB_VOL)
+    self.granularity = Attribute(self._channel, _BASS_ATTRIB_GRANULE)
 
-  cdef BASS_CHANNELINFO _getinfo(ChannelBase self):
+  cdef BASS_CHANNELINFO _get_info(ChannelBase self):
     cdef BASS_CHANNELINFO info
     cdef bint res
     res=BASS_ChannelGetInfo(self._channel, &info)
     return info
 
-  cpdef Pause(ChannelBase self):
+  cpdef pause(ChannelBase self):
     cdef bint res 
     with nogil:
       res = BASS_ChannelPause(self._channel)
     self._evaluate()
     return res
 
-  cpdef Stop(ChannelBase self):
+  cpdef stop(ChannelBase self):
     cdef bint res 
     with nogil:
       res = BASS_ChannelStop(self._channel)
     self._evaluate()
     return res
 
-  cpdef GetLevels(ChannelBase self, float length, DWORD flags):
-    cdef int chans = self.Channels
+  cpdef get_levels(ChannelBase self, float length, DWORD flags):
+    cdef int chans = self.channels
     cdef int i=0
     cdef float *levels
     cdef list plevels=[]
@@ -86,7 +86,7 @@ cdef class ChannelBase(_Evaluable):
     PyMem_Free(<void*>levels)
     return tuple(plevels)
 
-  cpdef Lock(ChannelBase self):
+  cpdef lock(ChannelBase self):
     cdef bint res
 
     res = BASS_ChannelLock(self._channel, True)
@@ -95,7 +95,7 @@ cdef class ChannelBase(_Evaluable):
     
     return res
 
-  cpdef Unlock(ChannelBase self):
+  cpdef unlock(ChannelBase self):
     cdef bint res
     
     res = BASS_ChannelLock(self._channel, False)
@@ -104,25 +104,25 @@ cdef class ChannelBase(_Evaluable):
     
     return res
 
-  cpdef GetPosition(ChannelBase self, DWORD mode = _BASS_POS_BYTE):
+  cpdef get_position(ChannelBase self, DWORD mode = _BASS_POS_BYTE):
     cdef QWORD res
     res = BASS_ChannelGetPosition(self._channel, mode)
     self._evaluate()
     return res
   
-  cpdef Bytes2Seconds(ChannelBase self, QWORD bytes):
+  cpdef bytes_to_seconds(ChannelBase self, QWORD bytes):
     cdef double secs
     secs = BASS_ChannelBytes2Seconds(self._channel, bytes)
     self._evaluate()
     return secs
   
-  cpdef Seconds2Bytes(ChannelBase self, double secs):
+  cpdef seconds_to_bytes(ChannelBase self, double secs):
     cdef QWORD bytes
     bytes = BASS_ChannelSeconds2Bytes(self._channel, secs)
     self._evaluate()
     return bytes
 
-  cpdef GetData(ChannelBase self, DWORD length):
+  cpdef get_data(ChannelBase self, DWORD length):
     cdef DWORD l = length&0xfffffff
     cdef void *buffer = <void*>PyMem_Malloc(l)
     cdef bytes b
@@ -140,7 +140,7 @@ cdef class ChannelBase(_Evaluable):
     PyMem_Free(buffer)
     return b
 
-  cpdef GetLength(ChannelBase self, DWORD mode = _BASS_POS_BYTE):
+  cpdef get_length(ChannelBase self, DWORD mode = _BASS_POS_BYTE):
     cdef QWORD res = BASS_ChannelGetLength(self._channel, mode)
     self._evaluate()
     return res
@@ -152,61 +152,61 @@ cdef class ChannelBase(_Evaluable):
       return self._channel == chan._channel
     return NotImplemented
 
-  property DefaultFrequency:
+  property default_frequency:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.freq
 
-  property Channels:
+  property channels:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.chans
 
-  property Type:
+  property type:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
 
       from ..constants import CHANNEL_TYPE
 
       return CHANNEL_TYPE(info.ctype)
 
-  property Resolution:
+  property resolution:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.origres
 
-  property Plugin:
+  property plugin:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       if info.plugin:
         return Plugin(info.plugin)
       else:
         return None
 
-  property Name:
+  property name:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
 
       if info.filename == NULL:
         return u''
       return info.filename.decode('utf-8')
 
-  property Sample:
+  property sample:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       if info.sample:
         return Sample(info.sample)
       else:
         return None
 
-  property Level:
+  property level:
     def __get__(ChannelBase self):
       cdef WORD left, right
       cdef DWORD level = BASS_ChannelGetLevel(self._channel)
@@ -215,7 +215,7 @@ cdef class ChannelBase(_Evaluable):
       right = HIWORD(level)
       return (left, right, )
 
-  property Active:
+  property active:
     def __get__(ChannelBase self):
       cdef DWORD act
 
@@ -228,15 +228,15 @@ cdef class ChannelBase(_Evaluable):
       return ACTIVE(act)
 
   @property
-  def DataAvailable(ChannelBase self):
+  def data_available(ChannelBase self):
     cdef DWORD res
     res = BASS_ChannelGetData(self._channel, NULL, _BASS_DATA_AVAILABLE)
     self._evaluate()
     return res
 
-  property Flags:
+  property flags:
     def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._getinfo()
+      cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       if info.flags&_BASS_UNICODE:
         return self._flags_enum(info.flags^_BASS_UNICODE)

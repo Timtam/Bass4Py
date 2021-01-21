@@ -224,40 +224,40 @@ cdef class OutputDevice(_Evaluable):
     return res
 
   cpdef create_stream_from_parameters(OutputDevice self, DWORD freq, DWORD chans, DWORD flags = 0, object callback = None):
-    return Stream.FromParameters(freq, chans, flags, callback, self)
+    return Stream.from_parameters(freq, chans, flags, callback, self)
 
   cpdef create_stream_from_bytes(OutputDevice self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0):
-    return Stream.FromBytes(data, flags, length, self)
+    return Stream.from_bytes(data, flags, length, self)
 
   cpdef create_stream_from_file(OutputDevice self, object filename, DWORD flags = 0, QWORD offset = 0):
-    return Stream.FromFile(filename, flags, offset, self)
+    return Stream.from_file(filename, flags, offset, self)
 
   cpdef create_stream_from_url(OutputDevice self, object url, DWORD flags = 0, QWORD offset = 0, object callback = None):
-    return Stream.FromURL(url, flags, offset, callback, self)
+    return Stream.from_url(url, flags, offset, callback, self)
 
   cpdef create_stream(OutputDevice self):
-    return Stream.FromDevice(self)
+    return Stream.from_device(self)
 
   cpdef create_stream_3d(OutputDevice self):
-    return Stream.FromDevice3D(self)
+    return Stream.from_device_3d(self)
 
   cpdef create_stream_from_file_obj(OutputDevice self, object obj, DWORD system = _STREAMFILE_BUFFER, DWORD flags = 0):
-    return Stream.FromFileObj(obj, system, flags, self)
+    return Stream.from_file_obj(obj, system, flags, self)
 
   cpdef create_sample_from_bytes(OutputDevice self, const unsigned char[:] data, DWORD max = 65535, DWORD flags = 0, DWORD length = 0):
-    return Sample.FromBytes(data, max, flags, length, self)
+    return Sample.from_bytes(data, max, flags, length, self)
 
   cpdef create_sample_from_file(OutputDevice self, object filename, DWORD max = 65535, DWORD flags = 0, QWORD offset = 0):
-    return Sample.FromFile(filename, max, flags, offset, self)
+    return Sample.from_file(filename, max, flags, offset, self)
 
   cpdef create_sample_from_parameters(OutputDevice self, DWORD length, DWORD freq, DWORD chans, DWORD max = 65535, DWORD flags = 0):
-    return Sample.FromParameters(length, freq, chans, max, flags, self)
+    return Sample.from_parameters(length, freq, chans, max, flags, self)
 
   cpdef create_music_from_bytes(OutputDevice self, const unsigned char[:] data, DWORD flags = 0, QWORD length = 0, bint device_frequency = True):
-    return Music.FromBytes(data, flags, length, device_frequency, self)
+    return Music.from_bytes(data, flags, length, device_frequency, self)
 
   cpdef create_music_from_file(OutputDevice self, object filename, DWORD flags = 0, QWORD offset = 0, bint device_frequency = True):
-    return Music.FromFile(filename, flags, offset, device_frequency, self)
+    return Music.from_file(filename, flags, offset, device_frequency, self)
 
   cpdef eax_preset(OutputDevice self, int preset):
     cdef int env

@@ -67,7 +67,7 @@ cdef class Parameq(FX):
 
       else:
 
-        info = self.Channel._getinfo()
+        info = self.Channel._get_info()
 
         IF UNAME_SYSNAME == "Windows":
           self._validate_range(value, 80.0, <float>(<int>(info.freq/3 - 1)))

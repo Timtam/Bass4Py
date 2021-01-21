@@ -13,14 +13,14 @@ cdef class Stream(Channel):
   cdef object _streamproc
 
   # attributes
-  cdef readonly Attribute Bitrate
-  cdef readonly Attribute NetResume
-  cdef readonly Attribute ScanInfo
+  cdef readonly Attribute bitrate
+  cdef readonly Attribute net_resume
+  cdef readonly Attribute scan_info
 
-  cdef readonly object Tags
+  cdef readonly object tags
 
-  cpdef Free(Stream self)
-  cpdef QWORD GetFilePosition(Stream self, DWORD mode)
-  cpdef DWORD PutData(Stream self, const unsigned char[:] buffer, DWORD length)
-  cpdef DWORD PutFileData(Stream self, const unsigned char[:] buffer, DWORD length)
-  cpdef Update(Stream self, DWORD length)
+  cpdef free(Stream self)
+  cpdef QWORD get_file_position(Stream self, DWORD mode)
+  cpdef DWORD put_data(Stream self, const unsigned char[:] buffer, DWORD length)
+  cpdef DWORD put_file_data(Stream self, const unsigned char[:] buffer, DWORD length)
+  cpdef update(Stream self, DWORD length)
