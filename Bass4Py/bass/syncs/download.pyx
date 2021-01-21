@@ -11,11 +11,11 @@ cdef class Download(Sync):
   def __cinit__(Download self):
 
     self._type = _BASS_SYNC_DOWNLOAD
-    self._set_mixtime(True)
+    self._set_mix_time(True)
 
-  cpdef Set(Download self, Channel chan):
+  cpdef set(Download self, Channel chan):
 
     if not isinstance(chan, Stream):
       raise BassSyncError("this sync can only be set to a stream")
     
-    super(Download, self).Set(chan)
+    super(Download, self).set(chan)

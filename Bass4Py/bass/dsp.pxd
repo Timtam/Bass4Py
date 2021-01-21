@@ -12,6 +12,6 @@ cdef class DSP(_Evaluable):
   cdef HDSP _dsp
   cdef int _priority
   cdef object _func
-  cdef readonly Channel Channel
-  cpdef Remove(DSP self)
-  cpdef Set(DSP self, Channel chan)
+  cdef readonly Channel channel
+  cpdef remove(DSP self)
+  cpdef set(DSP self, Channel chan)

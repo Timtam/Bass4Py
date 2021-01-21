@@ -14,7 +14,7 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 
   (<object>sync)._call_callback(data)
 
-  if sync._onetime:
+  if sync._one_time:
     sync.Channel = None
     sync._sync = 0
 
@@ -23,7 +23,7 @@ cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void 
 
 cdef class Sync(_Evaluable):
 
-  cpdef Set(Sync self, Channel chan):
+  cpdef set(Sync self, Channel chan):
     cdef DWORD type = self._type
     cdef HSYNC sync
     cdef SYNCPROC *cproc
@@ -31,13 +31,13 @@ cdef class Sync(_Evaluable):
     if not callable(self._func):
       raise BassSyncError("a callable callback is required for this sync")
     
-    if self._forceparam and self._param == 0:
+    if self._force_param and self._param == 0:
       raise BassSyncError("this sync requires a parameter to be defined. Please check the documentation for more information.")
 
     if self._sync:
       raise BassAPIError()
 
-    if self._onetime:
+    if self._one_time:
       type = type & _BASS_SYNC_ONETIME
 
     IF UNAME_SYSNAME == "Windows":
@@ -52,27 +52,27 @@ cdef class Sync(_Evaluable):
     
     self._sync = sync
     
-    self.Channel = chan
+    self.channel = chan
 
-  cpdef Remove(Sync self):
+  cpdef remove(Sync self):
     cdef bint res
 
     if self._sync == 0:
       raise BassAPIError()
 
     with nogil:
-      res = BASS_ChannelRemoveSync(self.Channel._channel, self._sync)
+      res = BASS_ChannelRemoveSync(self.channel._channel, self._sync)
     self._evaluate()
-    self.Channel = None
+    self.channel = None
     self._sync = 0
     return res
 
-  cpdef SetMixtime(Sync self, bint enable, bint threaded = False):
+  cpdef set_mix_time(Sync self, bint enable, bint threaded = False):
 
     cdef DWORD type = self._type
     
-    if self._forcemixtime and not enable:
-      raise BassSyncError('sync needs to be mixtime')
+    if self._force_mix_time and not enable:
+      raise BassSyncError('sync needs to be mix time')
 
     if enable:
 
@@ -99,27 +99,27 @@ cdef class Sync(_Evaluable):
       sync = <Sync>y
 
       if self._sync == 0 and sync._sync == 0:
-        return self._func == sync._func and self._param == sync._param and self._type == sync._type and self._onetime == sync._onetime and self.Channel._channel == sync.Channel._channel
+        return self._func == sync._func and self._param == sync._param and self._type == sync._type and self._one_time == sync._one_time and self.channel._channel == sync.channel._channel
       else:
         return self._sync == sync._sync
     return NotImplemented
 
-  cdef void _set_mixtime(Sync self, bint enable, bint threaded = False):
+  cdef void _set_mix_time(Sync self, bint enable, bint threaded = False):
 
-    self.SetMixtime(enable, threaded)
-    self._forcemixtime = True
+    self.set_mix_time(enable, threaded)
+    self._force_mix_time = True
 
-  property Onetime:
+  property one_time:
     def __get__(Sync self):
-      return self._onetime
+      return self._one_time
     
     def __set__(Sync self, bint value):
       if self._sync:
         raise BassAPIError()
 
-      self._onetime = value
+      self._one_time = value
 
-  property Callback:
+  property callback:
     def __get__(Sync self):
       return self._func
     

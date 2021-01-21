@@ -8,4 +8,4 @@ cdef class Free(Sync):
   def __cinit__(Free self):
 
     self._type = _BASS_SYNC_FREE
-    self._set_mixtime(True)
+    self._set_mix_time(True)

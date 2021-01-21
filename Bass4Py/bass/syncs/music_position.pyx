@@ -15,11 +15,11 @@ cdef class MusicPosition(Sync):
 
     self._type = _BASS_SYNC_MUSICPOS
 
-  cpdef Set(MusicPosition self, Channel chan):
+  cpdef set(MusicPosition self, Channel chan):
     if not isinstance(chan, Music):
       raise BassSyncError("this sync can only be set to a music")
     
-    super(MusicPosition, self).Set(chan)
+    super(MusicPosition, self).set(chan)
 
   cpdef _call_callback(MusicPosition self, DWORD data):
     self._func(self, LOWORD(data), HIWORD(data))

@@ -26,14 +26,14 @@ cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD le
 
 cdef class DSP(_Evaluable):
 
-  cpdef Remove(DSP self):
+  cpdef remove(DSP self):
     cdef bint res
     with nogil:
-      res = BASS_ChannelRemoveDSP(self.Channel._channel, self._dsp)
+      res = BASS_ChannelRemoveDSP(self.channel._channel, self._dsp)
     self._evaluate()
     return res
 
-  cpdef Set(DSP self, Channel chan):
+  cpdef set(DSP self, Channel chan):
     cdef HDSP dsp
     cdef DSPPROC *cproc
     
@@ -51,9 +51,9 @@ cdef class DSP(_Evaluable):
     self._evaluate()
     
     self._dsp = dsp
-    self.Channel = chan
+    self.channel = chan
 
-  property Priority:
+  property priority:
     def __get__(DSP self):
       return self._priority
     
@@ -63,7 +63,7 @@ cdef class DSP(_Evaluable):
         
       self._priority = priority
 
-  property Callback:
+  property callback:
     def __get__(DSP self):
       return self._func
     

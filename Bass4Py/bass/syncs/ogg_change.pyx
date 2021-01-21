@@ -12,8 +12,8 @@ cdef class OggChange(Sync):
 
     self._type = _BASS_SYNC_OGG_CHANGE
 
-  cpdef Set(OggChange self, Channel chan):
+  cpdef set(OggChange self, Channel chan):
     if not isinstance(chan, Stream):
       raise BassSyncError("this sync can only be set to a stream")
     
-    super(OggChange, self).Set(chan)
+    super(OggChange, self).set(chan)

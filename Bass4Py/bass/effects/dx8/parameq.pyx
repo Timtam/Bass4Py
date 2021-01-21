@@ -29,11 +29,11 @@ cdef class Parameq(FX):
     effect.fBandwidth = 12.0
     effect.fGain = 0.0
 
-  cpdef Set(Parameq self, Channel chan, bint update = True):
+  cpdef set(Parameq self, Channel chan, bint update = True):
     cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
     cdef BASS_DX8_PARAMEQ temp
 
-    super(Parameq, self).Set(chan, False)
+    super(Parameq, self).set(chan, False)
 
     if effect.fCenter == 0:
       BASS_FXGetParameters(self._fx, <void*>(&temp))
@@ -46,7 +46,7 @@ cdef class Parameq(FX):
       try:
         self._evaluate()
       except Exception, e:
-        self.Remove()
+        self.remove()
         raise e
 
   property Center:
@@ -58,7 +58,7 @@ cdef class Parameq(FX):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       cdef BASS_CHANNELINFO info
 
-      if self.Channel == None:
+      if self.channel == None:
 
         IF UNAME_SYSNAME == "Windows":
           self._validate_range(value, 80.0, 16000.0)
@@ -67,7 +67,7 @@ cdef class Parameq(FX):
 
       else:
 
-        info = self.Channel._get_info()
+        info = self.channel._get_info()
 
         IF UNAME_SYSNAME == "Windows":
           self._validate_range(value, 80.0, <float>(<int>(info.freq/3 - 1)))

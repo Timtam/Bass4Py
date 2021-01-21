@@ -80,10 +80,10 @@ cdef class Channel(ChannelBase):
     return res
 
   cpdef set_sync(Channel self, Sync sync):
-    (<object>sync).Set(self)
+    (<object>sync).set(self)
 
   cpdef set_fx(Channel self, FX fx):
-    (<object>fx).Set(self)
+    (<object>fx).set(self)
 
   cpdef reset_fx(Channel self):
     cdef bint res
@@ -93,7 +93,7 @@ cdef class Channel(ChannelBase):
     return res
 
   cpdef set_dsp(Channel self, DSP dsp):
-    dsp.Set(self)
+    dsp.set(self)
 
   cpdef link(Channel self, Channel obj):
     cdef bint res

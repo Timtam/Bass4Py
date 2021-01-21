@@ -18,7 +18,7 @@ cdef class FX(_Evaluable):
       PyMem_Free(self._effect)
       self._effect = NULL
 
-  cpdef Set(FX self, Channel chan, bint update = True):
+  cpdef set(FX self, Channel chan, bint update = True):
     cdef HFX fx
 
     if self._fx:
@@ -29,7 +29,7 @@ cdef class FX(_Evaluable):
 
     self._evaluate()
 
-    self.Channel = chan
+    self.channel = chan
 
     self._fx = fx
 
@@ -40,23 +40,23 @@ cdef class FX(_Evaluable):
       try:
         self._evaluate()
       except Exception, e:
-        self.Remove()
+        self.remove()
         raise e
 
-  cpdef Remove(FX self):
+  cpdef remove(FX self):
     cdef bint res
 
     if self._fx == 0:
       raise BassAPIError()
 
     with nogil:
-      res = BASS_ChannelRemoveFX(self.Channel._channel, self._fx)
+      res = BASS_ChannelRemoveFX(self.channel._channel, self._fx)
     self._evaluate()
     self._fx = 0
-    self.Channel = None
+    self.channel = None
     return res
 
-  cpdef Reset(FX self):
+  cpdef reset(FX self):
     cdef bint res 
 
     if self._fx == 0:
@@ -68,7 +68,7 @@ cdef class FX(_Evaluable):
     BASS_FXGetParameters(self._fx, self._effect)
     return res
 
-  cpdef Update(FX self):
+  cpdef update(FX self):
 
     if self._fx == 0:
       raise BassAPIError()
@@ -91,7 +91,7 @@ cdef class FX(_Evaluable):
         return self._fx == fx._fx
     return NotImplemented
 
-  property Priority:
+  property priority:
     def __get__(FX self):
       return self._priority
     

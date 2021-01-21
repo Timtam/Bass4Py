@@ -12,17 +12,17 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 
 cdef class Sync(_Evaluable):
-  cdef readonly Channel Channel
+  cdef readonly Channel channel
   cdef HSYNC _sync
   cdef DWORD _type
   cdef QWORD _param
-  cdef bint _onetime
-  cdef bint _forceparam
-  cdef bint _forcemixtime
+  cdef bint _one_time
+  cdef bint _force_param
+  cdef bint _force_mix_time
   cdef object _func
   cdef object _user
-  cpdef Remove(Sync self)
-  cpdef Set(Sync self, Channel chan)
-  cpdef SetMixtime(Sync self, bint enable, bint threaded = ?)
+  cpdef remove(Sync self)
+  cpdef set(Sync self, Channel chan)
+  cpdef set_mix_time(Sync self, bint enable, bint threaded = ?)
   cpdef _call_callback(Sync self, DWORD data)
-  cdef void _set_mixtime(Sync self, bint enable, bint threaded = ?)
+  cdef void _set_mix_time(Sync self, bint enable, bint threaded = ?)

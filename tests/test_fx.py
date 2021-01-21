@@ -45,9 +45,9 @@ class TestFX(unittest.TestCase):
     def set_center(v):
       self.effect.Center = v
 
-    self.effect.Set(self.stream)
+    self.effect.set(self.stream)
     bounds = self.get_bounds()
     
     self.assertRaises(BassOutOfRangeError, set_center, bounds[1] + 1)
 
-    self.effect.Remove()
+    self.effect.remove()

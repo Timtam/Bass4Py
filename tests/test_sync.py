@@ -26,8 +26,8 @@ class TestSync(unittest.TestCase):
 
     music = self.device.create_music_from_file(self.music_path)
     sync = Download()
-    sync.Callback = s_download
-    self.assertRaises(BassSyncError, sync.Set, music)
+    sync.callback = s_download
+    self.assertRaises(BassSyncError, sync.set, music)
     music.free()
 
   def test_music_only_sync(self):
@@ -36,6 +36,6 @@ class TestSync(unittest.TestCase):
     
     stream = self.device.create_stream_from_file(self.stream_path)
     minst = MusicInstrument()
-    minst.Callback = s_music_instrument
-    self.assertRaises(BassSyncError, minst.Set, stream)
+    minst.callback = s_music_instrument
+    self.assertRaises(BassSyncError, minst.set, stream)
     stream.free()
