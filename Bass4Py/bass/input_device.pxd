@@ -6,10 +6,10 @@ from ..bindings.bass cimport (
 
 cdef class InputDevice(_Evaluable):
   cdef DWORD _device
-  cdef readonly tuple Inputs
-  cdef BASS_DEVICEINFO _getdeviceinfo(InputDevice self)
-  cdef BASS_RECORDINFO _getinfo(InputDevice self)
-  cpdef Free(InputDevice self)
-  cpdef Init(InputDevice self)
-  cpdef Record(InputDevice self, DWORD freq = ?, DWORD chans = ?, DWORD flags = ?, object callback = ?, DWORD period = ?)
-  cpdef Set(InputDevice self)
+  cdef readonly tuple inputs
+  cdef BASS_DEVICEINFO _get_device_info(InputDevice self)
+  cdef BASS_RECORDINFO _get_info(InputDevice self)
+  cpdef free(InputDevice self)
+  cpdef init(InputDevice self)
+  cpdef record(InputDevice self, DWORD freq = ?, DWORD chans = ?, DWORD flags = ?, object callback = ?, DWORD period = ?)
+  cpdef set(InputDevice self)
