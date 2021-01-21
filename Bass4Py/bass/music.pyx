@@ -89,7 +89,7 @@ cdef class Music(Channel):
 
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     if device_frequency:
       cfreq = 1
@@ -110,7 +110,7 @@ cdef class Music(Channel):
     
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     if device_frequency:
       cfreq = 1

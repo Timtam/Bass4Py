@@ -171,7 +171,7 @@ cdef class Stream(Channel):
     
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     filename = to_readonly_bytes(file)
     strm = BASS_StreamCreateFile(False, &(filename[0]), coffset, 0, cflags)
@@ -192,7 +192,7 @@ cdef class Stream(Channel):
 
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     strm = BASS_StreamCreateFile(True, &(cdata[0]), 0, clength, cflags)
     Stream._evaluate()
@@ -224,7 +224,7 @@ cdef class Stream(Channel):
 
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     ostrm = Stream(0)
 
@@ -263,7 +263,7 @@ cdef class Stream(Channel):
     
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     ostrm = Stream(0)
     
@@ -283,7 +283,7 @@ cdef class Stream(Channel):
     cdef HSTREAM strm
     cdef OutputDevice cdevice = <OutputDevice?>device
     
-    cdevice.Set()
+    cdevice.set()
     
     strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE, NULL)
     Stream._evaluate()
@@ -295,7 +295,7 @@ cdef class Stream(Channel):
     cdef HSTREAM strm
     cdef OutputDevice cdevice = <OutputDevice?>device
     
-    cdevice.Set()
+    cdevice.set()
     
     strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE_3D, NULL)
     Stream._evaluate()
@@ -316,7 +316,7 @@ cdef class Stream(Channel):
       
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     IF UNAME_SYSNAME == "Windows":
       procs.close = <FILECLOSEPROC*>CFILECLOSEPROC_STD

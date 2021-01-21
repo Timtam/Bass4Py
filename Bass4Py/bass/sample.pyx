@@ -75,7 +75,7 @@ cdef class Sample(_Evaluable):
     
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     with nogil:
       samp = BASS_SampleCreate(clength, cfreq, cchans, cmax, cflags)
@@ -97,7 +97,7 @@ cdef class Sample(_Evaluable):
 
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     with nogil:
       samp = BASS_SampleLoad(True, &(cdata[0]), 0, clength, cmax, cflags)
@@ -115,7 +115,7 @@ cdef class Sample(_Evaluable):
     
     if device != None:
       cdevice = <OutputDevice?>device
-      cdevice.Set()
+      cdevice.set()
 
     filename = to_readonly_bytes(file)
     with nogil:

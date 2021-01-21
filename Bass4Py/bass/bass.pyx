@@ -112,7 +112,7 @@ cdef class BASS(_Evaluable):
     if device >= 0:
       odevice = OutputDevice(device)
       try:
-        odevice.Enabled
+        odevice.enabled
       except exceptions.BassDeviceError:
         return None
       return odevice
@@ -120,14 +120,14 @@ cdef class BASS(_Evaluable):
       while True:
         odevice = OutputDevice(devicenumber)
         try:
-          if odevice.Default:
+          if odevice.default:
             break
         except exceptions.BassDeviceError:
           break
         devicenumber += 1
 
       try:
-        if not odevice.Default:
+        if not odevice.default:
           return None
       except exceptions.BassDeviceError:
         return OutputDevice(0)

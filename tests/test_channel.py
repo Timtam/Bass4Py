@@ -10,16 +10,16 @@ class TestChannel(unittest.TestCase):
   def setUp(self):
     self.bass = BASS()
     self.device = self.bass.get_output_device(0)
-    self.device.Init(44100, 0, 0)
+    self.device.init(44100, 0, 0)
 
     # load files
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
     self.python_wave = wave.open(path, "rb")
-    self.bass_wave = self.device.CreateStreamFromFile(path, STREAM.DECODE)
+    self.bass_wave = self.device.create_stream_from_file(path, STREAM.DECODE)
     
   def tearDown(self):
     self.bass_wave.Free()
-    self.device.Free()
+    self.device.free()
     self.python_wave.close()
 
   def test_number_of_channels(self):
@@ -49,7 +49,7 @@ class TestChannel(unittest.TestCase):
   def test_inequality(self):
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
 
-    strm = self.device.CreateStreamFromFile(path, STREAM.DECODE)
+    strm = self.device.create_stream_from_file(path, STREAM.DECODE)
     self.assertNotEqual(self.bass_wave, strm)
     strm.Free()
 
@@ -67,17 +67,17 @@ class TestChannel(unittest.TestCase):
     strm.Free()
 
   def test_loading_from_url(self):
-    strm = self.device.CreateStreamFromURL("http://horton.com/consulting/portfolio/dwbt/bouncer/media/sample.wav")
+    strm = self.device.create_stream_from_url("http://horton.com/consulting/portfolio/dwbt/bouncer/media/sample.wav")
     
     strm.Free()
 
   def test_device_stream(self):
-    strm = self.device.CreateStream()
+    strm = self.device.create_stream()
 
     self.assertRaises(BassNotAvailableError, strm.Free)
 
   def test_parameterized_stream(self):
-    strm = self.device.CreateStreamFromParameters(44100, 2)
+    strm = self.device.create_stream_from_parameters(44100, 2)
     strm.Free()
 
   def test_loading_from_file_obj(self):

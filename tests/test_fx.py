@@ -10,16 +10,16 @@ class TestFX(unittest.TestCase):
   def setUp(self):
     self.bass = BASS()
     self.device = self.bass.get_output_device(0)
-    self.device.Init(44100, 0, 0)
+    self.device.init(44100, 0, 0)
 
     # load file
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
-    self.stream = self.device.CreateStreamFromFile(path)
+    self.stream = self.device.create_stream_from_file(path)
     self.effect = Parameq()
     
   def tearDown(self):
     self.stream.Free()
-    self.device.Free()
+    self.device.free()
 
   def get_bounds(self):
     if platform.uname()[0] == "Windows":
