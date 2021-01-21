@@ -10,7 +10,7 @@ from .attribute cimport Attribute
 cdef class Music(Channel):
 
   # attributes
-  cdef readonly Attribute active
+  cdef readonly Attribute active_channels
   cdef readonly Attribute amplification
   cdef readonly Attribute bpm
   cdef readonly Attribute channel_volumes

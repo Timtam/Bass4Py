@@ -6,7 +6,7 @@ from .output_device import OutputDevice
 
 class Music(Channel):
 
-  active: Attribute
+  active_channels: Attribute
   amplification: Attribute
   bpm: Attribute
   channel_volumes: Attribute

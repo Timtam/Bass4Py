@@ -51,7 +51,7 @@ cdef class Music(Channel):
   cdef void _init_attributes(Music self):
     Channel._init_attributes(self)
 
-    self.active = Attribute(self._channel, _BASS_ATTRIB_MUSIC_ACTIVE, True)
+    self.active_channels = Attribute(self._channel, _BASS_ATTRIB_MUSIC_ACTIVE, True)
     self.amplification = Attribute(self._channel, _BASS_ATTRIB_MUSIC_AMPLIFY)
     self.bpm = Attribute(self._channel, _BASS_ATTRIB_MUSIC_BPM)
     self.channel_volumes = Attribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_CHAN)
