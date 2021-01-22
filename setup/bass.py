@@ -404,6 +404,7 @@ class BASSExtensionHandler(ExtensionHandler):
       'Bass4Py.bass': ['*.pyi'],
       'Bass4Py.bass.effects': ['*.pyi'],
       'Bass4Py.bass.effects.dx8': ['*.pyi'],
+      'Bass4Py.bass.syncs': ['*.pyi'],
     })
 
     return files

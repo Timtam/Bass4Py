@@ -24,7 +24,7 @@ cdef class MusicPosition(Sync):
   cpdef _call_callback(MusicPosition self, DWORD data):
     self._func(self, LOWORD(data), HIWORD(data))
 
-  property Order:
+  property order:
     def __get__(MusicPosition self):
       return LOWORD(self.__param)
     
@@ -38,7 +38,7 @@ cdef class MusicPosition(Sync):
       
       self._param = MAKELONG(value, HIWORD(self._param))
 
-  property Row:
+  property row:
     def __get__(MusicPosition self):
       return HIWORD(self.__param)
     

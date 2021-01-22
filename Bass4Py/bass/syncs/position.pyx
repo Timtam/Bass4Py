@@ -11,7 +11,7 @@ cdef class Position(Sync):
     self._type = _BASS_SYNC_POS
     self._force_param = True
 
-  property Position:
+  property position:
     def __get__(Position self):
       return self._param
       

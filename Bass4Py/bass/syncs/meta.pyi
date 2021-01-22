@@ -1,0 +1,3 @@
+from ..sync import Sync
+
+class Meta(Sync): ...

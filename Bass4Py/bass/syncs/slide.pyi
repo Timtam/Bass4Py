@@ -1,0 +1,3 @@
+from ..sync import Sync
+
+class Slide(Sync): ...

@@ -24,7 +24,7 @@ cdef class MusicInstrument(Sync):
   cpdef _call_callback(MusicInstrument self, DWORD data):
     self._func(self, LOWORD(data), HIWORD(data))
 
-  property Instrument:
+  property instrument:
     def __get__(MusicInstrument self):
       return LOWORD(self.__param)
     
@@ -38,7 +38,7 @@ cdef class MusicInstrument(Sync):
 
       self._param = MAKELONG(value, HIWORD(self._param))
 
-  property Note:
+  property note:
     def __get__(MusicInstrument self):
       return HIWORD(self.__param)
     
