@@ -25,7 +25,7 @@ cdef class Echo(FX):
     effect.fRightDelay = 500.0
     effect.lPanDelay = False
 
-  property WetDryMix:
+  property wet_dry_mix:
     def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self._effect)
       return effect.fWetDryMix
@@ -35,7 +35,7 @@ cdef class Echo(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.fWetDryMix = value
 
-  property Feedback:
+  property feedback:
     def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self._effect)
       return effect.fFeedback
@@ -45,7 +45,7 @@ cdef class Echo(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.fFeedback = value
 
-  property LeftDelay:
+  property left_delay:
     def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self._effect)
       return effect.fLeftDelay
@@ -55,7 +55,7 @@ cdef class Echo(FX):
       self._validate_range(value, 1.0, 2000.0)
       effect.fLeftDelay = value
 
-  property RightDelay:
+  property right_delay:
     def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self._effect)
       return effect.fRightDelay
@@ -65,7 +65,7 @@ cdef class Echo(FX):
       self._validate_range(value, 1.0, 2000.0)
       effect.fRightDelay = value
 
-  property PanDelay:
+  property pan_delay:
     def __get__(Echo self):
       cdef BASS_DX8_ECHO *effect = <BASS_DX8_ECHO*>(self._effect)
       return effect.lPanDelay

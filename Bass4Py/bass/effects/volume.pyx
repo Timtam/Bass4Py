@@ -26,7 +26,7 @@ cdef class Volume(FX):
     effect.fTime = 0.0
     effect.lCurve = 0
 
-  property Target:
+  property target:
     def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self._effect)
       return effect.fTarget
@@ -39,7 +39,7 @@ cdef class Volume(FX):
 
       effect.fTarget = value
 
-  property Current:
+  property current:
     def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self._effect)
       return effect.fCurrent
@@ -52,7 +52,7 @@ cdef class Volume(FX):
 
       effect.fCurrent = value
 
-  property Time:
+  property time:
     def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self._effect)
       return effect.fTime
@@ -65,7 +65,7 @@ cdef class Volume(FX):
 
       effect.fTime = value
 
-  property Curve:
+  property curve:
     def __get__(Volume self):
       cdef BASS_FX_VOLUME_PARAM *effect = <BASS_FX_VOLUME_PARAM*>(self._effect)
       return effect.lCurve

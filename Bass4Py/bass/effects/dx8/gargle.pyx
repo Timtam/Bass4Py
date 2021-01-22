@@ -23,7 +23,7 @@ cdef class Gargle(FX):
     effect.dwRateHz = 20
     effect.dwWaveShape = 0
 
-  property RateHz:
+  property rate_hz:
     def __get__(Gargle self):
       cdef BASS_DX8_GARGLE *effect = <BASS_DX8_GARGLE*>(self._effect)
       return effect.dwRateHz
@@ -33,7 +33,7 @@ cdef class Gargle(FX):
       self._validate_range(value, 1, 1000)
       effect.dwRateHz = value
 
-  property WaveShape:
+  property wave_shape:
     def __get__(Gargle self):
       cdef BASS_DX8_GARGLE *effect = <BASS_DX8_GARGLE*>(self._effect)
       return effect.dwWaveShape

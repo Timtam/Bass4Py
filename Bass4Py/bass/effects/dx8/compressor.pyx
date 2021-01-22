@@ -26,7 +26,7 @@ cdef class Compressor(FX):
     effect.fRatio = 3.0
     effect.fPredelay = 4.0
 
-  property Gain:
+  property gain:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fGain
@@ -36,7 +36,7 @@ cdef class Compressor(FX):
       self._validate_range(value, -60.0, 60.0)
       effect.fGain = value
 
-  property Attack:
+  property attack:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fAttack
@@ -46,7 +46,7 @@ cdef class Compressor(FX):
       self._validate_range(value, 0.01, 500.0)
       effect.fAttack = value
 
-  property Release:
+  property release:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fRelease
@@ -56,7 +56,7 @@ cdef class Compressor(FX):
       self._validate_range(value, 50.0, 3000.0)
       effect.fRelease = value
 
-  property Threshold:
+  property threshold:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fThreshold
@@ -66,7 +66,7 @@ cdef class Compressor(FX):
       self._validate_range(value, -60.0, 0.0)
       effect.fThreshold = value
 
-  property Ratio:
+  property ratio:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fRatio
@@ -76,7 +76,7 @@ cdef class Compressor(FX):
       self._validate_range(value, 1.0, 100.0)
       effect.fRatio = value
 
-  property Predelay:
+  property predelay:
     def __get__(Compressor self):
       cdef BASS_DX8_COMPRESSOR *effect = <BASS_DX8_COMPRESSOR*>(self._effect)
       return effect.fPredelay

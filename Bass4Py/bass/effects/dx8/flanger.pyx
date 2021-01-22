@@ -31,7 +31,7 @@ cdef class Flanger(FX):
     effect.fDelay = 2.0
     effect.lPhase = _BASS_DX8_PHASE_ZERO
 
-  property WetDryMix:
+  property wet_dry_mix:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.fWetDryMix
@@ -41,7 +41,7 @@ cdef class Flanger(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.fWetDryMix = value
 
-  property Depth:
+  property depth:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.fDepth
@@ -51,7 +51,7 @@ cdef class Flanger(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.fDepth = value
 
-  property Feedback:
+  property feedback:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.fFeedback
@@ -61,7 +61,7 @@ cdef class Flanger(FX):
       self._validate_range(value, -99.0, 99.0)
       effect.fFeedback = value
 
-  property Frequency:
+  property frequency:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.fFrequency
@@ -71,7 +71,7 @@ cdef class Flanger(FX):
       self._validate_range(value, 0.0, 10.0)
       effect.fFrequency = value
 
-  property Waveform:
+  property waveform:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.lWaveform
@@ -81,7 +81,7 @@ cdef class Flanger(FX):
       self._validate_range(value, 0, 1)
       effect.lWaveform = value
 
-  property Delay:
+  property delay:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.fDelay
@@ -91,7 +91,7 @@ cdef class Flanger(FX):
       self._validate_range(value, 0.0, 4.0)
       effect.fDelay = value
 
-  property Phase:
+  property phase:
     def __get__(Flanger self):
       cdef BASS_DX8_FLANGER *effect = <BASS_DX8_FLANGER*>(self._effect)
       return effect.lPhase

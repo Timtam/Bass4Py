@@ -25,7 +25,7 @@ cdef class Distortion(FX):
     effect.fPostEQBandwidth = 2400.0
     effect.fPreLowpassCutoff = 8000.0
 
-  property Gain:
+  property gain:
     def __get__(Distortion self):
       cdef BASS_DX8_DISTORTION *effect = <BASS_DX8_DISTORTION*>(self._effect)
       return effect.fGain
@@ -35,7 +35,7 @@ cdef class Distortion(FX):
       self._validate_range(value, -60.0, 0.0)
       effect.fGain = value
 
-  property Edge:
+  property edge:
     def __get__(Distortion self):
       cdef BASS_DX8_DISTORTION *effect = <BASS_DX8_DISTORTION*>(self._effect)
       return effect.fEdge
@@ -45,7 +45,7 @@ cdef class Distortion(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.fEdge = value
 
-  property PostEQCenterFrequency:
+  property post_eq_center_frequency:
     def __get__(Distortion self):
       cdef BASS_DX8_DISTORTION *effect = <BASS_DX8_DISTORTION*>(self._effect)
       return effect.fPostEQCenterFrequency
@@ -55,7 +55,7 @@ cdef class Distortion(FX):
       self._validate_range(value, 100.0, 8000.0)
       effect.fPostEQCenterFrequency = value
 
-  property PostEQBandwidth:
+  property post_eq_bandwidth:
     def __get__(Distortion self):
       cdef BASS_DX8_DISTORTION *effect = <BASS_DX8_DISTORTION*>(self._effect)
       return effect.fPostEQBandwidth
@@ -65,7 +65,7 @@ cdef class Distortion(FX):
       self._validate_range(value, 100.0, 8000.0)
       effect.fPostEQBandwidth = value
 
-  property PreLowpassCutoff:
+  property pre_lowpass_cutoff:
     def __get__(Distortion self):
       cdef BASS_DX8_DISTORTION *effect = <BASS_DX8_DISTORTION*>(self._effect)
       return effect.fPreLowpassCutoff

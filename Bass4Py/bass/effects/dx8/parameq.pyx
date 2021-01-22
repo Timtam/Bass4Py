@@ -49,7 +49,7 @@ cdef class Parameq(FX):
         self.remove()
         raise e
 
-  property Center:
+  property center:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fCenter
@@ -76,7 +76,7 @@ cdef class Parameq(FX):
 
       effect.fCenter = value
 
-  property Bandwidth:
+  property bandwidth:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fBandwidth
@@ -86,7 +86,7 @@ cdef class Parameq(FX):
       self._validate_range(value, 1.0, 36.0)
       effect.fBandwidth = value
 
-  property Gain:
+  property gain:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fGain
