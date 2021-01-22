@@ -3,9 +3,9 @@ cdef Vector CreateVector(BASS_3DVECTOR *vector):
 
 cdef class Vector:
   def __cinit__(Vector self, float x, float y, float z):
-    self.x = X
-    self.y = Y
-    self.z = Z
+    self.x = x
+    self.y = y
+    self.z = z
 
   def __repr__(Vector self):
     return "Vector at X=%f, Y=%f, Z=%f"%(self.x,self.y,self.z)
