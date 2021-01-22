@@ -399,9 +399,10 @@ class BASSExtensionHandler(ExtensionHandler):
       else:
         files.update({'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]})
 
+    files['Bass4Py.bass'].append('*.pyi')
+
     files.update({
       'Bass4Py': ['*.pyi'],
-      'Bass4Py.bass': ['*.pyi'],
       'Bass4Py.bass.effects': ['*.pyi'],
       'Bass4Py.bass.effects.dx8': ['*.pyi'],
       'Bass4Py.bass.syncs': ['*.pyi'],
