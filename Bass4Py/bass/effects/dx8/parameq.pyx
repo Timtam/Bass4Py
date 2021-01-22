@@ -1,4 +1,3 @@
-from ...bass cimport __Evaluate
 from ....bindings.bass cimport (
   BASS_CHANNELINFO,
   BASS_DX8_PARAMEQ,
@@ -30,11 +29,11 @@ cdef class Parameq(FX):
     effect.fBandwidth = 12.0
     effect.fGain = 0.0
 
-  cpdef Set(Parameq self, Channel chan, bint update = True):
+  cpdef set(Parameq self, Channel chan, bint update = True):
     cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
     cdef BASS_DX8_PARAMEQ temp
 
-    super(Parameq, self).Set(chan, False)
+    super(Parameq, self).set(chan, False)
 
     if effect.fCenter == 0:
       BASS_FXGetParameters(self._fx, <void*>(&temp))
@@ -45,12 +44,12 @@ cdef class Parameq(FX):
       BASS_FXSetParameters(self._fx, self._effect)
 
       try:
-        __Evaluate()
+        self._evaluate()
       except Exception, e:
-        self.Remove()
+        self.remove()
         raise e
 
-  property Center:
+  property center:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fCenter
@@ -59,7 +58,7 @@ cdef class Parameq(FX):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       cdef BASS_CHANNELINFO info
 
-      if self.Channel == None:
+      if self.channel == None:
 
         IF UNAME_SYSNAME == "Windows":
           self._validate_range(value, 80.0, 16000.0)
@@ -68,7 +67,7 @@ cdef class Parameq(FX):
 
       else:
 
-        info = self.Channel._getinfo()
+        info = self.channel._get_info()
 
         IF UNAME_SYSNAME == "Windows":
           self._validate_range(value, 80.0, <float>(<int>(info.freq/3 - 1)))
@@ -77,7 +76,7 @@ cdef class Parameq(FX):
 
       effect.fCenter = value
 
-  property Bandwidth:
+  property bandwidth:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fBandwidth
@@ -87,7 +86,7 @@ cdef class Parameq(FX):
       self._validate_range(value, 1.0, 36.0)
       effect.fBandwidth = value
 
-  property Gain:
+  property gain:
     def __get__(Parameq self):
       cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
       return effect.fGain

@@ -1,4 +1,4 @@
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   BASS_ChannelRemoveFX,
   BASS_ChannelSetFX,
@@ -11,14 +11,14 @@ from .channel cimport Channel
 from ..exceptions import BassAPIError, BassOutOfRangeError
 from cpython.mem cimport PyMem_Free
 
-cdef class FX:
+cdef class FX(_Evaluable):
 
   def __dealloc__(FX self):
     if self._effect != NULL:
       PyMem_Free(self._effect)
       self._effect = NULL
 
-  cpdef Set(FX self, Channel chan, bint update = True):
+  cpdef set(FX self, Channel chan, bint update = True):
     cdef HFX fx
 
     if self._fx:
@@ -27,9 +27,9 @@ cdef class FX:
     with nogil:
       fx = BASS_ChannelSetFX(chan._channel, self._type, self._priority)
 
-    __Evaluate()
+    self._evaluate()
 
-    self.Channel = chan
+    self.channel = chan
 
     self._fx = fx
 
@@ -38,25 +38,25 @@ cdef class FX:
         BASS_FXSetParameters(self._fx, self._effect)
 
       try:
-        __Evaluate()
+        self._evaluate()
       except Exception, e:
-        self.Remove()
+        self.remove()
         raise e
 
-  cpdef Remove(FX self):
+  cpdef remove(FX self):
     cdef bint res
 
     if self._fx == 0:
       raise BassAPIError()
 
     with nogil:
-      res = BASS_ChannelRemoveFX(self.Channel._channel, self._fx)
-    __Evaluate()
+      res = BASS_ChannelRemoveFX(self.channel._channel, self._fx)
+    self._evaluate()
     self._fx = 0
-    self.Channel = None
+    self.channel = None
     return res
 
-  cpdef Reset(FX self):
+  cpdef reset(FX self):
     cdef bint res 
 
     if self._fx == 0:
@@ -64,17 +64,17 @@ cdef class FX:
 
     with nogil:
       res = BASS_FXReset(self._fx)
-    __Evaluate()
+    self._evaluate()
     BASS_FXGetParameters(self._fx, self._effect)
     return res
 
-  cpdef Update(FX self):
+  cpdef update(FX self):
 
     if self._fx == 0:
       raise BassAPIError()
 
     BASS_FXSetParameters(self._fx, self._effect)
-    __Evaluate()
+    self._evaluate()
 
   cpdef _validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound):
 
@@ -91,7 +91,7 @@ cdef class FX:
         return self._fx == fx._fx
     return NotImplemented
 
-  property Priority:
+  property priority:
     def __get__(FX self):
       return self._priority
     
@@ -105,7 +105,7 @@ cdef class FX:
           BASS_FXSetPriority(self._fx, priority)
 
         try:
-          __Evaluate()
+          self._evaluate()
         except Exception as e:
           self._priority = old_priority
           raise e

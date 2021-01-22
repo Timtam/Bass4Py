@@ -12,20 +12,19 @@ from ..bindings.bass cimport (
   BASS_ChannelSetAttributeEx,
   BASS_ChannelSlideAttribute)
 
-from .bass cimport __Evaluate
-
+from .._evaluable cimport _Evaluable
 from ..exceptions import BassAPIError, BassAttributeError, BassInvalidTypeError, BassPlatformError
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
-cdef class Attribute:
+cdef class Attribute(_Evaluable):
   def __cinit__(Attribute self, HCHANNEL channel, DWORD attribute, bint readonly = False, bint not_available = False):
     self._channel = channel
     self._attrib = attribute
     self._readonly = readonly
     self._not_available = not_available
 
-  cpdef Get(Attribute self):
+  cpdef get(Attribute self):
     cdef float value
     cdef bint res
 
@@ -34,22 +33,22 @@ cdef class Attribute:
 
     if self._attrib == _BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self._attrib == _BASS_ATTRIB_MUSIC_VOL_INST:
-      return self._getmusicvolchan()
+      return self._get_music_channel_volumes()
     elif self._attrib == _BASS_ATTRIB_BUFFER:
-      return self._getbuffer()
+      return self._get_buffer()
     elif self._attrib == _BASS_ATTRIB_NORAMP:
-      return self._getramping()
+      return self._get_ramping()
     elif self._attrib == _BASS_ATTRIB_SCANINFO:
-      return self._getscaninfo()
+      return self._get_scan_info()
 
     res = BASS_ChannelGetAttribute(self._channel, self._attrib, &value)
     try:
-      __Evaluate()
+      self._evaluate()
     except BassInvalidTypeError:
       raise BassAPIError()
     return value
 
-  cpdef Set(Attribute self, object value):
+  cpdef set(Attribute self, object value):
     cdef bint res
 
     if self._not_available:
@@ -60,20 +59,20 @@ cdef class Attribute:
 
     if self._attrib == _BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self._attrib==_BASS_ATTRIB_MUSIC_VOL_INST:
-      return self._setmusicvolchan(<list>value)
+      return self._set_music_channel_volumes(<list>value)
     elif self._attrib == _BASS_ATTRIB_BUFFER:
-      return self._setbuffer(<float>value)
+      return self._set_buffer(<float>value)
     elif self._attrib == _BASS_ATTRIB_NORAMP:
-      return self._setramping(<bint>value)
+      return self._set_ramping(<bint>value)
 
     res = BASS_ChannelSetAttribute(self._channel, self._attrib, <float>value)
     try:
-      __Evaluate()
+      self._evaluate()
     except BassInvalidTypeError:
       raise BassAPIError()
     return res
 
-  cpdef Slide(Attribute self, object value, DWORD time):
+  cpdef slide(Attribute self, object value, DWORD time):
     cdef bint res
 
     if self._not_available:
@@ -84,21 +83,21 @@ cdef class Attribute:
 
     if self._attrib == _BASS_ATTRIB_MUSIC_VOL_CHAN or \
        self._attrib == _BASS_ATTRIB_MUSIC_VOL_INST:
-      return self._slidemusicvolchan(<tuple?>value, time)
+      return self._slide_music_channel_volumes(<tuple?>value, time)
     elif self._attrib == _BASS_ATTRIB_BUFFER:
-      return self._slidebuffer(<float>value, time)
+      return self._slide_buffer(<float>value, time)
     res = BASS_ChannelSlideAttribute(self._channel, self._attrib, <float>value, time)
-    __Evaluate()
+    self._evaluate()
     return res
 
-  cpdef _getmusicvolchan(Attribute self):
+  cpdef _get_music_channel_volumes(Attribute self):
     cdef list volumes=[]
     cdef int channel=0
     cdef float res
     try:
       while True:
         BASS_ChannelGetAttribute(self._channel, self._attrib+channel, &res)
-        __Evaluate()
+        self._evaluate()
         volumes.append(res)
         channel+=1
     except BassInvalidTypeError:
@@ -106,7 +105,7 @@ cdef class Attribute:
         raise BassInvalidTypeError()
     return tuple(volumes)
 
-  cpdef _setmusicvolchan(Attribute self, tuple value):
+  cpdef _set_music_channel_volumes(Attribute self, tuple value):
     cdef tuple current = self._getmusicvolchan()
     cdef int i
     if len(value) != len(current):
@@ -115,23 +114,23 @@ cdef class Attribute:
       BASS_ChannelSetAttribute(self._channel, self._attrib+i, value[i])
     return True
 
-  cpdef _getbuffer(Attribute self):
+  cpdef _get_buffer(Attribute self):
     cdef float res
     BASS_ChannelGetAttribute(self._channel, self._attrib, &res)
-    __Evaluate()
+    self._evaluate()
     return res
 
-  cpdef _setbuffer(Attribute self, float value):
+  cpdef _set_buffer(Attribute self, float value):
     BASS_ChannelSetAttribute(self._channel, self._attrib, value)
-    __Evaluate()
+    self._evaluate()
     if value == 0:
       BASS_ChannelSetAttribute(self._channel, _BASS_ATTRIB_NOBUFFER, 1.0)
     else:
       BASS_ChannelSetAttribute(self._channel, _BASS_ATTRIB_NOBUFFER, 0.0)
-    __Evaluate()
+    self._evaluate()
     return True
 
-  cpdef _slidemusicvolchan(Attribute self, tuple value, DWORD time):
+  cpdef _slide_music_channel_volumes(Attribute self, tuple value, DWORD time):
     cdef tuple current = self._getmusicvolchan()
     cdef int i
     if len(value) != len(current):
@@ -140,12 +139,12 @@ cdef class Attribute:
       BASS_ChannelSlideAttribute(self._channel, self._attrib+i, value[i], time)
     return True
 
-  cpdef _slidebuffer(Attribute self, float value, DWORD time):
+  cpdef _slide_buffer(Attribute self, float value, DWORD time):
     BASS_ChannelSlideAttribute(self._channel, self._attrib, value, time)
-    __Evaluate()
+    self._evaluate()
     return True
 
-  property Sliding:
+  property sliding:
     def __get__(Attribute self):
 
       if self._not_available:
@@ -153,24 +152,24 @@ cdef class Attribute:
 
       return BASS_ChannelIsSliding(self._channel, self._attrib)
       
-  cpdef _getramping(Attribute self):
+  cpdef _get_ramping(Attribute self):
     cdef float res
     BASS_ChannelGetAttribute(self._channel, _BASS_ATTRIB_NORAMP, &res)
-    __Evaluate()
+    self._evaluate()
     return False if res == 1 else True
 
-  cpdef _setramping(Attribute self, bint value):
+  cpdef _set_ramping(Attribute self, bint value):
     BASS_ChannelSetAttribute(self._channel, _BASS_ATTRIB_NORAMP, 0.0 if value == True else 1.0)
-    __Evaluate()
+    self._evaluate()
     return True
 
-  cpdef _getscaninfo(Attribute self):
+  cpdef _get_scan_info(Attribute self):
     cdef bytes res
     cdef DWORD size
     cdef void * info
 
     size = BASS_ChannelGetAttributeEx(self._channel, self._attrib, NULL, 0)
-    __Evaluate()
+    self._evaluate()
 
     info = PyMem_Malloc(size)
 
@@ -180,7 +179,7 @@ cdef class Attribute:
     BASS_ChannelGetAttributeEx(self._channel, self._attrib, info, size)
 
     try:
-      __Evaluate()
+      self._evaluate()
     except Exception, e:
       PyMem_Free(info)
       raise e
@@ -189,10 +188,10 @@ cdef class Attribute:
     PyMem_Free(info)
     return res
 
-  cpdef _setscaninfo(Attribute self, bytes info):
+  cpdef _set_scan_info(Attribute self, bytes info):
     cdef DWORD size = len(info)
     cdef DWORD res = BASS_ChannelSetAttributeEx(self._channel, self._attrib, <void*>info, size)
-    __Evaluate()
+    self._evaluate()
     return res
 
   def __eq__(Attribute self, object y):

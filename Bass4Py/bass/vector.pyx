@@ -2,31 +2,31 @@ cdef Vector CreateVector(BASS_3DVECTOR *vector):
   return Vector(vector.x,vector.y,vector.z)
 
 cdef class Vector:
-  def __cinit__(Vector self, float X, float Y, float Z):
-    self.X = X
-    self.Y = Y
-    self.Z = Z
+  def __cinit__(Vector self, float x, float y, float z):
+    self.x = x
+    self.y = y
+    self.z = z
 
   def __repr__(Vector self):
-    return "BASSVECTOR at X=%f, Y=%f, Z=%f"%(self.X,self.Y,self.Z)
+    return "Vector at X=%f, Y=%f, Z=%f"%(self.x,self.y,self.z)
 
   def __add__(Vector self, other):
     if type(other) is int or type(other) is float:
-      return Vector(self.X+other,self.Y+other,self.Z+other)
+      return Vector(self.x+other,self.y+other,self.z+other)
     elif type(other) is Vector:
-      return Vector(self.X+other.X,self.Y+other.Y,self.Z+other.Z)
+      return Vector(self.x+other.x,self.y+other.y,self.z+other.z)
 
   def __sub__(Vector self,other):
     if type(other) is int or type(other) is float:
-      return Vector(self.X-other,self.Y-other,self.Z-other)
+      return Vector(self.x-other,self.y-other,self.z-other)
     elif type(other) is Vector:
-      return Vector(self.X-other.X,self.Y-other.Y,self.Z-other.Z)
+      return Vector(self.x-other.x,self.y-other.y,self.z-other.z)
 
   def __mul__(Vector self,other):
     if type(other) is int or type(other) is float:
-      return Vector(self.X*other,self.Y*other,self.Z*other)
+      return Vector(self.x*other,self.y*other,self.z*other)
 
   cdef void Resolve(Vector self,BASS_3DVECTOR *vector):
-    vector.x=self.X
-    vector.y=self.Y
-    vector.z=self.Z
+    vector.x=self.x
+    vector.y=self.y
+    vector.z=self.z

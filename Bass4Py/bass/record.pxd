@@ -10,4 +10,4 @@ cdef class Record(ChannelBase):
   cdef object _func
   cdef InputDevice _device
 
-  cpdef Start(Record self)
+  cpdef start(Record self)

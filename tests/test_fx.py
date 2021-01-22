@@ -9,30 +9,30 @@ class TestFX(unittest.TestCase):
 
   def setUp(self):
     self.bass = BASS()
-    self.device = self.bass.GetOutputDevice(0)
-    self.device.Init(44100, 0, 0)
+    self.device = self.bass.get_output_device(0)
+    self.device.init(44100, 0, 0)
 
     # load file
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")
-    self.stream = self.device.CreateStreamFromFile(path)
+    self.stream = self.device.create_stream_from_file(path)
     self.effect = Parameq()
     
   def tearDown(self):
-    self.stream.Free()
-    self.device.Free()
+    self.stream.free()
+    self.device.free()
 
   def get_bounds(self):
     if platform.uname()[0] == "Windows":
       lbound = 80.0
-      ubound = int(self.stream.DefaultFrequency/3) - 1
+      ubound = int(self.stream.default_frequency/3) - 1
     else:
       lbound = 1.0
-      ubound = int(self.stream.DefaultFrequency/2) - 1
+      ubound = int(self.stream.default_frequency/2) - 1
     return (lbound, ubound, )
 
   def test_limits_before_link(self):
     def set_center(v):
-      self.effect.Center = v
+      self.effect.center = v
 
     if platform.uname()[0] == "Windows":
       bounds = (80.0, 16000.0, )
@@ -43,11 +43,11 @@ class TestFX(unittest.TestCase):
 
   def test_limits_after_link(self):
     def set_center(v):
-      self.effect.Center = v
+      self.effect.center = v
 
-    self.effect.Set(self.stream)
+    self.effect.set(self.stream)
     bounds = self.get_bounds()
     
     self.assertRaises(BassOutOfRangeError, set_center, bounds[1] + 1)
 
-    self.effect.Remove()
+    self.effect.remove()

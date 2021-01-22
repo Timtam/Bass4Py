@@ -1,4 +1,3 @@
-from .bass cimport __Evaluate
 from ..bindings.bass cimport (
   _BASS_NODEVICE,
   BASS_ChannelGetDevice,
@@ -28,14 +27,14 @@ cdef class Record(ChannelBase):
 
     self._flags_enum = STREAM
 
-  cdef void _sethandle(Record self, HRECORD record):
+  cdef void _set_handle(Record self, HRECORD record):
     cdef DWORD dev
 
-    ChannelBase._sethandle(self, record)
+    ChannelBase._set_handle(self, record)
 
     dev = BASS_ChannelGetDevice(self._channel)
     
-    __Evaluate()
+    self._evaluate()
     
     if dev == _BASS_NODEVICE:
       self._device = None
@@ -43,7 +42,7 @@ cdef class Record(ChannelBase):
       self._device = InputDevice(dev)
 
   @staticmethod
-  def FromDevice(device, freq = 0, chans = 0, flags = 0, callback = None, period = 100):
+  def from_device(device, freq = 0, chans = 0, flags = 0, callback = None, period = 100):
     cdef DWORD cfreq = <DWORD?>freq
     cdef DWORD cchans = <DWORD?>chans
     cdef DWORD cflags = <DWORD?>flags
@@ -73,23 +72,23 @@ cdef class Record(ChannelBase):
     with nogil:
       rec = BASS_RecordStart(cfreq, cchans, cflags, proc, <void*>orec)
 
-    __Evaluate()
+    Record._evaluate()
     
-    orec._sethandle(rec)
+    orec._set_handle(rec)
 
     if callback:
       orec._func = callback
 
     return orec
   
-  cpdef Start(Record self):
+  cpdef start(Record self):
     cdef bint res
     with nogil:
       res = BASS_ChannelPlay(self._channel, True)
-    __Evaluate()
+    self._evaluate()
     return res
 
-  property Device:
+  property device:
     def __get__(Record self):
       return self._device
 
@@ -99,7 +98,7 @@ cdef class Record(ChannelBase):
       else:
         BASS_ChannelSetDevice(self._channel, (<InputDevice?>dev)._device)
 
-      __Evaluate()
+      self._evaluate()
 
       if not dev:
         self._device = None

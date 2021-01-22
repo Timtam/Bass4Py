@@ -1,0 +1,39 @@
+from ...fx import FX
+
+class Compressor(FX):
+
+  @property 
+  def gain(self) -> float: ...
+
+  @gain.setter
+  def gain(self, value: float) -> None: ...
+
+  @property 
+  def attack(self) -> float: ...
+
+  @attack.setter
+  def attack(self, value: float) -> None: ...
+
+  @property 
+  def release(self) -> float: ...
+
+  @release.setter
+  def release(self, value: float) -> None: ...
+
+  @property 
+  def threshold(self) -> float: ...
+
+  @threshold.setter
+  def threshold(self, value: float) -> None: ...
+
+  @property 
+  def ratio(self) -> float: ...
+
+  @ratio.setter
+  def ratio(self, value: float) -> None: ...
+
+  @property 
+  def predelay(self) -> float: ...
+
+  @predelay.setter
+  def predelay(self, value: float) -> None: ...

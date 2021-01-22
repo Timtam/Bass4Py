@@ -10,17 +10,17 @@ from .attribute cimport Attribute
 cdef class Music(Channel):
 
   # attributes
-  cdef readonly Attribute Active
-  cdef readonly Attribute Amplification
-  cdef readonly Attribute BPM
-  cdef readonly Attribute ChannelVolumes
-  cdef readonly Attribute GlobalVolume
-  cdef readonly Attribute InstrumentVolumes
-  cdef readonly Attribute PanSeparation
-  cdef readonly Attribute PositionScaler
-  cdef readonly Attribute Speed
+  cdef readonly Attribute active_channels
+  cdef readonly Attribute amplification
+  cdef readonly Attribute bpm
+  cdef readonly Attribute channel_volumes
+  cdef readonly Attribute global_volume
+  cdef readonly Attribute instrument_volumes
+  cdef readonly Attribute pan_separation
+  cdef readonly Attribute position_scaler
+  cdef readonly Attribute speed
 
-  cdef readonly object Tags
+  cdef readonly object tags
 
-  cpdef Free(Music self)
-  cpdef Update(Music self, DWORD length)
+  cpdef free(Music self)
+  cpdef update(Music self, DWORD length)

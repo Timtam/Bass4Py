@@ -1,0 +1,33 @@
+from ...fx import FX
+
+class Echo(FX):
+
+  @property
+  def wet_dry_mix(self) -> float: ...
+
+  @wet_dry_mix.setter
+  def wet_dry_mix(self, value: float) -> None: ...
+
+  @property
+  def feedback(self) -> float: ...
+
+  @feedback.setter
+  def feedback(self, value: float) -> None: ...
+
+  @property
+  def left_delay(self) -> float: ...
+
+  @left_delay.setter
+  def left_delay(self, value: float) -> None: ...
+
+  @property
+  def right_delay(self) -> float: ...
+
+  @right_delay.setter
+  def right_delay(self, value: float) -> None: ...
+
+  @property
+  def pan_delay(self) -> bool: ...
+
+  @pan_delay.setter
+  def pan_delay(self, value: bool) -> None: ...

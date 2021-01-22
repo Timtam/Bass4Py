@@ -1,3 +1,4 @@
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   BASS_SAMPLE,
   DWORD,
@@ -7,14 +8,14 @@ from ..bindings.bass cimport (
 
 from .output_device cimport OutputDevice
 
-cdef class Sample:
+cdef class Sample(_Evaluable):
   cdef HSAMPLE _sample
   cdef OutputDevice _device
 
-  cdef BASS_SAMPLE _getinfo(Sample self)
-  cpdef Free(Sample self)
-  cpdef GetChannel(Sample self, bint onlynew)
-  cpdef GetLength(Sample self, DWORD mode = ?)
-  cpdef Stop(Sample self)
-  cpdef Bytes2Seconds(Sample self, QWORD bytes)
-  cpdef Seconds2Bytes(Sample self, double secs)
+  cdef BASS_SAMPLE _get_info(Sample self)
+  cpdef free(Sample self)
+  cpdef get_channel(Sample self, bint only_new)
+  cpdef get_length(Sample self, DWORD mode = ?)
+  cpdef stop(Sample self)
+  cpdef bytes_to_seconds(Sample self, QWORD bytes)
+  cpdef seconds_to_bytes(Sample self, double secs)

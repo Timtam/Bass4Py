@@ -15,16 +15,16 @@ cdef class MusicInstrument(Sync):
 
     self._type = _BASS_SYNC_MUSICINST
 
-  cpdef Set(MusicInstrument self, Channel chan):
+  cpdef set(MusicInstrument self, Channel chan):
     if not isinstance(chan, Music):
       raise BassSyncError("this sync can only be set to a music")
     
-    super(MusicInstrument, self).Set(chan)
+    super(MusicInstrument, self).set(chan)
 
   cpdef _call_callback(MusicInstrument self, DWORD data):
     self._func(self, LOWORD(data), HIWORD(data))
 
-  property Instrument:
+  property instrument:
     def __get__(MusicInstrument self):
       return LOWORD(self.__param)
     
@@ -38,7 +38,7 @@ cdef class MusicInstrument(Sync):
 
       self._param = MAKELONG(value, HIWORD(self._param))
 
-  property Note:
+  property note:
     def __get__(MusicInstrument self):
       return HIWORD(self.__param)
     

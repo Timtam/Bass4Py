@@ -33,7 +33,7 @@ cdef class I3DL2Reverb(FX):
     effect.flDensity = 100.0
     effect.flHFReference = 5000.0
 
-  property Room:
+  property room:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.lRoom
@@ -43,7 +43,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, -10000, 0)
       effect.lRoom = value
 
-  property RoomHF:
+  property room_hf:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.lRoomHF
@@ -53,7 +53,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, -10000, 0)
       effect.lRoomHF = value
 
-  property RoomRolloffFactor:
+  property room_rolloff_factor:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flRoomRolloffFactor
@@ -63,7 +63,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.0, 10.0)
       effect.flRoomRolloffFactor = value
 
-  property DecayTime:
+  property decay_time:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flDecayTime
@@ -73,7 +73,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.1, 20.0)
       effect.flDecayTime = value
 
-  property DecayHFRatio:
+  property decay_hf_ratio:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flDecayHFRatio
@@ -83,7 +83,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.1, 2.0)
       effect.flDecayHFRatio = value
 
-  property Reflections:
+  property reflections:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.lReflections
@@ -93,7 +93,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, -10000, 1000)
       effect.lReflections = value
 
-  property ReflectionsDelay:
+  property reeflections_delay:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flReflectionsDelay
@@ -103,7 +103,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.0, 0.3)
       effect.flReflectionsDelay = value
 
-  property Reverb:
+  property reverb:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.lReverb
@@ -113,7 +113,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, -10000, 2000)
       effect.lReverb = value
 
-  property ReverbDelay:
+  property reverb_delay:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flReverbDelay
@@ -123,7 +123,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.0, 0.1)
       effect.flReverbDelay = value
 
-  property Diffusion:
+  property diffusion:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flDiffusion
@@ -133,7 +133,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.flDiffusion = value
 
-  property Density:
+  property density:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flDensity
@@ -143,7 +143,7 @@ cdef class I3DL2Reverb(FX):
       self._validate_range(value, 0.0, 100.0)
       effect.flDensity = value
 
-  property HFReference:
+  property hf_reference:
     def __get__(I3DL2Reverb self):
       cdef BASS_DX8_I3DL2REVERB *effect = <BASS_DX8_I3DL2REVERB*>(self._effect)
       return effect.flHFReference

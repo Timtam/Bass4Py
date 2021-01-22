@@ -1,6 +1,6 @@
 from libc.string cimport memmove
 
-from .bass cimport __Evaluate
+from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   BASS_ChannelSetDSP,
   BASS_ChannelRemoveDSP,
@@ -24,16 +24,16 @@ cdef void CDSPPROC(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *us
 cdef void __stdcall CDSPPROC_STD(HDSP dsp, DWORD channel, void *buffer, DWORD length, void *user) with gil:
   CDSPPROC(dsp, channel, buffer, length, user)
 
-cdef class DSP:
+cdef class DSP(_Evaluable):
 
-  cpdef Remove(DSP self):
+  cpdef remove(DSP self):
     cdef bint res
     with nogil:
-      res = BASS_ChannelRemoveDSP(self.Channel._channel, self._dsp)
-    __Evaluate()
+      res = BASS_ChannelRemoveDSP(self.channel._channel, self._dsp)
+    self._evaluate()
     return res
 
-  cpdef Set(DSP self, Channel chan):
+  cpdef set(DSP self, Channel chan):
     cdef HDSP dsp
     cdef DSPPROC *cproc
     
@@ -48,12 +48,12 @@ cdef class DSP:
     with nogil:
       dsp = BASS_ChannelSetDSP(chan._channel, cproc, <void*>self, self._priority)
     
-    __Evaluate()
+    self._evaluate()
     
     self._dsp = dsp
-    self.Channel = chan
+    self.channel = chan
 
-  property Priority:
+  property priority:
     def __get__(DSP self):
       return self._priority
     
@@ -63,7 +63,7 @@ cdef class DSP:
         
       self._priority = priority
 
-  property Callback:
+  property callback:
     def __get__(DSP self):
       return self._func
     

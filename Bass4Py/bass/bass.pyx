@@ -1,7 +1,3 @@
-"""
-This module holds the class which is the main entry point to all BASS-related functionalities.
-"""
-
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040f00
 
@@ -45,45 +41,6 @@ from ..bindings.bass cimport (
   _BASS_CONFIG_VISTA_SPEAKERS,
   _BASS_CONFIG_VISTA_TRUEPOS,
   _BASS_CONFIG_WASAPI_PERSIST,
-  _BASS_ERROR_MEM,
-  _BASS_ERROR_FILEOPEN,
-  _BASS_ERROR_DRIVER,
-  _BASS_ERROR_BUFLOST,
-  _BASS_ERROR_HANDLE,
-  _BASS_ERROR_FORMAT,
-  _BASS_ERROR_POSITION,
-  _BASS_ERROR_INIT,
-  _BASS_ERROR_START,
-  _BASS_ERROR_SSL,
-  _BASS_ERROR_ALREADY,
-  _BASS_ERROR_NOCHAN,
-  _BASS_ERROR_ILLTYPE,
-  _BASS_ERROR_ILLPARAM,
-  _BASS_ERROR_NO3D,
-  _BASS_ERROR_NOEAX,
-  _BASS_ERROR_DEVICE,
-  _BASS_ERROR_NOPLAY,
-  _BASS_ERROR_FREQ,
-  _BASS_ERROR_NOTFILE,
-  _BASS_ERROR_NOHW,
-  _BASS_ERROR_EMPTY,
-  _BASS_ERROR_NONET,
-  _BASS_ERROR_CREATE,
-  _BASS_ERROR_NOFX,
-  _BASS_ERROR_NOTAVAIL,
-  _BASS_ERROR_DECODE,
-  _BASS_ERROR_DX,
-  _BASS_ERROR_TIMEOUT,
-  _BASS_ERROR_FILEFORM,
-  _BASS_ERROR_SPEAKER,
-  _BASS_ERROR_VERSION,
-  _BASS_ERROR_CODEC,
-  _BASS_ERROR_ENDED,
-  _BASS_ERROR_BUSY,
-  _BASS_ERROR_NOTAUDIO,
-  _BASS_ERROR_UNSTREAMABLE,
-  _BASS_OK,
-  BASS_ErrorGetCode,
   BASS_GetConfig,
   BASS_GetConfigPtr,
   BASS_GetCPU,
@@ -95,119 +52,43 @@ from ..bindings.bass cimport (
   BASS_Update,
   HPLUGIN)
 
+from .._evaluable cimport _Evaluable
+from .. import exceptions
 from .input_device cimport InputDevice
 from .output_device cimport OutputDevice
 from .plugin cimport Plugin
 from .version cimport Version
-from .. import exceptions
 
 include "../transform.pxi"
 
 cdef extern from "Python.h":
   void PyEval_InitThreads()
 
-cpdef __Evaluate():
-  cdef DWORD error = BASS_ErrorGetCode()
+PyEval_InitThreads()
 
-  if error == _BASS_OK:
-    return
-
-  if error == _BASS_ERROR_MEM:
-    raise exceptions.BassMemoryError()
-  elif error == _BASS_ERROR_FILEOPEN:
-    raise exceptions.BassFileOpenError()
-  elif error == _BASS_ERROR_DRIVER:
-    raise exceptions.BassDriverError()
-  elif error == _BASS_ERROR_BUFLOST:
-    raise exceptions.BassBufferLostError()
-  elif error == _BASS_ERROR_HANDLE:
-    raise exceptions.BassHandleError()
-  elif error == _BASS_ERROR_FORMAT:
-    raise exceptions.BassFormatError()
-  elif error == _BASS_ERROR_POSITION:
-    raise exceptions.BassPositionError()
-  elif error == _BASS_ERROR_INIT:
-    raise exceptions.BassInitError()
-  elif error == _BASS_ERROR_START:
-    raise exceptions.BassStartError()
-  elif error == _BASS_ERROR_SSL:
-    raise exceptions.BassSslError()
-  elif error == _BASS_ERROR_ALREADY:
-    raise exceptions.BassAlreadyError()
-  elif error == _BASS_ERROR_NOCHAN:
-    raise exceptions.BassNoChannelError()
-  elif error == _BASS_ERROR_ILLTYPE:
-    raise exceptions.BassInvalidTypeError()
-  elif error == _BASS_ERROR_ILLPARAM:
-    raise exceptions.BassInvalidParameterError()
-  elif error == _BASS_ERROR_NO3D:
-    raise exceptions.BassNo3DError()
-  elif error == _BASS_ERROR_NOEAX:
-    raise exceptions.BassNoEaxError()
-  elif error == _BASS_ERROR_DEVICE:
-    raise exceptions.BassDeviceError()
-  elif error == _BASS_ERROR_NOPLAY:
-    raise exceptions.BassNoPlayError()
-  elif error == _BASS_ERROR_FREQ:
-    raise exceptions.BassFrequencyError()
-  elif error == _BASS_ERROR_NOTFILE:
-    raise exceptions.BassNotAFileError()
-  elif error == _BASS_ERROR_NOHW:
-    raise exceptions.BassNoHardwareError()
-  elif error == _BASS_ERROR_EMPTY:
-    raise exceptions.BassEmptyError()
-  elif error == _BASS_ERROR_NONET:
-    raise exceptions.BassNoNetworkError()
-  elif error == _BASS_ERROR_CREATE:
-    raise exceptions.BassCreateError()
-  elif error == _BASS_ERROR_NOFX:
-    raise exceptions.BassNoFxError()
-  elif error == _BASS_ERROR_NOTAVAIL:
-    raise exceptions.BassNotAvailableError()
-  elif error == _BASS_ERROR_DECODE:
-    raise exceptions.BassDecodeError()
-  elif error == _BASS_ERROR_DX:
-    raise exceptions.BassDxError()
-  elif error == _BASS_ERROR_TIMEOUT:
-    raise exceptions.BassTimeoutError()
-  elif error == _BASS_ERROR_FILEFORM:
-    raise exceptions.BassFileFormatError()
-  elif error == _BASS_ERROR_SPEAKER:
-    raise exceptions.BassSpeakerError()
-  elif error == _BASS_ERROR_VERSION:
-    raise exceptions.BassVersionError()
-  elif error == _BASS_ERROR_CODEC:
-    raise exceptions.BassCodecError()
-  elif error == _BASS_ERROR_ENDED:
-    raise exceptions.BassEndedError()
-  elif error == _BASS_ERROR_BUSY:
-    raise exceptions.BassBusyError()
-  elif error == _BASS_ERROR_NOTAUDIO:
-    raise exceptions.BassNotAudioError()
-  elif error == _BASS_ERROR_UNSTREAMABLE:
-    raise exceptions.BassUnstreamableError()
-  else:
-    raise exceptions.BassUnknownError()
-
-cdef class BASS:
+cdef class BASS(_Evaluable):
   """
   This class represents the main entrypoint to all Bass4Py related 
   functionalities. It allows to control various global settings and gain access 
-  to output devices (:class:`Bass4Py.bass.OutputDevice`) and input devices 
-  (:class:`Bass4Py.bass.InputDevice`) classes to playback audio data or 
-  record from various input sources.
+  to :class:`output devices <Bass4Py.bass.OutputDevice>` and 
+  :class:`input devices <Bass4Py.bass.InputDevice>` to playback audio 
+  data or record from various input sources. All global properties are also 
+  accessible through this class.
+  
+  See :meth:`~Bass4Py.bass.BASS.get_input_device` or 
+  :meth:`~Bass4Py.bass.BASS.get_output_device` to get further access to the 
+  really important features.
   """
 
   def __cinit__(BASS self):
-    PyEval_InitThreads()
 
-    self.Version = Version(BASS_GetVersion())
-    self.APIVersion = Version(_BASS4PY_API_VERSION)
+    self.api_version = Version(_BASS4PY_API_VERSION)
+    self.version = Version(BASS_GetVersion())
 
     IF UNAME_SYSNAME == "Windows":
       BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
 
-  cpdef GetOutputDevice(BASS self, int device = -1):
+  cpdef get_output_device(BASS self, int device = -1):
     """
     Retrieves any output device for further usage.
     
@@ -231,7 +112,7 @@ cdef class BASS:
     if device >= 0:
       odevice = OutputDevice(device)
       try:
-        odevice.Enabled
+        odevice.enabled
       except exceptions.BassDeviceError:
         return None
       return odevice
@@ -239,14 +120,14 @@ cdef class BASS:
       while True:
         odevice = OutputDevice(devicenumber)
         try:
-          if odevice.Default:
+          if odevice.default:
             break
         except exceptions.BassDeviceError:
           break
         devicenumber += 1
 
       try:
-        if not odevice.Default:
+        if not odevice.default:
           return None
       except exceptions.BassDeviceError:
         return OutputDevice(0)
@@ -254,7 +135,7 @@ cdef class BASS:
     else:
       return None
 
-  cpdef GetInputDevice(BASS self, int device = -1):
+  cpdef get_input_device(BASS self, int device = -1):
     """
     Retrieves any input device for further usage.
     
@@ -299,7 +180,7 @@ cdef class BASS:
     else:
       return None
 
-  cpdef LoadPlugin(BASS self, object filename):
+  cpdef load_plugin(BASS self, object filename):
     """
     Plugs an "add-on" into the standard stream and sample creation functions.
 
@@ -362,10 +243,10 @@ cdef class BASS:
     """
     cdef const unsigned char[:] fn = to_readonly_bytes(filename)
     cdef HPLUGIN plugin = BASS_PluginLoad(<const char *>(&(fn[0])), 0)
-    __Evaluate()
+    self._evaluate()
     return Plugin(plugin)
 
-  cpdef Update(BASS self, DWORD length):
+  cpdef update(BASS self, DWORD length):
     """
     Updates the :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` 
     channel playback buffers.
@@ -378,7 +259,7 @@ cdef class BASS:
     Returns
     -------
     :obj:`bool`
-      True
+      success
 
     Raises
     ------
@@ -395,10 +276,10 @@ cdef class BASS:
     """
     cdef bint res
     res = BASS_Update(length)
-    __Evaluate()
+    self._evaluate()
     return res
 
-  property CPU:
+  property cpu:
     """
     :obj:`float`: The current CPU usage of BASS. 
 
@@ -433,19 +314,19 @@ cdef class BASS:
     def __get__(BASS self):
       return BASS_GetCPU()
 
-  property Device:
+  property device:
     """
     :class:`Bass4Py.bass.OutputDevice` or :obj:`None`: the output device setting of the current thread. 
     """
     def __get__(BASS self):
       cdef DWORD device=BASS_GetDevice()
       try:
-        __Evaluate()
+        self._evaluate()
       except exceptions.BassInitError:
         return None
       return OutputDevice(device)
 
-  property NetAgent:
+  property net_agent:
     """
     :obj:`str`: The "User-Agent" request header sent to servers. 
 
@@ -460,7 +341,7 @@ cdef class BASS:
 
       BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, &(agent[0]))
 
-  property NetProxy:
+  property net_proxy:
     """
     :obj:`str` or :obj:`None`: Proxy server settings. 
 
@@ -489,7 +370,7 @@ cdef class BASS:
 
         BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, &(proxy[0]))
 
-  property Algorithm3D:
+  property algorithm_3d:
     """
     :class:`Bass4Py.constants.ALGORITHM_3D`: The 3D algorithm for software mixed 3D channels. 
 
@@ -539,7 +420,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
 
-  property AsyncBuffer:
+  property async_buffer:
     """
     :obj:`int`: The buffer length for asynchronous file reading. 
 
@@ -560,7 +441,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER, value)
 
-  property Buffer:
+  property buffer:
     """
     :obj:`int`: The playback buffer length for :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channels. 
 
@@ -598,7 +479,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_BUFFER, value)
 
-  property CurveVolume:
+  property curve_volume:
     """
     :obj:`bool`: The translation curve of volume values. False = linear, True = logarithmic. 
 
@@ -613,7 +494,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_VOL, <DWORD>value)
 
-  property CurvePan:
+  property curve_pan:
     """
     :obj:`bool`: The translation curve of panning values. False = linear, True = logarithmic. 
 
@@ -627,7 +508,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_CURVE_PAN, <DWORD>value)
 
-  property DeviceBuffer:
+  property device_buffer:
     """
     :obj:`int`: The output device buffer length in milliseconds. 
 
@@ -667,7 +548,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
 
-  property DefaultDevice:
+  property default_device:
     """
     :obj:`bool`: Include a "Default" entry in the output device list?
 
@@ -675,7 +556,7 @@ cdef class BASS:
     to the device that is currently the system's default. Its output will 
     automatically switch over when the system's default device setting 
     changes. When enabled, the "Default" device will also become the default 
-    device to :meth:`Bass4Py.bass.BASS.GetOutputDevice` (with device = -1). 
+    device to :meth:`Bass4Py.bass.BASS.get_output_device` (with device = -1). 
     Both it and the device that it currently maps to will have the 
     :attr:`Bass4Py.bass.OutputDevice.Default` attribute set. This option can 
     only be set before :meth:`Bass4Py.bass.OutputDevice.Init` has been called. 
@@ -704,7 +585,7 @@ cdef class BASS:
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_DEV_DEFAULT, <DWORD>value)
 
-  property FloatDsp:
+  property float_dsp:
     """
     :obj:`bool`: Pass 32-bit floating-point sample data to all :attr:`Bass4Py.bass.DSP.Callback` functions? 
 
@@ -733,7 +614,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_FLOATDSP, <DWORD>value)
 
-  property MusicVolume:
+  property music_volume:
     """
     :obj:`int`: The global MOD music volume level. 0 (silent) to 10000 (full). 
 
@@ -752,7 +633,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_MUSIC, value)
 
-  property SampleVolume:
+  property sample_volume:
     """
     :obj:`int`: The global sample volume level. 0 (silent) to 10000 (full). 
 
@@ -770,7 +651,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_SAMPLE, value)
 
-  property StreamVolume:
+  property stream_volume:
     """
     :obj:`int`: The global stream volume level. 0 (silent) to 10000 (full). 
 
@@ -788,7 +669,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_STREAM, value)
 
-  property Video:
+  property video:
     """
     :obj:`bool`: Play the audio from video files using Media Foundation? 
 
@@ -810,7 +691,7 @@ cdef class BASS:
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
 
-  property VirtualChannels:
+  property virtual_channels:
     """
     :obj:`int`: The maximum number of virtual channels to use in the rendering of IT files. 
 
@@ -827,7 +708,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_MUSIC_VIRTUAL, value)
 
-  property NetBuffer:
+  property net_buffer:
     """
     :obj:`int`: The internet download buffer length in milliseconds. 
     
@@ -855,7 +736,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_BUFFER, value)
 
-  property NetPassive:
+  property net_passive:
     """
     :obj:`bool`: Use passive mode in FTP connections? 
 
@@ -868,7 +749,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PASSIVE, <DWORD>value)
 
-  property NetPlaylist:
+  property net_playlist:
     """
     :obj:`int`: Process URLs in PLS and M3U playlists? 
     
@@ -890,7 +771,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST, value)
 
-  property NetPlaylistDepth:
+  property net_playlist_depth:
     """
     :obj:`int`: Maximum nested playlist processing depth. 0 = do not process nested playlists. 
 
@@ -907,7 +788,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PLAYLIST_DEPTH, value)
 
-  property NetPrebuf:
+  property net_prebuf:
     """
     :obj:`int`: Amount (percentage) to pre-buffer before playing internet streams. 
 
@@ -928,7 +809,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF, value)
 
-  property NetPrebufWait:
+  property net_prebuf_wait:
     """
     :obj:`bool`: Wait for pre-buffering when opening internet streams? 
 
@@ -954,7 +835,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_NET_PREBUF_WAIT, <DWORD>value)
 
-  property NetTimeout:
+  property net_timeout:
     """
     :obj:`int`: The time in milliseconds to wait for a server to respond to a connection request. 
 
@@ -968,7 +849,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_TIMEOUT, value)
 
-  property NetReadTimeout:
+  property net_read_timeout:
     """
     :obj:`int`: The time in milliseconds to wait for a server to deliver more data for an internet stream. 0 = no timeout. 
     
@@ -982,7 +863,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_NET_READTIMEOUT, value)
 
-  property OggPrescan:
+  property ogg_prescan:
     """
     :obj:`bool`: Pre-scan chained OGG files? 
 
@@ -998,7 +879,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_OGG_PRESCAN, <DWORD>value)
 
-  property PauseNoplay:
+  property pause_noplay:
     """
     :obj:`bool`: Prevent channels being played while the output is paused? 
 
@@ -1015,7 +896,7 @@ cdef class BASS:
     def __set__(BASS self, bint value):
       BASS_SetConfig(_BASS_CONFIG_PAUSE_NOPLAY, <DWORD>value)
 
-  property RecordBuffer:
+  property record_buffer:
     """
     :obj:`int`: The buffer length for recording channels. 
 
@@ -1039,7 +920,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_REC_BUFFER, value)
 
-  property SRC:
+  property src:
     """
     :obj:`int`: The default sample rate conversion quality. 
     
@@ -1065,7 +946,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC, value)
 
-  property SRCSample:
+  property src_sample:
     """
     :obj:`int`: The default sample rate conversion quality for samples. 
 
@@ -1090,7 +971,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_SRC_SAMPLE, value)
 
-  property UpdatePeriod:
+  property update_period:
     """
     :obj:`int`: The update period of :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channel playback buffers in milliseconds. 
 
@@ -1125,7 +1006,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATEPERIOD, value)
 
-  property UpdateThreads:
+  property update_threads:
     """
     :obj:`int`: The number of threads to use for updating playback buffers. 0 = disable automatic updating. 
 
@@ -1152,7 +1033,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_UPDATETHREADS, value)
 
-  property Verify:
+  property verify:
     """
     :obj:`int`: The amount of data to check in order to verify/detect the file format. 
 
@@ -1173,7 +1054,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY, value)
 
-  property NetVerify:
+  property net_verify:
     """
     :obj:`int`: The amount of data to check in order to verify/detect the file format of internet streams. 
 
@@ -1196,7 +1077,7 @@ cdef class BASS:
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY_NET, value)
 
-  property VistaSpeakers:
+  property vista_speakers:
     """
     :obj:`bool`: Enable speaker assignment with panning/balance control on Windows Vista and newer? 
 
@@ -1232,7 +1113,7 @@ cdef class BASS:
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
 
-  property VistaTruepos:
+  property vista_truepos:
     """
     :obj:`bool`: Enable true play position mode on Windows Vista and newer? 
 
@@ -1267,7 +1148,7 @@ cdef class BASS:
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
 
-  property DeviceUpdatePeriod:
+  property device_update_period:
     """
     :obj:`int`: The output device update period in milliseconds, or in samples if negative. 
 
@@ -1292,7 +1173,7 @@ cdef class BASS:
     def __set__(BASS self, int value):
       BASS_SetConfig(_BASS_CONFIG_DEV_PERIOD, value)
 
-  property Handles:
+  property handles:
     """
     :obj:`int`: Number of existing :class:`Bass4Py.bass.Music` / :class:`Bass4Py.bass.Record` / :class:`Bass4Py.bass.Sample` / :class:`Bass4Py.bass.Stream` handles. 
 
@@ -1305,7 +1186,7 @@ cdef class BASS:
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_HANDLES)
 
-  property WASAPIPersist:
+  property wasapi_persist:
     """
     :obj:`bool`: Retain Windows mixer settings across sessions? 
 
@@ -1333,7 +1214,7 @@ cdef class BASS:
 
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
 
-  property LibSSL:
+  property lib_ssl:
     """
     :obj:`str`: The OpenSSL (or compatible) library to use for handling HTTPS connections. 
 

@@ -145,6 +145,13 @@ class BASSExtensionHandler(ExtensionHandler):
         [
           "Bass4Py/bass/version.pyx"
         ],
+        language = "c"
+      ),
+      Extension(
+        "Bass4Py._evaluable",
+        [
+          "Bass4Py/_evaluable.pyx"
+        ],
         libraries = ["bass"],
         language = "c"
       ),
@@ -379,15 +386,26 @@ class BASSExtensionHandler(ExtensionHandler):
   
   def GetDataFiles(self):
   
+    files = {}
+
     if platform.system() == 'Windows':
       if IsX64():
-        return {'Bass4Py.bass': [os.path.join('bass24', 'x64', 'bass.dll')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24', 'x64', 'bass.dll')]})
       else:
-        return {'Bass4Py.bass': [os.path.join('bass24', 'bass.dll')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24', 'bass.dll')]})
     elif platform.system() == 'Linux':
       if IsX64():
-        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'x64', 'libbass.so')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24-linux', 'x64', 'libbass.so')]})
       else:
-        return {'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]}
+        files.update({'Bass4Py.bass': [os.path.join('bass24-linux', 'libbass.so')]})
 
-    return {}
+    files['Bass4Py.bass'].append('*.pyi')
+
+    files.update({
+      'Bass4Py': ['*.pyi'],
+      'Bass4Py.bass.effects': ['*.pyi'],
+      'Bass4Py.bass.effects.dx8': ['*.pyi'],
+      'Bass4Py.bass.syncs': ['*.pyi'],
+    })
+
+    return files

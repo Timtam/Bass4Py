@@ -25,7 +25,7 @@ cdef class Reverb(FX):
     effect.fReverbTime = 1000.0
     effect.fHighFreqRTRatio = 0.001
 
-  property InGain:
+  property in_gain:
     def __get__(Reverb self):
       cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
       return effect.fInGain
@@ -35,7 +35,7 @@ cdef class Reverb(FX):
       self._validate_range(value, -96.0, 0.0)
       effect.fInGain = value
 
-  property ReverbMix:
+  property reverb_mix:
     def __get__(Reverb self):
       cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
       return effect.fReverbMix
@@ -45,7 +45,7 @@ cdef class Reverb(FX):
       self._validate_range(value, -96.0, 0.0)
       effect.fReverbMix = value
 
-  property ReverbTime:
+  property reverb_time:
     def __get__(Reverb self):
       cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
       return effect.fReverbTime
@@ -55,7 +55,7 @@ cdef class Reverb(FX):
       self._validate_range(value, 0.001, 3000.0)
       effect.fReverbTime = value
 
-  property HighFreqRTRatio:
+  property high_freq_rt_ratio:
     def __get__(Reverb self):
       cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
       return effect.fHighFreqRTRatio

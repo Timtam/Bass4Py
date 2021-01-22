@@ -4,7 +4,7 @@ from ..bindings.bass cimport (
 cdef Vector CreateVector(BASS_3DVECTOR *vector)
 
 cdef class Vector:
-  cdef public float X
-  cdef public float Y
-  cdef public float Z
+  cdef public float x
+  cdef public float y
+  cdef public float z
   cdef void Resolve(Vector self, BASS_3DVECTOR *vector)

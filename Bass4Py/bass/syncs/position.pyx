@@ -9,9 +9,9 @@ cdef class Position(Sync):
   def __cinit__(Position self):
 
     self._type = _BASS_SYNC_POS
-    self.__forceparam = True
+    self._force_param = True
 
-  property Position:
+  property position:
     def __get__(Position self):
       return self._param
       
