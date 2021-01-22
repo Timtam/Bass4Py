@@ -32,7 +32,7 @@ class TestFX(unittest.TestCase):
 
   def test_limits_before_link(self):
     def set_center(v):
-      self.effect.Center = v
+      self.effect.center = v
 
     if platform.uname()[0] == "Windows":
       bounds = (80.0, 16000.0, )
@@ -43,7 +43,7 @@ class TestFX(unittest.TestCase):
 
   def test_limits_after_link(self):
     def set_center(v):
-      self.effect.Center = v
+      self.effect.center = v
 
     self.effect.set(self.stream)
     bounds = self.get_bounds()
