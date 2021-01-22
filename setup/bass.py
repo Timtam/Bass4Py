@@ -402,6 +402,8 @@ class BASSExtensionHandler(ExtensionHandler):
     files.update({
       'Bass4Py': ['*.pyi'],
       'Bass4Py.bass': ['*.pyi'],
+      'Bass4Py.bass.effects': ['*.pyi'],
+      'Bass4Py.bass.effects.dx8': ['*.pyi'],
     })
 
     return files
