@@ -3,43 +3,18 @@ build: off
 environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: amd64
       PYTHON: "python2"
       STACK: "2.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: x86
-      PYTHON: "python2"
-      STACK: "2.7"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: amd64
       PYTHON: "python3"
       STACK: "3.5"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: x86
-      PYTHON: "python3"
-      STACK: "3.5"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: amd64
       PYTHON: "python3"
       STACK: "3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: x86
-      PYTHON: "python3"
-      STACK: "3.6"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: amd64
       PYTHON: "python3"
       STACK: "3.7"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: x86
-      PYTHON: "python3"
-      STACK: "3.7"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: amd64
-      PYTHON: "python3"
-      STACK: "3.8"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      ARCH: x86
       PYTHON: "python3"
       STACK: "3.8"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
