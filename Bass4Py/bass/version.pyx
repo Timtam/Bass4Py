@@ -5,7 +5,10 @@ from ..bindings.bass cimport (
 
 cdef class Version(str):
   """
-  A helper class which represents BASS version information in a more human-readable format
+  A class representing versions in the context of Bass4Py, including all its 
+  dependencies. This class inherits Python's :obj:`str` class, so that it can 
+  be handled just like any other string. In addition to that, it can also be 
+  converted into an integer value, using the :obj:`int` object on it.
   """
 
   def __cinit__(Version self, DWORD version):

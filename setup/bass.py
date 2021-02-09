@@ -53,9 +53,25 @@ class BASSExtensionHandler(ExtensionHandler):
         language = "c"
       ),
       Extension(
+        "Bass4Py.bass.output_device_enumerator",
+        [
+          "Bass4Py/bass/output_device_enumerator.pyx"
+        ],
+        libraries = ["bass"],
+        language = "c"
+      ),
+      Extension(
         "Bass4Py.bass.input_device",
         [
           "Bass4Py/bass/input_device.pyx"
+        ],
+        libraries = ["bass"],
+        language = "c"
+      ),
+      Extension(
+        "Bass4Py.bass.input_device_enumerator",
+        [
+          "Bass4Py/bass/input_device_enumerator.pyx"
         ],
         libraries = ["bass"],
         language = "c"

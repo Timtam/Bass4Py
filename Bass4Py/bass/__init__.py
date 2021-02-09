@@ -15,8 +15,10 @@ which includes audio input and output in/of several formats.
    FX
    Input
    InputDevice
+   InputDeviceEnumerator
    Music
    OutputDevice
+   OutputDeviceEnumerator
    Plugin
    Record
    Sample
@@ -39,8 +41,10 @@ from .dsp import DSP
 from .fx import FX
 from .input import Input
 from .input_device import InputDevice
+from .input_device_enumerator import InputDeviceEnumerator
 from .music import Music
 from .output_device import OutputDevice
+from .output_device_enumerator import OutputDeviceEnumerator
 from .plugin import Plugin
 from .record import Record
 from .sample import Sample
@@ -58,8 +62,10 @@ __all__ = (
   'FX',
   'Input',
   'InputDevice',
+  'InputDeviceEnumerator',
   'Music',
   'OutputDevice',
+  'OutputDeviceEnumerator',
   'Plugin',
   'Record',
   'Sample',

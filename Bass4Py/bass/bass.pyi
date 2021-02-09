@@ -2,16 +2,15 @@ from typing import Optional, Union
 
 from .._evaluable import _Evaluable
 from ..constants import ALGORITHM_3D
-from .input_device import InputDevice
+from .input_device_enumerator import InputDeviceEnumerator
 from .output_device import OutputDevice
+from .output_device_enumerator import OutputDeviceEnumerator
 from .plugin import Plugin
 from .version import Version
 
 class BASS(_Evaluable):
 
   def __init__(self) -> None: ...
-  def get_input_device(self, device: int = ...) -> InputDevice: ...
-  def get_output_device(self, device: int = ...) -> OutputDevice: ...
   def load_plugin(self, filename: Union[str, bytes]) -> Plugin: ...
   def update(self, length: int) -> bool: ...
   
@@ -20,6 +19,12 @@ class BASS(_Evaluable):
   
   @property
   def api_version(self) -> Version: ...
+
+  @property
+  def input_devices(self) -> InputDeviceEnumerator: ...
+
+  @property
+  def output_devices(self) -> OutputDeviceEnumerator: ...
 
   @property
   def cpu(self) -> float: ...

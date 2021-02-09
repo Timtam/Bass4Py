@@ -54,7 +54,6 @@ from ..bindings.bass cimport (
 
 from .._evaluable cimport _Evaluable
 from .. import exceptions
-from .input_device cimport InputDevice
 from .output_device cimport OutputDevice
 from .plugin cimport Plugin
 from .version cimport Version
@@ -66,6 +65,9 @@ cdef extern from "Python.h":
 
 PyEval_InitThreads()
 
+IF UNAME_SYSNAME == "Windows":
+  BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
+
 cdef class BASS(_Evaluable):
   """
   This class represents the main entrypoint to all Bass4Py related 
@@ -75,110 +77,17 @@ cdef class BASS(_Evaluable):
   data or record from various input sources. All global properties are also 
   accessible through this class.
   
-  See :meth:`~Bass4Py.bass.BASS.get_input_device` or 
-  :meth:`~Bass4Py.bass.BASS.get_output_device` to get further access to the 
+  See :attr:`~Bass4Py.bass.BASS.input_devices` or 
+  :attr:`~Bass4Py.bass.BASS.output_devices` to get further access to the 
   really important features.
   """
 
   def __cinit__(BASS self):
 
     self.api_version = Version(_BASS4PY_API_VERSION)
+    self.input_devices = InputDeviceEnumerator()
+    self.output_devices = OutputDeviceEnumerator()
     self.version = Version(BASS_GetVersion())
-
-    IF UNAME_SYSNAME == "Windows":
-      BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
-
-  cpdef get_output_device(BASS self, int device = -1):
-    """
-    Retrieves any output device for further usage.
-    
-    Parameters
-    ----------
-    device : :obj:`int`
-      
-      device to return, starting at 0, which is a "No sound" device on any 
-      platform. 1 is the real first audio device. Default is -1, which is the 
-      default output device.
-
-    Returns
-    -------
-    :class:`Bass4Py.bass.OutputDevice` or :obj:`None`
-      the output device, or None if a device with that number doesn't exist
-
-    """
-
-    cdef int devicenumber = 1
-    cdef OutputDevice odevice
-    if device >= 0:
-      odevice = OutputDevice(device)
-      try:
-        odevice.enabled
-      except exceptions.BassDeviceError:
-        return None
-      return odevice
-    elif device==-1:
-      while True:
-        odevice = OutputDevice(devicenumber)
-        try:
-          if odevice.default:
-            break
-        except exceptions.BassDeviceError:
-          break
-        devicenumber += 1
-
-      try:
-        if not odevice.default:
-          return None
-      except exceptions.BassDeviceError:
-        return OutputDevice(0)
-      return odevice
-    else:
-      return None
-
-  cpdef get_input_device(BASS self, int device = -1):
-    """
-    Retrieves any input device for further usage.
-    
-    Parameters
-    ----------
-    device : :obj:`int`
-      
-      device to return, starting at 1. Default is -1, which is the default 
-      input device.
-
-    Returns
-    -------
-    :class:`Bass4Py.bass.InputDevice` or :obj:`None`
-      the input device, or None if a device with that number doesn't exist
-
-    """
-
-    cdef int devicenumber = 0
-    cdef InputDevice odevice
-    if device >= 0:
-      odevice = InputDevice(device)
-      try:
-        odevice.Enabled
-      except exceptions.BassDeviceError:
-        return None
-      return odevice
-    elif device==-1:
-      while True:
-        odevice = InputDevice(devicenumber)
-        try:
-          if odevice.Default:
-            break
-        except exceptions.BassDeviceError:
-          if devicenumber == 0:
-            return None
-          break
-        devicenumber += 1
-
-      if not odevice.Default:
-        return None
-      return odevice
-    else:
-      return None
 
   cpdef load_plugin(BASS self, object filename):
     """
@@ -215,10 +124,10 @@ cdef class BASS(_Evaluable):
     formats. They can provide dedicated functions to create streams of the 
     specific format(s) they support and/or they can plug into the standard 
     stream creation functions: 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFile`, 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromBytes`, 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromURL`, and 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj`. This function 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file`, 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_bytes`, 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_url`, and 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj`. This function 
     enables the latter method. Both methods can be used side by side. The 
     obvious advantage of the plugin system is convenience, while the dedicated 
     functions can provide extra options that are not possible via the shared 
@@ -227,11 +136,11 @@ cdef class BASS(_Evaluable):
 
     As well as the stream creation functions, plugins also add their 
     additional format support to sample creation functions:
-    :meth:`Bass4Py.bass.OutputDevice.CreateSampleFromBytes` and 
-    :meth:`Bass4Py.bass.OutputDevice.CreateSampleFromFile`.
+    :meth:`Bass4Py.bass.OutputDevice.create_sample_from_bytes` and 
+    :meth:`Bass4Py.bass.OutputDevice.create_sample_from_file`.
     
     Information on what file formats a plugin supports is available via the 
-    :attr:`Bass4Py.bass.Plugin.Formats` property.
+    :attr:`Bass4Py.bass.Plugin.formats` property.
 
     When using multiple plugins, the stream/sample creation functions will 
     try each of them in the order that they were loaded via this function, 
@@ -268,7 +177,7 @@ cdef class BASS(_Evaluable):
 
 
     When automatic updating is disabled, this function, 
-    :meth:`Bass4Py.bass.Music.Update` or :meth:`Bass4Py.bass.Stream.Update` 
+    :meth:`Bass4Py.bass.Music.update` or :meth:`Bass4Py.bass.Stream.update` 
     needs to be used to keep the playback buffers updated. The length 
     parameter should include some safety margin, in case the next update cycle 
     gets delayed. For example, if calling this function every 100ms, 200 
@@ -296,10 +205,10 @@ cdef class BASS(_Evaluable):
     the channel data is being played faster than it can be generated and 
     buffer underruns are likely to occur. If automatic updating is disabled, 
     then the value returned by this function is only updated after each 
-    call to :meth:`Bass4Py.bass.BASS.Update`. 
-    :meth:`Bass4Py.bass.Music.Update` or :meth:`Bass4Py.bass.Stream.Update` 
+    call to :meth:`Bass4Py.bass.BASS.update`. 
+    :meth:`Bass4Py.bass.Music.update` or :meth:`Bass4Py.bass.Stream.update` 
     usage is not included. The CPU usage of an individual channel is 
-    available via the :attr:`Bass4Py.bass.Channel.CPU` attribute. 
+    available via the :attr:`Bass4Py.bass.Channel.cpu` attribute. 
 
     Platform-specific
 
@@ -402,7 +311,7 @@ cdef class BASS(_Evaluable):
       automatically be used instead. 
 
     These algorithms only affect 3D channels that are being mixed in software. 
-    :attr:`Bass4Py.bass.ChannelBase.Flags` can be used to check whether a 
+    :attr:`Bass4Py.bass.ChannelBase.flags` can be used to check whether a 
     channel is being software mixed. Changing the algorithm only affects 
     subsequently created or loaded samples, musics, or streams; it does not 
     affect any that already exist. 
@@ -433,7 +342,7 @@ cdef class BASS(_Evaluable):
     already exist. So it is possible to have streams with differing buffer 
     lengths by using this config option before creating each of them. When 
     asynchronous file reading is enabled, the buffer level is available from 
-    :meth:`Bass4Py.bass.Stream.GetFilePosition`. 
+    :meth:`Bass4Py.bass.Stream.get_file_position`. 
     """
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_ASYNCFILE_BUFFER)
@@ -443,7 +352,8 @@ cdef class BASS(_Evaluable):
 
   property buffer:
     """
-    :obj:`int`: The playback buffer length for :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channels. 
+    :obj:`int`: The playback buffer length for :class:`Bass4Py.bass.Stream` and 
+    :class:`Bass4Py.bass.Music` channels. 
 
     The buffer length in milliseconds. The minimum length is 10ms, the maximum 
     is 5000 milliseconds. If the length specified is outside this range, it 
@@ -452,11 +362,11 @@ cdef class BASS(_Evaluable):
     The default buffer length is 500 milliseconds. Increasing the length, 
     decreases the chance of the sound possibly breaking-up on slower computers, 
     but also increases the latency for DSP/FX. The buffer length should always 
-    be greater than the update period (:attr:`Bass4Py.bass.BASS.UpdatePeriod`), 
+    be greater than the update period (:attr:`Bass4Py.bass.BASS.update_period`), 
     which determines how often the buffer is refilled. Small buffer lengths 
     are only required if the sound is going to be changing in real-time, for 
     example, in a soft-synth. If you need to use a small buffer, then the 
-    :attr:`Bass4Py.bass.OutputDevice.Buffer` attribute should be used to get 
+    :attr:`Bass4Py.bass.OutputDevice.buffer` attribute should be used to get 
     the recommended minimum buffer length supported by the device and its 
     drivers, and add that to the update period plus some margin for the 
     stream's processing. Even then, it is still possible that the sound could 
@@ -469,8 +379,8 @@ cdef class BASS(_Evaluable):
     have channels with differing buffer lengths by using this config option 
     each time before creating them. A channel's buffer length can be also 
     reduced (or bypassed entirely) at any time via the 
-    :attr:`Bass4Py.bass.Stream.Buffer` attribute. If automatic updating is 
-    disabled, make sure you call :meth:`Bass4Py.bass.BASS.Update` frequently 
+    :attr:`Bass4Py.bass.Stream.buffer` attribute. If automatic updating is 
+    disabled, make sure you call :meth:`Bass4Py.bass.BASS.update` frequently 
     enough to keep the buffers updated. 
     """
     def __get__(BASS self):
@@ -499,7 +409,7 @@ cdef class BASS(_Evaluable):
     :obj:`bool`: The translation curve of panning values. False = linear, True = logarithmic. 
 
     The panning curve affects panning in exactly the same way as the volume 
-    curve (:attr:`Bass4Py.bass.BASS.CurveVolume`) affects the volume. The 
+    curve (:attr:`Bass4Py.bass.BASS.curve_volume`) affects the volume. The 
     linear curve is used by default. 
     """
     def __get__(BASS self):
@@ -517,11 +427,11 @@ cdef class BASS(_Evaluable):
     things like starting and stopping playback of a channel, so you will 
     probably want to avoid setting it unnecessarily high, but setting it too 
     short could result in breaks in the sound. When using a large device 
-    buffer, the :attr:`Bass4Py.bass.Channel.Buffer` attribute could be used to 
+    buffer, the :attr:`Bass4Py.bass.Channel.buffer` attribute could be used to 
     skip the channel buffering step, to avoid further increasing latency for 
     real-time generated sound and/or DSP/FX changes. The buffer length needs 
     to be a multiple of, and at least double, the device's update period, 
-    which can be set via the :attr:`Bass4Py.bass.BASS.DeviceUpdatePeriod` 
+    which can be set via the :attr:`Bass4Py.bass.BASS.device_update_period` 
     option. The buffer length will be rounded up automatically if necessary 
     to achieve that. The system may also choose to use a different buffer 
     length if the requested one is too short or long, or needs rounding for 
@@ -534,7 +444,7 @@ cdef class BASS(_Evaluable):
     The default setting is 30ms on Windows, 40ms on Linux and 200ms 
     on Windows CE. This option is not available on OSX; the device 
     buffer length on this platform is twice the device update period, 
-    which can be set via the :attr:`Bass4Py.bass.BASS.DeviceUpdatePeriod` 
+    which can be set via the :attr:`Bass4Py.bass.BASS.device_update_period` 
     option. On Windows, this config option only applies when WASAPI output is 
     used. On Linux, BASS will attempt to set the device buffer-feeding thread 
     to real-time priority (as on other platforms) to reduce the chances of it 
@@ -556,17 +466,17 @@ cdef class BASS(_Evaluable):
     to the device that is currently the system's default. Its output will 
     automatically switch over when the system's default device setting 
     changes. When enabled, the "Default" device will also become the default 
-    device to :meth:`Bass4Py.bass.BASS.get_output_device` (with device = -1). 
+    device accessible via :attr:`Bass4Py.bass.BASS.output_devices.default`. 
     Both it and the device that it currently maps to will have the 
-    :attr:`Bass4Py.bass.OutputDevice.Default` attribute set. This option can 
-    only be set before :meth:`Bass4Py.bass.OutputDevice.Init` has been called. 
+    :attr:`Bass4Py.bass.OutputDevice.default` attribute set. This option can 
+    only be set before :meth:`Bass4Py.bass.OutputDevice.init` has been called. 
 
     Platform-specific
 
     This config option is only available on Windows and OSX. On Windows, the 
     automatic device switching feature requires Windows Vista or above 
     (Windows 7 when DirectSound is used). When the "Default" device is used 
-    with DirectSound, the :attr:`Bass4Py.bass.OutputDevice.Volume` attribute 
+    with DirectSound, the :attr:`Bass4Py.bass.OutputDevice.volume` attribute 
     work a bit differently to usual; it deals with the "session" volume, 
     which only affects the current process's output on the device, rather than 
     the device's volume. 
@@ -587,7 +497,7 @@ cdef class BASS(_Evaluable):
 
   property float_dsp:
     """
-    :obj:`bool`: Pass 32-bit floating-point sample data to all :attr:`Bass4Py.bass.DSP.Callback` functions? 
+    :obj:`bool`: Pass 32-bit floating-point sample data to all :attr:`Bass4Py.bass.DSP.callback` functions? 
 
     Normally DSP functions receive sample data in whatever format the channel 
     is using, ie. it can be 8, 16 or 32-bit. But when this config option is 
@@ -596,8 +506,8 @@ cdef class BASS(_Evaluable):
     DSP functions are done. As well as simplifying the DSP code (no need for 
     8/16-bit processing), this also means that there is no degradation of 
     quality as sample data passes through a chain of DSP. This config option 
-    also applies to effects set via :meth:`Bass4Py.bass.Channel.SetFX` or 
-    :meth:`Bass4Py.bass.FX.Set`, except for DX8 effects when using the "With 
+    also applies to effects set via :meth:`Bass4Py.bass.Channel.set_fx` or 
+    :meth:`Bass4Py.bass.FX.set`, except for DX8 effects when using the "With 
     FX flag" DX8 effect implementation. Changing the setting while there are 
     DSP or FX set could cause problems, so should be avoided. 
 
@@ -605,7 +515,7 @@ cdef class BASS(_Evaluable):
 
     Floating-point data is not supported on some platforms/architectures, 
     in which case this config option will enable 8.24 fixed-point data instead 
-    of floating-point. The :attr:`Bass4Py.bass.BASS.Float` attribute can be 
+    of floating-point. The :attr:`Bass4Py.bass.BASS.float` attribute can be 
     used to check that. 
     """
     def __get__(BASS self):
@@ -714,7 +624,7 @@ cdef class BASS(_Evaluable):
     
     Increasing the buffer length decreases the chance of the stream stalling, 
     but also increases the time taken to create the stream as more data has to 
-    be pre-buffered (adjustable via the :attr:`Bass4Py.bass.BASS.NetPrebuf` 
+    be pre-buffered (adjustable via the :attr:`Bass4Py.bass.BASS.net_prebuf` 
     attribute). Aside from the pre-buffering, this setting has no effect on 
     streams without either the :attr:`Bass4Py.constants.STREAM.BLOCK` or 
     :attr:`Bass4Py.constants.STREAM.RESTRATE` flags. When streaming in blocks, 
@@ -723,10 +633,10 @@ cdef class BASS(_Evaluable):
     has been read from the buffer by the decoder but not yet decoded. This 
     config option also determines the buffering used by "buffered" user file 
     streams created with 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj`. The default 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj`. The default 
     buffer length is 5 seconds (5000 milliseconds). The net buffer length 
     should be larger than the length of the playback buffer (
-    :attr:`Bass4Py.bass.BASS.Buffer`), otherwise the stream is likely to stall 
+    :attr:`Bass4Py.bass.BASS.buffer`), otherwise the stream is likely to stall 
     soon after starting playback. Using this config option only affects 
     streams created afterwards, not any that have already been created. 
     """
@@ -754,15 +664,15 @@ cdef class BASS(_Evaluable):
     :obj:`int`: Process URLs in PLS and M3U playlists? 
     
     When to process URLs in PLS and M3U playlists... 0 = never, 1 = in 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromURL` only, 2 = in 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFile` and 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj` too. 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_url` only, 2 = in 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file` and 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj` too. 
 
     When enabled, BASS will process PLS and M3U playlists, trying each URL 
-    until it finds one that it can play. :attr:`Bass4Py.bass.ChannelBase.Name` 
+    until it finds one that it can play. :attr:`Bass4Py.bass.ChannelBase.name` 
     can be used to find out the URL that was successfully opened. Nested 
     playlists are suported, that is a playlist can contain the URL of another 
-    playlist. The :attr:`Bass4Py.bass.BASS.NetPlaylistDepth` option limits 
+    playlist. The :attr:`Bass4Py.bass.BASS.net_playlist_depth` option limits 
     the nested playlist depth. By default, playlist processing is disabled. 
     """
     def __get__(BASS self):
@@ -776,9 +686,9 @@ cdef class BASS(_Evaluable):
     :obj:`int`: Maximum nested playlist processing depth. 0 = do not process nested playlists. 
 
     When playlist processing is enabled via the 
-    :attr:`Bass4Py.bass.BASS.NetPlaylist` option, this option limits how deep 
+    :attr:`Bass4Py.bass.BASS.net_playlist` option, this option limits how deep 
     into nested playlists 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromURL` will go. The default 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_url` will go. The default 
     depth is 1, which means playlists within the root playlist will be 
     processed, but not playlists within those playlists. 
     """
@@ -793,15 +703,15 @@ cdef class BASS(_Evaluable):
     :obj:`int`: Amount (percentage) to pre-buffer before playing internet streams. 
 
     This setting determines what percentage of the buffer length (
-    :attr:`Bass4Py.bass.BASS.NetBuffer`) should be filled before starting 
+    :attr:`Bass4Py.bass.BASS.net_buffer`) should be filled before starting 
     playback. The default is 75%. This setting is just a minimum; BASS will 
     always pre-download a certain amount to detect the stream's format and 
     initialize the decoder. The pre-buffering can be done by 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromURL` or asynchronously, 
-    depending on the :attr:`Bass4Py.bass.BASS.NetPrebufWait`  setting. As well 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_url` or asynchronously, 
+    depending on the :attr:`Bass4Py.bass.BASS.net_prebuf_wait`  setting. As well 
     as internet streams, this config setting also applies to "buffered" user 
     file streams created with 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj`. 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj`. 
     """
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_NET_PREBUF)
@@ -814,18 +724,18 @@ cdef class BASS(_Evaluable):
     :obj:`bool`: Wait for pre-buffering when opening internet streams? 
 
     This setting determines whether 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromURL` will wait for an 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_url` will wait for an 
     amount of data to be downloaded before returning the new stream. The 
-    amount is determined by the :attr:`Bass4Py.bass.BASS.NetBuffer` and :attr:`Bass4Py.bass.BASS.NetPrebuf` settings. 
+    amount is determined by the :attr:`Bass4Py.bass.BASS.net_buffer` and :attr:`Bass4Py.bass.BASS.net_prebuf` settings. 
     The default setting is disabled, which means pre-buffering will happen 
     asynchronously and playback will begin in a stalled state while 
     pre-buffering is in progress. The progress can be monitored with 
-    :meth:`Bass4Py.bass.Stream.GetFilePosition` (
+    :meth:`Bass4Py.bass.Stream.get_file_position` (
     :attr:`Bass4Py.constants.FILE_POSITION.BUFFERING`). As well as internet 
     streams, this config setting also applies to streams created with 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj` and the 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj` and the 
     :attr:`Bass4Py.constants.STREAMFILE.BUFFER` file system. 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj` will never 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj` will never 
     pre-buffer when using the :attr:`Bass4Py.constants.STREAMFILE.BUFFERPUSH` 
     system. 
     """
@@ -840,7 +750,7 @@ cdef class BASS(_Evaluable):
     :obj:`int`: The time in milliseconds to wait for a server to respond to a connection request. 
 
     The default timeout is 5 seconds (5000 milliseconds). When playlist 
-    processing is enabled via the :attr:`Bass4Py.bass.BASS.NetPlaylist` option, 
+    processing is enabled via the :attr:`Bass4Py.bass.BASS.net_playlist` option, 
     the timeout applies to each playlist entry rather than the playlist as a whole. 
     """
     def __get__(BASS self):
@@ -869,7 +779,7 @@ cdef class BASS(_Evaluable):
 
     This option is enabled by default, and is equivalent to including the 
     :attr:`Bass4Py.constants.STREAM.PRESCAN` flag in a 
-    :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFile` call when opening 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file` call when opening 
     an OGG file. It can be disabled if seeking and an accurate length reading 
     are not required from chained OGG files, for faster stream creation. 
     """
@@ -883,9 +793,9 @@ cdef class BASS(_Evaluable):
     """
     :obj:`bool`: Prevent channels being played while the output is paused? 
 
-    When the output is paused using :meth:`Bass4Py.bass.OutputDevice.Pause`, 
+    When the output is paused using :meth:`Bass4Py.bass.OutputDevice.pause`, 
     and this config option is enabled, channels cannot be played until the 
-    output is resumed using :meth:`Bass4Py.bass.OutputDevice.Start`. Any 
+    output is resumed using :meth:`Bass4Py.bass.OutputDevice.start`. Any 
     attempts to play a channel will result in a 
     :exc:`Bass4Py.exceptions.BassStartError` error. By default, this config 
     option is enabled. 
@@ -908,7 +818,7 @@ cdef class BASS(_Evaluable):
     effect on latency. The default recording buffer length is 2000 
     milliseconds. Unless processing of the recorded data could cause 
     significant delays, or you want to use a large recording period with 
-    :meth:`Bass4Py.bass.Record.Start`, there should be no need to increase 
+    :meth:`Bass4Py.bass.Record.start`, there should be no need to increase 
     this. Using this config option only affects the recording channels that 
     are created afterwards, not any that have already been created. So it is 
     possible to have channels with differing buffer lengths by using this 
@@ -935,9 +845,9 @@ cdef class BASS(_Evaluable):
     This config option determines what sample rate conversion quality new 
     channels will initially have, except for sample channels (
     :class:`Bass4Py.bass.Channel`), which use the 
-    :attr:`Bass4Py.bass.BASS.SRCSample` setting. A channel's sample rate 
+    :attr:`Bass4Py.bass.BASS.src_sample` setting. A channel's sample rate 
     conversion quality can subsequently be changed via the 
-    :attr:`Bass4Py.bass.ChannelBase.SRC` attribute. When an SSE supporting CPU 
+    :attr:`Bass4Py.bass.ChannelBase.src` attribute. When an SSE supporting CPU 
     is present, the default setting is 2, otherwise it is 1. 
     """
     def __get__(BASS self):
@@ -960,9 +870,9 @@ cdef class BASS(_Evaluable):
 
     This config option determines what sample rate conversion quality a new 
     sample channel will initially have, retrieved by 
-    :meth:`Bass4Py.bass.Sample.GetChannel`. The channel's sample rate 
+    :meth:`Bass4Py.bass.Sample.get_channel`. The channel's sample rate 
     conversion quality can subsequently be changed via the 
-    :attr:`Bass4Py.bass.BASS.SRC` attribute. The default setting is 0 (linear 
+    :attr:`Bass4Py.bass.BASS.src` attribute. The default setting is 0 (linear 
     interpolation). 
     """
     def __get__(BASS self):
@@ -973,7 +883,8 @@ cdef class BASS(_Evaluable):
 
   property update_period:
     """
-    :obj:`int`: The update period of :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channel playback buffers in milliseconds. 
+    :obj:`int`: The update period of :class:`Bass4Py.bass.Stream` and 
+    :class:`Bass4Py.bass.Music` channel playback buffers in milliseconds. 
 
     The update period in milliseconds... 0 = disable automatic updating. The 
     minimum period is 5ms, the maximum is 100ms. If the period specified is 
@@ -983,19 +894,19 @@ cdef class BASS(_Evaluable):
     buffers of :class:`Bass4Py.bass.Stream` / :class:`Bass4Py.bass.Music` 
     channels that are playing; no update cycles occur when nothing is playing. 
     Shorter update periods allow smaller buffers to be set with the 
-    :attr:`Bass4Py.bass.BASS.Buffer` config option, but as the rate of updates 
+    :attr:`Bass4Py.bass.BASS.buffer` config option, but as the rate of updates 
     increases, so the overhead of setting up the updates becomes a greater 
     part of the CPU usage. The update period only affects 
     :class:`Bass4Py.bass.Stream` and :class:`Bass4Py.bass.Music` channels; it 
     does not affect samples. Nor does it have any effect on decoding channels, 
     as they are not played. BASS creates one or more threads (determined by 
-    :attr:`Bass4Py.bass.BASS.UpdateThreads`) specifically to perform the 
+    :attr:`Bass4Py.bass.BASS.update_threads`) specifically to perform the 
     updating, except when automatic updating is disabled (period = 0), in 
-    which case :meth:`Bass4Py.bass.BASS.Update`, 
-    :meth:`Bass4Py.bass.Stream.Update` or :meth:`Bass4Py.bass.Music.Update` 
+    which case :meth:`Bass4Py.bass.BASS.update`, 
+    :meth:`Bass4Py.bass.Stream.update` or :meth:`Bass4Py.bass.Music.update` 
     should be used instead. This allows BASS's CPU usage to be synchronized 
     with your software's. For example, in a game loop you could call 
-    :meth:`Bass4Py.bass.BASS.Update` once per frame, to keep all the 
+    :meth:`Bass4Py.bass.BASS.update` once per frame, to keep all the 
     processing in sync so that the frame rate is as smooth as possible. The 
     update period can be altered at any time, including during playback. The 
     default period is 100ms. 
@@ -1019,8 +930,8 @@ cdef class BASS(_Evaluable):
     are CPU cores, but one benefit of using multiple threads even with a 
     single CPU core is that a slowly updating channel need not delay the 
     updating of other channels. When automatic updating is disabled (threads 
-    = 0), :meth:`Bass4Py.bass.BASS.Update`, :meth:`Bass4Py.bass.Stream.Update` 
-    or :meth:`Bass4Py.bass.Music.Update` should be used instead. The number of 
+    = 0), :meth:`Bass4Py.bass.BASS.update`, :meth:`Bass4Py.bass.Stream.update` 
+    or :meth:`Bass4Py.bass.Music.update` should be used instead. The number of 
     update threads can be changed at any time, including during playback. 
 
     Platform-specific
@@ -1045,7 +956,7 @@ cdef class BASS(_Evaluable):
     the documentation). The verification length excludes any tags that may be 
     found at the start of the file. The default length is 16000 bytes. For 
     internet (and "buffered" user file) streams, the 
-    :attr:`Bass4Py.bass.BASS.NetVerify` setting determines how much data is 
+    :attr:`Bass4Py.bass.BASS.net_verify` setting determines how much data is 
     checked. 
     """
     def __get__(BASS self):
@@ -1059,7 +970,7 @@ cdef class BASS(_Evaluable):
     :obj:`int`: The amount of data to check in order to verify/detect the file format of internet streams. 
 
     The amount of data to check, in bytes... 1000 (min) to 1000000 (max), or 
-    0 = 25% of the :attr:`Bass4Py.bass.BASS.Verify` setting (with a minimum of 
+    0 = 25% of the :attr:`Bass4Py.bass.BASS.verify` setting (with a minimum of 
     1000 bytes). If the value specified is outside this range, it is 
     automatically capped. 
 
@@ -1067,9 +978,9 @@ cdef class BASS(_Evaluable):
     detection of MP3/MP2/MP1 formats, but it may also be used by add-ons (see 
     the documentation). The verification length excludes any tags that may be 
     found at the start of the file. The default setting is 0, which means 25% 
-    of the :attr:`Bass4Py.bass.BASS.Verify` setting. As well as internet 
+    of the :attr:`Bass4Py.bass.BASS.verify` setting. As well as internet 
     streams, this config setting also applies to "buffered" user file streams 
-    created with :meth:`Bass4Py.bass.OutputDevice.CreateStreamFromFileObj`. 
+    created with :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj`. 
     """
     def __get__(BASS self):
       return BASS_GetConfig(_BASS_CONFIG_VERIFY_NET)
@@ -1081,7 +992,7 @@ cdef class BASS(_Evaluable):
     """
     :obj:`bool`: Enable speaker assignment with panning/balance control on Windows Vista and newer? 
 
-    Panning/balance control via the :attr:`Bass4Py.bass.ChannelBase.Pan` 
+    Panning/balance control via the :attr:`Bass4Py.bass.ChannelBase.pan` 
     attribute is not available when speaker assignment is used on Windows with 
     DirectSound due to the way that the speaker assignment needs to be 
     implemented there. The situation is improved with Windows Vista, and 
@@ -1119,14 +1030,14 @@ cdef class BASS(_Evaluable):
 
     Unless this option is enabled, the reported playback position will advance 
     in 10ms steps on Windows Vista and newer. As well as affecting the 
-    precision of :meth:`Bass4Py.bass.ChannelBase.GetPosition`, this also 
+    precision of :meth:`Bass4Py.bass.ChannelBase.get_position`, this also 
     affects the timing of non-mixtime syncs. When this option is enabled, it 
     allows finer position reporting but it also increases latency. The default 
     setting is enabled. Changes only affect channels that are created 
     afterwards, not any that already exist. The 
-    :attr:`Bass4Py.bass.OutputDevice.Latency` and 
-    :attr:`Bass4Py.bass.OutputDevice.Buffer` values reflect the setting at the 
-    time of the device's :meth:`Bass4Py.bass.OutputDevice.Init` call. 
+    :attr:`Bass4Py.bass.OutputDevice.latency` and 
+    :attr:`Bass4Py.bass.OutputDevice.buffer` values reflect the setting at the 
+    time of the device's :meth:`Bass4Py.bass.OutputDevice.init` call. 
 
     Platform-specific
 
@@ -1157,7 +1068,7 @@ cdef class BASS(_Evaluable):
     lower latency but may use more CPU than a longer period. The system may 
     choose to use a different period if the requested one is too short or 
     long, or needs rounding for granularity. The period actually being used 
-    can be obtained with :attr:`Bass4Py.bass.OutputDevice.Buffer`. The default 
+    can be obtained with :attr:`Bass4Py.bass.OutputDevice.buffer`. The default 
     setting is 10ms. Changes only affect subsequently initialized devices, 
     not any that are already initialized. 
 
