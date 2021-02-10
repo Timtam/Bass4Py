@@ -7,11 +7,6 @@ from .output_device import OutputDevice
 
 class Stream(Channel):
 
-  bitrate: FloatAttribute
-  net_resume: FloatAttribute
-  scan_info: BytesAttribute
-  tags: Any
-  
   def free(self) -> bool: ...
   def get_file_position(self, mode: int) -> int: ...
   def put_data(self, buffer: bytes, length: int) -> int: ...
@@ -50,3 +45,15 @@ class Stream(Channel):
   
   @restrict_download.setter
   def restrict_download(self, value: bool) -> None: ...
+
+  @property
+  def bitrate(self) -> FloatAttribute: ...
+
+  @property
+  def net_resume(self) -> FloatAttribute: ...
+
+  @property
+  def scan_info(self) -> BytesAttribute: ...
+
+  @property
+  def tags(self) -> Any: ...

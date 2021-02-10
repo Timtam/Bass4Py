@@ -7,17 +7,6 @@ from .output_device import OutputDevice
 
 class Music(Channel):
 
-  active_channels: FloatAttribute
-  amplification: FloatAttribute
-  bpm: FloatAttribute
-  channel_volumes: FloatListAttribute
-  global_volume: FloatAttribute
-  instrument_volumes: FloatListAttribute
-  pan_separation: FloatAttribute
-  position_scaler: FloatAttribute
-  speed: FloatAttribute
-  tags: Any
-  
   def free(self) -> bool: ...
   def update(self, length: int) -> bool: ...
   
@@ -92,3 +81,33 @@ class Music(Channel):
   
   @stop_backward.setter
   def stop_backward(self, value: bool) -> None: ...
+
+  @property
+  def active_channels(self) -> FloatAttribute: ...
+
+  @property
+  def amplification(self) -> FloatAttribute: ...
+
+  @property
+  def bpm(self) -> FloatAttribute: ...
+
+  @property
+  def channel_volumes(self) -> FloatListAttribute: ...
+
+  @property
+  def global_volume(self) -> FloatAttribute: ...
+
+  @property
+  def instrument_volumes(self) -> FloatListAttribute: ...
+
+  @property
+  def pan_separation(self) -> FloatAttribute: ...
+
+  @property
+  def position_scaler(self) -> FloatAttribute: ...
+
+  @property
+  def speed(self) -> FloatAttribute: ...
+
+  @property
+  def tags(self) -> Any: ...

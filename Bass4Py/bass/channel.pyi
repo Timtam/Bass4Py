@@ -11,11 +11,6 @@ from .vector import Vector
 
 class Channel(ChannelBase):
 
-  buffer: FloatAttribute
-  cpu: FloatAttribute
-  eax_mix: FloatAttribute
-  no_ramping: BoolAttribute
-  
   def get_tags(self, tag_type: int) -> Union[str, bytes]: ...
   def link(self, channel: Channel) -> bool: ...
   def play(self, restart: bool) -> bool: ...
@@ -85,4 +80,15 @@ class Channel(ChannelBase):
   
   @velocity_3d.setter
   def velocity_3d(self, value: Vector) -> None: ...
-  
+
+  @property
+  def buffer(self) -> FloatAttribute: ...
+
+  @property
+  def cpu(self) -> FloatAttribute: ...
+
+  @property
+  def eax_mix(self) -> FloatAttribute: ...
+
+  @property
+  def no_ramping(self) -> BoolAttribute: ...

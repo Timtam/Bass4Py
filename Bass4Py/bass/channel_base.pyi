@@ -8,12 +8,6 @@ from .sample import Sample
 
 class ChannelBase(Evaluable):
 
-  frequency: FloatAttribute
-  granularity: FloatAttribute
-  pan: FloatAttribute
-  src: FloatAttribute
-  volume: FloatAttribute
-
   def bytes_to_seconds(self, bytes: int) -> float: ...
   def get_data(self, length: int) -> bytes: ...
   def get_length(self, mode: int = ...) -> int: ...
@@ -57,3 +51,18 @@ class ChannelBase(Evaluable):
   
   @property
   def flags(self) -> int: ...
+
+  @property
+  def frequency(self) -> FloatAttribute: ...
+
+  @property
+  def granularity(self) -> FloatAttribute: ...
+
+  @property
+  def pan(self) -> FloatAttribute: ...
+
+  @property
+  def src(self) -> FloatAttribute: ...
+
+  @property
+  def volume(self) -> FloatAttribute: ...
