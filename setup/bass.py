@@ -37,9 +37,41 @@ class BASSExtensionHandler(ExtensionHandler):
         language = "c"
       ),
       Extension(
-        "Bass4Py.bass.attribute",
+        "Bass4Py.bass.attributes.attribute_base",
         [
-          "Bass4Py/bass/attribute.pyx"
+          "Bass4Py/bass/attributes/attribute_base.pyx"
+        ],
+        libraries = ["bass"],
+        language="c"
+      ),
+      Extension(
+        "Bass4Py.bass.attributes.bool_attribute",
+        [
+          "Bass4Py/bass/attributes/bool_attribute.pyx"
+        ],
+        libraries = ["bass"],
+        language="c"
+      ),
+      Extension(
+        "Bass4Py.bass.attributes.bytes_attribute",
+        [
+          "Bass4Py/bass/attributes/bytes_attribute.pyx"
+        ],
+        libraries = ["bass"],
+        language="c"
+      ),
+      Extension(
+        "Bass4Py.bass.attributes.float_attribute",
+        [
+          "Bass4Py/bass/attributes/float_attribute.pyx"
+        ],
+        libraries = ["bass"],
+        language="c"
+      ),
+      Extension(
+        "Bass4Py.bass.attributes.float_list_attribute",
+        [
+          "Bass4Py/bass/attributes/float_list_attribute.pyx"
         ],
         libraries = ["bass"],
         language="c"
@@ -164,9 +196,9 @@ class BASSExtensionHandler(ExtensionHandler):
         language = "c"
       ),
       Extension(
-        "Bass4Py._evaluable",
+        "Bass4Py.evaluable",
         [
-          "Bass4Py/_evaluable.pyx"
+          "Bass4Py/evaluable.pyx"
         ],
         libraries = ["bass"],
         language = "c"
@@ -395,6 +427,7 @@ class BASSExtensionHandler(ExtensionHandler):
     return (
       "Bass4Py",
       "Bass4Py.bass",
+      "Bass4Py.bass.attributes",
       "Bass4Py.bass.effects",
       "Bass4Py.bass.effects.dx8",
       "Bass4Py.bass.syncs",

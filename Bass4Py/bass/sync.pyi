@@ -1,9 +1,9 @@
 from typing import Callable, Optional
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from .channel import Channel
 
-class Sync(_Evaluable):
+class Sync(Evaluable):
 
   channel: Channel
   

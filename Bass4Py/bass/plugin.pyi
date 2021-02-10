@@ -1,7 +1,7 @@
 from .version import Version
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 
-class Plugin(_Evaluable):
+class Plugin(Evaluable):
 
   def __init__(self) -> None: ...
   def free(self) -> None: ...

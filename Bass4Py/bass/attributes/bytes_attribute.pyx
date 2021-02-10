@@ -6,7 +6,7 @@ from ...exceptions import BassAPIError, BassAttributeError, BassInvalidTypeError
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
-cdef class BytesAttribute(_AttributeBase):
+cdef class BytesAttribute(AttributeBase):
   cpdef get(self):
     cdef bytes res
     cdef DWORD size

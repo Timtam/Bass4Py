@@ -1,10 +1,10 @@
 from typing import List, Optional, Union
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from .channel import Channel
 from .output_device import OutputDevice
 
-class Sample(_Evaluable):
+class Sample(Evaluable):
 
   def bytes_to_seconds(self, bytes: int) -> float: ...
   def free(self) -> bool: ...

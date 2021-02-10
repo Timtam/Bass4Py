@@ -1,7 +1,7 @@
 from ...bindings.bass cimport DWORD, HCHANNEL
-from ..._evaluable cimport _Evaluable
+from ...evaluable cimport Evaluable
 
-cdef class _AttributeBase(_Evaluable):
+cdef class AttributeBase(Evaluable):
   cdef HCHANNEL _channel
   cdef DWORD _attribute
   cdef bint _readonly

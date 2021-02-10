@@ -1,12 +1,12 @@
 from typing import List, Optional, Tuple
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from ..constants import ACTIVE, CHANNEL_TYPE
 from .attributes.float_attribute import FloatAttribute
 from .plugin import Plugin
 from .sample import Sample
 
-class ChannelBase(_Evaluable):
+class ChannelBase(Evaluable):
 
   frequency: FloatAttribute
   granularity: FloatAttribute

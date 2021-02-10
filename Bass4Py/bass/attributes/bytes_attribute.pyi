@@ -1,6 +1,6 @@
-from ._attribute_base import _AttributeBase
+from .attribute_base import AttributeBase
 
-class BytesAttribute(_AttributeBase):
+class BytesAttribute(AttributeBase):
 
   def get(self) -> bytes: ...
   def set(self, value: bytes) -> bool: ...

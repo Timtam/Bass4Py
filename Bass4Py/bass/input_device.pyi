@@ -1,11 +1,11 @@
 from typing import Callable, Optional, Tuple
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from ..constants import DEVICE_TYPE
 from .input import Input
 from .record import Record
 
-class InputDevice(_Evaluable):
+class InputDevice(Evaluable):
 
   inputs: Tuple[Input]
 

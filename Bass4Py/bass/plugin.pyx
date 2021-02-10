@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   BASS_PluginFree,
   BASS_PluginGetInfo,
@@ -6,7 +6,7 @@ from ..bindings.bass cimport (
 
 from .version cimport Version
 
-cdef class Plugin(_Evaluable):
+cdef class Plugin(Evaluable):
   def __cinit__(self, HPLUGIN plugin):
     self._plugin = plugin
 

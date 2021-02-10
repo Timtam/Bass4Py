@@ -42,7 +42,7 @@ from .bindings.bass cimport (
 
 from . import exceptions
 
-cdef class _Evaluable:
+cdef class Evaluable:
 
   @staticmethod
   def _evaluate():

@@ -52,7 +52,7 @@ from ..bindings.bass cimport (
   BASS_Update,
   HPLUGIN)
 
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from .. import exceptions
 from .output_device cimport OutputDevice
 from .plugin cimport Plugin
@@ -68,7 +68,7 @@ PyEval_InitThreads()
 IF UNAME_SYSNAME == "Windows":
   BASS_SetConfig(_BASS_CONFIG_UNICODE, <DWORD>True)
 
-cdef class BASS(_Evaluable):
+cdef class BASS(Evaluable):
   """
   This class represents the main entrypoint to all Bass4Py related 
   functionalities. It allows to control various global settings and gain access 

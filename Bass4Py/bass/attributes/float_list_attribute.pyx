@@ -5,7 +5,7 @@ from ...bindings.bass cimport (
 
 from ...exceptions import BassAPIError, BassAttributeError, BassInvalidTypeError, BassPlatformError
 
-cdef class FloatListAttribute(_AttributeBase):
+cdef class FloatListAttribute(AttributeBase):
   cpdef get(self):
     cdef list values = []
     cdef int index = 0

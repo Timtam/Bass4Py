@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   DWORD,
   HFX)
@@ -11,7 +11,7 @@ ctypedef fused PARAMETER_TYPE:
   DWORD
   int
   
-cdef class FX(_Evaluable):
+cdef class FX(Evaluable):
   cdef readonly Channel channel
   cdef HFX _fx
   cdef DWORD _type

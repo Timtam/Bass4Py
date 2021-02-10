@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_NODEVICE,
   _BASS_POS_BYTE,
@@ -24,7 +24,7 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
 include "../transform.pxi"
 
-cdef class Sample(_Evaluable):
+cdef class Sample(Evaluable):
   def __cinit__(Sample self, HSAMPLE sample):
     cdef DWORD dev
 

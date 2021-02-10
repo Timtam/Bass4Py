@@ -1,7 +1,7 @@
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from ..constants import INPUT_TYPE
 
-class Input(_Evaluable):
+class Input(Evaluable):
 
   @property
   def name(self) -> str: ...

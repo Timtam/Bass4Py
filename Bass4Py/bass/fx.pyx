@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   BASS_ChannelRemoveFX,
   BASS_ChannelSetFX,
@@ -11,7 +11,7 @@ from .channel cimport Channel
 from ..exceptions import BassAPIError, BassOutOfRangeError
 from cpython.mem cimport PyMem_Free
 
-cdef class FX(_Evaluable):
+cdef class FX(Evaluable):
 
   def __dealloc__(FX self):
     if self._effect != NULL:

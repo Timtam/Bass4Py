@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   DWORD,
   HCHANNEL,
@@ -11,7 +11,7 @@ from .channel cimport Channel
 cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil
 
-cdef class Sync(_Evaluable):
+cdef class Sync(Evaluable):
   cdef readonly Channel channel
   cdef HSYNC _sync
   cdef DWORD _type

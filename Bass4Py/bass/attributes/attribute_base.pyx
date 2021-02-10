@@ -1,9 +1,9 @@
 from ...bindings.bass cimport BASS_ChannelIsSliding
 from ...exceptions import BassPlatformError
 
-cdef class _AttributeBase(_Evaluable):
+cdef class AttributeBase(Evaluable):
 
-  def __cinit__(_AttributeBase self, HCHANNEL channel, DWORD attribute, bint readonly = False, bint not_available = False):
+  def __cinit__(self, HCHANNEL channel, DWORD attribute, bint readonly = False, bint not_available = False):
     self._channel = channel
     self._attribute = attribute
     self._readonly = readonly

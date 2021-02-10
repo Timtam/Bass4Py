@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_INPUT_OFF,
   _BASS_INPUT_ON,
@@ -8,7 +8,7 @@ from ..bindings.bass cimport (
   BASS_RecordSetInput,
   )
 
-cdef class Input(_Evaluable):
+cdef class Input(Evaluable):
   def __cinit__(Input self, InputDevice device, int input):
     self._device = device
     self._input = input

@@ -1,6 +1,5 @@
 from cpython.mem cimport PyMem_Free, PyMem_Malloc
 
-from .._evaluable cimport _Evaluable
 from ..bindings.bass cimport (
   _BASS_ATTRIB_FREQ,
   _BASS_ATTRIB_GRANULE,
@@ -30,7 +29,7 @@ from ..bindings.bass cimport (
 from .plugin cimport Plugin
 from .sample cimport Sample
 
-cdef class ChannelBase(_Evaluable):
+cdef class ChannelBase(Evaluable):
   def __cinit__(ChannelBase self, HCHANNEL channel):
 
     from ..constants import SAMPLE

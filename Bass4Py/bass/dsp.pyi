@@ -1,9 +1,9 @@
 from typing import Callable, Optional
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from .channel import Channel
 
-class DSP(_Evaluable):
+class DSP(Evaluable):
 
   channel: Channel
   

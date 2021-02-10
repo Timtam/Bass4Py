@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_SYNC_MIXTIME,
   _BASS_SYNC_ONETIME,
@@ -21,7 +21,7 @@ cdef void CSYNCPROC(HSYNC handle, DWORD channel, DWORD data, void *user) with gi
 cdef void __stdcall CSYNCPROC_STD(HSYNC handle, DWORD channel, DWORD data, void *user) with gil:
   CSYNCPROC(handle, channel, data, user)
 
-cdef class Sync(_Evaluable):
+cdef class Sync(Evaluable):
 
   cpdef set(Sync self, Channel chan):
     cdef DWORD type = self._type

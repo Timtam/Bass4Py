@@ -1,9 +1,9 @@
 from typing import Optional
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from .channel import Channel
 
-class FX(_Evaluable):
+class FX(Evaluable):
 
   channel: Optional[Channel]
   

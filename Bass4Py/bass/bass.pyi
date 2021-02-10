@@ -1,6 +1,6 @@
 from typing import Optional, Union
 
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from ..constants import ALGORITHM_3D
 from .input_device_enumerator import InputDeviceEnumerator
 from .output_device import OutputDevice
@@ -8,7 +8,7 @@ from .output_device_enumerator import OutputDeviceEnumerator
 from .plugin import Plugin
 from .version import Version
 
-class BASS(_Evaluable):
+class BASS(Evaluable):
 
   def __init__(self) -> None: ...
   def load_plugin(self, filename: Union[str, bytes]) -> Plugin: ...

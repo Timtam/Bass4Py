@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_DEVICE_DEFAULT,
   _BASS_DEVICE_ENABLED,
@@ -116,7 +116,7 @@ from .stream cimport Stream
 from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassPlatformError
 
-cdef class OutputDevice(_Evaluable):
+cdef class OutputDevice(Evaluable):
   def __cinit__(OutputDevice self, int device):
     self._device=device
 

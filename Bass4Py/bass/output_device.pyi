@@ -1,13 +1,13 @@
 from typing import Any, Callable, Optional, Union
 
 from ..constants import DEVICE, DEVICE_TYPE
-from .._evaluable import _Evaluable
+from ..evaluable import Evaluable
 from .music import Music
 from .sample import Sample
 from .stream import Stream
 from .vector import Vector
 
-class OutputDevice(_Evaluable):
+class OutputDevice(Evaluable):
 
   def create_music_from_bytes(self, data: bytes, flags: int = ..., length: int = ..., device_frequency: bool = ...) -> Music: ...
   def create_music_from_file(self, filename: Union[str, bytes], flags: int = ..., offset: int = ..., device_frequency: bool = ...) -> Music: ...

@@ -1,7 +1,7 @@
 from ...bindings.bass cimport DWORD
-from ._attribute_base cimport _AttributeBase
+from .attribute_base cimport AttributeBase
 
-cdef class BoolAttribute(_AttributeBase):
+cdef class BoolAttribute(AttributeBase):
   cpdef get(self)
   cpdef set(self, bint value)
   cpdef slide(self, bint value, DWORD time)

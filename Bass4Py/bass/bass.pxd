@@ -1,11 +1,11 @@
 from ..bindings.bass cimport DWORD
 
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from .input_device_enumerator cimport InputDeviceEnumerator
 from .output_device_enumerator cimport OutputDeviceEnumerator
 from .version cimport Version
 
-cdef class BASS(_Evaluable):
+cdef class BASS(Evaluable):
 
   cdef readonly Version api_version
   """

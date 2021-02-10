@@ -1,4 +1,4 @@
-from .._evaluable cimport _Evaluable
+from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_DEVICE_DEFAULT,
   _BASS_DEVICE_ENABLED,
@@ -16,7 +16,7 @@ from .input cimport Input
 from .record cimport Record
 from ..exceptions import BassPlatformError
 
-cdef class InputDevice(_Evaluable):
+cdef class InputDevice(Evaluable):
   def __cinit__(InputDevice self, int device):
     self._device=device
     self.inputs = ()

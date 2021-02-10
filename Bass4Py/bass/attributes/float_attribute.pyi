@@ -1,6 +1,6 @@
-from ._attribute_base import _AttributeBase
+from .attribute_base import AttributeBase
 
-class FloatAttribute(_AttributeBase):
+class FloatAttribute(AttributeBase):
 
   def get(self) -> float: ...
   def set(self, value: float) -> bool: ...

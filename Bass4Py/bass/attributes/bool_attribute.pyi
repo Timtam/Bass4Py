@@ -1,6 +1,6 @@
-from ._attribute_base import _AttributeBase
+from .attribute_base import AttributeBase
 
-class BoolAttribute(_AttributeBase):
+class BoolAttribute(AttributeBase):
 
   def get(self) -> bool: ...
   def set(self, value: bool) -> bool: ...
