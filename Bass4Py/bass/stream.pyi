@@ -1,14 +1,15 @@
 from typing import Any, Callable, Optional, Union
 
-from .attribute import Attribute
+from .attributes.bytes_attribute import BytesAttribute
+from .attributes.float_attribute import FloatAttribute
 from .channel import Channel
 from .output_device import OutputDevice
 
 class Stream(Channel):
 
-  bitrate: Attribute
-  net_resume: Attribute
-  scan_info: Attribute
+  bitrate: FloatAttribute
+  net_resume: FloatAttribute
+  scan_info: BytesAttribute
   tags: Any
   
   def free(self) -> bool: ...

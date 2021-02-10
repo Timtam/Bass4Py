@@ -27,7 +27,6 @@ from ..bindings.bass cimport (
   WORD,
   )
 
-from .attribute cimport Attribute
 from .plugin cimport Plugin
 from .sample cimport Sample
 
@@ -46,11 +45,11 @@ cdef class ChannelBase(_Evaluable):
     self._init_attributes()
 
   cdef void _init_attributes(ChannelBase self):
-    self.frequency = Attribute(self._channel, _BASS_ATTRIB_FREQ)
-    self.pan = Attribute(self._channel, _BASS_ATTRIB_PAN)
-    self.src = Attribute(self._channel, _BASS_ATTRIB_SRC)
-    self.volume = Attribute(self._channel, _BASS_ATTRIB_VOL)
-    self.granularity = Attribute(self._channel, _BASS_ATTRIB_GRANULE)
+    self.frequency = FloatAttribute(self._channel, _BASS_ATTRIB_FREQ)
+    self.pan = FloatAttribute(self._channel, _BASS_ATTRIB_PAN)
+    self.src = FloatAttribute(self._channel, _BASS_ATTRIB_SRC)
+    self.volume = FloatAttribute(self._channel, _BASS_ATTRIB_VOL)
+    self.granularity = FloatAttribute(self._channel, _BASS_ATTRIB_GRANULE)
 
   cdef BASS_CHANNELINFO _get_info(ChannelBase self):
     cdef BASS_CHANNELINFO info

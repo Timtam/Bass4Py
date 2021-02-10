@@ -8,7 +8,8 @@ from ..bindings.bass cimport (
   HIWORD,
   BASS_3DVECTOR)
 
-from .attribute cimport Attribute
+from .attributes.bool_attribute cimport BoolAttribute
+from .attributes.float_attribute cimport FloatAttribute
 from .channel_base cimport ChannelBase
 from .dsp cimport DSP
 from .fx cimport FX
@@ -19,10 +20,10 @@ cdef class Channel(ChannelBase):
   cdef OutputDevice _device
 
   # attributes
-  cdef readonly Attribute buffer
-  cdef readonly Attribute cpu
-  cdef readonly Attribute ramping
-  cdef readonly Attribute eax_mix
+  cdef readonly FloatAttribute buffer
+  cdef readonly FloatAttribute cpu
+  cdef readonly BoolAttribute no_ramping
+  cdef readonly FloatAttribute eax_mix
 
   cdef DWORD _get_flags(Channel self)
   cpdef _set_flags(Channel self, DWORD flag, bint switch)

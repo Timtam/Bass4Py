@@ -5,20 +5,21 @@ from ..bindings.bass cimport (
   QWORD)
 
 from .channel cimport Channel
-from .attribute cimport Attribute
+from .attributes.float_attribute cimport FloatAttribute
+from .attributes.float_list_attribute cimport FloatListAttribute
 
 cdef class Music(Channel):
 
   # attributes
-  cdef readonly Attribute active_channels
-  cdef readonly Attribute amplification
-  cdef readonly Attribute bpm
-  cdef readonly Attribute channel_volumes
-  cdef readonly Attribute global_volume
-  cdef readonly Attribute instrument_volumes
-  cdef readonly Attribute pan_separation
-  cdef readonly Attribute position_scaler
-  cdef readonly Attribute speed
+  cdef readonly FloatAttribute active_channels
+  cdef readonly FloatAttribute amplification
+  cdef readonly FloatAttribute bpm
+  cdef readonly FloatListAttribute channel_volumes
+  cdef readonly FloatAttribute global_volume
+  cdef readonly FloatListAttribute instrument_volumes
+  cdef readonly FloatAttribute pan_separation
+  cdef readonly FloatAttribute position_scaler
+  cdef readonly FloatAttribute speed
 
   cdef readonly object tags
 

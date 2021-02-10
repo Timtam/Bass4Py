@@ -25,7 +25,6 @@ from ..bindings.bass cimport (
   )
 
 from .channel cimport Channel
-from .attribute cimport Attribute
 from .output_device cimport OutputDevice
 
 # optional add-ons
@@ -51,15 +50,15 @@ cdef class Music(Channel):
   cdef void _init_attributes(Music self):
     Channel._init_attributes(self)
 
-    self.active_channels = Attribute(self._channel, _BASS_ATTRIB_MUSIC_ACTIVE, True)
-    self.amplification = Attribute(self._channel, _BASS_ATTRIB_MUSIC_AMPLIFY)
-    self.bpm = Attribute(self._channel, _BASS_ATTRIB_MUSIC_BPM)
-    self.channel_volumes = Attribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_CHAN)
-    self.global_volume = Attribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_GLOBAL)
-    self.instrument_volumes = Attribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_INST)
-    self.pan_separation = Attribute(self._channel, _BASS_ATTRIB_MUSIC_PANSEP)
-    self.position_scaler = Attribute(self._channel, _BASS_ATTRIB_MUSIC_PSCALER)
-    self.speed = Attribute(self._channel, _BASS_ATTRIB_MUSIC_SPEED)
+    self.active_channels = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_ACTIVE, True)
+    self.amplification = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_AMPLIFY)
+    self.bpm = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_BPM)
+    self.channel_volumes = FloatListAttribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_CHAN)
+    self.global_volume = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_GLOBAL)
+    self.instrument_volumes = FloatListAttribute(self._channel, _BASS_ATTRIB_MUSIC_VOL_INST)
+    self.pan_separation = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_PANSEP)
+    self.position_scaler = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_PSCALER)
+    self.speed = FloatAttribute(self._channel, _BASS_ATTRIB_MUSIC_SPEED)
 
   cpdef free(Music self):
     cdef bint res

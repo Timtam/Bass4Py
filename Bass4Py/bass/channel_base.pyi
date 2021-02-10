@@ -2,17 +2,17 @@ from typing import List, Optional, Tuple
 
 from .._evaluable import _Evaluable
 from ..constants import ACTIVE, CHANNEL_TYPE
-from .attribute import Attribute
+from .attributes.float_attribute import FloatAttribute
 from .plugin import Plugin
 from .sample import Sample
 
 class ChannelBase(_Evaluable):
 
-  frequency: Attribute
-  granularity: Attribute
-  pan: Attribute
-  src: Attribute
-  volume: Attribute
+  frequency: FloatAttribute
+  granularity: FloatAttribute
+  pan: FloatAttribute
+  src: FloatAttribute
+  volume: FloatAttribute
 
   def bytes_to_seconds(self, bytes: int) -> float: ...
   def get_data(self, length: int) -> bytes: ...

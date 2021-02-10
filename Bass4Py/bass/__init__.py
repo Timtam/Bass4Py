@@ -7,7 +7,6 @@ which includes audio input and output in/of several formats.
 .. autosummary::
    :toctree:
    
-   Attribute
    BASS
    Channel
    ChannelBase
@@ -34,7 +33,6 @@ from Bass4Py.utils import prepare_imports
 prepare_imports("bass")
 
 from .bass import BASS
-from .attribute import Attribute
 from .channel_base import ChannelBase
 from .channel import Channel
 from .dsp import DSP

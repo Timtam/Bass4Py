@@ -1,6 +1,7 @@
 from typing import Optional, Tuple, Union
 
-from .attribute import Attribute
+from .attributes.bool_attribute import BoolAttribute
+from .attributes.float_attribute import FloatAttribute
 from .channel_base import ChannelBase
 from .dsp import DSP
 from .fx import FX
@@ -10,10 +11,10 @@ from .vector import Vector
 
 class Channel(ChannelBase):
 
-  buffer: Attribute
-  cpu: Attribute
-  eax_mix: Attribute
-  ramping: Attribute
+  buffer: FloatAttribute
+  cpu: FloatAttribute
+  eax_mix: FloatAttribute
+  no_ramping: BoolAttribute
   
   def get_tags(self, tag_type: int) -> Union[str, bytes]: ...
   def link(self, channel: Channel) -> bool: ...

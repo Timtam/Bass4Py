@@ -1,20 +1,21 @@
 from typing import Any, Optional, Union
 
-from .attribute import Attribute
+from .attributes.float_attribute import FloatAttribute
+from .attributes.float_list_attribute import FloatListAttribute
 from .channel import Channel
 from .output_device import OutputDevice
 
 class Music(Channel):
 
-  active_channels: Attribute
-  amplification: Attribute
-  bpm: Attribute
-  channel_volumes: Attribute
-  global_volume: Attribute
-  instrument_volumes: Attribute
-  pan_separation: Attribute
-  position_scaler: Attribute
-  speed: Attribute
+  active_channels: FloatAttribute
+  amplification: FloatAttribute
+  bpm: FloatAttribute
+  channel_volumes: FloatListAttribute
+  global_volume: FloatAttribute
+  instrument_volumes: FloatListAttribute
+  pan_separation: FloatAttribute
+  position_scaler: FloatAttribute
+  speed: FloatAttribute
   tags: Any
   
   def free(self) -> bool: ...

@@ -4,7 +4,7 @@ from ..bindings.bass cimport (
   HCHANNEL,
   QWORD)
 
-from .attribute cimport Attribute
+from .attributes.float_attribute cimport FloatAttribute
 from .._evaluable cimport _Evaluable
 from ..exceptions import BassError
 
@@ -13,11 +13,11 @@ cdef class ChannelBase(_Evaluable):
   cdef object _flags_enum
 
   # attributes
-  cdef readonly Attribute frequency
-  cdef readonly Attribute pan
-  cdef readonly Attribute src
-  cdef readonly Attribute volume
-  cdef readonly Attribute granularity
+  cdef readonly FloatAttribute frequency
+  cdef readonly FloatAttribute pan
+  cdef readonly FloatAttribute src
+  cdef readonly FloatAttribute volume
+  cdef readonly FloatAttribute granularity
 
   cdef BASS_CHANNELINFO _get_info(ChannelBase self)
   cdef void _init_attributes(ChannelBase self)

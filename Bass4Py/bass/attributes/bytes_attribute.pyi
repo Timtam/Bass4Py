@@ -1,0 +1,6 @@
+from ._attribute_base import _AttributeBase
+
+class BytesAttribute(_AttributeBase):
+
+  def get(self) -> bytes: ...
+  def set(self, value: bytes) -> bool: ...

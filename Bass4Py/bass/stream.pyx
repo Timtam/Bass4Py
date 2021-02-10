@@ -29,7 +29,6 @@ from ..bindings.bass cimport (
   )
 
 from .channel cimport Channel
-from .attribute cimport Attribute
 from .output_device cimport OutputDevice
 from ..exceptions import BassStreamError
 from filelike import is_filelike
@@ -124,9 +123,9 @@ cdef class Stream(Channel):
 
   cdef void _init_attributes(Stream self):
     Channel._init_attributes(self)
-    self.bitrate = Attribute(self._channel, _BASS_ATTRIB_BITRATE, True)
-    self.net_resume = Attribute(self._channel, _BASS_ATTRIB_NET_RESUME)
-    self.scan_info = Attribute(self._channel, _BASS_ATTRIB_SCANINFO)
+    self.bitrate = FloatAttribute(self._channel, _BASS_ATTRIB_BITRATE, True)
+    self.net_resume = FloatAttribute(self._channel, _BASS_ATTRIB_NET_RESUME)
+    self.scan_info = BytesAttribute(self._channel, _BASS_ATTRIB_SCANINFO)
   
   cpdef free(Stream self):
     cdef bint res

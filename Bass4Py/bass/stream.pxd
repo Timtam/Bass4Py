@@ -4,7 +4,8 @@ from ..bindings.bass cimport (
   QWORD)
 
 from .channel cimport Channel
-from .attribute cimport Attribute
+from .attributes.bytes_attribute cimport BytesAttribute
+from .attributes.float_attribute cimport FloatAttribute
 
 cdef class Stream(Channel):
 
@@ -13,9 +14,9 @@ cdef class Stream(Channel):
   cdef object _streamproc
 
   # attributes
-  cdef readonly Attribute bitrate
-  cdef readonly Attribute net_resume
-  cdef readonly Attribute scan_info
+  cdef readonly FloatAttribute bitrate
+  cdef readonly FloatAttribute net_resume
+  cdef readonly BytesAttribute scan_info
 
   cdef readonly object tags
 
