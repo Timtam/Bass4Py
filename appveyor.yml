@@ -1,6 +1,10 @@
 version: "{build}"
 build: off
 environment:
+  PYPI_USERNAME:
+    secure: 20LVRUqPdKxWydU70DgLxA==
+  PYPI_PASSWORD:
+    secure: g599B1DPNusI9H8GYIq6yn4CiRsVMRqtDm9nyb7MEjQ=
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python2"
@@ -87,14 +91,6 @@ environment:
       STACK: "3.5"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7"
-      PYTHON_ARCH: "32"
-      STACK: "2.7"
-      BASSLIB: "bass24"
-      TAGSLIB: "tags18"
-      SDIST_ONLY: 1
 
 stack: python %STACK%
 
@@ -132,21 +128,12 @@ install:
       $PYTHON -m pip --version
       $PYTHON -m pip install -r requirements-dev.txt
 build_script:
-  - cmd: "
-      IF [%SDIST_ONLY%]==[1] (
-        %PYTHON%\\python.exe setup.py sdist
-      ) ELSE (
-        %PYTHON%\\python.exe setup.py build_ext --inplace &&
-        %PYTHON%\\python.exe setup.py bdist_wheel
-      )"
+  - cmd: |
+      %PYTHON%\\python.exe setup.py build_ext --inplace
+      %PYTHON%\\python.exe setup.py bdist_wheel
   - sh: |
-      if [ -z ${SDIST_ONLY+x} ];
-      then
-        $PYTHON setup.py build_ext --inplace
-        $PYTHON setup.py bdist_wheel
-      else
-        $PYTHON setup.py sdist
-      fi
+      $PYTHON setup.py build_ext --inplace
+      $PYTHON setup.py bdist_wheel
 
 before_test:
   - sh: |
@@ -154,12 +141,9 @@ before_test:
 
 test_script:
   - sh: |
-      if [ -z ${SDIST_ONLY+x} ];
-      then
-        nose2 -X
-      fi
+      nose2 -X
   - cmd: |
-      if not defined SDIST_ONLY %PYTHON%\Scripts\nose2.exe -X
+      %PYTHON%\Scripts\nose2.exe -X
 
 on_finish:
   - ps: |
@@ -176,4 +160,19 @@ on_finish:
       }
 
 artifacts:
-  - path: dist/*
+  - path: dist/*.whl
+
+deploy:
+  auth_token:
+    secure: PFPMLUtwkaBjEP5FyQP3hgsHMRr5Uejw1eL6aOQKOIl1S1iAx1QcdVpmtZv/FKxC
+  description: 'Bass4Py release, see changelog for more information'
+  provider: GitHub
+  artifact: dist/*.whl
+  on:
+    APPVEYOR_REPO_TAG: true
+
+after_deploy:
+  - ps: |
+      Write-Output ("Deploying " + $env:APPVEYOR_REPO_TAG_NAME + " to PyPI...")
+      &"${Env:PYTHON}/python.exe" -m pip install twine
+      &"${Env:PYTHON}/python.exe" -m twine upload -u ${Env:PYPI_USERNAME} -p ${Env:PYPI_PASSWORD} --skip-existing dist/\*
