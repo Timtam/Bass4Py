@@ -11,7 +11,10 @@ from collections import namedtuple
 
 include "../transform.pxi"
 
-cpdef GetVersion():
+IF UNAME_SYSNAME == "Windows":
+  TAGS_SetUTF8(True)
+  
+cpdef get_version():
   return Version(TAGS_GetVersion())
 
 cdef class Tags:
@@ -20,28 +23,25 @@ cdef class Tags:
   
     self._channel = (<Channel>chan)._channel
     
-    self._tagresult = namedtuple(
+    self._tag_result = namedtuple(
       'TagResult',
       [
-        'Title',
-        'SongArtist',
-        'Album',
-        'Genre',
-        'Year',
-        'Comment',
-        'Track',
-        'Composer',
-        'Copyright',
-        'Subtitle',
-        'AlbumArtist',
-        'Disc',
-        'Publisher'
+        'title',
+        'song_artist',
+        'album',
+        'genre',
+        'year',
+        'comment',
+        'track',
+        'composer',
+        'copyright',
+        'subtitle',
+        'album_artist',
+        'disc',
+        'publisher'
       ])
 
-    IF UNAME_SYSNAME == "Windows":
-      TAGS_SetUTF8(True)
-  
-  cpdef Read(Tags self, object fmt = None, DWORD tagtype = -1):
+  cpdef read(Tags self, object fmt = None, DWORD tagtype = -1):
 
     cdef const unsigned char[:] c_fmt
     cdef char *res
@@ -54,7 +54,7 @@ cdef class Tags:
     
       return res.decode('utf-8')
 
-    return self.__tagresult(
+    return self._tag_result(
       TAGS_ReadEx(self._channel, "%TITL", tagtype, 65001).decode('utf-8'),
       TAGS_ReadEx(self._channel, "%ARTI", tagtype, 65001).decode('utf-8'),
       TAGS_ReadEx(self._channel, "%ALBM", tagtype, 65001).decode('utf-8'),
@@ -70,6 +70,6 @@ cdef class Tags:
       TAGS_ReadEx(self._channel, "%PUBL", tagtype, 65001).decode('utf-8')
     )
   
-  property Error:
+  property error:
     def __get__(Tags self):
       return (<char*>TAGS_GetLastErrorDesc()).decode('utf-8')

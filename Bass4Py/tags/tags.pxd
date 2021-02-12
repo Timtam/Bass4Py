@@ -2,12 +2,12 @@ from ..bindings.bass cimport (
   DWORD,
   HCHANNEL)
 
-cpdef GetVersion()
+cpdef get_version()
 
 cdef class Tags:
 
   cdef HCHANNEL _channel
-  cdef object _tagresult
+  cdef object _tag_result
   
-  cpdef Read(Tags self, object fmt = ?, DWORD tagtype = ?)
+  cpdef read(Tags self, object fmt = ?, DWORD tagtype = ?)
   
