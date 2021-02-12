@@ -129,6 +129,7 @@ cdef class Stream(Channel):
   
   cpdef free(Stream self):
     cdef bint res
+    super(Stream, self).free()
     with nogil:
       res = BASS_StreamFree(self._channel)
     self._evaluate()

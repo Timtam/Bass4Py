@@ -62,6 +62,7 @@ cdef class Music(Channel):
 
   cpdef free(Music self):
     cdef bint res
+    super(Music, self).free()
     with nogil:
       res = BASS_MusicFree(self._channel)
     self._evaluate()

@@ -30,6 +30,9 @@ from .plugin cimport Plugin
 from .sample cimport Sample
 
 cdef class ChannelBase(Evaluable):
+
+  _map = {}
+
   def __cinit__(ChannelBase self, HCHANNEL channel):
 
     from ..constants import SAMPLE
@@ -41,6 +44,7 @@ cdef class ChannelBase(Evaluable):
 
   cdef void _set_handle(ChannelBase self, HCHANNEL handle):
     self._channel = handle
+    self._map[handle] = self
     self._init_attributes()
 
   cdef void _init_attributes(ChannelBase self):
@@ -143,6 +147,12 @@ cdef class ChannelBase(Evaluable):
     self._evaluate()
     return res
 
+  cpdef free(self):
+    try:
+      del self._map[self._channel]
+    except KeyError:
+      pass
+
   def __eq__(ChannelBase self, object y):
     cdef ChannelBase chan
     if isinstance(y, ChannelBase):
@@ -239,3 +249,6 @@ cdef class ChannelBase(Evaluable):
       if info.flags&_BASS_UNICODE:
         return self._flags_enum(info.flags^_BASS_UNICODE)
       return self._flags_enum(info.flags)
+
+  def __dealloc__(self):
+    FloatAttribute._clean(self._channel)

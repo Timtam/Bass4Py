@@ -11,6 +11,7 @@ from ..exceptions import BassError
 cdef class ChannelBase(Evaluable):
   cdef HCHANNEL _channel
   cdef object _flags_enum
+  cdef dict __dict__
 
   # attributes
   cdef readonly FloatAttribute frequency
@@ -32,3 +33,4 @@ cdef class ChannelBase(Evaluable):
   cpdef seconds_to_bytes(ChannelBase self, double secs)
   cpdef get_data(ChannelBase self, DWORD length)
   cpdef get_length(ChannelBase self, DWORD mode = ?)
+  cpdef free(self)
