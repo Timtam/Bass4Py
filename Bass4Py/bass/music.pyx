@@ -24,6 +24,7 @@ from ..bindings.bass cimport (
   BASS_MusicLoad,
   )
 
+from ..constants import MUSIC
 from .channel cimport Channel
 from .output_device cimport OutputDevice
 
@@ -38,8 +39,6 @@ include "../transform.pxi"
 cdef class Music(Channel):
 
   def __cinit__(Music self, HMUSIC handle):
-
-    from ..constants import MUSIC
 
     self._flags_enum = MUSIC
 

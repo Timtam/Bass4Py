@@ -5,6 +5,16 @@ try:
 except ImportError:
   from aenum import IntFlag, IntEnum, unique
 
+def extend_int_flag(inherited_enum):
+  def wrapper(added_enum):
+    joined = {}
+    for item in inherited_enum:
+      joined[item.name] = item.value
+    for item in added_enum:
+      joined[item.name] = item.value
+    return IntFlag(added_enum.__name__, joined)
+  return wrapper
+
 # only forward constants that are required/important at Python level
 
 @unique
@@ -63,7 +73,7 @@ WAVE_FORMAT_4M16 = bass._WAVE_FORMAT_4M16
 WAVE_FORMAT_4S16 = bass._WAVE_FORMAT_4S16
 
 @unique
-class SAMPLE(IntFlag):
+class SAMPLE_BASE(IntFlag):
   EIGHT_BITS = bass._BASS_SAMPLE_8BITS
   FLOAT = bass._BASS_SAMPLE_FLOAT
   MONO = bass._BASS_SAMPLE_MONO
@@ -73,6 +83,10 @@ class SAMPLE(IntFlag):
   MUTEMAX = bass._BASS_SAMPLE_MUTEMAX
   VAM = bass._BASS_SAMPLE_VAM
   FX = bass._BASS_SAMPLE_FX
+
+@unique
+@extend_int_flag(SAMPLE_BASE)
+class SAMPLE(IntFlag):
   OVER_VOL = bass._BASS_SAMPLE_OVER_VOL
   OVER_POS = bass._BASS_SAMPLE_OVER_POS
   OVER_DIST = bass._BASS_SAMPLE_OVER_DIST
@@ -83,16 +97,8 @@ class MP3(IntFlag):
   MP3_SETPOS = bass._BASS_MP3_SETPOS
 
 @unique
+@extend_int_flag(SAMPLE_BASE)
 class STREAM(IntFlag):
-  EIGHT_BITS = bass._BASS_SAMPLE_8BITS
-  FLOAT = bass._BASS_SAMPLE_FLOAT
-  MONO = bass._BASS_SAMPLE_MONO
-  LOOP = bass._BASS_SAMPLE_LOOP
-  THREE_D = bass._BASS_SAMPLE_3D
-  SOFTWARE = bass._BASS_SAMPLE_SOFTWARE
-  MUTEMAX = bass._BASS_SAMPLE_MUTEMAX
-  VAM = bass._BASS_SAMPLE_VAM
-  FX = bass._BASS_SAMPLE_FX
   PRESCAN = bass._BASS_STREAM_PRESCAN
   AUTOFREE = bass._BASS_STREAM_AUTOFREE
   RESTRATE = bass._BASS_STREAM_RESTRATE
@@ -102,12 +108,8 @@ class STREAM(IntFlag):
   ASYNCFILE = bass._BASS_ASYNCFILE
 
 @unique
+@extend_int_flag(SAMPLE_BASE)
 class MUSIC(IntFlag):
-  FLOAT = bass._BASS_SAMPLE_FLOAT
-  MONO = bass._BASS_SAMPLE_MONO
-  LOOP = bass._BASS_SAMPLE_LOOP
-  THREE_D = bass._BASS_SAMPLE_3D
-  FX = bass._BASS_SAMPLE_FX
   AUTOFREE = bass._BASS_STREAM_AUTOFREE
   DECODE = bass._BASS_STREAM_DECODE
   PRESCAN = bass._BASS_STREAM_PRESCAN

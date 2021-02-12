@@ -26,6 +26,7 @@ from ..bindings.bass cimport (
   WORD,
   )
 
+from ..constants import ACTIVE, CHANNEL_TYPE, SAMPLE
 from .plugin cimport Plugin
 from .sample cimport Sample
 
@@ -34,8 +35,6 @@ cdef class ChannelBase(Evaluable):
   _map = {}
 
   def __cinit__(ChannelBase self, HCHANNEL channel):
-
-    from ..constants import SAMPLE
 
     self._flags_enum = SAMPLE
 
@@ -177,8 +176,6 @@ cdef class ChannelBase(Evaluable):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
 
-      from ..constants import CHANNEL_TYPE
-
       return CHANNEL_TYPE(info.ctype)
 
   property resolution:
@@ -231,8 +228,6 @@ cdef class ChannelBase(Evaluable):
 
       self._evaluate()
       
-      from ..constants import ACTIVE
-
       return ACTIVE(act)
 
   @property

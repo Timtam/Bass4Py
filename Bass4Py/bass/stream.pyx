@@ -34,6 +34,7 @@ from ..exceptions import BassStreamError
 from filelike import is_filelike
 import os
 
+from ..constants import STREAM
 # optional add-ons
 try:
   from Bass4Py.TAGS.tags import Tags
@@ -112,8 +113,6 @@ cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
 cdef class Stream(Channel):
 
   def __cinit__(Stream self, HSTREAM handle):
-
-    from ..constants import STREAM
 
     self._flags_enum = STREAM
 
