@@ -37,7 +37,7 @@ import os
 from ..constants import STREAM
 # optional add-ons
 try:
-  from Bass4Py.TAGS.tags import Tags
+  from Bass4Py.tags import Tags
 except ImportError:
   Tags = lambda obj: None
 
@@ -115,9 +115,6 @@ cdef class Stream(Channel):
   def __cinit__(Stream self, HSTREAM handle):
 
     self._flags_enum = STREAM
-
-  def __init__(self, *args, **kwargs):
-
     self.tags = Tags(self)
 
   cdef void _init_attributes(Stream self):

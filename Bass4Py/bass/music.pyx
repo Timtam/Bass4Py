@@ -30,7 +30,7 @@ from .output_device cimport OutputDevice
 
 # optional add-ons
 try:
-  from Bass4Py.tags.tags import Tags
+  from Bass4Py.tags import Tags
 except ImportError:
   Tags = lambda obj: None
 
@@ -41,11 +41,8 @@ cdef class Music(Channel):
   def __cinit__(Music self, HMUSIC handle):
 
     self._flags_enum = MUSIC
-
-  def __init__(self, *args, **kwargs):
-  
     self.tags = Tags(self)
-
+  
   cdef void _init_attributes(Music self):
     Channel._init_attributes(self)
 

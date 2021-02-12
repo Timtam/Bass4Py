@@ -34,10 +34,11 @@ cdef class ChannelBase(Evaluable):
 
   _map = {}
 
-  def __cinit__(ChannelBase self, HCHANNEL channel):
+  def __cinit__(ChannelBase self):
 
     self._flags_enum = SAMPLE
 
+  def __init__(self, HCHANNEL channel):
     if channel != 0:
       self._set_handle(channel)
 
