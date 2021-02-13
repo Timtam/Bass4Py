@@ -6,6 +6,24 @@ from ..bindings.bass cimport (
 from .output_device cimport OutputDevice
 
 cdef class OutputDeviceEnumerator:
+  """
+  Gain access to all output devices on your system.
+  
+  This class behaves like a sequence and allows you to access all 
+  :class:`Bass4Py.bass.OutputDevice` classes on your system via index, starting 
+  at 0, which usually returns a no sound device which should be available on 
+  all systems. Starting with index 1, the returned devices represent all the 
+  possible output devices your system currently knows. A negative index will 
+  yield the default output device of your system, which can also be accessed 
+  via the :attr:`~Bass4Py.bass.OutputDeviceEnumerator.default` attribute. 
+  
+  You can also access all output devices at once in a regular sequence. To 
+  achieve this, this class behaves like an iterable also, allowing you to loop 
+  over it within a for loop or generate a list or tuple from this object. You 
+  should not be required to instantiate this class yourself, but you can do so 
+  anyway if you need to. An instance of this class is all-time available from 
+  the :attr:`Bass4Py.bass.BASS.output_devices` attribute.
+  """
 
   def __cinit__(self):
 
@@ -53,6 +71,12 @@ cdef class OutputDeviceEnumerator:
 
   @property
   def default(self):
+    """
+    :class:`Bass4Py.bass.OutputDevice`
+
+    Returns the default output device of this system or the no sound device if 
+    none exists.
+    """
   
     cdef BASS_DEVICEINFO info
     cdef OutputDevice device = None
