@@ -27,7 +27,7 @@ cdef class OutputDevice(Evaluable):
   cpdef create_stream_from_parameters(OutputDevice self, DWORD freq, DWORD chans, DWORD flags = ?, object callback = ?)
   cpdef create_stream_from_url(OutputDevice self, object url, DWORD flags = ?, QWORD offset = ?, object callback = ?)
   cpdef free(OutputDevice self)
-  cpdef init(OutputDevice self, DWORD freq, DWORD flags, int win)
+  cpdef init(OutputDevice self, DWORD freq = ?, DWORD flags = ?)
   cpdef pause(OutputDevice self)
   cpdef set(OutputDevice self)
   cpdef start(OutputDevice self)

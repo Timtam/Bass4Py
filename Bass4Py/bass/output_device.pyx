@@ -149,7 +149,7 @@ cdef class OutputDevice(Evaluable):
     self._evaluate()
     return res
 
-  cpdef init(OutputDevice self, DWORD freq, DWORD flags, int win):
+  cpdef init(OutputDevice self, DWORD freq = 44100, DWORD flags = 0):
     """
     Initializes this device to be used by BASS. This needs to be done at least once before using any other playback-related functionalities.
 
@@ -163,14 +163,7 @@ cdef class OutputDevice(Evaluable):
 
     .. seealso:: `<http://www.un4seen.com/doc/bass/BASS_Init.html>`_
     """
-    IF UNAME_SYSNAME == "Windows":
-      cdef HWND cwin = &win
-    ELSE:
-      cdef void * cwin = &win
-
-    if win == 0:
-      cwin = NULL
-    cdef bint res = BASS_Init(self._device, freq, flags, cwin, NULL)
+    cdef bint res = BASS_Init(self._device, freq, flags, NULL, NULL)
     self._evaluate()
     return res
 

@@ -10,7 +10,7 @@ class TestChannel(unittest.TestCase):
   def setUp(self):
     self.bass = BASS()
     self.device = self.bass.output_devices[0]
-    self.device.init(44100, 0, 0)
+    self.device.init()
 
     # load files
     path = os.path.join(os.path.dirname(__file__), "audio", "sos.wav")

@@ -10,7 +10,7 @@ class TestSync(unittest.TestCase):
   def setUp(self):
     self.bass = BASS()
     self.device = self.bass.output_devices[0]
-    self.device.init(44100, 0, 0)
+    self.device.init()
 
     # paths
     self.music_path = os.path.join(os.path.dirname(__file__), "audio", "sapphire_eyes.xm")
