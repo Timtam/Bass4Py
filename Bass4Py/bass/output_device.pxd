@@ -32,4 +32,3 @@ cdef class OutputDevice(Evaluable):
   cdef void set(self)
   cpdef start(OutputDevice self)
   cpdef stop(OutputDevice self)
-  cpdef eax_preset(OutputDevice self, int preset)
