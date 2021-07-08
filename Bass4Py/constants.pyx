@@ -30,6 +30,7 @@ class DEVICE(IntFlag):
   DMIX = bass._BASS_DEVICE_DMIX
   FREQ = bass._BASS_DEVICE_FREQ
   DSOUND = bass._BASS_DEVICE_DSOUND
+  REINIT = bass._BASS_DEVICE_REINIT
 
 @unique
 class DEVICE_TYPE(IntFlag):

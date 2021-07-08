@@ -1,3 +1,28 @@
+"""
+This package contains all :class:`Bass4Py.bass.Sync` implementations that can 
+be used to flexibly react to events within the audio engine. See the relevant 
+class for more information on what they specifically do.
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autosummary::
+   :toctree:
+   
+   DeviceFail
+   DeviceFormat
+   Download
+   End
+   Free
+   Meta
+   MusicInstrument
+   MusicPosition
+   OggChange
+   Position
+   SetPosition
+   Slide
+   Stall
+"""
+
 from .device_fail import DeviceFail
 from .device_format import DeviceFormat
 from .download import Download

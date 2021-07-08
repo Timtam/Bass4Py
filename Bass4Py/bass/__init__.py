@@ -4,6 +4,9 @@ which includes audio input and output in/of several formats.
 
 .. currentmodule:: Bass4Py.bass
 
+Main objects
+------------
+
 .. autosummary::
    :toctree:
    
@@ -25,6 +28,16 @@ which includes audio input and output in/of several formats.
    Sync
    Vector
    Version
+
+Sub-packages
+------------
+
+.. autosummary::
+   :toctree:
+   
+   attributes
+   effects
+   syncs
 
 """
 
@@ -50,25 +63,3 @@ from .stream import Stream
 from .sync import Sync
 from .vector import Vector
 from .version import Version
-
-__all__ = (
-  'Attribute',
-  'BASS',
-  'Channel',
-  'ChannelBase',
-  'DSP',
-  'FX',
-  'Input',
-  'InputDevice',
-  'InputDeviceEnumerator',
-  'Music',
-  'OutputDevice',
-  'OutputDeviceEnumerator',
-  'Plugin',
-  'Record',
-  'Sample',
-  'Stream',
-  'Sync',
-  'Vector',
-  'Version',
-)

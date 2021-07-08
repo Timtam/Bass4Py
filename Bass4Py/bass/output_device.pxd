@@ -29,7 +29,7 @@ cdef class OutputDevice(Evaluable):
   cpdef free(OutputDevice self)
   cpdef init(OutputDevice self, DWORD freq = ?, DWORD flags = ?)
   cpdef pause(OutputDevice self)
-  cpdef set(OutputDevice self)
+  cdef void set(self)
   cpdef start(OutputDevice self)
   cpdef stop(OutputDevice self)
   cpdef eax_preset(OutputDevice self, int preset)
