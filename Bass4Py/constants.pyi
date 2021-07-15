@@ -12,6 +12,7 @@ class DEVICE(IntFlag):
   DMIX: int
   FREQ: int
   DSOUND: int
+  REINIT: int
 
 class DEVICE_TYPE(IntFlag):
   NETWORK: int
