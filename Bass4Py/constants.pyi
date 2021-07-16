@@ -13,7 +13,6 @@ class DEVICE(IntFlag):
   FREQ: int
   DSOUND: int
   REINIT: int
-  DEFAULTCOM: int
 
 class DEVICE_TYPE(IntFlag):
   NETWORK: int
