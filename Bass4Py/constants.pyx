@@ -18,11 +18,17 @@ def extend_int_flag(inherited_enum):
 # only forward constants that are required/important at Python level
 
 @unique
+class STARTED(IntFlag):
+  NOT_STARTED = 0
+  ACTIVE = 1
+  INACTIVE = 2
+
+@unique
 class DEVICE(IntFlag):
+  NONE = 0
   EIGHT_BITS = bass._BASS_DEVICE_8BITS
   MONO = bass._BASS_DEVICE_MONO
   STEREO = bass._BASS_DEVICE_STEREO
-  THREE_D = bass._BASS_DEVICE_3D
   LATENCY = bass._BASS_DEVICE_LATENCY
   CPSPEAKERS = bass._BASS_DEVICE_CPSPEAKERS
   SPEAKERS = bass._BASS_DEVICE_SPEAKERS
@@ -287,7 +293,3 @@ BASS_DX8_PHASE_180 = bass._BASS_DX8_PHASE_180
 
 BASS_IOSNOTIFY_INTERRUPT = bass._BASS_IOSNOTIFY_INTERRUPT
 BASS_IOSNOTIFY_INTERRUPT_END = bass._BASS_IOSNOTIFY_INTERRUPT_END
-
-__all__ = [
-  'DEVICE',
-]

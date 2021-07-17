@@ -28,6 +28,8 @@ from .stream cimport Stream
 from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassPlatformError
 
+from ..constants import DEVICE, DEVICE_TYPE, STARTED
+
 cdef class OutputDevice(Evaluable):
   """
   Control several settings related to your specific output device and create 
@@ -467,8 +469,6 @@ cdef class OutputDevice(Evaluable):
 
       if info.flags&_BASS_DEVICE_TYPE_MASK:
 
-        from ..constants import DEVICE_TYPE
-
         return DEVICE_TYPE(info.flags&_BASS_DEVICE_TYPE_MASK)
       return None
 
@@ -479,62 +479,6 @@ cdef class OutputDevice(Evaluable):
       info = self._get_info()
       self._evaluate()
       return info.flags
-
-  property memory:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.hwsize
-
-  property memory_free:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info= self._get_info()
-      self._evaluate()
-      return info.hwfree
-
-  property free_samples:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.freesam
-
-  property free_3d:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.free3d
-
-  property minimum_rate:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.minrate
-
-  property maximum_rate:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.maxrate
-
-  property eax:
-    def __get__(OutputDevice self):
-      cdef BASS_INFO info
-      self.set()
-      info = self._get_info()
-      self._evaluate()
-      return info.eax
 
   property direct_x:
     def __get__(OutputDevice self):
@@ -566,8 +510,6 @@ cdef class OutputDevice(Evaluable):
       self.set()
       info = self._get_info()
       self._evaluate()
-
-      from ..constants import DEVICE
 
       return DEVICE(info.initflags)
 
@@ -716,8 +658,8 @@ cdef class OutputDevice(Evaluable):
 
   property started:
     def __get__(OutputDevice self):
-      cdef bint res
+      cdef DWORD res
       self.set()
       res = BASS_IsStarted()
       self._evaluate()
-      return res
+      return STARTED(res)

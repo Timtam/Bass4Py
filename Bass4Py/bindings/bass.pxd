@@ -316,7 +316,6 @@ cdef extern from "bass.h" nogil:
   cdef DWORD _BASS_ATTRIB_FREQ "BASS_ATTRIB_FREQ"
   cdef DWORD _BASS_ATTRIB_VOL "BASS_ATTRIB_VOL"
   cdef DWORD _BASS_ATTRIB_PAN "BASS_ATTRIB_PAN"
-  cdef DWORD _BASS_ATTRIB_EAXMIX "BASS_ATTRIB_EAXMIX"
   cdef DWORD _BASS_ATTRIB_NOBUFFER "BASS_ATTRIB_NOBUFFER"
   cdef DWORD _BASS_ATTRIB_VBR "BASS_ATTRIB_VBR"
   cdef DWORD _BASS_ATTRIB_CPU "BASS_ATTRIB_CPU"
@@ -681,7 +680,7 @@ cdef extern from "bass.h" nogil:
   IF UNAME_SYSNAME=='Windows':
     cdef void *BASS_GetDSoundObject(DWORD object)
   cdef bint BASS_GetInfo(BASS_INFO *info)
-  cdef bint BASS_IsStarted()
+  cdef DWORD BASS_IsStarted()
   cdef bint BASS_Update(DWORD length)
   cdef float BASS_GetCPU()
   cdef bint BASS_Start()

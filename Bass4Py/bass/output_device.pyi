@@ -1,6 +1,6 @@
 from typing import Any, Callable, Optional, Union
 
-from ..constants import DEVICE, DEVICE_TYPE
+from ..constants import DEVICE, DEVICE_TYPE, STARTED
 from ..evaluable import Evaluable
 from .music import Music
 from .sample import Sample
@@ -47,27 +47,6 @@ class OutputDevice(Evaluable):
   
   @property
   def flags(self) -> int: ...
-  
-  @property
-  def memory(self) -> int: ...
-  
-  @property
-  def memory_free(self) -> int: ...
-  
-  @property
-  def free_samples(self) -> int: ...
-  
-  @property
-  def free_3d(self) -> int: ...
-  
-  @property
-  def minimum_rate(self) -> int: ...
-  
-  @property
-  def maximum_rate(self) -> int: ...
-  
-  @property
-  def eax(self) -> bool: ...
   
   @property
   def direct_x(self) -> int: ...
@@ -136,4 +115,4 @@ class OutputDevice(Evaluable):
   def doppler(self, value: float) -> None: ...
   
   @property
-  def started(self) -> bool: ...
+  def started(self) -> STARTED: ...

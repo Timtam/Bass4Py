@@ -4,8 +4,8 @@ from libc.string cimport memmove
 from ..bindings.bass cimport (
   _BASS_ATTRIB_BUFFER,
   _BASS_ATTRIB_CPU,
-  _BASS_ATTRIB_EAXMIX,
   _BASS_ATTRIB_NORAMP,
+  _BASS_ATTRIB_TAIL,
   _BASS_NODEVICE,
   _BASS_POS_BYTE,
   _BASS_SAMPLE_LOOP,
@@ -55,11 +55,7 @@ cdef class Channel(ChannelBase):
     self.buffer = FloatAttribute(self._channel, _BASS_ATTRIB_BUFFER)
     self.cpu = FloatAttribute(self._channel, _BASS_ATTRIB_CPU, True)
     self.no_ramping = BoolAttribute(self._channel, _BASS_ATTRIB_NORAMP)
-
-    IF UNAME_SYSNAME == "Windows":
-      self.eax_mix = FloatAttribute(self._channel, _BASS_ATTRIB_EAXMIX)
-    ELSE:
-      self.eax_mix = FloatAttribute(self._channel, _BASS_ATTRIB_EAXMIX, False, True)
+    self.tail = FloatAttribute(self._channel, _BASS_ATTRIB_TAIL)
 
   cdef DWORD _get_flags(Channel self):
     return BASS_ChannelFlags(self._channel, 0, 0)

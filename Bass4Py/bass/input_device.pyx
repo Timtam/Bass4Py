@@ -1,6 +1,7 @@
 from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
   _BASS_DEVICE_DEFAULT,
+  _BASS_DEVICE_DEFAULTCOM,
   _BASS_DEVICE_ENABLED,
   _BASS_DEVICE_INIT,
   _BASS_DEVICE_LOOPBACK,
@@ -101,6 +102,13 @@ cdef class InputDevice(Evaluable):
       info = self._get_device_info()
       self._evaluate()
       return <bint>(info.flags&_BASS_DEVICE_DEFAULT)
+
+  property default_communication:
+    def __get__(InputDevice self):
+      cdef BASS_DEVICEINFO info
+      info = self._get_device_info()
+      self._evaluate()
+      return <bint>(info.flags&_BASS_DEVICE_DEFAULTCOM)
 
   property initialized:
     def __get__(InputDevice self):

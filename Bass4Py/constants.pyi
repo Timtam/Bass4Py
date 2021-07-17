@@ -1,10 +1,15 @@
 from enum import IntFlag, IntEnum
 
+class STARTED(IntFlag):
+  NOT_STARTED: int
+  ACTIVE: int
+  INACTIVE: int
+
 class DEVICE(IntFlag):
+  NONE: int
   EIGHT_BITS: int
   MONO: int
   STEREO: int
-  THREE_D: int
   LATENCY: int
   CPSPEAKERS: int
   SPEAKERS: int

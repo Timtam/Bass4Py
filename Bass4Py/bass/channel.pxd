@@ -23,7 +23,7 @@ cdef class Channel(ChannelBase):
   cdef readonly FloatAttribute buffer
   cdef readonly FloatAttribute cpu
   cdef readonly BoolAttribute no_ramping
-  cdef readonly FloatAttribute eax_mix
+  cdef readonly FloatAttribute tail
 
   cdef DWORD _get_flags(Channel self)
   cpdef _set_flags(Channel self, DWORD flag, bint switch)

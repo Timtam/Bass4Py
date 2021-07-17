@@ -27,6 +27,9 @@ class InputDevice(Evaluable):
   def default(self) -> bool: ...
   
   @property
+  def default_communication(self) -> bool: ...
+
+  @property
   def initialized(self) -> bool: ...
   
   @property
