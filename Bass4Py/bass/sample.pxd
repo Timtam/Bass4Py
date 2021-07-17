@@ -14,8 +14,9 @@ cdef class Sample(Evaluable):
 
   cdef BASS_SAMPLE _get_info(Sample self)
   cpdef free(Sample self)
-  cpdef get_channel(Sample self, bint only_new)
+  cpdef get_channel(Sample self, bint new = ?, bint loop = ?, DWORD override = ?, DWORD speakers = ?)
   cpdef get_length(Sample self, DWORD mode = ?)
+  cpdef get_stream(Sample self, bint new = ?, bint loop = ?, DWORD override = ?, bint autofree = ?, bint decode = ?, DWORD speakers = ?)
   cpdef stop(Sample self)
   cpdef bytes_to_seconds(Sample self, QWORD bytes)
   cpdef seconds_to_bytes(Sample self, double secs)

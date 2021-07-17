@@ -1,7 +1,13 @@
 from ..evaluable cimport Evaluable
 from ..bindings.bass cimport (
+  HSTREAM,
   _BASS_NODEVICE,
   _BASS_POS_BYTE,
+  _BASS_SAMPLE_LOOP,
+  _BASS_SAMCHAN_NEW,
+  _BASS_SAMCHAN_STREAM,
+  _BASS_STREAM_AUTOFREE,
+  _BASS_STREAM_DECODE,
   BASS_ChannelBytes2Seconds,
   BASS_ChannelGetDevice,
   BASS_ChannelGetLength,
@@ -19,6 +25,8 @@ from ..bindings.bass cimport (
   BASS_SampleStop)
 
 from .channel cimport Channel
+from .stream cimport Stream
+from ..constants import SAMPLE
 from ..exceptions import BassSampleError
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 
@@ -51,10 +59,50 @@ cdef class Sample(Evaluable):
     self._evaluate()
     return res
 
-  cpdef get_channel(Sample self, bint only_new):
-    cdef HCHANNEL res = BASS_SampleGetChannel(self._sample, only_new)
+  cpdef get_channel(Sample self, bint new = False, bint loop = False, DWORD override = 0, DWORD speakers = 0):
+    cdef DWORD flags = speakers
+
+    if new:
+      flags &= _BASS_SAMCHAN_NEW
+    
+    if loop:
+      flags &= _BASS_SAMPLE_LOOP
+    
+    if override == SAMPLE.OVER_VOL or override == SAMPLE.OVER_POS or override == SAMPLE.OVER_DIST:
+      flags &= int(override)
+    elif override:
+      raise AttributeError("override either needs to be SAMPLE.OVER_VOL, SAMPLE.OVER_POS or SAMPLE.OVER_DIST")
+    
+    cdef HCHANNEL res = BASS_SampleGetChannel(self._sample, flags)
     self._evaluate()
     return Channel(res)
+
+  cpdef get_stream(self, bint new = False, bint loop = False, DWORD override = 0, bint autofree = False, bint decode = False, DWORD speakers = 0):
+
+    cdef DWORD flags = _BASS_SAMCHAN_STREAM & speakers
+    
+    if new:
+      flags &= _BASS_SAMCHAN_NEW
+
+    if loop:
+      flags &= _BASS_SAMPLE_LOOP
+      
+    if override == SAMPLE.OVER_VOL or override == SAMPLE.OVER_POS or override == SAMPLE.OVER_DIST:
+      flags &= int(override)
+    elif override:
+      raise AttributeError("override either needs to be SAMPLE.OVER_VOL, SAMPLE.OVER_POS or SAMPLE.OVER_DIST")
+
+    if autofree:
+      flags &= _BASS_STREAM_AUTOFREE
+    
+    if decode:
+      if autofree or speakers:
+        raise AttributeError("decode cannot be used with autofree or speaker flags")
+      flags &= _BASS_STREAM_DECODE
+
+    cdef HSTREAM res = BASS_SampleGetChannel(self._sample, flags)
+    self._evaluate()
+    return Stream(res)
 
   cpdef stop(Sample self):
     cdef bint res
@@ -187,7 +235,7 @@ cdef class Sample(Evaluable):
     def __get__(Sample self):
       cdef BASS_SAMPLE info = self._get_info()
       self._evaluate()
-      return Sample(info.flags)
+      return SAMPLE(info.flags)
 
     def __set__(Sample self, DWORD value):
       cdef BASS_SAMPLE info = self._get_info()
@@ -324,30 +372,6 @@ cdef class Sample(Evaluable):
     def __set__(Sample self, float value):
       cdef BASS_SAMPLE info = self._get_info()
       info.outvol=value
-      BASS_SampleSetInfo(self._sample, &info)
-      self._evaluate()
-
-  property vam:
-    def __get__(Sample self):
-      cdef BASS_SAMPLE info = self._get_info()
-      self._evaluate()
-      return info.vam
-
-    def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self._get_info()
-      info.vam=value
-      BASS_SampleSetInfo(self._sample, &info)
-      self._evaluate()
-
-  property priority:
-    def __get__(Sample self):
-      cdef BASS_SAMPLE info = self._get_info()
-      self._evaluate()
-      return info.priority
-
-    def __set__(Sample self, DWORD value):
-      cdef BASS_SAMPLE info = self._get_info()
-      info.priority=value
       BASS_SampleSetInfo(self._sample, &info)
       self._evaluate()
 

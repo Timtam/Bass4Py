@@ -104,6 +104,7 @@ class CHANNEL_TYPE(IntFlag):
   STREAM_WAV: int
   STREAM_WAV_PCM: int
   STREAM_WAV_FLOAT: int
+  STREAM_SAMPLE: int
   MUSIC_MOD: int
   MUSIC_MTM: int
   MUSIC_S3M: int

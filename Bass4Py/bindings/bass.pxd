@@ -112,7 +112,6 @@ cdef extern from "bass.h" nogil:
   cdef DWORD _BASS_DEVICE_8BITS "BASS_DEVICE_8BITS"
   cdef DWORD _BASS_DEVICE_MONO "BASS_DEVICE_MONO"
   cdef DWORD _BASS_DEVICE_STEREO "BASS_DEVICE_STEREO"
-  cdef DWORD _BASS_DEVICE_3D "BASS_DEVICE_3D"
   cdef DWORD _BASS_DEVICE_LATENCY "BASS_DEVICE_LATENCY"
   cdef DWORD _BASS_DEVICE_CPSPEAKERS "BASS_DEVICE_CPSPEAKERS"
   cdef DWORD _BASS_DEVICE_SPEAKERS "BASS_DEVICE_SPEAKERS"
@@ -705,7 +704,7 @@ cdef extern from "bass.h" nogil:
   cdef bint BASS_SampleGetData(HSAMPLE handle, void *buffer)
   cdef bint BASS_SampleGetInfo(HSAMPLE handle, BASS_SAMPLE *info)
   cdef bint BASS_SampleSetInfo(HSAMPLE handle, const BASS_SAMPLE *info)
-  cdef HCHANNEL BASS_SampleGetChannel(HSAMPLE handle, bint onlynew)
+  cdef HCHANNEL BASS_SampleGetChannel(HSAMPLE handle, DWORD flags)
   cdef DWORD BASS_SampleGetChannels(HSAMPLE handle, HCHANNEL *channels)
   cdef bint BASS_SampleStop(HSAMPLE handle)
   cdef HSTREAM BASS_StreamCreate(DWORD freq, DWORD chans, DWORD flags, STREAMPROC *proc, void *user)
