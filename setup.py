@@ -174,6 +174,11 @@ for package, files in data_files.items():
 
     shutil.copyfile(file_path, os.path.join(package_dir, file))
 
+requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
+
+with open(requirements_file, "r") as f:
+  requirements = f.read()
+
 setup(
   name="Bass4Py",
   version=__version__,
@@ -187,8 +192,5 @@ setup(
   cmdclass = {
     'build_ext': build_ext_compiler_check
   },
-  install_requires = [
-    "filelike==0.5.0",
-    "aenum==2.2.1;python_version < '3.6'",
-  ]
+  install_requires=requirements.split("\r\n"),
 )

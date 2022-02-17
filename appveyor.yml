@@ -141,21 +141,21 @@ before_test:
 
 test_script:
   - sh: |
-      nose2 -X
+      $PYTHON -m pytest --junitxml=junit.xml
   - cmd: |
-      %PYTHON%\Scripts\nose2.exe -X
+      %PYTHON%\python.exe -m pytest --junitxml=junit.xml
 
 on_finish:
   - ps: |
       $escapeparser = '--%'
-      if (Test-Path "nose2-junit.xml")
+      if (Test-Path "junit.xml")
       {
         if($isWindows)
         {
           $wc = New-Object 'System.Net.WebClient'
-          $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Join-Path ($pwd).path "nose2-junit.xml"))
+          $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Join-Path ($pwd).path "junit.xml"))
         } else {
-          & curl $escapeparser -F "file=@nose2-junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
+          & curl $escapeparser -F "file=@junit.xml" "https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)"
         }
       }
 
