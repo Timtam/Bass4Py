@@ -451,7 +451,7 @@ class BASSExtensionHandler(ExtensionHandler):
     files['Bass4Py.bass'].append('*.pyi')
 
     files.update({
-      'Bass4Py': ['*.pyi'],
+      'Bass4Py': ['*.pyi', 'py.typed'],
       'Bass4Py.bass.effects': ['*.pyi'],
       'Bass4Py.bass.effects.dx8': ['*.pyi'],
       'Bass4Py.bass.syncs': ['*.pyi'],
