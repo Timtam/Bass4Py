@@ -1,6 +1,10 @@
 # api version supported by Bass4Py
 cdef DWORD _BASS4PY_API_VERSION = 0x2040f00
 
+from .output_device cimport OutputDevice
+from .plugin cimport Plugin
+from .version cimport Version
+from .. import exceptions
 from ..bindings.bass cimport (
   _BASS_CONFIG_3DALGORITHM,
   _BASS_CONFIG_ASYNCFILE_BUFFER,
@@ -16,6 +20,7 @@ from ..bindings.bass cimport (
   _BASS_CONFIG_GVOL_STREAM,
   _BASS_CONFIG_HANDLES,
   _BASS_CONFIG_LIBSSL,
+  _BASS_CONFIG_MF_DISABLE,
   _BASS_CONFIG_MF_VIDEO,
   _BASS_CONFIG_MUSIC_VIRTUAL,
   _BASS_CONFIG_NET_AGENT,
@@ -51,12 +56,7 @@ from ..bindings.bass cimport (
   BASS_SetConfigPtr,
   BASS_Update,
   HPLUGIN)
-
 from ..evaluable cimport Evaluable
-from .. import exceptions
-from .output_device cimport OutputDevice
-from .plugin cimport Plugin
-from .version cimport Version
 
 include "../transform.pxi"
 
@@ -579,7 +579,7 @@ cdef class BASS(Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_GVOL_STREAM, value)
 
-  property video:
+  property mf_video:
     """
     :obj:`bool`: Play the audio from video files using Media Foundation? 
 
@@ -600,6 +600,33 @@ cdef class BASS(Evaluable):
         raise exceptions.BassPlatformError()
       ELSE:
         BASS_SetConfig(_BASS_CONFIG_MF_VIDEO, <DWORD>value)
+
+  property mf_disable:
+    """
+    :obj:`bool`: Disable Media Foundation?
+
+    This option determines whether Media Foundation codecs can be used to 
+    decode files and streams. It is set to :obj:`False` by default when Media 
+    Foundation codecs are available, which is on Windows 7 and above, and 
+    updated versions of Vista. It will otherwise be :obj:`True` and read-only. 
+
+    Platform-specific
+
+    This config option is only available on Windows. 
+    """
+    def __get__(BASS self):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return <bint>BASS_GetConfig(_BASS_CONFIG_MF_DISABLE)
+
+    def __set__(BASS self, bint value):
+
+      IF UNAME_SYSNAME != "Windows":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_MF_DISABLE, <DWORD>value)
 
   property virtual_channels:
     """
