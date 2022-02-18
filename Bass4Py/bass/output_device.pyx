@@ -51,7 +51,7 @@ cdef class OutputDevice(Evaluable):
 
   def __richcmp__(OutputDevice self, other, int op):
     if op == 2:
-      return (type(self) == type(other)) and (self._device == other._device)
+      return (type(self) == type(other)) and (self._device == (<OutputDevice>other)._device)
 
   cdef BASS_DEVICEINFO _get_device_info(OutputDevice self):
     cdef BASS_DEVICEINFO info
