@@ -112,6 +112,10 @@ class build_ext_compiler_check(build_ext):
       ext.library_dirs = library_dirs
       ext.include_dirs = include_dirs
 
+      if DEBUG_MODE:
+        ext.define_macros.append(('CYTHON_TRACE', '1', ))
+        ext.define_macros.append(('CYTHON_TRACE_NOGIL', '1', ))
+
     build_ext.build_extensions(self)
 
   # ensure that failed extensions won't get copied
@@ -147,7 +151,8 @@ if USE_CYTHON:
     gdb_debug = DEBUG_MODE,
     compiler_directives = {
       'embedsignature': True,
-      'language_level': 3
+      'language_level': 3,
+      'linetrace': True,
     }
   )
 else:
