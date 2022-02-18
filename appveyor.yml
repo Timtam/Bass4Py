@@ -21,28 +21,28 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.10"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       PYTHON: "C:\\Python310"
       PYTHON_VERSION: "3.10"
       PYTHON_ARCH: "32"
       STACK: "3.10"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       PYTHON: "C:\\Python310-x64"
       PYTHON_VERSION: "3.10"
       PYTHON_ARCH: "64"
       STACK: "3.10"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       PYTHON: "C:\\Python39"
       PYTHON_VERSION: "3.9"
       PYTHON_ARCH: "32"
       STACK: "3.9"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       PYTHON: "C:\\Python39-x64"
       PYTHON_VERSION: "3.9"
       PYTHON_ARCH: "64"
