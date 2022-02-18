@@ -1,5 +1,5 @@
 -r requirements.txt
-cython==3.0.0a8
+cython==3.0.0a10
 pytest==7.0.1
 pytest-order==1.0.1
 setuptools
