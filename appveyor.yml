@@ -7,12 +7,6 @@ environment:
     secure: g599B1DPNusI9H8GYIq6yn4CiRsVMRqtDm9nyb7MEjQ=
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python2"
-      STACK: "2.7"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      PYTHON: "python3"
-      STACK: "3.5"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.6"
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -21,18 +15,38 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       PYTHON: "python3"
       STACK: "3.8"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3"
+      STACK: "3.9"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      PYTHON: "python3"
+      STACK: "3.10"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7"
+      PYTHON: "C:\\Python310"
+      PYTHON_VERSION: "3.10"
       PYTHON_ARCH: "32"
-      STACK: "2.7"
+      STACK: "3.10"
       BASSLIB: "bass24"
       TAGSLIB: "tags18"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7"
+      PYTHON: "C:\\Python310-x64"
+      PYTHON_VERSION: "3.10"
       PYTHON_ARCH: "64"
-      STACK: "2.7"
+      STACK: "3.10"
+      BASSLIB: "bass24\\x64"
+      TAGSLIB: "tags18"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python39"
+      PYTHON_VERSION: "3.9"
+      PYTHON_ARCH: "32"
+      STACK: "3.9"
+      BASSLIB: "bass24"
+      TAGSLIB: "tags18"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PYTHON: "C:\\Python39-x64"
+      PYTHON_VERSION: "3.9"
+      PYTHON_ARCH: "64"
+      STACK: "3.9"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -75,20 +89,6 @@ environment:
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       STACK: "3.6"
-      BASSLIB: "bass24\\x64"
-      TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5"
-      PYTHON_ARCH: "32"
-      STACK: "3.5"
-      BASSLIB: "bass24"
-      TAGSLIB: "tags18"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5"
-      PYTHON_ARCH: "64"
-      STACK: "3.5"
       BASSLIB: "bass24\\x64"
       TAGSLIB: "tags18"
 
