@@ -1,2 +1,0 @@
-aenum==2.2.1;python_version < '3.6'
-filelike==0.5.0

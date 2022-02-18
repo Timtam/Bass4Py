@@ -31,8 +31,9 @@ from ..bindings.bass cimport (
 from .channel cimport Channel
 from .output_device cimport OutputDevice
 from ..exceptions import BassStreamError
-from filelike import is_filelike
 import os
+import traceback
+import warnings
 
 from ..constants import STREAM
 # optional add-ons
@@ -70,42 +71,61 @@ cdef DWORD __stdcall CSTREAMPROC_STD(DWORD handle, void *buffer, DWORD length, v
 
 cdef void CFILECLOSEPROC(void *user) with gil:
   cdef Stream strm = <Stream?>user
-  strm._file.close()
+  try:
+    strm._file.close()
+  except Exception:
+    warnings.warn(traceback.format_exc(), RuntimeWarning)
 
 cdef void __stdcall CFILECLOSEPROC_STD(void *user) with gil:
   CFILECLOSEPROC(user)
 
 cdef QWORD CFILELENPROC(void *user) with gil:
   cdef Stream strm = <Stream?>user
-  cdef Py_ssize_t current_pos = strm._file.tell()
+  cdef Py_ssize_t current_pos
   cdef Py_ssize_t blen
-  strm._file.seek(0, os.SEEK_END)
-  blen = strm._file.tell()
-  strm._file.seek(current_pos, os.SEEK_SET)
-  return <QWORD>blen
+
+  try:
+    current_pos = strm._file.tell()
+    strm._file.seek(0, os.SEEK_END)
+    blen = strm._file.tell()
+    strm._file.seek(current_pos, os.SEEK_SET)
+    return <QWORD>blen
+  except Exception:
+    warnings.warn(traceback.format_exc(), RuntimeWarning)
 
 cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
   return CFILELENPROC(user)
 
 cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
   cdef Stream strm = <Stream?>user
-  cdef bytes data = strm._file.read(length)
-  cdef DWORD blen = len(data)
+  cdef bytes data
+  cdef DWORD blen
 
-  if blen > length:
-    data = data[:length]
-    blen = length
+  try:
+    data = strm._file.read(length)
+    blen = len(data)
+
+    if blen > length:
+      data = data[:length]
+      blen = length
     
-  memmove(buffer, <char *>data, blen)
-  return blen
+    memmove(buffer, <char *>data, blen)
+    return blen
+  except Exception:
+    warnings.warn(traceback.format_exc(), RuntimeWarning)
+    return -1
 
 cdef DWORD __stdcall CFILEREADPROC_STD(void *buffer, DWORD length, void *user) with gil:
   return CFILEREADPROC(buffer, length, user)
 
 cdef bint CFILESEEKPROC(QWORD offset, void *user) with gil:
   cdef Stream strm = <Stream?>user
-  strm._file.seek(offset, os.SEEK_SET)
-  return True
+  try:
+    strm._file.seek(offset, os.SEEK_SET)
+    return True
+  except Exception:
+    warnings.warn(traceback.format_exc(), RuntimeWarning)
+    return False
 
 cdef bint __stdcall CFILESEEKPROC_STD(QWORD offset, void *user) with gil:
   return CFILESEEKPROC(offset, user)
@@ -307,9 +327,6 @@ cdef class Stream(Channel):
     cdef Stream ostrm
     cdef BASS_FILEPROCS procs
 
-    if not is_filelike(obj, 'r'):
-      raise BassStreamError("the object provided doesn't expose a file-like interface")
-      
     if device != None:
       cdevice = <OutputDevice?>device
       cdevice.set()

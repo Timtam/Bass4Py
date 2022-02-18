@@ -1,9 +1,6 @@
 from .bindings cimport bass
 
-try:
-  from enum import IntFlag, IntEnum, unique
-except ImportError:
-  from aenum import IntFlag, IntEnum, unique
+from enum import IntFlag, IntEnum, unique
 
 def extend_int_flag(inherited_enum):
   def wrapper(added_enum):
