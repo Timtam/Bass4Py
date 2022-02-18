@@ -403,9 +403,6 @@ cdef class OutputDevice(Evaluable):
   cpdef create_stream(OutputDevice self):
     return Stream.from_device(self)
 
-  cpdef create_stream_3d(OutputDevice self):
-    return Stream.from_device_3d(self)
-
   cpdef create_stream_from_file_obj(OutputDevice self, object obj, DWORD system = _STREAMFILE_BUFFER, DWORD flags = 0):
     return Stream.from_file_obj(obj, system, flags, self)
 

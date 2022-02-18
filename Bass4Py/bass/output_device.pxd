@@ -20,7 +20,6 @@ cdef class OutputDevice(Evaluable):
   cpdef create_sample_from_file(OutputDevice self, object filename, DWORD max = ?, DWORD flags = ?, QWORD offset = ?)
   cpdef create_sample_from_parameters(OutputDevice self, DWORD length, DWORD freq, DWORD chans, DWORD max = ?, DWORD flags = ?)
   cpdef create_stream(OutputDevice self)
-  cpdef create_stream_3d(OutputDevice self)
   cpdef create_stream_from_bytes(OutputDevice self, const unsigned char[:] data, DWORD flags = ?, QWORD length = ?)
   cpdef create_stream_from_file(OutputDevice self, object filename, DWORD flags = ?, QWORD offset = ?)
   cpdef create_stream_from_file_obj(OutputDevice self, object obj, DWORD system = ?, DWORD flags = ?)

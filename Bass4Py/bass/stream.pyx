@@ -8,7 +8,6 @@ from ..bindings.bass cimport (
   _BASS_STREAM_RESTRATE,
   _STREAMFILE_BUFFER,
   _STREAMPROC_DEVICE,
-  _STREAMPROC_DEVICE_3D,
   _STREAMPROC_PUSH,
   BASS_ChannelUpdate,
   BASS_FILEPROCS,
@@ -302,18 +301,6 @@ cdef class Stream(Channel):
     cdevice.set()
     
     strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE, NULL)
-    Stream._evaluate()
-    
-    return Stream(strm)
-
-  @staticmethod
-  def from_device_3d(device):
-    cdef HSTREAM strm
-    cdef OutputDevice cdevice = <OutputDevice?>device
-    
-    cdevice.set()
-    
-    strm = BASS_StreamCreate(0, 0, 0, <STREAMPROC*>_STREAMPROC_DEVICE_3D, NULL)
     Stream._evaluate()
     
     return Stream(strm)
