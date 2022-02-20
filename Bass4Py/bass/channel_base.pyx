@@ -3,13 +3,17 @@ from cpython.mem cimport PyMem_Free, PyMem_Malloc
 from ..bindings.bass cimport (
   _BASS_ATTRIB_FREQ,
   _BASS_ATTRIB_GRANULE,
+  _BASS_ATTRIB_MUSIC_PSCALER,
   _BASS_ATTRIB_PAN,
   _BASS_ATTRIB_SRC,
   _BASS_ATTRIB_VOL,
   _BASS_DATA_AVAILABLE,
   _BASS_POS_BYTE,
+  _BASS_POS_DECODE,
+  _BASS_POS_MUSIC_ORDER,
   _BASS_UNICODE,
   BASS_ChannelBytes2Seconds,
+  BASS_ChannelGetAttribute,
   BASS_ChannelGetData,
   BASS_ChannelGetInfo,
   BASS_ChannelGetLength,
@@ -106,10 +110,21 @@ cdef class ChannelBase(Evaluable):
     
     return res
 
-  cpdef get_position(ChannelBase self, DWORD mode = _BASS_POS_BYTE):
+  cpdef get_position(ChannelBase self, DWORD mode = _BASS_POS_BYTE, bint decode = False):
     cdef QWORD res
-    res = BASS_ChannelGetPosition(self._channel, mode)
+    cdef float attrib
+    cdef DWORD flags = 0
+
+    if decode is True:
+      flags = flags | _BASS_POS_DECODE
+
+    res = BASS_ChannelGetPosition(self._channel, mode | flags)
     self._evaluate()
+
+    if mode == _BASS_POS_MUSIC_ORDER:
+      BASS_ChannelGetAttribute(self._channel, _BASS_ATTRIB_MUSIC_PSCALER, &attrib)
+      self._evaluate()
+      return (LOWORD(res), int(HIWORD(res) / attrib), )
     return res
   
   cpdef bytes_to_seconds(ChannelBase self, QWORD bytes):
@@ -135,11 +150,9 @@ cdef class ChannelBase(Evaluable):
     l = BASS_ChannelGetData(self._channel, buffer, length)
     try:
       self._evaluate()
-    except BassError as e:
+      b = (<char*>buffer)[:l]
+    finally:
       PyMem_Free(buffer)
-      raise e
-    b = (<char*>buffer)[:l]
-    PyMem_Free(buffer)
     return b
 
   cpdef get_length(ChannelBase self, DWORD mode = _BASS_POS_BYTE):

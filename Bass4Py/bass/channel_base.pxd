@@ -2,11 +2,11 @@ from ..bindings.bass cimport (
   BASS_CHANNELINFO,
   DWORD,
   HCHANNEL,
-  QWORD)
+  QWORD,
+  WORD)
 
 from .attributes.float_attribute cimport FloatAttribute
 from ..evaluable cimport Evaluable
-from ..exceptions import BassError
 
 cdef class ChannelBase(Evaluable):
   cdef HCHANNEL _channel
@@ -28,7 +28,7 @@ cdef class ChannelBase(Evaluable):
   cpdef pause(ChannelBase self)
   cpdef stop(ChannelBase self)
   cpdef unlock(ChannelBase self)
-  cpdef get_position(ChannelBase self, DWORD mode=?)
+  cpdef get_position(ChannelBase self, DWORD mode=?, bint decode=?)
   cpdef bytes_to_seconds(ChannelBase self, QWORD bytes)
   cpdef seconds_to_bytes(ChannelBase self, double secs)
   cpdef get_data(ChannelBase self, DWORD length)

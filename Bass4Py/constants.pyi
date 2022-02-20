@@ -155,3 +155,9 @@ class INPUT_TYPE(IntFlag):
   WAVE: int
   AUX: int
   ANALOG: int
+
+class POSITION(IntEnum):
+  BYTE: int
+  LOOP: int
+  MUSIC_ORDER: int
+  OGG: int
