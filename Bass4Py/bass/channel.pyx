@@ -6,8 +6,17 @@ from ..bindings.bass cimport (
   _BASS_ATTRIB_CPU,
   _BASS_ATTRIB_NORAMP,
   _BASS_ATTRIB_TAIL,
+  _BASS_MUSIC_POSRESET,
+  _BASS_MUSIC_POSRESETEX,
   _BASS_NODEVICE,
   _BASS_POS_BYTE,
+  _BASS_POS_DECODETO,
+  _BASS_POS_FLUSH,
+  _BASS_POS_INEXACT,
+  _BASS_POS_MUSIC_ORDER,
+  _BASS_POS_RELATIVE,
+  _BASS_POS_RESET,
+  _BASS_POS_SCAN,
   _BASS_SAMPLE_LOOP,
   _BASS_TAG_ID3V2,
   BASS_Apply3D,
@@ -23,14 +32,15 @@ from ..bindings.bass cimport (
   BASS_ChannelSetDevice,
   BASS_ChannelSetLink,
   BASS_ChannelSetPosition,
-  BASS_FXReset)
+  BASS_FXReset,
+  MAKELONG)
 
 from .channel_base cimport ChannelBase
 from .output_device cimport OutputDevice
 from .dsp cimport DSP
 from .sync cimport Sync
 from .vector cimport Vector, CreateVector
-from ..exceptions import BassAPIError
+from ..exceptions import BassAPIError, BassAttributeError
 
 cdef class Channel(ChannelBase):
 
@@ -102,10 +112,43 @@ cdef class Channel(ChannelBase):
     self._evaluate()
     return res
 
-  cpdef set_position(Channel self, QWORD pos, DWORD mode = _BASS_POS_BYTE):
+  cpdef set_position(Channel self, object pos, DWORD mode=_BASS_POS_BYTE, bint decodeto=False, bint flush=False, bint inexact=False, bint relative=False, bint reset=False, bint scan=False, bint posreset=False, bint posresetex=False):
     cdef bint res
-    with nogil:
-      res = BASS_ChannelSetPosition(self._channel, pos, mode)
+    cdef DWORD flags = 0
+    cdef QWORD c_pos = 0
+
+    if mode == _BASS_POS_MUSIC_ORDER:
+      if not isinstance(pos, tuple) or len(pos) != 2:
+        raise BassAttributeError("music order must be provided as a tuple with two entries")
+      c_pos = MAKELONG(pos[0], pos[1])
+    else:
+      c_pos = int(pos)
+
+    if decodeto is True:
+      flags |= _BASS_POS_DECODETO
+    
+    if flush is True:
+      flags |= _BASS_POS_FLUSH
+    
+    if inexact is True:
+      flags |= _BASS_POS_INEXACT
+    
+    if relative is True:
+      flags |= _BASS_POS_RELATIVE
+    
+    if reset is True:
+      flags |= _BASS_POS_RESET
+    
+    if scan is True:
+      flags |= _BASS_POS_SCAN
+    
+    if posreset is True:
+      flags |= _BASS_MUSIC_POSRESET
+    
+    if posresetex is True:
+      flags |= _BASS_MUSIC_POSRESETEX
+
+    res = BASS_ChannelSetPosition(self._channel, c_pos, mode | flags)
     self._evaluate()
     return res
   

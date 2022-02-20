@@ -33,6 +33,6 @@ cdef class Channel(ChannelBase):
   cpdef reset_fx(Channel self)
   cpdef set_dsp(Channel self, DSP dsp)
   cpdef set_fx(Channel self, FX fx)
-  cpdef set_position(Channel self, QWORD pos, DWORD mode=?)
+  cpdef set_position(Channel self, object pos, DWORD mode=?, bint decodeto=?, bint flush=?, bint inexact=?, bint relative=?, bint reset=?, bint scan=?, bint posreset=?, bint posresetex=?)
   cpdef set_sync(Channel self, Sync sync)
   cpdef unlink(Channel self, Channel obj)

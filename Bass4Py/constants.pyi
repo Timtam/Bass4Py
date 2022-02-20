@@ -161,3 +161,4 @@ class POSITION(IntEnum):
   LOOP: int
   MUSIC_ORDER: int
   OGG: int
+  END: int

@@ -265,6 +265,7 @@ class POSITION(IntEnum):
   MUSIC_ORDER = bass._BASS_POS_MUSIC_ORDER
   OGG = bass._BASS_POS_OGG
   LOOP = bass._BASS_POS_LOOP
+  END = bass._BASS_POS_END
 
 @unique
 class INPUT_TYPE(IntFlag):
