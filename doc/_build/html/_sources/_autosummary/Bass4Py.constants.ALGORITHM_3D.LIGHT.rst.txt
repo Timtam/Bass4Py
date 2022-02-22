@@ -1,0 +1,6 @@
+ALGORITHM\_3D.LIGHT
+===================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: ALGORITHM_3D.LIGHT

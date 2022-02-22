@@ -1,0 +1,40 @@
+Meta
+====
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoclass:: Meta
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Meta.__init__
+   
+      Meta.remove
+   
+      Meta.set
+   
+      Meta.set_mix_time
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Meta.callback
+   
+      Meta.channel
+   
+      Meta.one_time
+   
+   
+   

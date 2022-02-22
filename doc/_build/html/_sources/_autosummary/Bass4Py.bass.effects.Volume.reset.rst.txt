@@ -1,0 +1,6 @@
+Volume.reset
+============
+
+.. currentmodule:: Bass4Py.bass.effects
+
+.. automethod:: Volume.reset

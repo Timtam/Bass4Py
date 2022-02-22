@@ -1,0 +1,6 @@
+Download.\_\_init\_\_
+=====================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Download.__init__

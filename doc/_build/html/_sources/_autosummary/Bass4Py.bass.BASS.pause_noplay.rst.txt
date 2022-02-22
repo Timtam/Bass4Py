@@ -1,0 +1,6 @@
+BASS.pause\_noplay
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.pause_noplay

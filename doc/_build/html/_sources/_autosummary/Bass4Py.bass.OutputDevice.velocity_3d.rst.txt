@@ -1,0 +1,6 @@
+OutputDevice.velocity\_3d
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.velocity_3d

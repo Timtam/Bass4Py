@@ -1,0 +1,6 @@
+MusicInstrument.channel
+=======================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: MusicInstrument.channel

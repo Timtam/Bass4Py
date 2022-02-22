@@ -1,0 +1,6 @@
+OutputDevice.distance
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.distance

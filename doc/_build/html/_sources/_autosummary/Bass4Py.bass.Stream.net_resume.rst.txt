@@ -1,0 +1,6 @@
+Stream.net\_resume
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.net_resume

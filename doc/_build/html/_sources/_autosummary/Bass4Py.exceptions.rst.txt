@@ -1,0 +1,113 @@
+﻿Bass4Py.exceptions
+==================
+
+.. rubric:: Description
+.. automodule:: Bass4Py.exceptions
+   :no-members:
+   :no-inherited-members:
+
+.. currentmodule:: Bass4Py.exceptions
+
+
+
+
+
+
+.. rubric:: Exceptions
+.. autosummary::
+    :toctree:
+    
+    BassAPIError
+    
+    BassAlreadyError
+    
+    BassAttributeError
+    
+    BassBufferLostError
+    
+    BassBusyError
+    
+    BassCodecError
+    
+    BassCreateError
+    
+    BassDecodeError
+    
+    BassDeviceError
+    
+    BassDriverError
+    
+    BassDxError
+    
+    BassEmptyError
+    
+    BassEndedError
+    
+    BassFileFormatError
+    
+    BassFileOpenError
+    
+    BassFormatError
+    
+    BassFrequencyError
+    
+    BassHandleError
+    
+    BassInitError
+    
+    BassInvalidParameterError
+    
+    BassInvalidTypeError
+    
+    BassLinkError
+    
+    BassMemoryError
+    
+    BassNo3DError
+    
+    BassNoChannelError
+    
+    BassNoEaxError
+    
+    BassNoFxError
+    
+    BassNoHardwareError
+    
+    BassNoNetworkError
+    
+    BassNoPlayError
+    
+    BassNotAFileError
+    
+    BassNotAudioError
+    
+    BassNotAvailableError
+    
+    BassOutOfRangeError
+    
+    BassPlatformError
+    
+    BassPositionError
+    
+    BassRecordError
+    
+    BassSampleError
+    
+    BassSpeakerError
+    
+    BassSslError
+    
+    BassStartError
+    
+    BassStreamError
+    
+    BassSyncError
+    
+    BassTimeoutError
+    
+    BassUnknownError
+    
+    BassUnstreamableError
+    
+    BassVersionError
+    

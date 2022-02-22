@@ -1,0 +1,6 @@
+InputDevice.name
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: InputDevice.name

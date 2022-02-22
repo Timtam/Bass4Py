@@ -1,0 +1,6 @@
+Meta.one\_time
+==============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Meta.one_time

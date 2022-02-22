@@ -1,0 +1,6 @@
+DEVICE.NONE
+===========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE.NONE

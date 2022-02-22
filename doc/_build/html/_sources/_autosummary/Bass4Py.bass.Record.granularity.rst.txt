@@ -1,0 +1,6 @@
+Record.granularity
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.granularity

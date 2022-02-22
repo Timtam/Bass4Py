@@ -1,0 +1,6 @@
+DeviceFormat.set
+================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: DeviceFormat.set

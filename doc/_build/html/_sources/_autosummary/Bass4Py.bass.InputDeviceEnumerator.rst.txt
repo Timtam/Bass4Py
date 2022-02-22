@@ -1,0 +1,32 @@
+InputDeviceEnumerator
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: InputDeviceEnumerator
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      InputDeviceEnumerator.__init__
+   
+      InputDeviceEnumerator.next
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      InputDeviceEnumerator.default
+   
+   
+   

@@ -1,0 +1,6 @@
+Channel.minimum\_distance
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.minimum_distance

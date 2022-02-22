@@ -1,0 +1,128 @@
+﻿Channel
+=======
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: Channel
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Channel.__init__
+   
+      Channel.bytes_to_seconds
+   
+      Channel.free
+   
+      Channel.get_data
+   
+      Channel.get_length
+   
+      Channel.get_levels
+   
+      Channel.get_position
+   
+      Channel.get_tags
+   
+      Channel.link
+   
+      Channel.lock
+   
+      Channel.pause
+   
+      Channel.play
+   
+      Channel.reset_fx
+   
+      Channel.seconds_to_bytes
+   
+      Channel.set_dsp
+   
+      Channel.set_fx
+   
+      Channel.set_position
+   
+      Channel.set_sync
+   
+      Channel.stop
+   
+      Channel.unlink
+   
+      Channel.unlock
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Channel.active
+   
+      Channel.angle
+   
+      Channel.buffer
+   
+      Channel.channels
+   
+      Channel.cpu
+   
+      Channel.data_available
+   
+      Channel.default_frequency
+   
+      Channel.device
+   
+      Channel.flags
+   
+      Channel.frequency
+   
+      Channel.granularity
+   
+      Channel.level
+   
+      Channel.loop
+   
+      Channel.maximum_distance
+   
+      Channel.minimum_distance
+   
+      Channel.mode_3d
+   
+      Channel.name
+   
+      Channel.no_ramping
+   
+      Channel.orientation_3d
+   
+      Channel.outer_volume
+   
+      Channel.pan
+   
+      Channel.plugin
+   
+      Channel.position_3d
+   
+      Channel.resolution
+   
+      Channel.sample
+   
+      Channel.src
+   
+      Channel.tail
+   
+      Channel.type
+   
+      Channel.velocity_3d
+   
+      Channel.volume
+   
+   
+   

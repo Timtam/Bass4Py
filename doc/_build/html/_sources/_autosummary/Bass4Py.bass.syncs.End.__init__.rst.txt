@@ -1,0 +1,6 @@
+End.\_\_init\_\_
+================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: End.__init__

@@ -1,0 +1,6 @@
+BASS.float\_dsp
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.float_dsp

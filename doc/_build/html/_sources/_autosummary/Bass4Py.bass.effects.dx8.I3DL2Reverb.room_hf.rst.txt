@@ -1,0 +1,6 @@
+I3DL2Reverb.room\_hf
+====================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: I3DL2Reverb.room_hf

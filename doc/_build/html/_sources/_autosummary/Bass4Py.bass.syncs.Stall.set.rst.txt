@@ -1,0 +1,6 @@
+Stall.set
+=========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Stall.set

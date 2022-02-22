@@ -1,0 +1,34 @@
+Plugin
+======
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: Plugin
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Plugin.__init__
+   
+      Plugin.free
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Plugin.formats
+   
+      Plugin.version
+   
+   
+   

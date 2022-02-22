@@ -1,0 +1,6 @@
+OutputDevice.free\_samples
+==========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.free_samples

@@ -1,0 +1,6 @@
+OutputDevice.doppler
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.doppler

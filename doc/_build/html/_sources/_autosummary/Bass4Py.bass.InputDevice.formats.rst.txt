@@ -1,0 +1,6 @@
+InputDevice.formats
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: InputDevice.formats

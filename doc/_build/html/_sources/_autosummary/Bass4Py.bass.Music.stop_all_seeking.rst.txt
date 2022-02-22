@@ -1,0 +1,6 @@
+Music.stop\_all\_seeking
+========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.stop_all_seeking

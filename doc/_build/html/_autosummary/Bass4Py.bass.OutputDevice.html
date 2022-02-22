@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>OutputDevice &#8212; Bass4Py 0.1.0-a1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="OutputDevice.__init__" href="Bass4Py.bass.OutputDevice.__init__.html" />
+    <link rel="prev" title="Music.volume" href="Bass4Py.bass.Music.volume.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="outputdevice">
+<h1>OutputDevice<a class="headerlink" href="#outputdevice" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Bass4Py.bass.OutputDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">OutputDevice</span></span><a class="headerlink" href="#Bass4Py.bass.OutputDevice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control several settings related to your specific output device and create
+new audio streams.</p>
+<p>An output device allows to configure several device-related settings, read
+device-related information like <a class="reference internal" href="Bass4Py.bass.OutputDevice.name.html#Bass4Py.bass.OutputDevice.name" title="Bass4Py.bass.OutputDevice.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> and
+create streams or sample, e.g. with the
+<a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_file.html#Bass4Py.bass.OutputDevice.create_stream_from_file" title="Bass4Py.bass.OutputDevice.create_stream_from_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_stream_from_file()</span></code></a> method.</p>
+<p>Before a device can actively be used, it must be initialized via the
+<a class="reference internal" href="Bass4Py.bass.OutputDevice.init.html#Bass4Py.bass.OutputDevice.init" title="Bass4Py.bass.OutputDevice.init"><code class="xref py py-meth docutils literal notranslate"><span class="pre">init()</span></code></a> method. A few things can be done
+without doing so though, mostly accessing some attributes like the
+<a class="reference internal" href="Bass4Py.bass.OutputDevice.name.html#Bass4Py.bass.OutputDevice.name" title="Bass4Py.bass.OutputDevice.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> attribute.</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.__init__.html#Bass4Py.bass.OutputDevice.__init__" title="Bass4Py.bass.OutputDevice.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_music_from_bytes.html#Bass4Py.bass.OutputDevice.create_music_from_bytes" title="Bass4Py.bass.OutputDevice.create_music_from_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_music_from_bytes</span></code></a>(data[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_music_from_file.html#Bass4Py.bass.OutputDevice.create_music_from_file" title="Bass4Py.bass.OutputDevice.create_music_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_music_from_file</span></code></a>(filename)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_sample_from_bytes.html#Bass4Py.bass.OutputDevice.create_sample_from_bytes" title="Bass4Py.bass.OutputDevice.create_sample_from_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_sample_from_bytes</span></code></a>(data)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_sample_from_file.html#Bass4Py.bass.OutputDevice.create_sample_from_file" title="Bass4Py.bass.OutputDevice.create_sample_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_sample_from_file</span></code></a>(filename)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_sample_from_parameters.html#Bass4Py.bass.OutputDevice.create_sample_from_parameters" title="Bass4Py.bass.OutputDevice.create_sample_from_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_sample_from_parameters</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream.html#Bass4Py.bass.OutputDevice.create_stream" title="Bass4Py.bass.OutputDevice.create_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_bytes.html#Bass4Py.bass.OutputDevice.create_stream_from_bytes" title="Bass4Py.bass.OutputDevice.create_stream_from_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream_from_bytes</span></code></a>(data)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_file.html#Bass4Py.bass.OutputDevice.create_stream_from_file" title="Bass4Py.bass.OutputDevice.create_stream_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream_from_file</span></code></a>(filename)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_file_obj.html#Bass4Py.bass.OutputDevice.create_stream_from_file_obj" title="Bass4Py.bass.OutputDevice.create_stream_from_file_obj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream_from_file_obj</span></code></a>(obj)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_parameters.html#Bass4Py.bass.OutputDevice.create_stream_from_parameters" title="Bass4Py.bass.OutputDevice.create_stream_from_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream_from_parameters</span></code></a>(...)</p></td>
+<td><p>Creates a <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">user</span> <span class="pre">sample</span> <span class="pre">stream</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_url.html#Bass4Py.bass.OutputDevice.create_stream_from_url" title="Bass4Py.bass.OutputDevice.create_stream_from_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.create_stream_from_url</span></code></a>(url[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.free.html#Bass4Py.bass.OutputDevice.free" title="Bass4Py.bass.OutputDevice.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.free</span></code></a>()</p></td>
+<td><p>Frees all resources used by the output device, including all its <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">samples</span></code></a>, <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">streams</span></code></a> and <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">MOD</span> <span class="pre">musics</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.init.html#Bass4Py.bass.OutputDevice.init" title="Bass4Py.bass.OutputDevice.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.init</span></code></a>([freq, flags])</p></td>
+<td><p>Initializes an output device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.pause.html#Bass4Py.bass.OutputDevice.pause" title="Bass4Py.bass.OutputDevice.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.pause</span></code></a>()</p></td>
+<td><p>Stops the output, pausing all <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">musics</span></code></a>/ <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">samples</span></code></a>/ <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">streams</span></code></a> on it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.start.html#Bass4Py.bass.OutputDevice.start" title="Bass4Py.bass.OutputDevice.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.start</span></code></a>()</p></td>
+<td><p>Starts (or resumes) the output.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.stop.html#Bass4Py.bass.OutputDevice.stop" title="Bass4Py.bass.OutputDevice.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.stop</span></code></a>()</p></td>
+<td><p>Stops the output, stopping all <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">musics</span></code></a>/ <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">samples</span></code></a>/ <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">streams</span></code></a> on it.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.buffer.html#Bass4Py.bass.OutputDevice.buffer" title="Bass4Py.bass.OutputDevice.buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.buffer</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.default.html#Bass4Py.bass.OutputDevice.default" title="Bass4Py.bass.OutputDevice.default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.default</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.direct_x.html#Bass4Py.bass.OutputDevice.direct_x" title="Bass4Py.bass.OutputDevice.direct_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.direct_x</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.distance.html#Bass4Py.bass.OutputDevice.distance" title="Bass4Py.bass.OutputDevice.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.distance</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.doppler.html#Bass4Py.bass.OutputDevice.doppler" title="Bass4Py.bass.OutputDevice.doppler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.doppler</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.driver.html#Bass4Py.bass.OutputDevice.driver" title="Bass4Py.bass.OutputDevice.driver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.driver</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.enabled.html#Bass4Py.bass.OutputDevice.enabled" title="Bass4Py.bass.OutputDevice.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.enabled</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.flags.html#Bass4Py.bass.OutputDevice.flags" title="Bass4Py.bass.OutputDevice.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.flags</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.frequency.html#Bass4Py.bass.OutputDevice.frequency" title="Bass4Py.bass.OutputDevice.frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.frequency</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.front_3d.html#Bass4Py.bass.OutputDevice.front_3d" title="Bass4Py.bass.OutputDevice.front_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.front_3d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.init_flags.html#Bass4Py.bass.OutputDevice.init_flags" title="Bass4Py.bass.OutputDevice.init_flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.init_flags</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.initialized.html#Bass4Py.bass.OutputDevice.initialized" title="Bass4Py.bass.OutputDevice.initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.initialized</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.latency.html#Bass4Py.bass.OutputDevice.latency" title="Bass4Py.bass.OutputDevice.latency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.latency</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.name.html#Bass4Py.bass.OutputDevice.name" title="Bass4Py.bass.OutputDevice.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.position_3d.html#Bass4Py.bass.OutputDevice.position_3d" title="Bass4Py.bass.OutputDevice.position_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.position_3d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.rolloff.html#Bass4Py.bass.OutputDevice.rolloff" title="Bass4Py.bass.OutputDevice.rolloff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.rolloff</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.speakers.html#Bass4Py.bass.OutputDevice.speakers" title="Bass4Py.bass.OutputDevice.speakers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.speakers</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.started.html#Bass4Py.bass.OutputDevice.started" title="Bass4Py.bass.OutputDevice.started"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.started</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.top_3d.html#Bass4Py.bass.OutputDevice.top_3d" title="Bass4Py.bass.OutputDevice.top_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.top_3d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.type.html#Bass4Py.bass.OutputDevice.type" title="Bass4Py.bass.OutputDevice.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.type</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.velocity_3d.html#Bass4Py.bass.OutputDevice.velocity_3d" title="Bass4Py.bass.OutputDevice.velocity_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.velocity_3d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.volume.html#Bass4Py.bass.OutputDevice.volume" title="Bass4Py.bass.OutputDevice.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputDevice.volume</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Bass4Py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../apireference.html">API Reference</a><ul>
+  <li><a href="Bass4Py.bass.html">Bass4Py.bass</a><ul>
+      <li>Previous: <a href="Bass4Py.bass.Music.volume.html" title="previous chapter">Music.volume</a></li>
+      <li>Next: <a href="Bass4Py.bass.OutputDevice.__init__.html" title="next chapter">OutputDevice.__init__</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019-2021, Toni Barth.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_autosummary/Bass4Py.bass.OutputDevice.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

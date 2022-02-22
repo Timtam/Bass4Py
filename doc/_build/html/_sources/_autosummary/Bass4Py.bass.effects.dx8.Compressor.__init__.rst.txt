@@ -1,0 +1,6 @@
+Compressor.\_\_init\_\_
+=======================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Compressor.__init__

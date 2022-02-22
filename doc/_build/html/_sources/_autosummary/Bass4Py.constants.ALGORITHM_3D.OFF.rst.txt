@@ -1,0 +1,6 @@
+ALGORITHM\_3D.OFF
+=================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: ALGORITHM_3D.OFF

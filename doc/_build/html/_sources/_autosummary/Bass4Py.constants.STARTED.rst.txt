@@ -1,0 +1,27 @@
+STARTED
+=======
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: STARTED
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      STARTED.NOT_STARTED
+   
+      STARTED.ACTIVE
+   
+      STARTED.INACTIVE
+   
+   
+   

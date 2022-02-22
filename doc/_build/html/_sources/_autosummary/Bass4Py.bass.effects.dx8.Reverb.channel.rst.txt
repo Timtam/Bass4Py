@@ -1,0 +1,6 @@
+Reverb.channel
+==============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Reverb.channel

@@ -1,0 +1,6 @@
+Channel.loop
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.loop

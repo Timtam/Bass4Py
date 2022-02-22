@@ -1,0 +1,6 @@
+Version.join
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.join

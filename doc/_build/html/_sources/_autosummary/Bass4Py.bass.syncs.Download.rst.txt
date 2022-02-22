@@ -1,0 +1,40 @@
+Download
+========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoclass:: Download
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Download.__init__
+   
+      Download.remove
+   
+      Download.set
+   
+      Download.set_mix_time
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Download.callback
+   
+      Download.channel
+   
+      Download.one_time
+   
+   
+   

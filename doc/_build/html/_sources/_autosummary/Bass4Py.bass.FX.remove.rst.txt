@@ -1,0 +1,6 @@
+FX.remove
+=========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: FX.remove

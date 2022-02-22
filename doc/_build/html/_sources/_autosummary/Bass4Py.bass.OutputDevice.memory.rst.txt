@@ -1,0 +1,6 @@
+OutputDevice.memory
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.memory

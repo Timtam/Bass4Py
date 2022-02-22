@@ -1,0 +1,8 @@
+BassStartError
+==============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassStartError
+   :no-members:
+   :no-inherited-members:

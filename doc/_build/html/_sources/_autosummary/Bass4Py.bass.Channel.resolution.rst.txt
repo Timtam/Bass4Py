@@ -1,0 +1,6 @@
+Channel.resolution
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.resolution

@@ -1,0 +1,6 @@
+DeviceFail.one\_time
+====================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: DeviceFail.one_time

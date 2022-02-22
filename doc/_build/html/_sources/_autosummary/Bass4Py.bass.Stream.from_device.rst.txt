@@ -1,0 +1,6 @@
+Stream.from\_device
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.from_device

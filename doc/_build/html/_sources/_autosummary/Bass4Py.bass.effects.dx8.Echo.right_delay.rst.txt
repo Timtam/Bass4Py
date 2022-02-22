@@ -1,0 +1,6 @@
+Echo.right\_delay
+=================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Echo.right_delay

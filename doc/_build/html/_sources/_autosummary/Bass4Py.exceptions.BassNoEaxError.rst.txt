@@ -1,0 +1,8 @@
+BassNoEaxError
+==============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassNoEaxError
+   :no-members:
+   :no-inherited-members:

@@ -1,0 +1,6 @@
+Version.rfind
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.rfind

@@ -1,0 +1,6 @@
+Music.eax\_mix
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.eax_mix

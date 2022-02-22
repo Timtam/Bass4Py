@@ -1,0 +1,6 @@
+InputDevice.set
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: InputDevice.set

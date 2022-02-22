@@ -1,0 +1,6 @@
+Channel.no\_ramping
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.no_ramping

@@ -1,0 +1,6 @@
+Chorus.depth
+============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Chorus.depth

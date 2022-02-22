@@ -1,0 +1,6 @@
+Channel.buffer
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.buffer

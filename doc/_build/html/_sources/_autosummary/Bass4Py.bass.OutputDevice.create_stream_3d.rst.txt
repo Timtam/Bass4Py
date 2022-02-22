@@ -1,0 +1,6 @@
+OutputDevice.create\_stream\_3d
+===============================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: OutputDevice.create_stream_3d

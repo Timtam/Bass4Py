@@ -1,0 +1,6 @@
+Record.get\_position
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.get_position

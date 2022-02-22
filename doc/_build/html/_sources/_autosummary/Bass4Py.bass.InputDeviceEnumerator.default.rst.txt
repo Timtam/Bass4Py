@@ -1,0 +1,6 @@
+InputDeviceEnumerator.default
+=============================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: InputDeviceEnumerator.default

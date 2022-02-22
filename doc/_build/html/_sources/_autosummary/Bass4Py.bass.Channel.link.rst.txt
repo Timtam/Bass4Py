@@ -1,0 +1,6 @@
+Channel.link
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.link

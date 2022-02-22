@@ -1,0 +1,6 @@
+DEVICE\_TYPE.NETWORK
+====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE_TYPE.NETWORK

@@ -1,0 +1,6 @@
+BASS.default\_device
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.default_device

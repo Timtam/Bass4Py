@@ -1,0 +1,31 @@
+POSITION
+========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: POSITION
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      POSITION.BYTE
+   
+      POSITION.MUSIC_ORDER
+   
+      POSITION.OGG
+   
+      POSITION.LOOP
+   
+      POSITION.END
+   
+   
+   

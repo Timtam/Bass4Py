@@ -1,0 +1,6 @@
+Music.interpolation\_none
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.interpolation_none

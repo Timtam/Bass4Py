@@ -1,0 +1,6 @@
+ChannelBase.get\_levels
+=======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: ChannelBase.get_levels

@@ -1,0 +1,6 @@
+Music.mode\_3d
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.mode_3d

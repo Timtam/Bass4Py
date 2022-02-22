@@ -1,0 +1,6 @@
+STREAMFILE.NOBUFFER
+===================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: STREAMFILE.NOBUFFER

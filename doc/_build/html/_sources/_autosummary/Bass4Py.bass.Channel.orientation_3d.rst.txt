@@ -1,0 +1,6 @@
+Channel.orientation\_3d
+=======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.orientation_3d

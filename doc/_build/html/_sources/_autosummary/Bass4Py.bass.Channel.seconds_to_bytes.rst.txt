@@ -1,0 +1,6 @@
+Channel.seconds\_to\_bytes
+==========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.seconds_to_bytes

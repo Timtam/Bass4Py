@@ -1,0 +1,40 @@
+SetPosition
+===========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoclass:: SetPosition
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      SetPosition.__init__
+   
+      SetPosition.remove
+   
+      SetPosition.set
+   
+      SetPosition.set_mix_time
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      SetPosition.callback
+   
+      SetPosition.channel
+   
+      SetPosition.one_time
+   
+   
+   

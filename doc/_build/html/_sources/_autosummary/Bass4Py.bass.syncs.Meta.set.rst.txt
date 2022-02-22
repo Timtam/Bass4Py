@@ -1,0 +1,6 @@
+Meta.set
+========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Meta.set

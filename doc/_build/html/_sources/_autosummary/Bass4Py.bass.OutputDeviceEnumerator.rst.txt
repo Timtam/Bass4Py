@@ -1,0 +1,32 @@
+OutputDeviceEnumerator
+======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: OutputDeviceEnumerator
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      OutputDeviceEnumerator.__init__
+   
+      OutputDeviceEnumerator.next
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      OutputDeviceEnumerator.default
+   
+   
+   

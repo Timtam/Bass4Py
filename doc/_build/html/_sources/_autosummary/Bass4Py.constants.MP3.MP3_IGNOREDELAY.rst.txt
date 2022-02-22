@@ -1,0 +1,6 @@
+MP3.MP3\_IGNOREDELAY
+====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: MP3.MP3_IGNOREDELAY

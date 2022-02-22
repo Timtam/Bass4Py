@@ -1,0 +1,6 @@
+SAMPLE\_BASE.THREE\_D
+=====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: SAMPLE_BASE.THREE_D

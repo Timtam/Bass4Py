@@ -1,0 +1,6 @@
+Music.mod\_ft2
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.mod_ft2

@@ -1,0 +1,8 @@
+BassNo3DError
+=============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassNo3DError
+   :no-members:
+   :no-inherited-members:

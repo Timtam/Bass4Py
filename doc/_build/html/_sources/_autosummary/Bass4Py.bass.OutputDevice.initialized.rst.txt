@@ -1,0 +1,6 @@
+OutputDevice.initialized
+========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.initialized

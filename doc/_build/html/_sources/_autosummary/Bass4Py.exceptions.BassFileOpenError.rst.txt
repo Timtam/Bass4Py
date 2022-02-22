@@ -1,0 +1,8 @@
+BassFileOpenError
+=================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassFileOpenError
+   :no-members:
+   :no-inherited-members:

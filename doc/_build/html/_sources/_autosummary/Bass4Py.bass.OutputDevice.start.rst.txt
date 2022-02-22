@@ -1,0 +1,6 @@
+OutputDevice.start
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: OutputDevice.start

@@ -1,0 +1,6 @@
+Sample.inner\_angle
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sample.inner_angle

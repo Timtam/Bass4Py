@@ -1,0 +1,6 @@
+Stream.from\_parameters
+=======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.from_parameters

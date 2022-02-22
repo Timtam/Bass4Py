@@ -1,0 +1,6 @@
+Music.level
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.level

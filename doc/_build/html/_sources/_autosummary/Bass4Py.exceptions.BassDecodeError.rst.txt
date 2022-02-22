@@ -1,0 +1,8 @@
+BassDecodeError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassDecodeError
+   :no-members:
+   :no-inherited-members:

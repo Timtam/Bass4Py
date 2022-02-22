@@ -1,0 +1,6 @@
+Stream.stop
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.stop

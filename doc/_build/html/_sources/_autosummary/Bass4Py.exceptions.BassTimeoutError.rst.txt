@@ -1,0 +1,8 @@
+BassTimeoutError
+================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassTimeoutError
+   :no-members:
+   :no-inherited-members:

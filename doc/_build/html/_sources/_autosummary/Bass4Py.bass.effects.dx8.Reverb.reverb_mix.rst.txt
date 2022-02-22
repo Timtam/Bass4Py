@@ -1,0 +1,6 @@
+Reverb.reverb\_mix
+==================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Reverb.reverb_mix

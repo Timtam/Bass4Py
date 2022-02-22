@@ -1,0 +1,6 @@
+INPUT\_TYPE.MIC
+===============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: INPUT_TYPE.MIC

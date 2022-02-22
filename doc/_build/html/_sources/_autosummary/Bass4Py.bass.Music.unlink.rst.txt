@@ -1,0 +1,6 @@
+Music.unlink
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Music.unlink

@@ -1,0 +1,6 @@
+Echo.\_\_init\_\_
+=================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Echo.__init__

@@ -1,0 +1,8 @@
+BassPositionError
+=================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassPositionError
+   :no-members:
+   :no-inherited-members:

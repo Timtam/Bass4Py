@@ -1,0 +1,6 @@
+OutputDevice.type
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.type

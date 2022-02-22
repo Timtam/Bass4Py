@@ -1,0 +1,6 @@
+Version.rjust
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.rjust

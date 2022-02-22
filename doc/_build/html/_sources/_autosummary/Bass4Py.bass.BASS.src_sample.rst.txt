@@ -1,0 +1,6 @@
+BASS.src\_sample
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.src_sample

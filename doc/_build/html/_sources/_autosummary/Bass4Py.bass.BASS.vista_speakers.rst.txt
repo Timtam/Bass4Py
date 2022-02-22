@@ -1,0 +1,6 @@
+BASS.vista\_speakers
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.vista_speakers

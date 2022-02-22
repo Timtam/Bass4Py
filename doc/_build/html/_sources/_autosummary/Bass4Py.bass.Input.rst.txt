@@ -1,0 +1,36 @@
+Input
+=====
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: Input
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Input.__init__
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Input.enabled
+   
+      Input.name
+   
+      Input.type
+   
+      Input.volume
+   
+   
+   

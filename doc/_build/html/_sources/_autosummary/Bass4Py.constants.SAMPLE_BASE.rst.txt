@@ -1,0 +1,39 @@
+SAMPLE\_BASE
+============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: SAMPLE_BASE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      SAMPLE_BASE.EIGHT_BITS
+   
+      SAMPLE_BASE.FLOAT
+   
+      SAMPLE_BASE.MONO
+   
+      SAMPLE_BASE.LOOP
+   
+      SAMPLE_BASE.THREE_D
+   
+      SAMPLE_BASE.SOFTWARE
+   
+      SAMPLE_BASE.MUTEMAX
+   
+      SAMPLE_BASE.VAM
+   
+      SAMPLE_BASE.FX
+   
+   
+   

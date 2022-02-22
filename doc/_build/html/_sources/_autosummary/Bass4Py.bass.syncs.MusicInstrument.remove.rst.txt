@@ -1,0 +1,6 @@
+MusicInstrument.remove
+======================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: MusicInstrument.remove

@@ -1,0 +1,45 @@
+DEVICE
+======
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: DEVICE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      DEVICE.NONE
+   
+      DEVICE.EIGHT_BITS
+   
+      DEVICE.MONO
+   
+      DEVICE.STEREO
+   
+      DEVICE.LATENCY
+   
+      DEVICE.CPSPEAKERS
+   
+      DEVICE.SPEAKERS
+   
+      DEVICE.NOSPEAKER
+   
+      DEVICE.DMIX
+   
+      DEVICE.FREQ
+   
+      DEVICE.DSOUND
+   
+      DEVICE.REINIT
+   
+   
+   

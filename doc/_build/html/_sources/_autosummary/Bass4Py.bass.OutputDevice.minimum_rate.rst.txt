@@ -1,0 +1,6 @@
+OutputDevice.minimum\_rate
+==========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.minimum_rate

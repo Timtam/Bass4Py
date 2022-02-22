@@ -1,0 +1,6 @@
+I3DL2Reverb.reeflections\_delay
+===============================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: I3DL2Reverb.reeflections_delay

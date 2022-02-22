@@ -1,0 +1,6 @@
+Music.position\_scaler
+======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.position_scaler

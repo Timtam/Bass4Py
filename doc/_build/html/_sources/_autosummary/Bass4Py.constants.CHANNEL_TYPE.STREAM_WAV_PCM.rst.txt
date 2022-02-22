@@ -1,0 +1,6 @@
+CHANNEL\_TYPE.STREAM\_WAV\_PCM
+==============================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: CHANNEL_TYPE.STREAM_WAV_PCM

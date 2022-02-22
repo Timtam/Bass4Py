@@ -1,0 +1,8 @@
+BassAttributeError
+==================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassAttributeError
+   :no-members:
+   :no-inherited-members:

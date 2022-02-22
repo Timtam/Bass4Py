@@ -1,0 +1,6 @@
+BASS.algorithm\_3d
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.algorithm_3d

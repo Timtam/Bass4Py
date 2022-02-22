@@ -1,0 +1,34 @@
+BytesAttribute
+==============
+
+.. currentmodule:: Bass4Py.bass.attributes
+
+.. autoclass:: BytesAttribute
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      BytesAttribute.__init__
+   
+      BytesAttribute.get
+   
+      BytesAttribute.set
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      BytesAttribute.sliding
+   
+   
+   

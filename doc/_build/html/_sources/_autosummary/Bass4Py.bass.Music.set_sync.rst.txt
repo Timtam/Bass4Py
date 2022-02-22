@@ -1,0 +1,6 @@
+Music.set\_sync
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Music.set_sync

@@ -1,0 +1,6 @@
+Music.loop
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.loop

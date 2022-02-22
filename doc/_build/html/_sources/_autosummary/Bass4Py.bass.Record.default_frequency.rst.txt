@@ -1,0 +1,6 @@
+Record.default\_frequency
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.default_frequency
