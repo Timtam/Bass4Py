@@ -112,11 +112,9 @@ class CHANNEL_TYPE(IntFlag):
   MUSIC_IT: int
   MUSIC_MO3: int
 
-class ALGORITHM_3D(IntFlag):
+class ALGORITHM_3D(IntEnum):
   DEFAULT: int
   OFF: int
-  FULL: int
-  LIGHT: int
 
 class STREAMFILE(IntFlag):
   NOBUFFER: int

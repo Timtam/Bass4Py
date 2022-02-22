@@ -4,6 +4,7 @@ cdef DWORD _BASS4PY_API_VERSION = 0x2040f00
 from .output_device cimport OutputDevice
 from .plugin cimport Plugin
 from .version cimport Version
+from ..constants import ALGORITHM_3D
 from .. import exceptions
 from ..bindings.bass cimport (
   _BASS_CONFIG_3DALGORITHM,
@@ -246,9 +247,9 @@ cdef class BASS(Evaluable):
 
     def __set__(BASS self, object value):
 
-      cdef const unsigned char[:] agent = to_readonly_bytes(value)
+      cdef bytes agent = to_readonly_bytes(value)
 
-      BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, &(agent[0]))
+      BASS_SetConfigPtr(_BASS_CONFIG_NET_AGENT, <unsigned char*>agent)
 
   property net_proxy:
     """
@@ -270,18 +271,18 @@ cdef class BASS(Evaluable):
       return (<char*>proxy).decode('utf-8')
 
     def __set__(BASS self, object value):
-      cdef const unsigned char[:] proxy
+      cdef bytes proxy
 
       if value is None:
         BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, NULL)
       else:
         proxy = to_readonly_bytes(value)
 
-        BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, &(proxy[0]))
+        BASS_SetConfigPtr(_BASS_CONFIG_NET_PROXY, <unsigned char *>proxy)
 
   property algorithm_3d:
     """
-    :class:`Bass4Py.constants.ALGORITHM_3D`: The 3D algorithm for software mixed 3D channels. 
+    :class:`Bass4Py.constants.ALGORITHM_3D`: The positioning algorithm for 3D channels.
 
     One of these algorithms.
 
@@ -299,32 +300,13 @@ cdef class BASS(Evaluable):
       Since only normal stereo panning is used, a channel using this algorithm 
       may be accelerated by a 2D hardware voice if no free 3D hardware voices 
       are available. 
-    * :attr:`Bass4Py.constants.ALGORITHM_3D.FULL`: 
-      This algorithm gives the highest quality 3D audio effect, but uses more 
-      CPU. This algorithm requires WDM drivers, if it's not available then 
-      :attr:`Bass4Py.constants.ALGORITHM_3D.OFF` will automatically be used 
-      instead. 
-    * :attr:`Bass4Py.constants.ALGORITHM_3D.LIGHT`:
-      This algorithm gives a good 3D audio effect, and uses less CPU than the 
-      FULL algorithm. This algorithm also requires WDM drivers, if it's not 
-      available then :attr:`Bass4Py.constants.ALGORITHM_3D.OFF` will 
-      automatically be used instead. 
 
-    These algorithms only affect 3D channels that are being mixed in software. 
-    :attr:`Bass4Py.bass.ChannelBase.flags` can be used to check whether a 
-    channel is being software mixed. Changing the algorithm only affects 
-    subsequently created or loaded samples, musics, or streams; it does not 
-    affect any that already exist. 
-
-    Platform-specific
-
-    When using DirectSound output on Windows, DirectX 7 or above is required 
-    for this option to have effect. Otherwise, including when using WASAPI 
-    output on Windows, only the :attr:`Bass4Py.constants.ALGORITHM_3D.DEFAULT` 
-    and :attr:`Bass4Py.constants.ALGORITHM_3D.OFF` options are available. 
+    The default setting is :attr:`Bass4Py.constants.ALGORITHM_3D.DEFAULT`. 
+    Changes only affect subsequently created 3D channels, not any that already 
+    exist.
     """
     def __get__(BASS self):
-      return BASS_GetConfig(_BASS_CONFIG_3DALGORITHM)
+      return ALGORITHM_3D(BASS_GetConfig(_BASS_CONFIG_3DALGORITHM))
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)

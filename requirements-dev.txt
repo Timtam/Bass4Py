@@ -3,6 +3,7 @@ cython==3.0.0a10
 pytest==7.0.1
 pytest-cov==3.0.0;python_version > '3.6'
 pytest-order==1.0.1
+pytest-platform-markers==1.0.0
 setuptools
 sphinx==4.0.2
 sphinx-autodoc-typehints==1.12.0
