@@ -1,0 +1,6 @@
+Music.bpm
+=========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.bpm

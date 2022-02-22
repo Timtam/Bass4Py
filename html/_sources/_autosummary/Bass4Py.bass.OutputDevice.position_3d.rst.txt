@@ -1,0 +1,6 @@
+OutputDevice.position\_3d
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.position_3d

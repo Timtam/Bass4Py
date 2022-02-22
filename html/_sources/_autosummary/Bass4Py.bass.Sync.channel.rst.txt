@@ -1,0 +1,6 @@
+Sync.channel
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sync.channel

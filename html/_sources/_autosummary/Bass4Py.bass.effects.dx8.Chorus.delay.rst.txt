@@ -1,0 +1,6 @@
+Chorus.delay
+============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Chorus.delay

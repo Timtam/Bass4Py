@@ -1,0 +1,6 @@
+Volume.time
+===========
+
+.. currentmodule:: Bass4Py.bass.effects
+
+.. autoattribute:: Volume.time

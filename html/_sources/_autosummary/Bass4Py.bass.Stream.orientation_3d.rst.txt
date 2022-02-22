@@ -1,0 +1,6 @@
+Stream.orientation\_3d
+======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.orientation_3d

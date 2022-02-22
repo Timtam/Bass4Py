@@ -1,0 +1,6 @@
+Stream.\_\_init\_\_
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.__init__

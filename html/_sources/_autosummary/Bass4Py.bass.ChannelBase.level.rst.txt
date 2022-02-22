@@ -1,0 +1,6 @@
+ChannelBase.level
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: ChannelBase.level

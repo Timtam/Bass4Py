@@ -1,0 +1,6 @@
+BASS.sample\_volume
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.sample_volume

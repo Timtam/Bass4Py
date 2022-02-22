@@ -1,0 +1,6 @@
+OutputDevice.create\_sample\_from\_parameters
+=============================================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: OutputDevice.create_sample_from_parameters

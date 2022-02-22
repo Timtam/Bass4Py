@@ -1,0 +1,6 @@
+Channel.mode\_3d
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.mode_3d

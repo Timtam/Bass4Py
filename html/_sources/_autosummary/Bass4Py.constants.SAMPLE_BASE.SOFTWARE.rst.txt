@@ -1,0 +1,6 @@
+SAMPLE\_BASE.SOFTWARE
+=====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: SAMPLE_BASE.SOFTWARE

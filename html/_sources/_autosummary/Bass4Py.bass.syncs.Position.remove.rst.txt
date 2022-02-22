@@ -1,0 +1,6 @@
+Position.remove
+===============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Position.remove

@@ -1,0 +1,6 @@
+Music.angle
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.angle

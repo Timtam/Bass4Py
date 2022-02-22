@@ -1,0 +1,6 @@
+MusicInstrument.note
+====================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: MusicInstrument.note

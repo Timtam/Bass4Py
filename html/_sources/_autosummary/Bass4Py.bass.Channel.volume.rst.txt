@@ -1,0 +1,6 @@
+Channel.volume
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.volume

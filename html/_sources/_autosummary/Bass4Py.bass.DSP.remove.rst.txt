@@ -1,0 +1,6 @@
+DSP.remove
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: DSP.remove

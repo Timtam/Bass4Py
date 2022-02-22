@@ -1,0 +1,6 @@
+SAMPLE\_BASE.VAM
+================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: SAMPLE_BASE.VAM

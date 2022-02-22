@@ -1,0 +1,6 @@
+DSP.callback
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: DSP.callback

@@ -1,0 +1,6 @@
+Gargle.priority
+===============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Gargle.priority

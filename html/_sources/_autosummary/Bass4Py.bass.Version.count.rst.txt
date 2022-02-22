@@ -1,0 +1,6 @@
+Version.count
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.count

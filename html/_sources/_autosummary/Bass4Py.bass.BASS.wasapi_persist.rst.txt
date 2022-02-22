@@ -1,0 +1,6 @@
+BASS.wasapi\_persist
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.wasapi_persist

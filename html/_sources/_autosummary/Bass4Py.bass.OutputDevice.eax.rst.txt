@@ -1,0 +1,6 @@
+OutputDevice.eax
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.eax

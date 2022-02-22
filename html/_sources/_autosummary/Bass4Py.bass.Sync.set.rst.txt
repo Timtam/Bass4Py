@@ -1,0 +1,6 @@
+Sync.set
+========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Sync.set

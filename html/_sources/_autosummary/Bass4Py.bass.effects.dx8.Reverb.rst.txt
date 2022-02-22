@@ -1,0 +1,48 @@
+Reverb
+======
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoclass:: Reverb
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Reverb.__init__
+   
+      Reverb.remove
+   
+      Reverb.reset
+   
+      Reverb.set
+   
+      Reverb.update
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Reverb.channel
+   
+      Reverb.high_freq_rt_ratio
+   
+      Reverb.in_gain
+   
+      Reverb.priority
+   
+      Reverb.reverb_mix
+   
+      Reverb.reverb_time
+   
+   
+   

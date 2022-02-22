@@ -1,0 +1,6 @@
+Record.data\_available
+======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.data_available

@@ -1,0 +1,6 @@
+FILE\_POSITION.CONNECTED
+========================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: FILE_POSITION.CONNECTED

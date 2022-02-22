@@ -1,0 +1,6 @@
+OutputDevice.eax\_damping
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.eax_damping

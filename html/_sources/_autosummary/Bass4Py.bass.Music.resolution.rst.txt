@@ -1,0 +1,6 @@
+Music.resolution
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.resolution

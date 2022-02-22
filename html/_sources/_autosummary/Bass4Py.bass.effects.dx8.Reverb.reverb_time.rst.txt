@@ -1,0 +1,6 @@
+Reverb.reverb\_time
+===================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Reverb.reverb_time

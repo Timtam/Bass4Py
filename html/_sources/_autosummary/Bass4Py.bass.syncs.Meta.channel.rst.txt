@@ -1,0 +1,6 @@
+Meta.channel
+============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Meta.channel

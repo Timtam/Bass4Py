@@ -1,0 +1,6 @@
+Stall.callback
+==============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Stall.callback

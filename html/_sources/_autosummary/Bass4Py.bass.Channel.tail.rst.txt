@@ -1,0 +1,6 @@
+Channel.tail
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.tail

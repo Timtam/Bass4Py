@@ -1,0 +1,43 @@
+DEVICE\_TYPE
+============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: DEVICE_TYPE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      DEVICE_TYPE.NETWORK
+   
+      DEVICE_TYPE.SPEAKERS
+   
+      DEVICE_TYPE.LINE
+   
+      DEVICE_TYPE.HEADPHONES
+   
+      DEVICE_TYPE.MICROPHONE
+   
+      DEVICE_TYPE.HEADSET
+   
+      DEVICE_TYPE.HANDSET
+   
+      DEVICE_TYPE.DIGITAL
+   
+      DEVICE_TYPE.SPDIF
+   
+      DEVICE_TYPE.HDMI
+   
+      DEVICE_TYPE.DISPLAYPORT
+   
+   
+   

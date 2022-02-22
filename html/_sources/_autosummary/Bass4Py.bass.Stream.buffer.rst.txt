@@ -1,0 +1,6 @@
+Stream.buffer
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.buffer

@@ -1,0 +1,6 @@
+InputDevice.loopback
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: InputDevice.loopback

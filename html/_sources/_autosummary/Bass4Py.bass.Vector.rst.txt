@@ -1,0 +1,34 @@
+Vector
+======
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: Vector
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Vector.__init__
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Vector.x
+   
+      Vector.y
+   
+      Vector.z
+   
+   
+   

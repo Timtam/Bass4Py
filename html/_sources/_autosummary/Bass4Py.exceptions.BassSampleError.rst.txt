@@ -1,0 +1,8 @@
+BassSampleError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassSampleError
+   :no-members:
+   :no-inherited-members:

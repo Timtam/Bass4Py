@@ -1,0 +1,6 @@
+Version.format\_map
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.format_map

@@ -1,0 +1,6 @@
+Stream.play
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.play

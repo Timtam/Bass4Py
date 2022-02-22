@@ -1,0 +1,6 @@
+STARTED.INACTIVE
+================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: STARTED.INACTIVE

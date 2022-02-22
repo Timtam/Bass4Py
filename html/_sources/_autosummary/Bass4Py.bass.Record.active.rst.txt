@@ -1,0 +1,6 @@
+Record.active
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.active

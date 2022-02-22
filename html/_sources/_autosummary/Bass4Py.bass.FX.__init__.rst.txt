@@ -1,0 +1,6 @@
+FX.\_\_init\_\_
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: FX.__init__

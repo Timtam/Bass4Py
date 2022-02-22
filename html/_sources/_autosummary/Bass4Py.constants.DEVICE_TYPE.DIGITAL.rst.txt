@@ -1,0 +1,6 @@
+DEVICE\_TYPE.DIGITAL
+====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE_TYPE.DIGITAL

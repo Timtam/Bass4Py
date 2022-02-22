@@ -1,0 +1,6 @@
+FloatAttribute.slide
+====================
+
+.. currentmodule:: Bass4Py.bass.attributes
+
+.. automethod:: FloatAttribute.slide

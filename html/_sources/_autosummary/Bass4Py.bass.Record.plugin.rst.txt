@@ -1,0 +1,6 @@
+Record.plugin
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.plugin

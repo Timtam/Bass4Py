@@ -1,0 +1,6 @@
+Volume.\_\_init\_\_
+===================
+
+.. currentmodule:: Bass4Py.bass.effects
+
+.. automethod:: Volume.__init__

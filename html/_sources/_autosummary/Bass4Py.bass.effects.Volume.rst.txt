@@ -1,0 +1,48 @@
+Volume
+======
+
+.. currentmodule:: Bass4Py.bass.effects
+
+.. autoclass:: Volume
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Volume.__init__
+   
+      Volume.remove
+   
+      Volume.reset
+   
+      Volume.set
+   
+      Volume.update
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Volume.channel
+   
+      Volume.current
+   
+      Volume.curve
+   
+      Volume.priority
+   
+      Volume.target
+   
+      Volume.time
+   
+   
+   

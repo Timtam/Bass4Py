@@ -1,0 +1,6 @@
+Record.start
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.start

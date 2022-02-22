@@ -1,0 +1,6 @@
+Parameq.bandwidth
+=================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Parameq.bandwidth

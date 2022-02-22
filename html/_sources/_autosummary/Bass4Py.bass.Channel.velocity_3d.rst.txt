@@ -1,0 +1,6 @@
+Channel.velocity\_3d
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.velocity_3d

@@ -1,0 +1,6 @@
+Version.upper
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.upper

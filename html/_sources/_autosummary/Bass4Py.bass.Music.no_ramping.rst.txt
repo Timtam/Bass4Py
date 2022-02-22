@@ -1,0 +1,6 @@
+Music.no\_ramping
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.no_ramping

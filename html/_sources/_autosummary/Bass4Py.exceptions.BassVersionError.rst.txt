@@ -1,0 +1,8 @@
+BassVersionError
+================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassVersionError
+   :no-members:
+   :no-inherited-members:

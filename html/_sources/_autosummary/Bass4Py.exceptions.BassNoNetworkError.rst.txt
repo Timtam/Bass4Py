@@ -1,0 +1,8 @@
+BassNoNetworkError
+==================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassNoNetworkError
+   :no-members:
+   :no-inherited-members:

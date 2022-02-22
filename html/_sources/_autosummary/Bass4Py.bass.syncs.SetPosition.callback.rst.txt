@@ -1,0 +1,6 @@
+SetPosition.callback
+====================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: SetPosition.callback

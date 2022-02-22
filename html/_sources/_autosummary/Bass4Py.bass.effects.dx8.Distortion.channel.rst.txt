@@ -1,0 +1,6 @@
+Distortion.channel
+==================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Distortion.channel

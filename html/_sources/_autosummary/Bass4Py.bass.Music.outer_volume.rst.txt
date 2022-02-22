@@ -1,0 +1,6 @@
+Music.outer\_volume
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.outer_volume

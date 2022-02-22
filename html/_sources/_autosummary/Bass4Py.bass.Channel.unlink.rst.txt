@@ -1,0 +1,6 @@
+Channel.unlink
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.unlink

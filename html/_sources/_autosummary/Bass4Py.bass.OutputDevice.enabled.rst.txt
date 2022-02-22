@@ -1,0 +1,6 @@
+OutputDevice.enabled
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.enabled

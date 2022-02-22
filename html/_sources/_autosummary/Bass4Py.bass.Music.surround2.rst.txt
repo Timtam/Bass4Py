@@ -1,0 +1,6 @@
+Music.surround2
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.surround2

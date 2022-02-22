@@ -1,0 +1,6 @@
+Sync.one\_time
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sync.one_time

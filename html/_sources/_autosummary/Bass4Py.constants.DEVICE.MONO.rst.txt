@@ -1,0 +1,6 @@
+DEVICE.MONO
+===========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE.MONO

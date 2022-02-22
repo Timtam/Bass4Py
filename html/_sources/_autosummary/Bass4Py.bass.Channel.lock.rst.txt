@@ -1,0 +1,6 @@
+Channel.lock
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.lock

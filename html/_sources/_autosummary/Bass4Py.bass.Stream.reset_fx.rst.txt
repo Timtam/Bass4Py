@@ -1,0 +1,6 @@
+Stream.reset\_fx
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.reset_fx

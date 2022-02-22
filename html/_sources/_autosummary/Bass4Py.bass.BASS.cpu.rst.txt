@@ -1,0 +1,6 @@
+BASS.cpu
+========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.cpu

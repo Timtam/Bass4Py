@@ -1,0 +1,8 @@
+BassBusyError
+=============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassBusyError
+   :no-members:
+   :no-inherited-members:

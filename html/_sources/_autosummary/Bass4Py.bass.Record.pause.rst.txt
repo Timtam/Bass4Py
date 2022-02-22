@@ -1,0 +1,6 @@
+Record.pause
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.pause

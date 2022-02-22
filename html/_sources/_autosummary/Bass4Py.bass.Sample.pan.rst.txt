@@ -1,0 +1,6 @@
+Sample.pan
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sample.pan

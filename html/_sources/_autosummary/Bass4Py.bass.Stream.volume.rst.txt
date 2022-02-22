@@ -1,0 +1,6 @@
+Stream.volume
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.volume

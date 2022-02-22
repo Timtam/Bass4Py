@@ -1,0 +1,6 @@
+Version.rindex
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.rindex
