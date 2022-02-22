@@ -7,6 +7,5 @@ bass24-linux
 Bass4Py.egg-info
 build/*
 doc/_autosummary
-doc/_build
 tags18
 tags18-linux
