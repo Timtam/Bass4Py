@@ -310,6 +310,7 @@ cdef class BASS(Evaluable):
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
+      self._evaluate()
 
   property async_buffer:
     """
@@ -404,6 +405,12 @@ cdef class BASS(Evaluable):
     """
     :obj:`int`: The output device buffer length in milliseconds. 
 
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassPlatformError`
+      the feature is not supported on this platform
+
+
     The device buffer is where the final mix of all playing channels is 
     placed, ready for the device to play. Its length affects the latency of 
     things like starting and stopping playback of a channel, so you will 
@@ -435,14 +442,26 @@ cdef class BASS(Evaluable):
     to avoid breaks in the output when the CPU is busy.
     """
     def __get__(BASS self):
-      return BASS_GetConfig(_BASS_CONFIG_DEV_BUFFER)
+      IF UNAME_SYSNAME == "Darwin":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        return BASS_GetConfig(_BASS_CONFIG_DEV_BUFFER)
 
     def __set__(BASS self, DWORD value):
-      BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
+      IF UNAME_SYSNAME == "Darwin":
+        raise exceptions.BassPlatformError()
+      ELSE:
+        BASS_SetConfig(_BASS_CONFIG_DEV_BUFFER, value)
 
   property default_device:
     """
     :obj:`bool`: Include a "Default" entry in the output device list?
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassPlatformError`
+      the feature isn't supported on this platform
+
 
     This option adds a "Default" entry to the output device list, which maps 
     to the device that is currently the system's default. Its output will 
