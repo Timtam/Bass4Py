@@ -373,8 +373,8 @@ class TestBASS:
       bass.wasapi_persist = False
 
   @pytest.mark.linux
-  def test_lib_ssl_property_str(self, bass):
-    assert type(bass.lib_ssl) == str
+  def test_lib_ssl_property_none(self, bass):
+    assert type(bass.lib_ssl) is None
   
   @pytest.mark.linux
   @pytest.mark.bass_property("lib_ssl")
@@ -388,7 +388,6 @@ class TestBASS:
     bass.lib_ssl = None
     assert bass.lib_ssl is None
 
-  
   @pytest.mark.skipif(condition=sys.platform.startswith("linux"), reason="Skip on Linux")
   def test_lib_ssl_property_raising_error_on_non_linux(self, bass):
     with pytest.raises(BassPlatformError):
