@@ -1,4 +1,7 @@
 version: "{build}"
+branches:
+  except:
+    - gh-pages
 build: off
 environment:
   PYPI_USERNAME:
