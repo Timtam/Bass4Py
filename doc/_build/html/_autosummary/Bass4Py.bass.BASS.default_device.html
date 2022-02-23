@@ -39,6 +39,11 @@
 <dt class="sig sig-object py" id="Bass4Py.bass.BASS.default_device">
 <span class="sig-prename descclassname"><span class="pre">BASS.</span></span><span class="sig-name descname"><span class="pre">default_device</span></span><a class="headerlink" href="#Bass4Py.bass.BASS.default_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Include a “Default” entry in the output device list?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.exceptions.BassPlatformError.html#Bass4Py.exceptions.BassPlatformError" title="Bass4Py.exceptions.BassPlatformError"><strong>Bass4Py.exceptions.BassPlatformError</strong></a> – the feature isn’t supported on this platform</p>
+</dd>
+</dl>
 <p>This option adds a “Default” entry to the output device list, which maps
 to the device that is currently the system’s default. Its output will
 automatically switch over when the system’s default device setting
