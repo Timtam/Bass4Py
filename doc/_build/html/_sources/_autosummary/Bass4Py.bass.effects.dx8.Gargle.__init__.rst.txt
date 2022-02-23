@@ -1,0 +1,6 @@
+Gargle.\_\_init\_\_
+===================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Gargle.__init__

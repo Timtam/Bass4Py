@@ -1,0 +1,8 @@
+BassMemoryError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassMemoryError
+   :no-members:
+   :no-inherited-members:

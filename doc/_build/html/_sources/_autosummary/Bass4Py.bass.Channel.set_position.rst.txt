@@ -1,0 +1,6 @@
+Channel.set\_position
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.set_position

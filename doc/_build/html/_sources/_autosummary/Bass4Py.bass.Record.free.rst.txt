@@ -1,0 +1,6 @@
+Record.free
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.free

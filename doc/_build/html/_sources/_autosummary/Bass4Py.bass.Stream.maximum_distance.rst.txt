@@ -1,0 +1,6 @@
+Stream.maximum\_distance
+========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.maximum_distance

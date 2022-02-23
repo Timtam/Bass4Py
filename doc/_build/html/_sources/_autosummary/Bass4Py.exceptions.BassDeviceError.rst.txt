@@ -1,0 +1,8 @@
+BassDeviceError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassDeviceError
+   :no-members:
+   :no-inherited-members:

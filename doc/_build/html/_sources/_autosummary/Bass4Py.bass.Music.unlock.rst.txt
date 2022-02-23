@@ -1,0 +1,6 @@
+Music.unlock
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Music.unlock

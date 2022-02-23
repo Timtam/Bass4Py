@@ -1,0 +1,6 @@
+Sample.get\_stream
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Sample.get_stream

@@ -1,0 +1,6 @@
+ACTIVE.PAUSED
+=============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: ACTIVE.PAUSED

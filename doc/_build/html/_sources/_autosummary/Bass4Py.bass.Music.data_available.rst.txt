@@ -1,0 +1,6 @@
+Music.data\_available
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.data_available

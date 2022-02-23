@@ -1,0 +1,8 @@
+BassNotAvailableError
+=====================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassNotAvailableError
+   :no-members:
+   :no-inherited-members:

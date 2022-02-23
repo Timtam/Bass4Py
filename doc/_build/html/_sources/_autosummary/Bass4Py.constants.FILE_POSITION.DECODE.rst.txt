@@ -1,0 +1,6 @@
+FILE\_POSITION.DECODE
+=====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: FILE_POSITION.DECODE

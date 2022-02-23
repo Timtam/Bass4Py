@@ -1,0 +1,6 @@
+INPUT\_TYPE.SYNTH
+=================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: INPUT_TYPE.SYNTH

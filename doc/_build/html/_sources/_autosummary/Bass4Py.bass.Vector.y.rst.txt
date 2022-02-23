@@ -1,0 +1,6 @@
+Vector.y
+========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Vector.y

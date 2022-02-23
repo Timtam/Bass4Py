@@ -1,0 +1,6 @@
+DEVICE\_TYPE.HEADPHONES
+=======================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE_TYPE.HEADPHONES

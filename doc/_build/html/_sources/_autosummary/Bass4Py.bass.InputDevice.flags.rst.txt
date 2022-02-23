@@ -1,0 +1,6 @@
+InputDevice.flags
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: InputDevice.flags

@@ -1,0 +1,6 @@
+BASS.device\_update\_period
+===========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.device_update_period

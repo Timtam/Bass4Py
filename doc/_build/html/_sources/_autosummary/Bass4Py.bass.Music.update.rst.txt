@@ -1,0 +1,6 @@
+Music.update
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Music.update

@@ -1,0 +1,6 @@
+Slide.callback
+==============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Slide.callback

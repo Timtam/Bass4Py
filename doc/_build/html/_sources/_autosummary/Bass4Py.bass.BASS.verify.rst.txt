@@ -1,0 +1,6 @@
+BASS.verify
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.verify

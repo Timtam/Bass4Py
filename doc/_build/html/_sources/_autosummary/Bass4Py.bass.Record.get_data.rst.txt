@@ -1,0 +1,6 @@
+Record.get\_data
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.get_data

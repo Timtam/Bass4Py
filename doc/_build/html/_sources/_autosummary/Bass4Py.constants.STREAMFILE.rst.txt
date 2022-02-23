@@ -1,0 +1,27 @@
+STREAMFILE
+==========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: STREAMFILE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      STREAMFILE.NOBUFFER
+   
+      STREAMFILE.BUFFER
+   
+      STREAMFILE.BUFFERPUSH
+   
+   
+   

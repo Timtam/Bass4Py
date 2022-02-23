@@ -1,0 +1,6 @@
+Chorus.remove
+=============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Chorus.remove

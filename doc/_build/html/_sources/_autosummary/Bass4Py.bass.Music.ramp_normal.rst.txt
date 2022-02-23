@@ -1,0 +1,6 @@
+Music.ramp\_normal
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.ramp_normal

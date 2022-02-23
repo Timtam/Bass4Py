@@ -1,0 +1,6 @@
+Stream.from\_bytes
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.from_bytes

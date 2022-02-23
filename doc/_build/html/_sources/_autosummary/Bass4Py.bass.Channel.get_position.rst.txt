@@ -1,0 +1,6 @@
+Channel.get\_position
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.get_position

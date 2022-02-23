@@ -1,0 +1,6 @@
+Stream.frequency
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.frequency

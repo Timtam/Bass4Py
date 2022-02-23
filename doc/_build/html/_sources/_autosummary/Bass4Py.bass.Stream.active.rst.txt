@@ -1,0 +1,6 @@
+Stream.active
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.active

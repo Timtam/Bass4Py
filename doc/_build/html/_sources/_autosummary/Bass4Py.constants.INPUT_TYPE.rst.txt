@@ -1,0 +1,43 @@
+INPUT\_TYPE
+===========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: INPUT_TYPE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      INPUT_TYPE.UNDEF
+   
+      INPUT_TYPE.DIGITAL
+   
+      INPUT_TYPE.LINE
+   
+      INPUT_TYPE.MIC
+   
+      INPUT_TYPE.SYNTH
+   
+      INPUT_TYPE.CD
+   
+      INPUT_TYPE.PHONE
+   
+      INPUT_TYPE.SPEAKER
+   
+      INPUT_TYPE.WAVE
+   
+      INPUT_TYPE.AUX
+   
+      INPUT_TYPE.ANALOG
+   
+   
+   

@@ -1,0 +1,6 @@
+Music.stop\_backward
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.stop_backward

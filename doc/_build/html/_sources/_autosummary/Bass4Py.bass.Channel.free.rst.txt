@@ -1,0 +1,6 @@
+Channel.free
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.free

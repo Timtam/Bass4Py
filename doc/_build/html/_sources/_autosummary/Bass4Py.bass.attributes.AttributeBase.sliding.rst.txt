@@ -1,0 +1,6 @@
+AttributeBase.sliding
+=====================
+
+.. currentmodule:: Bass4Py.bass.attributes
+
+.. autoattribute:: AttributeBase.sliding

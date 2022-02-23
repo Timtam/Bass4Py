@@ -1,0 +1,6 @@
+Meta.remove
+===========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Meta.remove

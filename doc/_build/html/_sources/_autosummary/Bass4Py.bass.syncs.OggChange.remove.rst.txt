@@ -1,0 +1,6 @@
+OggChange.remove
+================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: OggChange.remove

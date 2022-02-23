@@ -1,0 +1,6 @@
+Chorus.phase
+============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Chorus.phase

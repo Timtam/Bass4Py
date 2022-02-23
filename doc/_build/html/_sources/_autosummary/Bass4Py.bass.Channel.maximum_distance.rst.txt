@@ -1,0 +1,6 @@
+Channel.maximum\_distance
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.maximum_distance

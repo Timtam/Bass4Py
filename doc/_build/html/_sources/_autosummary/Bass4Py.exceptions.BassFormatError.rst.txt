@@ -1,0 +1,8 @@
+BassFormatError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassFormatError
+   :no-members:
+   :no-inherited-members:

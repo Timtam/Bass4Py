@@ -1,0 +1,6 @@
+BASS.lib\_ssl
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.lib_ssl

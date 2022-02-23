@@ -1,0 +1,8 @@
+BassAPIError
+============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassAPIError
+   :no-members:
+   :no-inherited-members:

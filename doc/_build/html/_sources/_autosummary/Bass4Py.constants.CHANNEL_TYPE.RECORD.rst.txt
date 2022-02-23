@@ -1,0 +1,6 @@
+CHANNEL\_TYPE.RECORD
+====================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: CHANNEL_TYPE.RECORD

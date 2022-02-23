@@ -1,0 +1,6 @@
+Music.get\_data
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Music.get_data

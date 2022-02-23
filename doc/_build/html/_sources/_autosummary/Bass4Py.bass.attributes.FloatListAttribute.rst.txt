@@ -1,0 +1,36 @@
+FloatListAttribute
+==================
+
+.. currentmodule:: Bass4Py.bass.attributes
+
+.. autoclass:: FloatListAttribute
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      FloatListAttribute.__init__
+   
+      FloatListAttribute.get
+   
+      FloatListAttribute.set
+   
+      FloatListAttribute.slide
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      FloatListAttribute.sliding
+   
+   
+   

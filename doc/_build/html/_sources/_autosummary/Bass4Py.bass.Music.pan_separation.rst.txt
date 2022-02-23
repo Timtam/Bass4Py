@@ -1,0 +1,6 @@
+Music.pan\_separation
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.pan_separation

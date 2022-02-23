@@ -1,0 +1,6 @@
+BASS.device
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.device

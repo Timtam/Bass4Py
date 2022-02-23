@@ -1,0 +1,6 @@
+BASS.update\_threads
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.update_threads

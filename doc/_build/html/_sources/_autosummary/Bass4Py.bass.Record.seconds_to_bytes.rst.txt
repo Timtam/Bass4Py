@@ -1,0 +1,6 @@
+Record.seconds\_to\_bytes
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.seconds_to_bytes

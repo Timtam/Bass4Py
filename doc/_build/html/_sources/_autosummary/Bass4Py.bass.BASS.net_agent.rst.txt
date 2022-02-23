@@ -1,0 +1,6 @@
+BASS.net\_agent
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.net_agent

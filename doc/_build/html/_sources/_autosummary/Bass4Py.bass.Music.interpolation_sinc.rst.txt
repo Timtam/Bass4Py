@@ -1,0 +1,6 @@
+Music.interpolation\_sinc
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.interpolation_sinc

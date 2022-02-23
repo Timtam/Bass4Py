@@ -1,0 +1,6 @@
+BASS.version
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.version

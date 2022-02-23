@@ -1,0 +1,6 @@
+DEVICE.CPSPEAKERS
+=================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE.CPSPEAKERS

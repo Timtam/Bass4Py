@@ -1,0 +1,6 @@
+BASS.device\_buffer
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.device_buffer

@@ -1,0 +1,8 @@
+BassDriverError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassDriverError
+   :no-members:
+   :no-inherited-members:

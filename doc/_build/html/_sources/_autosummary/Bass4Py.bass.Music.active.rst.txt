@@ -1,0 +1,6 @@
+Music.active
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.active

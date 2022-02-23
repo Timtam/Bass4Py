@@ -1,0 +1,6 @@
+Music.granularity
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.granularity

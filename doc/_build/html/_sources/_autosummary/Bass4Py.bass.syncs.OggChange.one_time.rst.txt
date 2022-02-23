@@ -1,0 +1,6 @@
+OggChange.one\_time
+===================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: OggChange.one_time

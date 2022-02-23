@@ -1,0 +1,6 @@
+Input.enabled
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Input.enabled

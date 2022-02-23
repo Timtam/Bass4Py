@@ -1,0 +1,6 @@
+Free.callback
+=============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Free.callback

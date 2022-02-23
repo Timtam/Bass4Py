@@ -1,0 +1,6 @@
+Version.isidentifier
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.isidentifier

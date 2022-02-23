@@ -1,0 +1,6 @@
+BytesAttribute.get
+==================
+
+.. currentmodule:: Bass4Py.bass.attributes
+
+.. automethod:: BytesAttribute.get

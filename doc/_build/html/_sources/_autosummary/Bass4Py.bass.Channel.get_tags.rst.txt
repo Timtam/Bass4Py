@@ -1,0 +1,6 @@
+Channel.get\_tags
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.get_tags

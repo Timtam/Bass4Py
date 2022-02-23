@@ -1,0 +1,8 @@
+BassRecordError
+===============
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassRecordError
+   :no-members:
+   :no-inherited-members:

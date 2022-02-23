@@ -1,0 +1,6 @@
+BASS.net\_passive
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.net_passive

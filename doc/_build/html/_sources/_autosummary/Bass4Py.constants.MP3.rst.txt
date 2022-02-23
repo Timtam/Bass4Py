@@ -1,0 +1,25 @@
+MP3
+===
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: MP3
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      MP3.MP3_IGNOREDELAY
+   
+      MP3.MP3_SETPOS
+   
+   
+   

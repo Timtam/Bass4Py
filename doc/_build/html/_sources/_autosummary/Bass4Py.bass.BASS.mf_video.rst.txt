@@ -1,0 +1,6 @@
+BASS.mf\_video
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.mf_video

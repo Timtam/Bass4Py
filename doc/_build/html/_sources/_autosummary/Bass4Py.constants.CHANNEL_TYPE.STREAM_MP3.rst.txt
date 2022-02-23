@@ -1,0 +1,6 @@
+CHANNEL\_TYPE.STREAM\_MP3
+=========================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: CHANNEL_TYPE.STREAM_MP3

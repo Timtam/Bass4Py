@@ -1,0 +1,6 @@
+Channel.get\_data
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.get_data

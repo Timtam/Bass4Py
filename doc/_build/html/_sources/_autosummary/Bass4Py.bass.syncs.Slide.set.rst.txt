@@ -1,0 +1,6 @@
+Slide.set
+=========
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Slide.set

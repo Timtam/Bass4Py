@@ -1,0 +1,6 @@
+DEVICE.REINIT
+=============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DEVICE.REINIT

@@ -1,0 +1,6 @@
+Echo.priority
+=============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Echo.priority

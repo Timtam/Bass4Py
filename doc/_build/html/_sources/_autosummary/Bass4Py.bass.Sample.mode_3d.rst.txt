@@ -1,0 +1,6 @@
+Sample.mode\_3d
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sample.mode_3d

@@ -1,0 +1,6 @@
+Volume.update
+=============
+
+.. currentmodule:: Bass4Py.bass.effects
+
+.. automethod:: Volume.update

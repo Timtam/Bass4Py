@@ -1,0 +1,6 @@
+MusicInstrument.callback
+========================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: MusicInstrument.callback

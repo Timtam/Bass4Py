@@ -1,0 +1,40 @@
+FX
+==
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: FX
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      FX.__init__
+   
+      FX.remove
+   
+      FX.reset
+   
+      FX.set
+   
+      FX.update
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      FX.channel
+   
+      FX.priority
+   
+   
+   

@@ -1,0 +1,82 @@
+ChannelBase
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoclass:: ChannelBase
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      ChannelBase.__init__
+   
+      ChannelBase.bytes_to_seconds
+   
+      ChannelBase.free
+   
+      ChannelBase.get_data
+   
+      ChannelBase.get_length
+   
+      ChannelBase.get_levels
+   
+      ChannelBase.get_position
+   
+      ChannelBase.lock
+   
+      ChannelBase.pause
+   
+      ChannelBase.seconds_to_bytes
+   
+      ChannelBase.stop
+   
+      ChannelBase.unlock
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      ChannelBase.active
+   
+      ChannelBase.channels
+   
+      ChannelBase.data_available
+   
+      ChannelBase.default_frequency
+   
+      ChannelBase.flags
+   
+      ChannelBase.frequency
+   
+      ChannelBase.granularity
+   
+      ChannelBase.level
+   
+      ChannelBase.name
+   
+      ChannelBase.pan
+   
+      ChannelBase.plugin
+   
+      ChannelBase.resolution
+   
+      ChannelBase.sample
+   
+      ChannelBase.src
+   
+      ChannelBase.type
+   
+      ChannelBase.volume
+   
+   
+   

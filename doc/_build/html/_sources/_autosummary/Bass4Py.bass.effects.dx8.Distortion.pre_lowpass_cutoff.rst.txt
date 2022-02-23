@@ -1,0 +1,6 @@
+Distortion.pre\_lowpass\_cutoff
+===============================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Distortion.pre_lowpass_cutoff

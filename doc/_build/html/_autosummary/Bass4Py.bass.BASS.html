@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>BASS &#8212; Bass4Py 0.1.0-a1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BASS.__init__" href="Bass4Py.bass.BASS.__init__.html" />
+    <link rel="prev" title="Bass4Py.bass" href="Bass4Py.bass.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="bass">
+<h1>BASS<a class="headerlink" href="#bass" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Bass4Py.bass.BASS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">BASS</span></span><a class="headerlink" href="#Bass4Py.bass.BASS" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents the main entrypoint to all Bass4Py related
+functionalities. It allows to control various global settings and gain access
+to <a class="reference internal" href="Bass4Py.bass.OutputDevice.html#Bass4Py.bass.OutputDevice" title="Bass4Py.bass.OutputDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">output</span> <span class="pre">devices</span></code></a> and
+<a class="reference internal" href="Bass4Py.bass.InputDevice.html#Bass4Py.bass.InputDevice" title="Bass4Py.bass.InputDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">input</span> <span class="pre">devices</span></code></a> to playback audio
+data or record from various input sources. All global properties are also
+accessible through this class.</p>
+<p>See <a class="reference internal" href="Bass4Py.bass.BASS.input_devices.html#Bass4Py.bass.BASS.input_devices" title="Bass4Py.bass.BASS.input_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">input_devices</span></code></a> or
+<a class="reference internal" href="Bass4Py.bass.BASS.output_devices.html#Bass4Py.bass.BASS.output_devices" title="Bass4Py.bass.BASS.output_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">output_devices</span></code></a> to get further access to the
+really important features.</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.__init__.html#Bass4Py.bass.BASS.__init__" title="Bass4Py.bass.BASS.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.load_plugin.html#Bass4Py.bass.BASS.load_plugin" title="Bass4Py.bass.BASS.load_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.load_plugin</span></code></a>(filename)</p></td>
+<td><p>Plugs an &quot;add-on&quot; into the standard stream and sample creation functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.update.html#Bass4Py.bass.BASS.update" title="Bass4Py.bass.BASS.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.update</span></code></a>(length)</p></td>
+<td><p>Updates the <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> and <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> channel playback buffers.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.algorithm_3d.html#Bass4Py.bass.BASS.algorithm_3d" title="Bass4Py.bass.BASS.algorithm_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.algorithm_3d</span></code></a></p></td>
+<td><p>The positioning algorithm for 3D channels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.api_version.html#Bass4Py.bass.BASS.api_version" title="Bass4Py.bass.BASS.api_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.api_version</span></code></a></p></td>
+<td><p>the version Bass4Py was created for.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.async_buffer.html#Bass4Py.bass.BASS.async_buffer" title="Bass4Py.bass.BASS.async_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.async_buffer</span></code></a></p></td>
+<td><p>The buffer length for asynchronous file reading.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.buffer.html#Bass4Py.bass.BASS.buffer" title="Bass4Py.bass.BASS.buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.buffer</span></code></a></p></td>
+<td><p>The playback buffer length for <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> and <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> channels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.cpu.html#Bass4Py.bass.BASS.cpu" title="Bass4Py.bass.BASS.cpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.cpu</span></code></a></p></td>
+<td><p>The current CPU usage of BASS.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.curve_pan.html#Bass4Py.bass.BASS.curve_pan" title="Bass4Py.bass.BASS.curve_pan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.curve_pan</span></code></a></p></td>
+<td><p>The translation curve of panning values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.curve_volume.html#Bass4Py.bass.BASS.curve_volume" title="Bass4Py.bass.BASS.curve_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.curve_volume</span></code></a></p></td>
+<td><p>The translation curve of volume values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.default_device.html#Bass4Py.bass.BASS.default_device" title="Bass4Py.bass.BASS.default_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.default_device</span></code></a></p></td>
+<td><p>Include a &quot;Default&quot; entry in the output device list?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.device.html#Bass4Py.bass.BASS.device" title="Bass4Py.bass.BASS.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.device</span></code></a></p></td>
+<td><p>the output device setting of the current thread.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.device_buffer.html#Bass4Py.bass.BASS.device_buffer" title="Bass4Py.bass.BASS.device_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.device_buffer</span></code></a></p></td>
+<td><p>The output device buffer length in milliseconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.device_update_period.html#Bass4Py.bass.BASS.device_update_period" title="Bass4Py.bass.BASS.device_update_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.device_update_period</span></code></a></p></td>
+<td><p>The output device update period in milliseconds, or in samples if negative.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.float_dsp.html#Bass4Py.bass.BASS.float_dsp" title="Bass4Py.bass.BASS.float_dsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.float_dsp</span></code></a></p></td>
+<td><p>Pass 32-bit floating-point sample data to all <a class="reference internal" href="Bass4Py.bass.DSP.callback.html#Bass4Py.bass.DSP.callback" title="Bass4Py.bass.DSP.callback"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP.callback</span></code></a> functions?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.handles.html#Bass4Py.bass.BASS.handles" title="Bass4Py.bass.BASS.handles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.handles</span></code></a></p></td>
+<td><p>Number of existing <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> / <a class="reference internal" href="Bass4Py.bass.Record.html#Bass4Py.bass.Record" title="Bass4Py.bass.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Record</span></code></a> / <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Sample</span></code></a> / <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> handles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.input_devices.html#Bass4Py.bass.BASS.input_devices" title="Bass4Py.bass.BASS.input_devices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.input_devices</span></code></a></p></td>
+<td><p>A <a class="reference internal" href="Bass4Py.bass.InputDeviceEnumerator.html#Bass4Py.bass.InputDeviceEnumerator" title="Bass4Py.bass.InputDeviceEnumerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputDeviceEnumerator</span></code></a> instance, allowing you to access all the different input devices available on your system.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.lib_ssl.html#Bass4Py.bass.BASS.lib_ssl" title="Bass4Py.bass.BASS.lib_ssl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.lib_ssl</span></code></a></p></td>
+<td><p>The OpenSSL (or compatible) library to use for handling HTTPS connections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.mf_disable.html#Bass4Py.bass.BASS.mf_disable" title="Bass4Py.bass.BASS.mf_disable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.mf_disable</span></code></a></p></td>
+<td><p>Disable Media Foundation?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.mf_video.html#Bass4Py.bass.BASS.mf_video" title="Bass4Py.bass.BASS.mf_video"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.mf_video</span></code></a></p></td>
+<td><p>Play the audio from video files using Media Foundation?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.music_volume.html#Bass4Py.bass.BASS.music_volume" title="Bass4Py.bass.BASS.music_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.music_volume</span></code></a></p></td>
+<td><p>The global MOD music volume level.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_agent.html#Bass4Py.bass.BASS.net_agent" title="Bass4Py.bass.BASS.net_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_agent</span></code></a></p></td>
+<td><p>The &quot;User-Agent&quot; request header sent to servers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_buffer.html#Bass4Py.bass.BASS.net_buffer" title="Bass4Py.bass.BASS.net_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_buffer</span></code></a></p></td>
+<td><p>The internet download buffer length in milliseconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_passive.html#Bass4Py.bass.BASS.net_passive" title="Bass4Py.bass.BASS.net_passive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_passive</span></code></a></p></td>
+<td><p>Use passive mode in FTP connections?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_playlist.html#Bass4Py.bass.BASS.net_playlist" title="Bass4Py.bass.BASS.net_playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_playlist</span></code></a></p></td>
+<td><p>Process URLs in PLS and M3U playlists?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_playlist_depth.html#Bass4Py.bass.BASS.net_playlist_depth" title="Bass4Py.bass.BASS.net_playlist_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_playlist_depth</span></code></a></p></td>
+<td><p>Maximum nested playlist processing depth.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_prebuf.html#Bass4Py.bass.BASS.net_prebuf" title="Bass4Py.bass.BASS.net_prebuf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_prebuf</span></code></a></p></td>
+<td><p>Amount (percentage) to pre-buffer before playing internet streams.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_prebuf_wait.html#Bass4Py.bass.BASS.net_prebuf_wait" title="Bass4Py.bass.BASS.net_prebuf_wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_prebuf_wait</span></code></a></p></td>
+<td><p>Wait for pre-buffering when opening internet streams?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_proxy.html#Bass4Py.bass.BASS.net_proxy" title="Bass4Py.bass.BASS.net_proxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_proxy</span></code></a></p></td>
+<td><p>Proxy server settings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_read_timeout.html#Bass4Py.bass.BASS.net_read_timeout" title="Bass4Py.bass.BASS.net_read_timeout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_read_timeout</span></code></a></p></td>
+<td><p>The time in milliseconds to wait for a server to deliver more data for an internet stream.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_timeout.html#Bass4Py.bass.BASS.net_timeout" title="Bass4Py.bass.BASS.net_timeout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_timeout</span></code></a></p></td>
+<td><p>The time in milliseconds to wait for a server to respond to a connection request.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.net_verify.html#Bass4Py.bass.BASS.net_verify" title="Bass4Py.bass.BASS.net_verify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.net_verify</span></code></a></p></td>
+<td><p>The amount of data to check in order to verify/detect the file format of internet streams.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.ogg_prescan.html#Bass4Py.bass.BASS.ogg_prescan" title="Bass4Py.bass.BASS.ogg_prescan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.ogg_prescan</span></code></a></p></td>
+<td><p>Pre-scan chained OGG files?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.output_devices.html#Bass4Py.bass.BASS.output_devices" title="Bass4Py.bass.BASS.output_devices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.output_devices</span></code></a></p></td>
+<td><p>A <a class="reference internal" href="Bass4Py.bass.OutputDeviceEnumerator.html#Bass4Py.bass.OutputDeviceEnumerator" title="Bass4Py.bass.OutputDeviceEnumerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputDeviceEnumerator</span></code></a> instance, allowing you to access all the different output devices available on your system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.pause_noplay.html#Bass4Py.bass.BASS.pause_noplay" title="Bass4Py.bass.BASS.pause_noplay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.pause_noplay</span></code></a></p></td>
+<td><p>Prevent channels being played while the output is paused?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.record_buffer.html#Bass4Py.bass.BASS.record_buffer" title="Bass4Py.bass.BASS.record_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.record_buffer</span></code></a></p></td>
+<td><p>The buffer length for recording channels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.sample_volume.html#Bass4Py.bass.BASS.sample_volume" title="Bass4Py.bass.BASS.sample_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.sample_volume</span></code></a></p></td>
+<td><p>The global sample volume level.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.src.html#Bass4Py.bass.BASS.src" title="Bass4Py.bass.BASS.src"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.src</span></code></a></p></td>
+<td><p>The default sample rate conversion quality.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.src_sample.html#Bass4Py.bass.BASS.src_sample" title="Bass4Py.bass.BASS.src_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.src_sample</span></code></a></p></td>
+<td><p>The default sample rate conversion quality for samples.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.stream_volume.html#Bass4Py.bass.BASS.stream_volume" title="Bass4Py.bass.BASS.stream_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.stream_volume</span></code></a></p></td>
+<td><p>The global stream volume level.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.update_period.html#Bass4Py.bass.BASS.update_period" title="Bass4Py.bass.BASS.update_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.update_period</span></code></a></p></td>
+<td><p>The update period of <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> and <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> channel playback buffers in milliseconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.update_threads.html#Bass4Py.bass.BASS.update_threads" title="Bass4Py.bass.BASS.update_threads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.update_threads</span></code></a></p></td>
+<td><p>The number of threads to use for updating playback buffers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.verify.html#Bass4Py.bass.BASS.verify" title="Bass4Py.bass.BASS.verify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.verify</span></code></a></p></td>
+<td><p>The amount of data to check in order to verify/detect the file format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.version.html#Bass4Py.bass.BASS.version" title="Bass4Py.bass.BASS.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.version</span></code></a></p></td>
+<td><p>version of the BASS library loaded (bass.dll/libbass.so)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.virtual_channels.html#Bass4Py.bass.BASS.virtual_channels" title="Bass4Py.bass.BASS.virtual_channels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.virtual_channels</span></code></a></p></td>
+<td><p>The maximum number of virtual channels to use in the rendering of IT files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.vista_speakers.html#Bass4Py.bass.BASS.vista_speakers" title="Bass4Py.bass.BASS.vista_speakers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.vista_speakers</span></code></a></p></td>
+<td><p>Enable speaker assignment with panning/balance control on Windows Vista and newer?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.vista_truepos.html#Bass4Py.bass.BASS.vista_truepos" title="Bass4Py.bass.BASS.vista_truepos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.vista_truepos</span></code></a></p></td>
+<td><p>Enable true play position mode on Windows Vista and newer?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.BASS.wasapi_persist.html#Bass4Py.bass.BASS.wasapi_persist" title="Bass4Py.bass.BASS.wasapi_persist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASS.wasapi_persist</span></code></a></p></td>
+<td><p>Retain Windows mixer settings across sessions?</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Bass4Py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../apireference.html">API Reference</a><ul>
+  <li><a href="Bass4Py.bass.html">Bass4Py.bass</a><ul>
+      <li>Previous: <a href="Bass4Py.bass.html" title="previous chapter">Bass4Py.bass</a></li>
+      <li>Next: <a href="Bass4Py.bass.BASS.__init__.html" title="next chapter">BASS.__init__</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019-2021, Toni Barth.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_autosummary/Bass4Py.bass.BASS.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

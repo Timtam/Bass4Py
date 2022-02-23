@@ -1,0 +1,8 @@
+BassUnstreamableError
+=====================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassUnstreamableError
+   :no-members:
+   :no-inherited-members:
