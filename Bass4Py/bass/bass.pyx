@@ -1137,4 +1137,4 @@ cdef class BASS(Evaluable):
           BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, NULL)
         else:
           data = to_readonly_bytes(value)
-          BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
+          BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, <unsigned char *>data)
