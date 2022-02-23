@@ -1,4 +1,4 @@
-﻿InputDevice
+InputDevice
 ===========
 
 .. currentmodule:: Bass4Py.bass

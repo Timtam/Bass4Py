@@ -1,4 +1,4 @@
-﻿Music
+Music
 =====
 
 .. currentmodule:: Bass4Py.bass

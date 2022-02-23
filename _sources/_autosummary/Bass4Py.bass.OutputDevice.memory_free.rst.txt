@@ -1,6 +1,0 @@
-OutputDevice.memory\_free
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.memory_free

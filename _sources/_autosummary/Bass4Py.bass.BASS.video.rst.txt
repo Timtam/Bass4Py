@@ -1,6 +1,0 @@
-BASS.video
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.video

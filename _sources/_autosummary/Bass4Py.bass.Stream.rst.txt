@@ -1,4 +1,4 @@
-﻿Stream
+Stream
 ======
 
 .. currentmodule:: Bass4Py.bass
