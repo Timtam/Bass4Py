@@ -374,7 +374,7 @@ class TestBASS:
 
   @pytest.mark.linux
   def test_lib_ssl_property_none(self, bass):
-    assert type(bass.lib_ssl) is None
+    assert bass.lib_ssl is None
   
   @pytest.mark.linux
   @pytest.mark.bass_property("lib_ssl")
