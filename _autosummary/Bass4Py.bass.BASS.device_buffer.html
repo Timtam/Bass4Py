@@ -39,6 +39,11 @@
 <dt class="sig sig-object py" id="Bass4Py.bass.BASS.device_buffer">
 <span class="sig-prename descclassname"><span class="pre">BASS.</span></span><span class="sig-name descname"><span class="pre">device_buffer</span></span><a class="headerlink" href="#Bass4Py.bass.BASS.device_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><p>The output device buffer length in milliseconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.exceptions.BassPlatformError.html#Bass4Py.exceptions.BassPlatformError" title="Bass4Py.exceptions.BassPlatformError"><strong>Bass4Py.exceptions.BassPlatformError</strong></a> – the feature is not supported on this platform</p>
+</dd>
+</dl>
 <p>The device buffer is where the final mix of all playing channels is
 placed, ready for the device to play. Its length affects the latency of
 things like starting and stopping playback of a channel, so you will
