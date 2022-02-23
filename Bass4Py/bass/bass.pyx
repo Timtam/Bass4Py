@@ -44,8 +44,6 @@ from ..bindings.bass cimport (
   _BASS_CONFIG_UPDATETHREADS,
   _BASS_CONFIG_VERIFY,
   _BASS_CONFIG_VERIFY_NET,
-  _BASS_CONFIG_VISTA_SPEAKERS,
-  _BASS_CONFIG_VISTA_TRUEPOS,
   _BASS_CONFIG_WASAPI_PERSIST,
   BASS_GetConfig,
   BASS_GetConfigPtr,
@@ -310,7 +308,6 @@ cdef class BASS(Evaluable):
 
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_3DALGORITHM, value)
-      self._evaluate()
 
   property async_buffer:
     """
@@ -584,6 +581,12 @@ cdef class BASS(Evaluable):
     """
     :obj:`bool`: Play the audio from video files using Media Foundation? 
 
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassPlatformError`
+      the feature isn't available on this platform
+
+
     Platform-specific
 
     This config option is only available on Windows. 
@@ -605,6 +608,12 @@ cdef class BASS(Evaluable):
   property mf_disable:
     """
     :obj:`bool`: Disable Media Foundation?
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassPlatformError`
+      the feature isn't available on this platform
+
 
     This option determines whether Media Foundation codecs can be used to 
     decode files and streams. It is set to :obj:`False` by default when Media 
@@ -1016,77 +1025,6 @@ cdef class BASS(Evaluable):
     def __set__(BASS self, DWORD value):
       BASS_SetConfig(_BASS_CONFIG_VERIFY_NET, value)
 
-  property vista_speakers:
-    """
-    :obj:`bool`: Enable speaker assignment with panning/balance control on Windows Vista and newer? 
-
-    Panning/balance control via the :attr:`Bass4Py.bass.ChannelBase.pan` 
-    attribute is not available when speaker assignment is used on Windows with 
-    DirectSound due to the way that the speaker assignment needs to be 
-    implemented there. The situation is improved with Windows Vista, and 
-    speaker assignment can generally be done in a way that does permit 
-    panning/balance control to be used at the same time, but there may still 
-    be some drivers that it does not work properly with, so it is disabled by 
-    default and can be enabled via this config option. Changes only affect 
-    channels that are created afterwards, not any that already exist. 
-
-    Platform-specific
-
-    This config option is only available on Windows. It is available on all 
-    Windows versions (not including CE), but only has effect when using 
-    DirectSound output on Windows Vista and newer. Speaker assignment with 
-    panning/balance control is always possible when BASS is generating the 
-    final mix, including when using WASAPI output on Windows. 
-    """
-    def __get__(BASS self):
-
-      IF UNAME_SYSNAME != "Windows":
-        raise exceptions.BassPlatformError()
-      ELSE:
-        return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_SPEAKERS)
-
-    def __set__(BASS self, bint value):
-
-      IF UNAME_SYSNAME != "Windows":
-        raise exceptions.BassPlatformError()
-      ELSE:
-        BASS_SetConfig(_BASS_CONFIG_VISTA_SPEAKERS, <DWORD>value)
-
-  property vista_truepos:
-    """
-    :obj:`bool`: Enable true play position mode on Windows Vista and newer? 
-
-    Unless this option is enabled, the reported playback position will advance 
-    in 10ms steps on Windows Vista and newer. As well as affecting the 
-    precision of :meth:`Bass4Py.bass.ChannelBase.get_position`, this also 
-    affects the timing of non-mixtime syncs. When this option is enabled, it 
-    allows finer position reporting but it also increases latency. The default 
-    setting is enabled. Changes only affect channels that are created 
-    afterwards, not any that already exist. The 
-    :attr:`Bass4Py.bass.OutputDevice.latency` and 
-    :attr:`Bass4Py.bass.OutputDevice.buffer` values reflect the setting at the 
-    time of the device's :meth:`Bass4Py.bass.OutputDevice.init` call. 
-
-    Platform-specific
-
-    This config option is only available on Windows. It is available on all 
-    Windows versions (not including CE), but only has effect when using 
-    DirectSound output on Windows Vista and newer. 
-    """
-    def __get__(BASS self):
-
-      IF UNAME_SYSNAME != "Windows":
-        raise exceptions.BassPlatformError()
-      ELSE:
-        return <bint>BASS_GetConfig(_BASS_CONFIG_VISTA_TRUEPOS)
-
-    def __set__(BASS self, bint value):
-
-      IF UNAME_SYSNAME != "Windows":
-        raise exceptions.BassPlatformError()
-      ELSE:
-        BASS_SetConfig(_BASS_CONFIG_VISTA_TRUEPOS, <DWORD>value)
-
   property device_update_period:
     """
     :obj:`int`: The output device update period in milliseconds, or in samples if negative. 
@@ -1107,7 +1045,7 @@ cdef class BASS(Evaluable):
     On Windows CE, the default setting is 50ms. 
     """
     def __get__(BASS self):
-      return BASS_GetConfig(_BASS_CONFIG_DEV_PERIOD)
+      return <int>BASS_GetConfig(_BASS_CONFIG_DEV_PERIOD)
 
     def __set__(BASS self, int value):
       BASS_SetConfig(_BASS_CONFIG_DEV_PERIOD, value)
@@ -1150,12 +1088,17 @@ cdef class BASS(Evaluable):
       IF UNAME_SYSNAME != "Windows":
         raise exceptions.BassPlatformError()
       ELSE:
-
         BASS_SetConfig(_BASS_CONFIG_WASAPI_PERSIST, <DWORD>value)
 
   property lib_ssl:
     """
-    :obj:`str`: The OpenSSL (or compatible) library to use for handling HTTPS connections. 
+    :obj:`str` or :obj:`None`: The OpenSSL (or compatible) library to use for handling HTTPS connections. 
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassPlatformError`
+      the feature isn't supported on this platform
+
 
     The filename of the OpenSSL library to use... :obj:`None` = use default. This 
     should include the full path if it is not in the system library search path. 
@@ -1177,13 +1120,21 @@ cdef class BASS(Evaluable):
       IF UNAME_SYSNAME != "Linux":
         raise exceptions.BassPlatformError()
       ELSE:
-        return (<char*>BASS_GetConfigPtr(_BASS_CONFIG_LIBSSL)).decode('utf-8')
-      
+        cdef void *ssl = BASS_GetConfigPtr(_BASS_CONFIG_LIBSSL)
+
+        if ssl == NULL:
+          return None
+        return (<char*>ssl).decode('utf-8')
+
     def __set__(BASS self, object value):
+      cdef bytes data
 
       IF UNAME_SYSNAME != "Linux":
         raise exceptions.BassPlatformError()
       ELSE:
 
-        cdef const unsigned char[:] data = to_readonly_bytes(value)
-        BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
+        if value is None:
+          BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, NULL)
+        else:
+          data = to_readonly_bytes(value)
+          BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, &(data[0]))
