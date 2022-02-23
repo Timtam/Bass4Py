@@ -1,6 +1,0 @@
-Channel.play
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Channel.play

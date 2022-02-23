@@ -1,6 +1,0 @@
-Volume.current
-==============
-
-.. currentmodule:: Bass4Py.bass.effects
-
-.. autoattribute:: Volume.current

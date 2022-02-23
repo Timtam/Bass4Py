@@ -1,6 +1,0 @@
-Music.minimum\_distance
-=======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.minimum_distance

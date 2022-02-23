@@ -1,8 +1,0 @@
-BassBufferLostError
-===================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassBufferLostError
-   :no-members:
-   :no-inherited-members:

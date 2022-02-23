@@ -1,6 +1,0 @@
-AttributeBase.\_\_init\_\_
-==========================
-
-.. currentmodule:: Bass4Py.bass.attributes
-
-.. automethod:: AttributeBase.__init__

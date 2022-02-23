@@ -1,6 +1,0 @@
-DeviceFormat.callback
-=====================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: DeviceFormat.callback

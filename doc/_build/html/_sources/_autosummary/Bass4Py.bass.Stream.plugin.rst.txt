@@ -1,6 +1,0 @@
-Stream.plugin
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.plugin

@@ -1,6 +1,0 @@
-FILE\_POSITION.SIZE
-===================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: FILE_POSITION.SIZE

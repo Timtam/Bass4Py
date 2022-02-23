@@ -1,6 +1,0 @@
-BASS.net\_prebuf
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_prebuf

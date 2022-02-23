@@ -1,8 +1,0 @@
-BassSpeakerError
-================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassSpeakerError
-   :no-members:
-   :no-inherited-members:

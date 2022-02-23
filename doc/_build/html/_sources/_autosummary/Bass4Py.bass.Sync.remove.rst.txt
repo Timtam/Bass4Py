@@ -1,6 +1,0 @@
-Sync.remove
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sync.remove

@@ -1,6 +1,0 @@
-Music.set\_fx
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.set_fx

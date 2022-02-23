@@ -1,6 +1,0 @@
-Version.endswith
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.endswith

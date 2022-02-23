@@ -1,6 +1,0 @@
-Music.flags
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.flags

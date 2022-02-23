@@ -1,8 +1,0 @@
-BassSyncError
-=============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassSyncError
-   :no-members:
-   :no-inherited-members:

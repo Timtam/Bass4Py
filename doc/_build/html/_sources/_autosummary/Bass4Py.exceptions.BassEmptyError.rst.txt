@@ -1,8 +1,0 @@
-BassEmptyError
-==============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassEmptyError
-   :no-members:
-   :no-inherited-members:

@@ -1,6 +1,0 @@
-ChannelBase.resolution
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.resolution

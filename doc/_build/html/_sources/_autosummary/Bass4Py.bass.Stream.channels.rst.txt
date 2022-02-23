@@ -1,6 +1,0 @@
-Stream.channels
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.channels

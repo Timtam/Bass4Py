@@ -1,6 +1,0 @@
-Flanger.channel
-===============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Flanger.channel

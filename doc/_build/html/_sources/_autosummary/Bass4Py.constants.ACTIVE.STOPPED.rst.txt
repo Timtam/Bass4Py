@@ -1,6 +1,0 @@
-ACTIVE.STOPPED
-==============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: ACTIVE.STOPPED

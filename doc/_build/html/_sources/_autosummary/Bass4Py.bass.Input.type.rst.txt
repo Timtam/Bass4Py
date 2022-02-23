@@ -1,6 +1,0 @@
-Input.type
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Input.type

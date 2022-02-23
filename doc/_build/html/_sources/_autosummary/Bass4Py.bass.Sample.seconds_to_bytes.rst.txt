@@ -1,6 +1,0 @@
-Sample.seconds\_to\_bytes
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.seconds_to_bytes

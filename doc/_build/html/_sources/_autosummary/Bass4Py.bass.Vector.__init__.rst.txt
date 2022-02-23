@@ -1,6 +1,0 @@
-Vector.\_\_init\_\_
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Vector.__init__

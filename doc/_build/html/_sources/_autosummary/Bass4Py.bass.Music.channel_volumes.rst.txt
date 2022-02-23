@@ -1,6 +1,0 @@
-Music.channel\_volumes
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.channel_volumes

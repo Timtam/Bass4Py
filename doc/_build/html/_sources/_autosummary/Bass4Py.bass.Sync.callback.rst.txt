@@ -1,6 +1,0 @@
-Sync.callback
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sync.callback

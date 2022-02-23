@@ -1,6 +1,0 @@
-Sample.stop
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.stop

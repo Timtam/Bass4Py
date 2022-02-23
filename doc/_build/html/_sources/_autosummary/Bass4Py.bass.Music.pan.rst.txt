@@ -1,6 +1,0 @@
-Music.pan
-=========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.pan

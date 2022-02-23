@@ -1,6 +1,0 @@
-BASS.net\_timeout
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_timeout

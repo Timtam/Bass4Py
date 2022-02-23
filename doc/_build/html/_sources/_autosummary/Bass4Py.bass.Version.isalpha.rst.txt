@@ -1,6 +1,0 @@
-Version.isalpha
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.isalpha

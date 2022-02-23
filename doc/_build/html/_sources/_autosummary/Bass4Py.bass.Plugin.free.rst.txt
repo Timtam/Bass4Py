@@ -1,6 +1,0 @@
-Plugin.free
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Plugin.free

@@ -1,8 +1,0 @@
-BassPlatformError
-=================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassPlatformError
-   :no-members:
-   :no-inherited-members:

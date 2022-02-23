@@ -1,6 +1,0 @@
-Music.from\_bytes
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.from_bytes

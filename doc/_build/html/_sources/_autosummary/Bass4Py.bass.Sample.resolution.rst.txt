@@ -1,6 +1,0 @@
-Sample.resolution
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.resolution

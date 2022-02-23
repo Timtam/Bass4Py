@@ -1,6 +1,0 @@
-ChannelBase.active
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.active

@@ -1,6 +1,0 @@
-Download.channel
-================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Download.channel

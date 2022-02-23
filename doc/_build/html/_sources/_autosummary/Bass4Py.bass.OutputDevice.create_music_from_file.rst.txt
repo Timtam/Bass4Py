@@ -1,6 +1,0 @@
-OutputDevice.create\_music\_from\_file
-======================================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.create_music_from_file

@@ -1,6 +1,0 @@
-ALGORITHM\_3D.DEFAULT
-=====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: ALGORITHM_3D.DEFAULT

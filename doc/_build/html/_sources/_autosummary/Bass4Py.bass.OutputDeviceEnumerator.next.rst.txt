@@ -1,6 +1,0 @@
-OutputDeviceEnumerator.next
-===========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDeviceEnumerator.next

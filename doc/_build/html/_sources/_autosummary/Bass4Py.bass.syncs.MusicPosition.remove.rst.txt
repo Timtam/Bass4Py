@@ -1,6 +1,0 @@
-MusicPosition.remove
-====================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: MusicPosition.remove

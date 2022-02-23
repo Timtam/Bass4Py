@@ -1,6 +1,0 @@
-Stream.link
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.link

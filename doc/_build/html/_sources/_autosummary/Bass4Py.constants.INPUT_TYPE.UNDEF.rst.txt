@@ -1,6 +1,0 @@
-INPUT\_TYPE.UNDEF
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.UNDEF

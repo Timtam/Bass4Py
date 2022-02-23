@@ -1,6 +1,0 @@
-FILE\_POSITION.ASYNCBUF
-=======================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: FILE_POSITION.ASYNCBUF

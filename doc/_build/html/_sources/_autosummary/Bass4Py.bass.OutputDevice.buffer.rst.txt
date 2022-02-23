@@ -1,6 +1,0 @@
-OutputDevice.buffer
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.buffer

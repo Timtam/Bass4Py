@@ -1,6 +1,0 @@
-FloatAttribute.get
-==================
-
-.. currentmodule:: Bass4Py.bass.attributes
-
-.. automethod:: FloatAttribute.get

@@ -1,6 +1,0 @@
-Music.position\_3d
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.position_3d

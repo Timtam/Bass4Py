@@ -1,6 +1,0 @@
-FX.priority
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: FX.priority

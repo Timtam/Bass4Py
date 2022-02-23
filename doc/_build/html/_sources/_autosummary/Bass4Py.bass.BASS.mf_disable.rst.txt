@@ -1,6 +1,0 @@
-BASS.mf\_disable
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.mf_disable

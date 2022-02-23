@@ -1,6 +1,0 @@
-InputDevice.default
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: InputDevice.default

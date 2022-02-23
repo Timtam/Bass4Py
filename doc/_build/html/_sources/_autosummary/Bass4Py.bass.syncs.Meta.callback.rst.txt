@@ -1,6 +1,0 @@
-Meta.callback
-=============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Meta.callback

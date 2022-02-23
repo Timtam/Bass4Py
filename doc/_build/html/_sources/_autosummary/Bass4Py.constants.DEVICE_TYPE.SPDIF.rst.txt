@@ -1,6 +1,0 @@
-DEVICE\_TYPE.SPDIF
-==================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE_TYPE.SPDIF

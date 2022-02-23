@@ -1,6 +1,0 @@
-Download.callback
-=================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Download.callback

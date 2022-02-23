@@ -1,6 +1,0 @@
-DeviceFail.channel
-==================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: DeviceFail.channel

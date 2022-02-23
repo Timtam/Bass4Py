@@ -1,6 +1,0 @@
-FX.reset
-========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: FX.reset

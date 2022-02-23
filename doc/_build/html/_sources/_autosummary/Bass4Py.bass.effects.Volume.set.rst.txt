@@ -1,6 +1,0 @@
-Volume.set
-==========
-
-.. currentmodule:: Bass4Py.bass.effects
-
-.. automethod:: Volume.set

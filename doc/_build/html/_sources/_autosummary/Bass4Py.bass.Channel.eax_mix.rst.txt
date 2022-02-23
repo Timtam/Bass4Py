@@ -1,6 +1,0 @@
-Channel.eax\_mix
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Channel.eax_mix

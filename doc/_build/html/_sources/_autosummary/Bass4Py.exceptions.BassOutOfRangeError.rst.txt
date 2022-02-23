@@ -1,8 +1,0 @@
-BassOutOfRangeError
-===================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassOutOfRangeError
-   :no-members:
-   :no-inherited-members:

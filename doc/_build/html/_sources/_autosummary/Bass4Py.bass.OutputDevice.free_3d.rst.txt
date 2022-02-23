@@ -1,6 +1,0 @@
-OutputDevice.free\_3d
-=====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.free_3d

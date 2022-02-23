@@ -1,6 +1,0 @@
-Stream.position\_3d
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.position_3d

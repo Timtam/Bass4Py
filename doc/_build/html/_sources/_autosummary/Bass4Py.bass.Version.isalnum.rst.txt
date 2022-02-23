@@ -1,6 +1,0 @@
-Version.isalnum
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.isalnum

@@ -1,6 +1,0 @@
-DeviceFail.\_\_init\_\_
-=======================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: DeviceFail.__init__

@@ -1,6 +1,0 @@
-Stream.resolution
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.resolution

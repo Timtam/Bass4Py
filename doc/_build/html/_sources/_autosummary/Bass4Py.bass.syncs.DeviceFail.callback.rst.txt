@@ -1,6 +1,0 @@
-DeviceFail.callback
-===================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: DeviceFail.callback

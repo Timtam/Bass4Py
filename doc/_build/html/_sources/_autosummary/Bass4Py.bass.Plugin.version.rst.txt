@@ -1,6 +1,0 @@
-Plugin.version
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Plugin.version

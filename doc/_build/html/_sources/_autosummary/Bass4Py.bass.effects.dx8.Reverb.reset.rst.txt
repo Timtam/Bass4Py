@@ -1,6 +1,0 @@
-Reverb.reset
-============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. automethod:: Reverb.reset

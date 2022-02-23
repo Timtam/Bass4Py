@@ -1,6 +1,0 @@
-OggChange.channel
-=================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: OggChange.channel

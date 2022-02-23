@@ -1,6 +1,0 @@
-Sample.from\_parameters
-=======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.from_parameters

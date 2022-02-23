@@ -1,6 +1,0 @@
-ChannelBase.granularity
-=======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.granularity

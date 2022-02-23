@@ -1,6 +1,0 @@
-Music.amplification
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.amplification

@@ -1,6 +1,0 @@
-POSITION.MUSIC\_ORDER
-=====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: POSITION.MUSIC_ORDER

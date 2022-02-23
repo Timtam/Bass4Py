@@ -1,6 +1,0 @@
-Music.frequency
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.frequency

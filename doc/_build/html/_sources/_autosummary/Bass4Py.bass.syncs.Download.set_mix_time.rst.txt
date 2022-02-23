@@ -1,6 +1,0 @@
-Download.set\_mix\_time
-=======================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: Download.set_mix_time

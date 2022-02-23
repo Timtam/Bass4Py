@@ -1,6 +1,0 @@
-OutputDevice.volume
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.volume

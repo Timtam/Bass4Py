@@ -1,6 +1,0 @@
-ChannelBase.pan
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.pan

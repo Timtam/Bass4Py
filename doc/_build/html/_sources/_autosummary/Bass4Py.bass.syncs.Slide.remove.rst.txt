@@ -1,6 +1,0 @@
-Slide.remove
-============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: Slide.remove

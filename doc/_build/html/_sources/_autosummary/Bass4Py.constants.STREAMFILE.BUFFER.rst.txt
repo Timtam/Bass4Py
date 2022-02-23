@@ -1,6 +1,0 @@
-STREAMFILE.BUFFER
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: STREAMFILE.BUFFER

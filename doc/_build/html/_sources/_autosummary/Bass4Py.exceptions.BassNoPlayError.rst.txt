@@ -1,8 +1,0 @@
-BassNoPlayError
-===============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassNoPlayError
-   :no-members:
-   :no-inherited-members:

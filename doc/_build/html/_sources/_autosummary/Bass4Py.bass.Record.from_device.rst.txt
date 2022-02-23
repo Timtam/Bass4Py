@@ -1,6 +1,0 @@
-Record.from\_device
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Record.from_device

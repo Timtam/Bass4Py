@@ -1,6 +1,0 @@
-OutputDevice.rolloff
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.rolloff

@@ -1,6 +1,0 @@
-Version.splitlines
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.splitlines

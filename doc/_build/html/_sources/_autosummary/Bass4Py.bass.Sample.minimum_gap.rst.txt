@@ -1,6 +1,0 @@
-Sample.minimum\_gap
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.minimum_gap

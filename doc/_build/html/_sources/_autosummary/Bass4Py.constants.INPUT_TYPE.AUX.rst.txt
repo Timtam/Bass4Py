@@ -1,6 +1,0 @@
-INPUT\_TYPE.AUX
-===============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.AUX

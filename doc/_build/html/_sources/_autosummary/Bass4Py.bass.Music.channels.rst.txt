@@ -1,6 +1,0 @@
-Music.channels
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.channels

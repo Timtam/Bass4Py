@@ -1,6 +1,0 @@
-Channel.get\_length
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Channel.get_length

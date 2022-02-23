@@ -1,6 +1,0 @@
-Sample.minimum\_distance
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.minimum_distance

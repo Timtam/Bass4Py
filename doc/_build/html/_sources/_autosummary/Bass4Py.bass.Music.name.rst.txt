@@ -1,6 +1,0 @@
-Music.name
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.name

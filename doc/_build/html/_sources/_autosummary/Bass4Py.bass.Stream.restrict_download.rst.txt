@@ -1,6 +1,0 @@
-Stream.restrict\_download
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.restrict_download

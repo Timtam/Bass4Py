@@ -1,6 +1,0 @@
-DEVICE.THREE\_D
-===============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.THREE_D

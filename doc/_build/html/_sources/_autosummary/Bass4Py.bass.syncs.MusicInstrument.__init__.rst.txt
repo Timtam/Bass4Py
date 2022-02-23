@@ -1,6 +1,0 @@
-MusicInstrument.\_\_init\_\_
-============================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: MusicInstrument.__init__

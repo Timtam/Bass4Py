@@ -1,6 +1,0 @@
-Version.\_\_init\_\_
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.__init__

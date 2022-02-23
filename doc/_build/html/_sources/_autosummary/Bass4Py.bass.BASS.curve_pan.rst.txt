@@ -1,6 +1,0 @@
-BASS.curve\_pan
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.curve_pan

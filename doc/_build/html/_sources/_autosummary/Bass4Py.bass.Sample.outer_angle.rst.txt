@@ -1,6 +1,0 @@
-Sample.outer\_angle
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.outer_angle

@@ -1,6 +1,0 @@
-BASS.net\_playlist
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_playlist

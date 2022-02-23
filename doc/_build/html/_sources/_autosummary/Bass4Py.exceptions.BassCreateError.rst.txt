@@ -1,8 +1,0 @@
-BassCreateError
-===============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassCreateError
-   :no-members:
-   :no-inherited-members:

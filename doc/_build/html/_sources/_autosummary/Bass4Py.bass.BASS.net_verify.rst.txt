@@ -1,6 +1,0 @@
-BASS.net\_verify
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_verify

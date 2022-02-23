@@ -1,6 +1,0 @@
-Sample.\_\_init\_\_
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.__init__

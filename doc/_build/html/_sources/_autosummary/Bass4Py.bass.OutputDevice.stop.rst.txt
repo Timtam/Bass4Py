@@ -1,6 +1,0 @@
-OutputDevice.stop
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.stop

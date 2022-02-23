@@ -1,6 +1,0 @@
-Stream.no\_ramping
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.no_ramping

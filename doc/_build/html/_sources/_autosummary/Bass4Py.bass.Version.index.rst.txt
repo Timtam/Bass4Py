@@ -1,6 +1,0 @@
-Version.index
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.index

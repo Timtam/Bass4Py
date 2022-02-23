@@ -1,6 +1,0 @@
-OggChange.set
-=============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: OggChange.set

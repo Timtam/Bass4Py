@@ -1,6 +1,0 @@
-Stream.bytes\_to\_seconds
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.bytes_to_seconds

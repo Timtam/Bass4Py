@@ -1,6 +1,0 @@
-Sample.init\_channel\_count
-===========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.init_channel_count

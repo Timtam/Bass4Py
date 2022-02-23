@@ -1,6 +1,0 @@
-Music.speed
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.speed

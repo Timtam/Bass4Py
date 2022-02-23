@@ -1,6 +1,0 @@
-Volume.curve
-============
-
-.. currentmodule:: Bass4Py.bass.effects
-
-.. autoattribute:: Volume.curve

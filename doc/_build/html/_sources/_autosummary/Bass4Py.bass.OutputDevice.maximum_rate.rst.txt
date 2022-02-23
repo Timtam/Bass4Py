@@ -1,6 +1,0 @@
-OutputDevice.maximum\_rate
-==========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.maximum_rate

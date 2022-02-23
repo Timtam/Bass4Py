@@ -1,6 +1,0 @@
-OutputDevice.pause
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.pause

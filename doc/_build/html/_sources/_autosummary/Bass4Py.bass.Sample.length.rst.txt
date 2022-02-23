@@ -1,6 +1,0 @@
-Sample.length
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.length

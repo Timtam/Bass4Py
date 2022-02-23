@@ -1,8 +1,0 @@
-BassLinkError
-=============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassLinkError
-   :no-members:
-   :no-inherited-members:

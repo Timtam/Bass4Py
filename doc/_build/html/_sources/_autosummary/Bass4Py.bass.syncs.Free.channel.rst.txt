@@ -1,6 +1,0 @@
-Free.channel
-============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Free.channel

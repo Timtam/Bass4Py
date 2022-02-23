@@ -1,6 +1,0 @@
-ChannelBase.sample
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.sample

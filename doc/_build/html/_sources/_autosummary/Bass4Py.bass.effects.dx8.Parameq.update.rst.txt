@@ -1,6 +1,0 @@
-Parameq.update
-==============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. automethod:: Parameq.update

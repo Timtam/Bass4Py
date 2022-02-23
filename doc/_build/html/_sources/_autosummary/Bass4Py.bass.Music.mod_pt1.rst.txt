@@ -1,6 +1,0 @@
-Music.mod\_pt1
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.mod_pt1

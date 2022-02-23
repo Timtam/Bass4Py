@@ -1,6 +1,0 @@
-Sample.channels
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.channels

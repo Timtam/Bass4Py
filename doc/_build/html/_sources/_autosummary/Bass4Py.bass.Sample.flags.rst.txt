@@ -1,6 +1,0 @@
-Sample.flags
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.flags

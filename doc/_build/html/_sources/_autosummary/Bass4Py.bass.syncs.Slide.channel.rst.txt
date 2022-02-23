@@ -1,6 +1,0 @@
-Slide.channel
-=============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Slide.channel

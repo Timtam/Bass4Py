@@ -1,6 +1,0 @@
-Stream.put\_file\_data
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.put_file_data

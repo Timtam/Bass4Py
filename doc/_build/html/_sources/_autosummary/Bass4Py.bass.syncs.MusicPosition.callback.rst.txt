@@ -1,6 +1,0 @@
-MusicPosition.callback
-======================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: MusicPosition.callback

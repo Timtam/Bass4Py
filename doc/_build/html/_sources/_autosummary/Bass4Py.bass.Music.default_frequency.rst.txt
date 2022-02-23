@@ -1,6 +1,0 @@
-Music.default\_frequency
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.default_frequency

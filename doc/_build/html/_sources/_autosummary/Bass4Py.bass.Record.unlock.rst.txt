@@ -1,6 +1,0 @@
-Record.unlock
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Record.unlock

@@ -1,6 +1,0 @@
-Stream.flags
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.flags

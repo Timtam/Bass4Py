@@ -1,8 +1,0 @@
-BassUnknownError
-================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassUnknownError
-   :no-members:
-   :no-inherited-members:

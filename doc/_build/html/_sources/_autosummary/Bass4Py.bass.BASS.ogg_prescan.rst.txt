@@ -1,6 +1,0 @@
-BASS.ogg\_prescan
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.ogg_prescan

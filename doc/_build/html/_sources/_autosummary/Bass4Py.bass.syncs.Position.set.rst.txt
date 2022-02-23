@@ -1,6 +1,0 @@
-Position.set
-============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: Position.set

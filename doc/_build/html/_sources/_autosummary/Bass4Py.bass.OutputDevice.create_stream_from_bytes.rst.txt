@@ -1,6 +1,0 @@
-OutputDevice.create\_stream\_from\_bytes
-========================================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.create_stream_from_bytes

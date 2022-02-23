@@ -1,6 +1,0 @@
-SetPosition.one\_time
-=====================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: SetPosition.one_time

@@ -1,6 +1,0 @@
-Music.seconds\_to\_bytes
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.seconds_to_bytes

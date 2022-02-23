@@ -1,8 +1,0 @@
-BassSslError
-============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassSslError
-   :no-members:
-   :no-inherited-members:

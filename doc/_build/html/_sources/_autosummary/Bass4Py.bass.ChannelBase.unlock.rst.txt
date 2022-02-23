@@ -1,6 +1,0 @@
-ChannelBase.unlock
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: ChannelBase.unlock
