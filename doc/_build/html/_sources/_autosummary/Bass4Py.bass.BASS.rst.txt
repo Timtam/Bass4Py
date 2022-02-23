@@ -1,4 +1,4 @@
-﻿BASS
+BASS
 ====
 
 .. currentmodule:: Bass4Py.bass
@@ -111,10 +111,6 @@
       BASS.version
    
       BASS.virtual_channels
-   
-      BASS.vista_speakers
-   
-      BASS.vista_truepos
    
       BASS.wasapi_persist
    

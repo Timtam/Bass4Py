@@ -1,6 +1,0 @@
-Sample.vam
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.vam

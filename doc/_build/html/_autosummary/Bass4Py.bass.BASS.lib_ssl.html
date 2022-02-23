@@ -39,6 +39,11 @@
 <dt class="sig sig-object py" id="Bass4Py.bass.BASS.lib_ssl">
 <span class="sig-prename descclassname"><span class="pre">BASS.</span></span><span class="sig-name descname"><span class="pre">lib_ssl</span></span><a class="headerlink" href="#Bass4Py.bass.BASS.lib_ssl" title="Permalink to this definition">¶</a></dt>
 <dd><p>The OpenSSL (or compatible) library to use for handling HTTPS connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.exceptions.BassPlatformError.html#Bass4Py.exceptions.BassPlatformError" title="Bass4Py.exceptions.BassPlatformError"><strong>Bass4Py.exceptions.BassPlatformError</strong></a> – the feature isn’t supported on this platform</p>
+</dd>
+</dl>
 <p>The filename of the OpenSSL library to use… <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> = use default. This
 should include the full path if it is not in the system library search path.</p>
 <p>By default, BASS will try to use the system’s OpenSSL library to handle
@@ -52,7 +57,7 @@ defaults.</p>
 <p>This option is only available on the Linux platform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -39,6 +39,11 @@
 <dt class="sig sig-object py" id="Bass4Py.bass.BASS.mf_disable">
 <span class="sig-prename descclassname"><span class="pre">BASS.</span></span><span class="sig-name descname"><span class="pre">mf_disable</span></span><a class="headerlink" href="#Bass4Py.bass.BASS.mf_disable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disable Media Foundation?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.exceptions.BassPlatformError.html#Bass4Py.exceptions.BassPlatformError" title="Bass4Py.exceptions.BassPlatformError"><strong>Bass4Py.exceptions.BassPlatformError</strong></a> – the feature isn’t available on this platform</p>
+</dd>
+</dl>
 <p>This option determines whether Media Foundation codecs can be used to
 decode files and streams. It is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> by default when Media
 Foundation codecs are available, which is on Windows 7 and above, and

@@ -1,6 +1,0 @@
-OutputDevice.eax\_preset
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.eax_preset

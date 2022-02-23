@@ -1,6 +1,0 @@
-Stream.eax\_mix
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.eax_mix

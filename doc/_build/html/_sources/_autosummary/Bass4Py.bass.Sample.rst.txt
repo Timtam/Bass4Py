@@ -1,4 +1,4 @@
-﻿Sample
+Sample
 ======
 
 .. currentmodule:: Bass4Py.bass
