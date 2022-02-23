@@ -1,0 +1,8 @@
+BassNotAFileError
+=================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassNotAFileError
+   :no-members:
+   :no-inherited-members:

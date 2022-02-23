@@ -1,0 +1,6 @@
+OutputDeviceEnumerator.\_\_init\_\_
+===================================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: OutputDeviceEnumerator.__init__

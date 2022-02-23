@@ -1,0 +1,6 @@
+Stream.from\_url
+================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.from_url

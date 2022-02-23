@@ -1,0 +1,6 @@
+BASS.net\_playlist\_depth
+=========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.net_playlist_depth

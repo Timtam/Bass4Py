@@ -1,0 +1,6 @@
+Music.orientation\_3d
+=====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.orientation_3d

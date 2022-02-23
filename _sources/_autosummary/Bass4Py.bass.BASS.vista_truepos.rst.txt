@@ -1,0 +1,6 @@
+BASS.vista\_truepos
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.vista_truepos

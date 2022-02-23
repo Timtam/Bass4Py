@@ -1,0 +1,6 @@
+BASS.output\_devices
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.output_devices

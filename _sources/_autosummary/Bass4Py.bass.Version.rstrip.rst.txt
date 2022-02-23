@@ -1,0 +1,6 @@
+Version.rstrip
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.rstrip

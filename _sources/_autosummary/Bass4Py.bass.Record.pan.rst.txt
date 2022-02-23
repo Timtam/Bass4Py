@@ -1,0 +1,6 @@
+Record.pan
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.pan

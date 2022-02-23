@@ -1,0 +1,6 @@
+BASS.record\_buffer
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.record_buffer

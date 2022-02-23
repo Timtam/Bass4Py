@@ -1,0 +1,6 @@
+Position.set\_mix\_time
+=======================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. automethod:: Position.set_mix_time

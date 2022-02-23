@@ -1,0 +1,6 @@
+Record.get\_length
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Record.get_length

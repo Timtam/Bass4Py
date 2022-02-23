@@ -1,0 +1,6 @@
+OutputDevice.driver
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.driver

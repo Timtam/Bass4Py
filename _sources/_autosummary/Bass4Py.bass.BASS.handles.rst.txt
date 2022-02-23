@@ -1,0 +1,6 @@
+BASS.handles
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.handles

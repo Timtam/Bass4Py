@@ -1,0 +1,40 @@
+DeviceFormat
+============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoclass:: DeviceFormat
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      DeviceFormat.__init__
+   
+      DeviceFormat.remove
+   
+      DeviceFormat.set
+   
+      DeviceFormat.set_mix_time
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      DeviceFormat.callback
+   
+      DeviceFormat.channel
+   
+      DeviceFormat.one_time
+   
+   
+   

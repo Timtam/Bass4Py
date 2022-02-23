@@ -1,0 +1,6 @@
+OutputDevice.eax\_volume
+========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.eax_volume

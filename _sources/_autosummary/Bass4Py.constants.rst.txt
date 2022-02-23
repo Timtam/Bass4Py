@@ -1,0 +1,50 @@
+﻿Bass4Py.constants
+=================
+
+.. rubric:: Description
+.. automodule:: Bass4Py.constants
+   :no-members:
+   :no-inherited-members:
+
+.. currentmodule:: Bass4Py.constants
+
+
+.. rubric:: Classes
+.. autosummary::
+    :toctree:
+    
+    ACTIVE
+    
+    ALGORITHM_3D
+    
+    CHANNEL_TYPE
+    
+    DEVICE
+    
+    DEVICE_TYPE
+    
+    FILE_POSITION
+    
+    INPUT_TYPE
+    
+    MP3
+    
+    POSITION
+    
+    SAMPLE_BASE
+    
+    STARTED
+    
+    STREAMFILE
+    
+
+
+
+.. rubric:: Functions
+.. autosummary::
+    :toctree:
+    
+    extend_int_flag
+    
+
+

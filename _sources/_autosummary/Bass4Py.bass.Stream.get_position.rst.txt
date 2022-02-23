@@ -1,0 +1,6 @@
+Stream.get\_position
+====================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.get_position

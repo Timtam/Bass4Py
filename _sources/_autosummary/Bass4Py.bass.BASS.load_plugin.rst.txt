@@ -1,0 +1,6 @@
+BASS.load\_plugin
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: BASS.load_plugin

@@ -1,0 +1,6 @@
+POSITION.END
+============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: POSITION.END

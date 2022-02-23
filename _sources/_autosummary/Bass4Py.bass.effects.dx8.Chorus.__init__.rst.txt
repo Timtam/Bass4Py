@@ -1,0 +1,6 @@
+Chorus.\_\_init\_\_
+===================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Chorus.__init__

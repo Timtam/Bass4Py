@@ -1,0 +1,50 @@
+Distortion
+==========
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoclass:: Distortion
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Distortion.__init__
+   
+      Distortion.remove
+   
+      Distortion.reset
+   
+      Distortion.set
+   
+      Distortion.update
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Distortion.channel
+   
+      Distortion.edge
+   
+      Distortion.gain
+   
+      Distortion.post_eq_bandwidth
+   
+      Distortion.post_eq_center_frequency
+   
+      Distortion.pre_lowpass_cutoff
+   
+      Distortion.priority
+   
+   
+   

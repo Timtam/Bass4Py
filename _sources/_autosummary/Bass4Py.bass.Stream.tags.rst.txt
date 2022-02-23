@@ -1,0 +1,6 @@
+Stream.tags
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.tags

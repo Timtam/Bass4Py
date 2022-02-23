@@ -1,0 +1,6 @@
+Record.sample
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.sample

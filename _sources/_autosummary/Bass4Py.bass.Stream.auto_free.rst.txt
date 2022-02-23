@@ -1,0 +1,6 @@
+Stream.auto\_free
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.auto_free

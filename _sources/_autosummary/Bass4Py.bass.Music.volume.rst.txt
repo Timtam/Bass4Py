@@ -1,0 +1,6 @@
+Music.volume
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.volume

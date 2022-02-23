@@ -1,0 +1,6 @@
+Position.channel
+================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Position.channel

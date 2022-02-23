@@ -1,0 +1,6 @@
+I3DL2Reverb.\_\_init\_\_
+========================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: I3DL2Reverb.__init__

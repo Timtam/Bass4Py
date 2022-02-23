@@ -1,0 +1,6 @@
+Plugin.formats
+==============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Plugin.formats

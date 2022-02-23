@@ -1,0 +1,6 @@
+CHANNEL\_TYPE.MUSIC\_MOD
+========================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: CHANNEL_TYPE.MUSIC_MOD

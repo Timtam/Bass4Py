@@ -1,0 +1,6 @@
+Record.src
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.src

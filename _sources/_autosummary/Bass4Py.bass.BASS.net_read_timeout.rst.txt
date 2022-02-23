@@ -1,0 +1,6 @@
+BASS.net\_read\_timeout
+=======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.net_read_timeout

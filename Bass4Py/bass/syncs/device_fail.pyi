@@ -1,3 +1,0 @@
-from ..sync import Sync
-
-class DeviceFail(Sync): ...

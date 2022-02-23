@@ -1,0 +1,25 @@
+ALGORITHM\_3D
+=============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: ALGORITHM_3D
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      ALGORITHM_3D.DEFAULT
+   
+      ALGORITHM_3D.OFF
+   
+   
+   

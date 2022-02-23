@@ -1,0 +1,6 @@
+Sample.maximum\_distance
+========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sample.maximum_distance

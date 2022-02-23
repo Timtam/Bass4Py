@@ -1,0 +1,6 @@
+Stream.cpu
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.cpu

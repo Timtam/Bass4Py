@@ -1,0 +1,6 @@
+Channel.flags
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.flags

@@ -1,0 +1,6 @@
+Sample.device
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Sample.device

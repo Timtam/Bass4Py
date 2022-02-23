@@ -1,0 +1,6 @@
+OutputDevice.direct\_x
+======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.direct_x

@@ -1,0 +1,6 @@
+Stream.granularity
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.granularity

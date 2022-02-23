@@ -1,0 +1,6 @@
+Free.one\_time
+==============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Free.one_time

@@ -1,0 +1,6 @@
+Version.isspace
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.isspace

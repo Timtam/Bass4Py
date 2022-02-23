@@ -1,0 +1,31 @@
+ACTIVE
+======
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: ACTIVE
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      ACTIVE.STOPPED
+   
+      ACTIVE.PLAYING
+   
+      ACTIVE.STALLED
+   
+      ACTIVE.PAUSED
+   
+      ACTIVE.PAUSED_DEVICE
+   
+   
+   

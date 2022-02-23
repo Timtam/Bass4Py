@@ -1,0 +1,52 @@
+Compressor
+==========
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoclass:: Compressor
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      Compressor.__init__
+   
+      Compressor.remove
+   
+      Compressor.reset
+   
+      Compressor.set
+   
+      Compressor.update
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      Compressor.attack
+   
+      Compressor.channel
+   
+      Compressor.gain
+   
+      Compressor.predelay
+   
+      Compressor.priority
+   
+      Compressor.ratio
+   
+      Compressor.release
+   
+      Compressor.threshold
+   
+   
+   

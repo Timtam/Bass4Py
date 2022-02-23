@@ -1,0 +1,6 @@
+Input.\_\_init\_\_
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Input.__init__

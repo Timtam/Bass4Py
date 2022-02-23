@@ -1,0 +1,6 @@
+FX.update
+=========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: FX.update

@@ -1,0 +1,6 @@
+Stream.get\_levels
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.get_levels

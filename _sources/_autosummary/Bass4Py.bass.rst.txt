@@ -1,0 +1,14 @@
+﻿Bass4Py.bass
+============
+
+.. rubric:: Description
+.. automodule:: Bass4Py.bass
+   :no-members:
+   :no-inherited-members:
+
+.. currentmodule:: Bass4Py.bass
+
+
+
+
+

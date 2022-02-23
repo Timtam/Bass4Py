@@ -1,0 +1,6 @@
+SAMPLE\_BASE.MONO
+=================
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: SAMPLE_BASE.MONO

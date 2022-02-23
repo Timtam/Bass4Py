@@ -1,0 +1,6 @@
+Stream.loop
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.loop

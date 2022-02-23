@@ -1,0 +1,6 @@
+MusicInstrument.one\_time
+=========================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: MusicInstrument.one_time

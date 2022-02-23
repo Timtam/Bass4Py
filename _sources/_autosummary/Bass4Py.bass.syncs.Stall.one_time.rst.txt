@@ -1,0 +1,6 @@
+Stall.one\_time
+===============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: Stall.one_time

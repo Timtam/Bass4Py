@@ -1,0 +1,8 @@
+BassAlreadyError
+================
+
+.. currentmodule:: Bass4Py.exceptions
+
+.. autoexception:: BassAlreadyError
+   :no-members:
+   :no-inherited-members:

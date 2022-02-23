@@ -1,0 +1,6 @@
+STARTED.ACTIVE
+==============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: STARTED.ACTIVE

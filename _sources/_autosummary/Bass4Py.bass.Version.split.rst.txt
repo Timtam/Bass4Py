@@ -1,0 +1,6 @@
+Version.split
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.split

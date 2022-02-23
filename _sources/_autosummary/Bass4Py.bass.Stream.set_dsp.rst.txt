@@ -1,0 +1,6 @@
+Stream.set\_dsp
+===============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Stream.set_dsp

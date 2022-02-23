@@ -1,0 +1,6 @@
+DeviceFormat.channel
+====================
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoattribute:: DeviceFormat.channel

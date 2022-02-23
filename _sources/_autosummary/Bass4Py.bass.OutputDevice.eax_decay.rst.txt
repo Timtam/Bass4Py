@@ -1,0 +1,6 @@
+OutputDevice.eax\_decay
+=======================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: OutputDevice.eax_decay

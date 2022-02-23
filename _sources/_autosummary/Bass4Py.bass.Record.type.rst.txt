@@ -1,0 +1,6 @@
+Record.type
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.type

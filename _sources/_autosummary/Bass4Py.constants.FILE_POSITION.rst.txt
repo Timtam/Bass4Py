@@ -1,0 +1,43 @@
+FILE\_POSITION
+==============
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoclass:: FILE_POSITION
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      FILE_POSITION.CURRENT
+   
+      FILE_POSITION.DECODE
+   
+      FILE_POSITION.DOWNLOAD
+   
+      FILE_POSITION.END
+   
+      FILE_POSITION.START
+   
+      FILE_POSITION.CONNECTED
+   
+      FILE_POSITION.BUFFER
+   
+      FILE_POSITION.SOCKET
+   
+      FILE_POSITION.ASYNCBUF
+   
+      FILE_POSITION.SIZE
+   
+      FILE_POSITION.BUFFERING
+   
+   
+   

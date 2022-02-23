@@ -1,0 +1,6 @@
+Stream.name
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.name

@@ -1,6 +1,0 @@
-[run]
-plugins = Cython.Coverage
-source = Bass4Py
-omit =
-    tests
-    *__init__.py

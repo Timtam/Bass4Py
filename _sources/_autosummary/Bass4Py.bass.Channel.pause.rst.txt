@@ -1,0 +1,6 @@
+Channel.pause
+=============
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Channel.pause

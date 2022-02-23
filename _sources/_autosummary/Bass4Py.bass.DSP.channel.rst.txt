@@ -1,0 +1,6 @@
+DSP.channel
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: DSP.channel

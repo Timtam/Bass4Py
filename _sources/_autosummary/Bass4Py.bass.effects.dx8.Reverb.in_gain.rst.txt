@@ -1,0 +1,6 @@
+Reverb.in\_gain
+===============
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Reverb.in_gain

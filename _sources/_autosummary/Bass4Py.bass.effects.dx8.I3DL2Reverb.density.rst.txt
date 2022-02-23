@@ -1,0 +1,6 @@
+I3DL2Reverb.density
+===================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: I3DL2Reverb.density

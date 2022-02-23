@@ -1,0 +1,6 @@
+Distortion.\_\_init\_\_
+=======================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. automethod:: Distortion.__init__

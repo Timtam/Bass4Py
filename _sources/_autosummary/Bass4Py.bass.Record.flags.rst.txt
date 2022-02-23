@@ -1,0 +1,6 @@
+Record.flags
+============
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Record.flags

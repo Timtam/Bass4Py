@@ -1,0 +1,6 @@
+BASS.update\_period
+===================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: BASS.update_period

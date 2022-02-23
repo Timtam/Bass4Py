@@ -1,0 +1,6 @@
+Stream.pan
+==========
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Stream.pan

@@ -1,0 +1,6 @@
+Sample.free
+===========
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Sample.free

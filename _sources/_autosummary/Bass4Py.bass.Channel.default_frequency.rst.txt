@@ -1,0 +1,6 @@
+Channel.default\_frequency
+==========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Channel.default_frequency

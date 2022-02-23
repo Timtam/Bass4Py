@@ -1,0 +1,6 @@
+Version.rpartition
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.rpartition

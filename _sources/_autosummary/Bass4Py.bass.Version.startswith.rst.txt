@@ -1,0 +1,6 @@
+Version.startswith
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.startswith

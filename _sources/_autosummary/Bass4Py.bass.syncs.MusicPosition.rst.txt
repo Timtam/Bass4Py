@@ -1,0 +1,44 @@
+MusicPosition
+=============
+
+.. currentmodule:: Bass4Py.bass.syncs
+
+.. autoclass:: MusicPosition
+   :no-members:
+   :no-inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+   
+      MusicPosition.__init__
+   
+      MusicPosition.remove
+   
+      MusicPosition.set
+   
+      MusicPosition.set_mix_time
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+   .. autosummary::
+      :toctree:
+   
+      MusicPosition.callback
+   
+      MusicPosition.channel
+   
+      MusicPosition.one_time
+   
+      MusicPosition.order
+   
+      MusicPosition.row
+   
+   
+   

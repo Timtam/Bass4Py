@@ -1,0 +1,6 @@
+InputDevice.record
+==================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: InputDevice.record

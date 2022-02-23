@@ -1,0 +1,6 @@
+DSP.set
+=======
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: DSP.set

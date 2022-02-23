@@ -1,0 +1,6 @@
+Echo.wet\_dry\_mix
+==================
+
+.. currentmodule:: Bass4Py.bass.effects.dx8
+
+.. autoattribute:: Echo.wet_dry_mix

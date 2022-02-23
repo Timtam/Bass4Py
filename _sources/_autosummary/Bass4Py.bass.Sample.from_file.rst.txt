@@ -1,0 +1,6 @@
+Sample.from\_file
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Sample.from_file

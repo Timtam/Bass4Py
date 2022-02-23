@@ -1,0 +1,6 @@
+Version.isnumeric
+=================
+
+.. currentmodule:: Bass4Py.bass
+
+.. automethod:: Version.isnumeric
