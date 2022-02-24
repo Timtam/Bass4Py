@@ -77,7 +77,43 @@ cdef class Channel(ChannelBase):
       BASS_ChannelFlags(self._channel, 0, flag)
     self._evaluate()
 
-  cpdef play(Channel self, bint restart):
+  cpdef play(Channel self, bint restart=False):
+    """
+    Starts (or resumes) playback. 
+
+    Parameters
+    ----------
+    restart : :obj:`bool`
+      Restart playback from the beginning? If this is a user stream (created 
+      with :meth:`Bass4Py.bass.OutputDevice.create_stream_from_parameters` or 
+      :meth:`Bass4Py.bass.Stream.from_parameters`), its current buffer contents 
+      are cleared. If this is a :class:`Bass4Py.bass.Music`, its BPM/etc are 
+      reset to their initial values. 
+
+    Returns
+    -------
+    :obj:`bool`
+      success
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassStartError`
+      The output is paused/stopped, use :meth:`Bass4Py.bass.OutputDevice.start` 
+      to start it. 
+    :exc:`Bass4Py.exceptions.BassDecodeError`
+      The channel is not playable; it is a "decoding channel". 
+
+
+    When streaming in blocks (:attr:`Bass4Py.constants.STREAM.BLOCK`), the 
+    restart parameter is ignored as it is not possible to go back to the start. 
+    The restart parameter is also of no consequence with recording channels. 
+    If other channels have been linked to the specified channel via 
+    :meth:`~Bass4Py.bass.Channel.link`, this function will attempt to 
+    simultaneously start playing them too but if any fail, it will be silently. 
+    The exception raised only reflects what happened with the specified channel. 
+    :attr:`Bass4Py.bass.Channel.active` can be used to confirm the status of 
+    linked channels. 
+    """
     cdef bint res
     with nogil:
       res = BASS_ChannelPlay(self._channel, restart)

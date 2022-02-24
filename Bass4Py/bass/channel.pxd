@@ -29,7 +29,7 @@ cdef class Channel(ChannelBase):
   cpdef _set_flags(Channel self, DWORD flag, bint switch)
   cpdef get_tags(Channel self, DWORD tagtype)
   cpdef link(Channel self, Channel obj)
-  cpdef play(Channel self, bint restart)
+  cpdef play(Channel self, bint restart=?)
   cpdef reset_fx(Channel self)
   cpdef set_dsp(Channel self, DSP dsp)
   cpdef set_fx(Channel self, FX fx)
