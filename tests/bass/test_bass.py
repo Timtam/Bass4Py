@@ -397,3 +397,11 @@ class TestBASS:
   def test_lib_ssl_property_setter_raising_error_on_non_linux(self, bass):
     with pytest.raises(BassPlatformError):
       bass.lib_ssl = ''
+
+  def test_device_nonstop_property(self, bass):
+    assert type(bass.device_nonstop) == bool
+  
+  @pytest.mark.bass_property("device_nonstop")
+  def test_device_nonstop_property_setter(self, bass):
+    bass.device_nonstop = True
+    assert bass.device_nonstop is True

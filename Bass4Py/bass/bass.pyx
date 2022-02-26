@@ -14,6 +14,7 @@ from ..bindings.bass cimport (
   _BASS_CONFIG_CURVE_VOL,
   _BASS_CONFIG_DEV_BUFFER,
   _BASS_CONFIG_DEV_DEFAULT,
+  _BASS_CONFIG_DEV_NONSTOP,
   _BASS_CONFIG_DEV_PERIOD,
   _BASS_CONFIG_FLOATDSP,
   _BASS_CONFIG_GVOL_MUSIC,
@@ -1138,3 +1139,23 @@ cdef class BASS(Evaluable):
         else:
           data = to_readonly_bytes(value)
           BASS_SetConfigPtr(_BASS_CONFIG_LIBSSL, <unsigned char *>data)
+
+  property device_nonstop:
+    """
+    :obj:`bool`: Do not stop the output device when nothing is playing on it? 
+
+    By default, BASS will stop sending data to the output device when nothing 
+    is playing, to save a little CPU/power. When that happens, the device buffer 
+    will become empty, and the next playback will begin more quickly as a 
+    result. Or it may be delayed if the device has gone to sleep in the 
+    meantime. If more consistent playback latency (around the value given by 
+    :attr:`Bass4Py.bass.OutputDevice.latency`) is wanted, this option can be 
+    enabled to keep the device buffer filled with silence when nothing is 
+    playing. The output will still be stopped by 
+    :meth:`Bass4Py.bass.OutputDevice.stop` then. 
+    """
+    def __get__(BASS self):
+      return <bint>BASS_GetConfig(_BASS_CONFIG_DEV_NONSTOP)
+
+    def __set__(BASS self, bint value):
+      BASS_SetConfig(_BASS_CONFIG_DEV_NONSTOP, <DWORD>value)

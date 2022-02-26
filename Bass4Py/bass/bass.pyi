@@ -250,3 +250,9 @@ class BASS(Evaluable):
   
   @lib_ssl.setter
   def lib_ssl(self, value: Optional[Union[str, bytes]]) -> None: ...
+
+  @property
+  def device_nonstop(self) -> bool: ...
+  
+  @device_nonstop.setter
+  def device_nonstop(self, value: bool) -> None: ...
