@@ -37,8 +37,40 @@
 <h1>Music.play<a class="headerlink" href="#music-play" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Music.play">
-<span class="sig-prename descclassname"><span class="pre">Music.</span></span><span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restart</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Music.play" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">Music.</span></span><span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">restart</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Music.play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts (or resumes) playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>restart</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Restart playback from the beginning? If this is a user stream (created
+with <a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_parameters.html#Bass4Py.bass.OutputDevice.create_stream_from_parameters" title="Bass4Py.bass.OutputDevice.create_stream_from_parameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.create_stream_from_parameters()</span></code></a> or
+<a class="reference internal" href="Bass4Py.bass.Stream.from_parameters.html#Bass4Py.bass.Stream.from_parameters" title="Bass4Py.bass.Stream.from_parameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream.from_parameters()</span></code></a>), its current buffer contents
+are cleared. If this is a <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a>, its BPM/etc are
+reset to their initial values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>success</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassStartError.html#Bass4Py.exceptions.BassStartError" title="Bass4Py.exceptions.BassStartError"><strong>Bass4Py.exceptions.BassStartError</strong></a> – The output is paused/stopped, use <a class="reference internal" href="Bass4Py.bass.OutputDevice.start.html#Bass4Py.bass.OutputDevice.start" title="Bass4Py.bass.OutputDevice.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.start()</span></code></a>
+    to start it.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassDecodeError.html#Bass4Py.exceptions.BassDecodeError" title="Bass4Py.exceptions.BassDecodeError"><strong>Bass4Py.exceptions.BassDecodeError</strong></a> – The channel is not playable; it is a “decoding channel”.</p></li>
+</ul>
+</dd>
+</dl>
+<p>When streaming in blocks (<code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.STREAM.BLOCK</span></code>), the
+restart parameter is ignored as it is not possible to go back to the start.
+The restart parameter is also of no consequence with recording channels.
+If other channels have been linked to the specified channel via
+<a class="reference internal" href="Bass4Py.bass.Channel.link.html#Bass4Py.bass.Channel.link" title="Bass4Py.bass.Channel.link"><code class="xref py py-meth docutils literal notranslate"><span class="pre">link()</span></code></a>, this function will attempt to
+simultaneously start playing them too but if any fail, it will be silently.
+The exception raised only reflects what happened with the specified channel.
+<a class="reference internal" href="Bass4Py.bass.Channel.active.html#Bass4Py.bass.Channel.active" title="Bass4Py.bass.Channel.active"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.active</span></code></a> can be used to confirm the status of
+linked channels.</p>
+</dd></dl>
 
 </section>
 
