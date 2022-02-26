@@ -48,6 +48,8 @@ BASS
    
       BASS.device_buffer
    
+      BASS.device_nonstop
+   
       BASS.device_update_period
    
       BASS.float_dsp
