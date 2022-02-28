@@ -100,7 +100,7 @@ cdef class Evaluable:
     elif error == _BASS_ERROR_CREATE:
       raise exceptions.BassCreateError()
     elif error == _BASS_ERROR_NOFX:
-      raise exceptions.BassNoFxError()
+      raise exceptions.BassNoFXError()
     elif error == _BASS_ERROR_NOTAVAIL:
       raise exceptions.BassNotAvailableError()
     elif error == _BASS_ERROR_DECODE:

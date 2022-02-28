@@ -18,30 +18,64 @@ cdef class FX(Evaluable):
       PyMem_Free(self._effect)
       self._effect = NULL
 
-  cpdef set(FX self, Channel chan, bint update = True):
+  cdef void _set_fx(FX self, Channel channel):
     cdef HFX fx
 
     if self._fx:
       raise BassAPIError()
 
-    with nogil:
-      fx = BASS_ChannelSetFX(chan._channel, self._type, self._priority)
+    fx = BASS_ChannelSetFX(channel._channel, self._type, self._priority)
 
     self._evaluate()
 
-    self.channel = chan
+    self.channel = channel
 
     self._fx = fx
 
-    if update:
-      with nogil:
-        BASS_FXSetParameters(self._fx, self._effect)
+  cpdef set(FX self, Channel chan):
+    """
+    Apply this effect to a channel. 
 
-      try:
-        self._evaluate()
-      except Exception, e:
-        self.remove()
-        raise e
+    Parameters
+    ----------
+    chan : :obj:`Bass4Py.bass.Channel`
+      one of the various channel implementations.
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassNoFXError`
+      The specified DX8 effect is unavailable. 
+    :exc:`Bass4Py.exceptions.BassFormatError`
+      The channel's format is not supported by the effect. 
+    :exc:`Bass4Py.exceptions.BassUnknownError`
+      Some other mystery problem! 
+
+
+    Multiple effects may be used per channel. Use 
+    :meth:`~Bass4Py.bass.FX.remove` to remove an effect. Use the effect-specific 
+    attributes to set an effect's parameters. An effect's priority value can be 
+    changed via the :attr:`~Bass4Py.bass.FX.priority` attribute. 
+    Effects can be applied to :class:`Bass4Py.bass.Music` and 
+    :class:`Bass4Py.bass.Stream`, but not :class:`Bass4Py.bass.Sample`. If you 
+    want to apply an effect to a sample, you could use a stream instead. 
+
+    Platform-specific
+
+    DX8 effects are a Windows feature requiring DirectX 8, or DirectX 9 for 
+    floating-point support. On other platforms, they are emulated by BASS, 
+    except for the following which are currently unsupported: 
+    :class:`Bass4Py.bass.effects.dx8.Compressor`, 
+    :class:`Bass4Py.bass.effects.dx8.Gargle`, and 
+    :class:`Bass4Py.bass.effects.dx8.I3DL2Reverb`. 
+    """
+
+    self._set_fx(chan)
+
+    try:
+      self.update()
+    except Exception:
+      self.remove()
+      raise
 
   cpdef remove(FX self):
     cdef bint res

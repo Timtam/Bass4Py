@@ -80,7 +80,7 @@ class BassNoChannelError(Exception):
 class BassNoEaxError(Exception):
   pass
 
-class BassNoFxError(Exception):
+class BassNoFXError(Exception):
   pass
 
 class BassNoHardwareError(Exception):

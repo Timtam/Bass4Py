@@ -38,7 +38,35 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Music.set_fx">
 <span class="sig-prename descclassname"><span class="pre">Music.</span></span><span class="sig-name descname"><span class="pre">set_fx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Music.set_fx" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Apply an effect to this channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fx</strong> (<a class="reference internal" href="Bass4Py.bass.FX.html#Bass4Py.bass.FX" title="Bass4Py.bass.FX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bass4Py.bass.FX</span></code></a>) – one of the subclasses of <a class="reference internal" href="Bass4Py.bass.FX.html#Bass4Py.bass.FX" title="Bass4Py.bass.FX"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.FX</span></code></a>, which can be found
+within the <a class="reference internal" href="Bass4Py.bass.effects.html#module-Bass4Py.bass.effects" title="Bass4Py.bass.effects"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Bass4Py.bass.effects</span></code></a> package.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassNoFXError.html#Bass4Py.exceptions.BassNoFXError" title="Bass4Py.exceptions.BassNoFXError"><strong>Bass4Py.exceptions.BassNoFXError</strong></a> – The specified DX8 effect is unavailable.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassFormatError.html#Bass4Py.exceptions.BassFormatError" title="Bass4Py.exceptions.BassFormatError"><strong>Bass4Py.exceptions.BassFormatError</strong></a> – The channel’s format is not supported by the effect.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassUnknownError.html#Bass4Py.exceptions.BassUnknownError" title="Bass4Py.exceptions.BassUnknownError"><strong>Bass4Py.exceptions.BassUnknownError</strong></a> – Some other mystery problem!</p></li>
+</ul>
+</dd>
+</dl>
+<p>Multiple effects may be used per channel. Use
+<a class="reference internal" href="Bass4Py.bass.FX.remove.html#Bass4Py.bass.FX.remove" title="Bass4Py.bass.FX.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.FX.remove()</span></code></a> to remove an effect. Use the effect-specific
+attributes to set an effect’s parameters. An effect’s priority value can be
+changed via the <a class="reference internal" href="Bass4Py.bass.FX.priority.html#Bass4Py.bass.FX.priority" title="Bass4Py.bass.FX.priority"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.FX.priority</span></code></a> attribute.
+Effects can be applied to <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> and
+<a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a>, but not <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Sample</span></code></a>. If you
+want to apply an effect to a sample, you could use a stream instead.</p>
+<p>Platform-specific</p>
+<p>DX8 effects are a Windows feature requiring DirectX 8, or DirectX 9 for
+floating-point support. On other platforms, they are emulated by BASS,
+except for the following which are currently unsupported:
+<a class="reference internal" href="Bass4Py.bass.effects.dx8.Compressor.html#Bass4Py.bass.effects.dx8.Compressor" title="Bass4Py.bass.effects.dx8.Compressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.effects.dx8.Compressor</span></code></a>,
+<a class="reference internal" href="Bass4Py.bass.effects.dx8.Gargle.html#Bass4Py.bass.effects.dx8.Gargle" title="Bass4Py.bass.effects.dx8.Gargle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.effects.dx8.Gargle</span></code></a>, and
+<a class="reference internal" href="Bass4Py.bass.effects.dx8.I3DL2Reverb.html#Bass4Py.bass.effects.dx8.I3DL2Reverb" title="Bass4Py.bass.effects.dx8.I3DL2Reverb"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.effects.dx8.I3DL2Reverb</span></code></a>.</p>
+</dd></dl>
 
 </section>
 

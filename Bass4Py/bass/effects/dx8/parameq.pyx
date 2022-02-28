@@ -29,25 +29,21 @@ cdef class Parameq(FX):
     effect.fBandwidth = 12.0
     effect.fGain = 0.0
 
-  cpdef set(Parameq self, Channel chan, bint update = True):
+  cpdef set(Parameq self, Channel chan):
     cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
     cdef BASS_DX8_PARAMEQ temp
 
-    super(Parameq, self).set(chan, False)
+    self._set_fx(chan)
 
     if effect.fCenter == 0:
       BASS_FXGetParameters(self._fx, <void*>(&temp))
       effect.fCenter = temp.fCenter
-    
-    if update:
 
-      BASS_FXSetParameters(self._fx, self._effect)
-
-      try:
-        self._evaluate()
-      except Exception, e:
-        self.remove()
-        raise e
+    try:
+      self.update()
+    except Exception:
+      self.remove()
+      raise
 
   property center:
     def __get__(Parameq self):

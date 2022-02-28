@@ -20,6 +20,7 @@ cdef class FX(Evaluable):
 
   cpdef remove(FX self)
   cpdef reset(FX self)
-  cpdef set(FX self, Channel chan, bint update = *)
+  cpdef set(FX self, Channel chan)
   cpdef update(FX self)
   cpdef _validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound)
+  cdef void _set_fx(FX self, Channel channel)
