@@ -30,6 +30,7 @@ including `MyPy <http://mypy-lang.org>`_ typings to ensure type safety.
 .. toctree::
    apireference
    changes
+   todo
    :maxdepth: 1
    :caption: Contents:
 

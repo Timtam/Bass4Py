@@ -34,6 +34,26 @@ cdef class DSP(Evaluable):
     return res
 
   cpdef set(DSP self, Channel chan):
+    """
+    Applies this DSP to a channel. 
+
+    Parameters
+    ----------
+    chan : :obj:`Bass4Py.bass.Channel`
+      the channel to which the DSP should be applied
+    
+    
+    DSPs can be set and removed at any time, including mid-playback. Use 
+    :meth:`~Bass4Py.bass.DSP.remove` to remove a DSP from its channel. 
+    Multiple DSP functions may be used per channel, in which case the order 
+    that the callbacks are called is determined by their priorities. The 
+    priorities can be changed via the :attr:`~Bass4Py.bass.DSP.priority` 
+    attribute. Any DSPs that have the same priority are called in the order 
+    that they were given that priority. 
+    DSPs can be applied to :class:`Bass4Py.bass.Music` and 
+    :class:`Bass4Py.bass.Stream`, but not :class:`Bass4Py.bass.Sample`. If you 
+    want to apply a DSP to a sample then you should stream it instead. 
+    """
     cdef HDSP dsp
     cdef DSPPROC *cproc
     
@@ -45,8 +65,7 @@ cdef class DSP(Evaluable):
     ELSE:
       cproc = <DSPPROC*>CDSPPROC
 
-    with nogil:
-      dsp = BASS_ChannelSetDSP(chan._channel, cproc, <void*>self, self._priority)
+    dsp = BASS_ChannelSetDSP(chan._channel, cproc, <void*>self, self._priority)
     
     self._evaluate()
     

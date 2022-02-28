@@ -43,6 +43,36 @@ from .vector cimport Vector, CreateVector
 from ..exceptions import BassAPIError, BassAttributeError
 
 cdef class Channel(ChannelBase):
+  """
+  .. todo::
+
+     The reset parameter to :meth:`Bass4Py.bass.Channel.set_position` isn't yet 
+     supported and requires a new method (reset?) for the channel class.
+
+  .. todo::
+
+     3D properties need to be reworked. Right now, each call to their setters 
+     will result in BASS_Apply3D() being executed, which makes them non-atomic 
+     and might cause issues when changing multiple settings in quick succession. 
+     I also don't like the naming scheme right now, it's not intuitive and 
+     doesn't refer to 3D settings by just looking at them.
+   
+  .. todo::
+  
+     :meth:`~Bass4Py.bass.Channel.get_tags` requires custom implementations to 
+     properly return the plain tag data for all different tag formats. But we 
+     also do have the :class:`~Bass4Py.tags.Tags` extension which allows us to 
+     interpret at least ID3 tags properly. What should we do now then?
+     
+     * properly implement :meth:`~Bass4Py.bass.Channel.get_tags` plus 
+       :class:`~Bass4Py.tags.Tags` extension?
+     * get rid of :meth:`~Bass4Py.bass.Channel.get_tags` completely and 
+       implement the :class:`~Bass4Py.tags.Tags` extension properly instead?
+     * should we bind the Tags extension to the Channel object directly or 
+       handle it as an external class which can be executed by handing it the 
+       :class:`~Bass4Py.bass.Channel` as a parameter?
+
+  """
 
   cdef void _set_handle(Channel self, HCHANNEL handle):
     cdef DWORD dev
@@ -115,8 +145,7 @@ cdef class Channel(ChannelBase):
     linked channels. 
     """
     cdef bint res
-    with nogil:
-      res = BASS_ChannelPlay(self._channel, restart)
+    res = BASS_ChannelPlay(self._channel, restart)
     self._evaluate()
     return res
 
@@ -212,28 +241,267 @@ cdef class Channel(ChannelBase):
     (<object>fx).set(self)
 
   cpdef reset_fx(Channel self):
+    """
+    Resets the state of all effects on this channel. 
+
+    Returns
+    -------
+    :obj:`bool`
+      success
+    
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassUnknownError`
+      Some other mystery problem! 
+
+
+    This method flushes the internal buffers of the effects. Effects are 
+    automatically reset by :meth:`~Bass4Py.bass.Channel.set_position`, except 
+    when called from a "mixtime" :attr:`Bass4Py.bass.Sync.callback`. 
+    """
     cdef bint res
-    with nogil:
-      res = BASS_FXReset(self._channel)
+    res = BASS_FXReset(self._channel)
     self._evaluate()
     return res
 
   cpdef set_dsp(Channel self, DSP dsp):
+    """
+    Sets up a :class:`Bass4Py.bass.DSP` on this channel. 
+
+    Parameters
+    ----------
+    dsp : :obj:`Bass4Py.bass.DSP`
+      the dsp object
+    
+    
+    DSPs can be set and removed at any time, including mid-playback. Use 
+    :meth:`Bass4Py.bass.DSP.remove` to remove a DSP from a channel. 
+    Multiple DSP functions may be used per channel, in which case the order 
+    that the callbacks are called is determined by their priorities. The 
+    priorities can be changed via the :attr:`Bass4Py.bass.DSP.priority` 
+    attribute. Any DSPs that have the same priority are called in the order 
+    that they were given that priority. 
+    DSPs can be applied to :class:`Bass4Py.bass.Music` and 
+    :class:`Bass4Py.bass.Stream`, but not :class:`Bass4Py.bass.Sample`. If you 
+    want to apply a DSP to a sample then you should stream it instead. 
+    """
     dsp.set(self)
 
-  cpdef link(Channel self, Channel obj):
+  cpdef link(Channel self, Channel channel):
+    """
+    Links two :class:`Bass4Py.bass.Music` or :class:`Bass4Py.bass.Stream` 
+    channels together. 
+
+    Parameters
+    ----------
+    channel : :obj:`Bass4Py.bass.Channel`
+      the channel to link with
+    
+    Returns
+    -------
+    :obj:`bool`
+      success
+    
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassHandleError`
+      At least one of channels is not a valid channel (only 
+      :class:`Bass4Py.bass.Music` or :class:`Bass4Py.bass.Stream` are supported).
+    :exc:`Bass4Py.exceptions.BassDecodeError`
+      At least one of the channels is a "decoding channel", so cannot be linked. 
+    :exc:`Bass4Py.exceptions.BassAlreadyError`
+      the channels are already linked together. 
+    :exc:`Bass4Py.exceptions.BassUnknownError`
+      Some other mystery problem! 
+
+
+    Linked channels are started/stopped/paused/resumed together. Linked 
+    channels on the same device are guaranteed to start playing simultaneously. 
+    Links are one-way: starting playback on this channel will result in the 
+    linked channel starting playback as well, but not vice versa unless another 
+    link has been set in that direction. 
+    If a linked channel has reached the end, it will not be restarted when a 
+    channel it is linked to is started. If you want a linked channel to be 
+    restarted, you will need to have resetted its position using 
+    :meth:`~Bass4Py.bass.Channel.set_position` beforehand. 
+    """
     cdef bint res
-    res = BASS_ChannelSetLink(self._channel, obj._channel)
+    res = BASS_ChannelSetLink(self._channel, channel._channel)
     self._evaluate()
     return res
 
-  cpdef unlink(Channel self, Channel obj):
+  cpdef unlink(Channel self, Channel channel):
+    """
+    Removes a link between two :class:`Bass4Py.bass.Music` or 
+    :class:`Bass4Py.bass.Stream` channels. 
+
+    Parameters
+    ----------
+    channel : :obj:`Bass4Py.bass.Channel`
+      the channel to unlink
+    
+    Returns
+    -------
+    :obj:`bool`
+      success
+    
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassAlreadyError`
+      either one of the channels cannot be linked (only 
+      :class:`Bass4Py.bass.Music` or :class:`Bass4Py.bass.Stream` are 
+      supported), or the two channels are already unlinked. 
+    """
     cdef bint res
-    res = BASS_ChannelRemoveLink(self._channel, obj._channel)
+    res = BASS_ChannelRemoveLink(self._channel, channel._channel)
     self._evaluate()
     return res
 
-  cpdef set_position(Channel self, object pos, DWORD mode=_BASS_POS_BYTE, bint decodeto=False, bint flush=False, bint inexact=False, bint relative=False, bint reset=False, bint scan=False, bint posreset=False, bint posresetex=False):
+  cpdef set_position(Channel self, object pos, DWORD mode=_BASS_POS_BYTE, bint decodeto=False, bint flush=False, bint inexact=False, bint relative=False, bint scan=False, bint stop_when_seeking=False, bint reset_when_seeking=False):
+    """
+    Sets the playback position.
+
+    Parameters
+    ----------
+    pos : :obj:`int` or :obj:`tuple`
+      the playback position. When the mode parameter is set to 
+      :attr:`Bass4Py.constants.POSITION.MUSIC_ORDER`, a tuple with two entries 
+      (order, row) is required, otherwise an integer.
+    mode : :class:`Bass4Py.constants.POSITION`
+      one of the following:
+      
+      - :attr:`Bass4Py.constants.POSITION.BYTE` (default): The position is in 
+        bytes, which will be rounded down to the nearest sample boundary.
+      - :attr:`Bass4Py.constants.POSITION.MUSIC_ORDER`: The position is a tuple 
+        with order and row (available for :class:`Bass4Py.bass.Music` only)
+      - :attr:`Bass4Py.constants.POSITION.OGG`: The position is a bitstream 
+        number in an OGG file... 0 = first. 
+      - :attr:`Bass4Py.constants.POSITION.END`: The position is in bytes and is 
+        where the channel will end... 0 = normal end position. This will have 
+        no effect if it is beyond the channel's normal end position. If the 
+        channel is already at/beyond the position then it will end at its 
+        current position. 
+      - :attr:`Bass4Py.constants.POSITION.LOOP`: The position is in bytes and 
+        is where looping will start from (when looping is enabled). If this is 
+        at/beyond the end then the default loop position of 0 will be used 
+        instead. 
+
+    decodeto : :obj:`bool`
+      Decode/render up to the position rather than seeking to it. This is 
+      useful for streams that are unseekable or that have inexact seeking, but 
+      it is generally slower than normal seeking and the requested position 
+      cannot be behind the current decoding position. This flag can only be 
+      used with the :attr:`Bass4Py.constants.POSITION.BYTE` mode. 
+    flush : :obj:`bool`
+      Flush all output buffers (including FX) so that no remnant of the old 
+      position is heard after seeking. This is automatic on normal playback 
+      channels (not decoding channels) outside of a "mixtime" 
+      :class:`Bass4Py.bass.Sync`. 
+    inexact : :obj:`bool`
+      Allow inexact seeking. For speed, seeking may stop at the beginning of a 
+      block rather than partially processing the block to reach the requested 
+      position. 
+    relative : :obj:`bool`
+      The requested position is relative to the current position. pos can be 
+      negative in this case. 
+    scan : :obj:`bool`
+      Scan the file to build a seek table up to the position, if it has not 
+      already been scanned. Scanning will continue from where it left off 
+      previously rather than restarting from the beginning of the file each 
+      time. This flag only applies to MP3/MP2/MP1 files and will be ignored 
+      with other file formats. 
+    stop_when_seeking : :obj:`bool`
+      Stop all notes. This flag is applied automatically if it has been set on 
+      the channel via the :attr:`Bass4Py.bass.Music.stop_when_seeking` 
+      attribute. (available for :class:`Bass4Py.bass.Music` only) 
+    reset_when_seeking : :obj:`bool`
+      Stop all notes and reset bpm/etc to defaults. This flag is applied 
+      automatically if it has been set on the channel via the 
+      :attr:`Bass4Py.bass.Music.reset_when_seeking` attribute. (available for 
+      :class:`Bass4Py.bass.Music` only) 
+
+    Returns
+    -------
+    :obj:`bool`
+      success
+    
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassNotAFileError`
+      The stream is not a file stream. 
+    :exc:`Bass4Py.exceptions.BassPositionError`
+      The requested position is invalid, eg. it is beyond the end or the 
+      download has not yet reached it. 
+    :exc:`Bass4Py.exceptions.BassNotAvailableError`
+      The requested mode is not available. Invalid flags are ignored and do not 
+      result in this error. 
+    :exc:`Bass4Py.exceptions.BassUnknownError`
+      Some other mystery problem! 
+
+
+    Setting the position of a :class:`Bass4Py.bass.Music` in bytes (other than 
+    0) requires that the :attr:`Bass4Py.constants.MUSIC.PRESCAN` flag was used 
+    in the :meth:`Bass4Py.bass.OutputDevice.create_music_from_file` call, or 
+    the use of the decodeto flag. When setting the position in orders and rows, 
+    the channel's byte position (as reported by 
+    :meth:`~Bass4Py.bass.ChannelBase.get_position`) is reset to 0. That is 
+    because it is not possible to get the byte position of an order/row 
+    position; it is possible for an order/row position to never be played in 
+    the normal course of events, or it may be played multiple times. 
+    When setting the position of a :class:`Bass4Py.bass.Music`, and the 
+    stop_when_seeking flag is active, all notes that were playing before the 
+    position changed will be stopped. Otherwise, the notes will continue 
+    playing until they are stopped in the MOD music. When setting the position 
+    in bytes, the BPM, speed and global volume are updated to what they would 
+    normally be at the new position. Otherwise they are left as they were prior 
+    to the position change, unless the seek position is 0 (the start), in which 
+    case they are also reset to the starting values (with the stop_when_seeking 
+    flag). When the reset_when_seeking flag is active, the BPM, speed and 
+    global volume are reset with every seek. The reset_when_seeking flag (or 
+    seeking to position 0) also resets channel volume and panning to defaults.
+    For MP3/MP2/MP1 streams, unless the file is scanned via the scan flag or 
+    the :attr:`Bass4Py.constants.STREAM.PRESCAN` flag at stream creation, 
+    seeking will be approximate but generally still quite accurate. Besides 
+    scanning, exact seeking can also be achieved with the decodeto flag. 
+    Seeking in internet file (and "buffered" user file) streams is possible 
+    once the download has reached the requested position, so long as the file 
+    is not being streamed in blocks (:attr:`Bass4Py.constants.STREAM.BLOCK` 
+    flag). 
+    The stop_when_seeking flag can be used to reset/flush a buffered user file 
+    stream, so that new data can be processed, but it may not be supported by 
+    some decoders. When it is not supported, 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj` can be used 
+    again instead to create a new stream for the new data. 
+    User streams (created with 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_parameters`) are not 
+    seekable, but it is possible to reset a user stream (including its buffer 
+    contents) by setting its position to byte 0. 
+    The decodeto flag can be used to seek forwards in streams that are not 
+    normally seekable, like custom streams or internet streams that are using 
+    the :attr:`Bass4Py.constants.STREAM.BLOCK` flag, but it will only go as far 
+    as what is currently available; it will not wait for more data to be 
+    downloaded, for example. 
+    In some cases, particularly when the inexact flag is used, the new position 
+    may not be what was requested. 
+    :meth:`~Bass4Py.bass.ChannelBase.get_position` can be used to confirm what 
+    the new position actually is. 
+    The scan flag works the same way as the 
+    :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file` 
+    :attr:`Bass4Py.constants.STREAM.PRESCAN` flag, and can be used to delay the 
+    scanning until after the stream has been created. When a position beyond 
+    the end is requested, the call will fail 
+    (:exc:`Bass4Py.exceptions.BassPositionError` error) but the seek table and 
+    exact length will have been scanned. When a file has been scanned, all 
+    seeking (even without the scan flag) within the scanned part of it will use 
+    the scanned infomation. 
+    When looping is enabled, the :attr:`Bass4Py.constants.POSITION.LOOP` and 
+    :attr:`Bass4Py.constants.POSITION.END` modes can be used to set custom loop 
+    start and end points in bytes. Non-byte position (eg. 
+    :attr:`Bass4Py.constants.POSITION.MUSIC_ORDER`) custom looping is also 
+    possible by setting a "mixtime" sync at the loop end position via 
+    :meth:`~Bass4Py.bass.Channel.set_sync` and then seeking to the loop start 
+    position in the :attr:`Bass4Py.bass.Sync.callback`. 
+    """
     cdef bint res
     cdef DWORD flags = 0
     cdef QWORD c_pos = 0
@@ -257,16 +525,13 @@ cdef class Channel(ChannelBase):
     if relative is True:
       flags |= _BASS_POS_RELATIVE
     
-    if reset is True:
-      flags |= _BASS_POS_RESET
-    
     if scan is True:
       flags |= _BASS_POS_SCAN
     
-    if posreset is True:
+    if stop_when_seeking is True:
       flags |= _BASS_MUSIC_POSRESET
     
-    if posresetex is True:
+    if reset_when_seeking is True:
       flags |= _BASS_MUSIC_POSRESETEX
 
     res = BASS_ChannelSetPosition(self._channel, c_pos, mode | flags)
@@ -297,6 +562,9 @@ cdef class Channel(ChannelBase):
     return res.decode('utf-8')
 
   property loop:
+    """
+    :obj:`bool`: Loop the channel?
+    """
     def __get__(Channel self):
       return self._get_flags()&_BASS_SAMPLE_LOOP == _BASS_SAMPLE_LOOP
 
@@ -304,6 +572,40 @@ cdef class Channel(ChannelBase):
       self._set_flags(_BASS_SAMPLE_LOOP, switch)
 
   property device:
+    """
+    :obj:`Bass4Py.bass.OutputDevice` or :obj:`None`: the output device 
+    associated with this channel.
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassDeviceError`
+      device is invalid. 
+    :exc:`Bass4Py.exceptions.BassInitError`
+      The requested device has not been initialized. 
+    :exc:`Bass4Py.exceptions.BassAlreadyError`
+      The channel is already using the requested device. 
+    :exc:`Bass4Py.exceptions.BassNotAvailableError`
+      Only decoding channels are allowed to have this property set to 
+      :obj:`None`. Final output mix streams (using 
+      :meth:`Bass4Py.bass.OutputDevice.create_stream`) cannot be moved to 
+      another device. 
+    :exc:`Bass4Py.exceptions.BassFormatError`
+      The sample format is not supported by the device/drivers. If the channel 
+      is more than stereo or the :attr:`Bass4Py.constants.SAMPLE.FLOAT` flag is 
+      used, it could be that they are not supported. 
+    :exc:`Bass4Py.exceptions.BassMemoryError`
+      There is insufficient memory. 
+    :exc:`Bass4Py.exceptions.BassUnknownError`
+      Some other mystery problem! 
+
+
+    When changing a :class:`Bass4Py.bass.Sample`'s device, all the sample's 
+    existing channels are freed. It is not possible to change the device of an 
+    individual sample channel. 
+    :obj:`None` can be used to disassociate a decoding channel from a device, 
+    so that it does not get freed when :meth:`Bass4Py.bass.OutputDevice.free` 
+    is called. 
+    """
     def __get__(Channel self):
       return self._device
 

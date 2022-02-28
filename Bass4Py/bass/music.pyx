@@ -174,14 +174,14 @@ cdef class Music(Channel):
     def __set__(Channel self, bint switch):
       self._set_flags(_BASS_MUSIC_PT1MOD, switch)
 
-  property stop_seeking:
+  property stop_when_seeking:
     def __get__(Channel self):
       return self._get_flags()&_BASS_MUSIC_POSRESET == _BASS_MUSIC_POSRESET
 
     def __set__(Channel self, bint switch):
       self._set_flags(_BASS_MUSIC_POSRESET, switch)
 
-  property stop_all_seeking:
+  property reset_when_seeking:
     def __get__(Channel self):
       return self._get_flags()&_BASS_MUSIC_POSRESETEX == _BASS_MUSIC_POSRESETEX
 
