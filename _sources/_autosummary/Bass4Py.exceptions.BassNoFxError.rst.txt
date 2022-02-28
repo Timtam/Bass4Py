@@ -1,8 +1,8 @@
-BassNoFxError
+BassNoFXError
 =============
 
 .. currentmodule:: Bass4Py.exceptions
 
-.. autoexception:: BassNoFxError
+.. autoexception:: BassNoFXError
    :no-members:
    :no-inherited-members:
