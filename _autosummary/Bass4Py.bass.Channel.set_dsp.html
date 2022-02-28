@@ -38,7 +38,23 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Channel.set_dsp">
 <span class="sig-prename descclassname"><span class="pre">Channel.</span></span><span class="sig-name descname"><span class="pre">set_dsp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Channel.set_dsp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets up a <a class="reference internal" href="Bass4Py.bass.DSP.html#Bass4Py.bass.DSP" title="Bass4Py.bass.DSP"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP</span></code></a> on this channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dsp</strong> (<a class="reference internal" href="Bass4Py.bass.DSP.html#Bass4Py.bass.DSP" title="Bass4Py.bass.DSP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP</span></code></a>) – the dsp object</p>
+</dd>
+</dl>
+<p>DSPs can be set and removed at any time, including mid-playback. Use
+<a class="reference internal" href="Bass4Py.bass.DSP.remove.html#Bass4Py.bass.DSP.remove" title="Bass4Py.bass.DSP.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP.remove()</span></code></a> to remove a DSP from a channel.
+Multiple DSP functions may be used per channel, in which case the order
+that the callbacks are called is determined by their priorities. The
+priorities can be changed via the <a class="reference internal" href="Bass4Py.bass.DSP.priority.html#Bass4Py.bass.DSP.priority" title="Bass4Py.bass.DSP.priority"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP.priority</span></code></a>
+attribute. Any DSPs that have the same priority are called in the order
+that they were given that priority.
+DSPs can be applied to <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> and
+<a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a>, but not <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Sample</span></code></a>. If you
+want to apply a DSP to a sample then you should stream it instead.</p>
+</dd></dl>
 
 </section>
 
@@ -63,6 +79,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
 </ul>
 
 <div class="relations">

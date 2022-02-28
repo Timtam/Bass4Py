@@ -38,7 +38,36 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="Bass4Py.bass.Channel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><a class="headerlink" href="#Bass4Py.bass.Channel" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>The reset parameter to <a class="reference internal" href="Bass4Py.bass.Channel.set_position.html#Bass4Py.bass.Channel.set_position" title="Bass4Py.bass.Channel.set_position"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.set_position()</span></code></a> isn’t yet
+supported and requires a new method (reset?) for the channel class.</p>
+</div>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>3D properties need to be reworked. Right now, each call to their setters
+will result in BASS_Apply3D() being executed, which makes them non-atomic
+and might cause issues when changing multiple settings in quick succession.
+I also don’t like the naming scheme right now, it’s not intuitive and
+doesn’t refer to 3D settings by just looking at them.</p>
+</div>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p><a class="reference internal" href="Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> requires custom implementations to
+properly return the plain tag data for all different tag formats. But we
+also do have the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension which allows us to
+interpret at least ID3 tags properly. What should we do now then?</p>
+<ul class="simple">
+<li><p>properly implement <a class="reference internal" href="Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> plus
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension?</p></li>
+<li><p>get rid of <a class="reference internal" href="Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> completely and
+implement the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension properly instead?</p></li>
+<li><p>should we bind the Tags extension to the Channel object directly or
+handle it as an external class which can be executed by handing it the
+<a class="reference internal" href="#Bass4Py.bass.Channel" title="Bass4Py.bass.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> as a parameter?</p></li>
+</ul>
+</div>
+<p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -69,8 +98,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.get_tags</span></code></a>(tag_type)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.link.html#Bass4Py.bass.Channel.link" title="Bass4Py.bass.Channel.link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.link</span></code></a>(obj)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.link.html#Bass4Py.bass.Channel.link" title="Bass4Py.bass.Channel.link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.link</span></code></a>(channel)</p></td>
+<td><p>Links two <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> or <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> channels together.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.lock.html#Bass4Py.bass.Channel.lock" title="Bass4Py.bass.Channel.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.lock</span></code></a>()</p></td>
 <td><p></p></td>
@@ -82,19 +111,19 @@
 <td><p>Starts (or resumes) playback.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.reset_fx.html#Bass4Py.bass.Channel.reset_fx" title="Bass4Py.bass.Channel.reset_fx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.reset_fx</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Resets the state of all effects on this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.seconds_to_bytes.html#Bass4Py.bass.Channel.seconds_to_bytes" title="Bass4Py.bass.Channel.seconds_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.seconds_to_bytes</span></code></a>(secs)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.set_dsp.html#Bass4Py.bass.Channel.set_dsp" title="Bass4Py.bass.Channel.set_dsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.set_dsp</span></code></a>(dsp)</p></td>
-<td><p></p></td>
+<td><p>Sets up a <a class="reference internal" href="Bass4Py.bass.DSP.html#Bass4Py.bass.DSP" title="Bass4Py.bass.DSP"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.DSP</span></code></a> on this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.set_fx.html#Bass4Py.bass.Channel.set_fx" title="Bass4Py.bass.Channel.set_fx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.set_fx</span></code></a>(fx)</p></td>
 <td><p>Apply an effect to this channel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.set_position.html#Bass4Py.bass.Channel.set_position" title="Bass4Py.bass.Channel.set_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.set_position</span></code></a>(pos[, mode, decodeto, ...])</p></td>
-<td><p></p></td>
+<td><p>Sets the playback position.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.set_sync.html#Bass4Py.bass.Channel.set_sync" title="Bass4Py.bass.Channel.set_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.set_sync</span></code></a>(sync)</p></td>
 <td><p>Sets up a synchronizer.</p></td>
@@ -102,8 +131,8 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.stop.html#Bass4Py.bass.Channel.stop" title="Bass4Py.bass.Channel.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.stop</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.unlink.html#Bass4Py.bass.Channel.unlink" title="Bass4Py.bass.Channel.unlink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.unlink</span></code></a>(obj)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.unlink.html#Bass4Py.bass.Channel.unlink" title="Bass4Py.bass.Channel.unlink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.unlink</span></code></a>(channel)</p></td>
+<td><p>Removes a link between two <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> or <a class="reference internal" href="Bass4Py.bass.Stream.html#Bass4Py.bass.Stream" title="Bass4Py.bass.Stream"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Stream</span></code></a> channels.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.unlock.html#Bass4Py.bass.Channel.unlock" title="Bass4Py.bass.Channel.unlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.unlock</span></code></a>()</p></td>
 <td><p></p></td>
@@ -139,7 +168,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.device.html#Bass4Py.bass.Channel.device" title="Bass4Py.bass.Channel.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.device</span></code></a></p></td>
-<td><p></p></td>
+<td><p>the output device associated with this channel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.flags.html#Bass4Py.bass.Channel.flags" title="Bass4Py.bass.Channel.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.flags</span></code></a></p></td>
 <td><p></p></td>
@@ -154,7 +183,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.loop.html#Bass4Py.bass.Channel.loop" title="Bass4Py.bass.Channel.loop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.loop</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Loop the channel?</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Channel.maximum_distance.html#Bass4Py.bass.Channel.maximum_distance" title="Bass4Py.bass.Channel.maximum_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Channel.maximum_distance</span></code></a></p></td>
 <td><p></p></td>
@@ -234,6 +263,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
 </ul>
 
 <div class="relations">

@@ -144,6 +144,8 @@ Music
    
       Music.ramp_sensitive
    
+      Music.reset_when_seeking
+   
       Music.resolution
    
       Music.sample
@@ -152,11 +154,9 @@ Music
    
       Music.src
    
-      Music.stop_all_seeking
-   
       Music.stop_backward
    
-      Music.stop_seeking
+      Music.stop_when_seeking
    
       Music.surround
    

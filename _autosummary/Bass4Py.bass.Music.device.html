@@ -38,7 +38,38 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Bass4Py.bass.Music.device">
 <span class="sig-prename descclassname"><span class="pre">Music.</span></span><span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#Bass4Py.bass.Music.device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>the output device
+associated with this channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassDeviceError.html#Bass4Py.exceptions.BassDeviceError" title="Bass4Py.exceptions.BassDeviceError"><strong>Bass4Py.exceptions.BassDeviceError</strong></a> – device is invalid.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassInitError.html#Bass4Py.exceptions.BassInitError" title="Bass4Py.exceptions.BassInitError"><strong>Bass4Py.exceptions.BassInitError</strong></a> – The requested device has not been initialized.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassAlreadyError.html#Bass4Py.exceptions.BassAlreadyError" title="Bass4Py.exceptions.BassAlreadyError"><strong>Bass4Py.exceptions.BassAlreadyError</strong></a> – The channel is already using the requested device.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassNotAvailableError.html#Bass4Py.exceptions.BassNotAvailableError" title="Bass4Py.exceptions.BassNotAvailableError"><strong>Bass4Py.exceptions.BassNotAvailableError</strong></a> – Only decoding channels are allowed to have this property set to
+    <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. Final output mix streams (using
+    <a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream.html#Bass4Py.bass.OutputDevice.create_stream" title="Bass4Py.bass.OutputDevice.create_stream"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.create_stream()</span></code></a>) cannot be moved to
+    another device.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassFormatError.html#Bass4Py.exceptions.BassFormatError" title="Bass4Py.exceptions.BassFormatError"><strong>Bass4Py.exceptions.BassFormatError</strong></a> – The sample format is not supported by the device/drivers. If the channel
+    is more than stereo or the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.SAMPLE.FLOAT</span></code> flag is
+    used, it could be that they are not supported.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassMemoryError.html#Bass4Py.exceptions.BassMemoryError" title="Bass4Py.exceptions.BassMemoryError"><strong>Bass4Py.exceptions.BassMemoryError</strong></a> – There is insufficient memory.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassUnknownError.html#Bass4Py.exceptions.BassUnknownError" title="Bass4Py.exceptions.BassUnknownError"><strong>Bass4Py.exceptions.BassUnknownError</strong></a> – Some other mystery problem!</p></li>
+</ul>
+</dd>
+</dl>
+<p>When changing a <a class="reference internal" href="Bass4Py.bass.Sample.html#Bass4Py.bass.Sample" title="Bass4Py.bass.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Sample</span></code></a>’s device, all the sample’s
+existing channels are freed. It is not possible to change the device of an
+individual sample channel.
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> can be used to disassociate a decoding channel from a device,
+so that it does not get freed when <a class="reference internal" href="Bass4Py.bass.OutputDevice.free.html#Bass4Py.bass.OutputDevice.free" title="Bass4Py.bass.OutputDevice.free"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.free()</span></code></a>
+is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.bass.OutputDevice.html#Bass4Py.bass.OutputDevice" title="Bass4Py.bass.OutputDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -63,6 +94,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
 </ul>
 
 <div class="relations">

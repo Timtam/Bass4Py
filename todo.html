@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>TODO &#8212; Bass4Py 0.1.0-a1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Bass4Py Changelog" href="changes.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="todo">
+<h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
+<p>This project is still a work in progress. Thus, many features have not been
+implemented yet or need to be reworked at some point. You’ll find the list of
+TODOs loosely listed below. Feel free to
+<a class="reference external" href="https://github.com/Timtam/Bass4Py/issues">open an issue on GitHub</a> if you
+feel inspired or want to leave a comment upon one of the things mentioned here.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>The reset parameter to <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.set_position.html#Bass4Py.bass.Channel.set_position" title="Bass4Py.bass.Channel.set_position"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.set_position()</span></code></a> isn’t yet
+supported and requires a new method (reset?) for the channel class.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.html#id1"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel.Channel, line 1.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>3D properties need to be reworked. Right now, each call to their setters
+will result in BASS_Apply3D() being executed, which makes them non-atomic
+and might cause issues when changing multiple settings in quick succession.
+I also don’t like the naming scheme right now, it’s not intuitive and
+doesn’t refer to 3D settings by just looking at them.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.html#id2"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel.Channel, line 6.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p><a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> requires custom implementations to
+properly return the plain tag data for all different tag formats. But we
+also do have the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension which allows us to
+interpret at least ID3 tags properly. What should we do now then?</p>
+<ul class="simple">
+<li><p>properly implement <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> plus
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension?</p></li>
+<li><p>get rid of <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.get_tags.html#Bass4Py.bass.Channel.get_tags" title="Bass4Py.bass.Channel.get_tags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tags()</span></code></a> completely and
+implement the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tags</span></code> extension properly instead?</p></li>
+<li><p>should we bind the Tags extension to the Channel object directly or
+handle it as an external class which can be executed by handing it the
+<a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.html#Bass4Py.bass.Channel" title="Bass4Py.bass.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> as a parameter?</p></li>
+</ul>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.html#id3"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel.Channel, line 14.)</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Bass4Py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Bass4Py Changelog</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TODO</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="changes.html" title="previous chapter">Bass4Py Changelog</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019-2021, Toni Barth.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/todo.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

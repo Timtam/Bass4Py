@@ -1,0 +1,6 @@
+Music.reset\_when\_seeking
+==========================
+
+.. currentmodule:: Bass4Py.bass
+
+.. autoattribute:: Music.reset_when_seeking
