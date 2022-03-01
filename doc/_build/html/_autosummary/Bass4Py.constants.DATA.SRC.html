@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>ChannelBase.lock &#8212; Bass4Py 0.1.0-a1 documentation</title>
+    <title>DATA.SRC &#8212; Bass4Py 0.1.0-a1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ChannelBase.pause" href="Bass4Py.bass.ChannelBase.pause.html" />
-    <link rel="prev" title="ChannelBase.get_position" href="Bass4Py.bass.ChannelBase.get_position.html" />
+    <link rel="next" title="DATA.FIXED" href="Bass4Py.constants.DATA.FIXED.html" />
+    <link rel="prev" title="DATA" href="Bass4Py.constants.DATA.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,26 +33,12 @@
 
           <div class="body" role="main">
             
-  <section id="channelbase-lock">
-<h1>ChannelBase.lock<a class="headerlink" href="#channelbase-lock" title="Permalink to this headline">¶</a></h1>
-<dl class="py method">
-<dt class="sig sig-object py" id="Bass4Py.bass.ChannelBase.lock">
-<span class="sig-prename descclassname"><span class="pre">ChannelBase.</span></span><span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.ChannelBase.lock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Locks a channel to the current thread.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>success</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
-</dd>
-</dl>
-<p>Locking a channel prevents other threads from performing most functions on
-it, including buffer updates. Other threads wanting to access a locked
-channel will block until it is unlocked, so a channel should only be locked
-very briefly. A channel must be unlocked in the same thread that it was
-locked.</p>
-</dd></dl>
+  <section id="data-src">
+<h1>DATA.SRC<a class="headerlink" href="#data-src" title="Permalink to this headline">¶</a></h1>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Bass4Py.constants.DATA.SRC">
+<span class="sig-prename descclassname"><span class="pre">DATA.</span></span><span class="sig-name descname"><span class="pre">SRC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#Bass4Py.constants.DATA.SRC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 
@@ -85,10 +71,10 @@ locked.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../apireference.html">API Reference</a><ul>
-  <li><a href="Bass4Py.bass.html">Bass4Py.bass</a><ul>
-  <li><a href="Bass4Py.bass.ChannelBase.html">ChannelBase</a><ul>
-      <li>Previous: <a href="Bass4Py.bass.ChannelBase.get_position.html" title="previous chapter">ChannelBase.get_position</a></li>
-      <li>Next: <a href="Bass4Py.bass.ChannelBase.pause.html" title="next chapter">ChannelBase.pause</a></li>
+  <li><a href="Bass4Py.constants.html">Bass4Py.constants</a><ul>
+  <li><a href="Bass4Py.constants.DATA.html">DATA</a><ul>
+      <li>Previous: <a href="Bass4Py.constants.DATA.html" title="previous chapter">DATA</a></li>
+      <li>Next: <a href="Bass4Py.constants.DATA.FIXED.html" title="next chapter">DATA.FIXED</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -125,7 +111,7 @@ locked.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/_autosummary/Bass4Py.bass.ChannelBase.lock.rst.txt"
+      <a href="../_sources/_autosummary/Bass4Py.constants.DATA.SRC.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

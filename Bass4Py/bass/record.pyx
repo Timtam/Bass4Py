@@ -21,6 +21,14 @@ cdef bint __stdcall CRECORDPROC_STD(HRECORD handle, const void *buffer, DWORD le
   return CRECORDPROC(handle, buffer, length, user)
 
 cdef class Record(ChannelBase):
+  """
+  .. todo::
+  
+     add support for the HRECORD-specific options in BASS_ChannelGetData(), 
+     like discarding any recorded data by handing buffer = NULL, or 
+     BASS_DATA_NOREMOVE to prevent removal of data when requesting it via 
+     :meth:`Bass4Py.bass.ChannelBase.get_data`.
+  """
 
   def __cinit__(Record self, HRECORD handle):
 

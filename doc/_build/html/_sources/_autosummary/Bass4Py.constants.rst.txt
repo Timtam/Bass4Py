@@ -19,6 +19,8 @@
     
     CHANNEL_TYPE
     
+    DATA
+    
     DEVICE
     
     DEVICE_TYPE

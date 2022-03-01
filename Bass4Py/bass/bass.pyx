@@ -80,6 +80,16 @@ cdef class BASS(Evaluable):
   See :attr:`~Bass4Py.bass.BASS.input_devices` or 
   :attr:`~Bass4Py.bass.BASS.output_devices` to get further access to the 
   really important features.
+
+  .. todo::
+  
+     I'd really like to either have all those properties and methods available 
+     at module level, or at least direct access to an BASS object instead of 
+     always have to instanciate the class myself, similar to how twisted 
+     handles its reactor access. That'd be much more comfortable, since nothing 
+     within this class requires saving any object-specific niformation and the 
+     properties are global anyway, which might confuse one or another because 
+     of the way classes and objects usually contain local data only.
   """
 
   def __cinit__(BASS self):

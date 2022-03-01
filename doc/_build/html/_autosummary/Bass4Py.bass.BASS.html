@@ -47,6 +47,16 @@ accessible through this class.</p>
 <p>See <a class="reference internal" href="Bass4Py.bass.BASS.input_devices.html#Bass4Py.bass.BASS.input_devices" title="Bass4Py.bass.BASS.input_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">input_devices</span></code></a> or
 <a class="reference internal" href="Bass4Py.bass.BASS.output_devices.html#Bass4Py.bass.BASS.output_devices" title="Bass4Py.bass.BASS.output_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">output_devices</span></code></a> to get further access to the
 really important features.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>I’d really like to either have all those properties and methods available
+at module level, or at least direct access to an BASS object instead of
+always have to instanciate the class myself, similar to how twisted
+handles its reactor access. That’d be much more comfortable, since nothing
+within this class requires saving any object-specific niformation and the
+properties are global anyway, which might confuse one or another because
+of the way classes and objects usually contain local data only.</p>
+</div>
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>

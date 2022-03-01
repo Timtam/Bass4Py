@@ -31,6 +31,6 @@ cdef class ChannelBase(Evaluable):
   cpdef get_position(ChannelBase self, DWORD mode=?, bint decode=?)
   cpdef bytes_to_seconds(ChannelBase self, QWORD bytes)
   cpdef seconds_to_bytes(ChannelBase self, double secs)
-  cpdef get_data(ChannelBase self, DWORD length)
+  cpdef get_data(ChannelBase self, DWORD length, DWORD format =?)
   cpdef get_length(ChannelBase self, DWORD mode = ?)
   cpdef free(self)

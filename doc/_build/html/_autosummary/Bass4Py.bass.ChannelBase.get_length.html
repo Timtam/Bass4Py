@@ -38,7 +38,43 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.ChannelBase.get_length">
 <span class="sig-prename descclassname"><span class="pre">ChannelBase.</span></span><span class="sig-name descname"><span class="pre">get_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.ChannelBase.get_length" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Retrieves the playback length of a channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference internal" href="Bass4Py.constants.POSITION.html#Bass4Py.constants.POSITION" title="Bass4Py.constants.POSITION"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION</span></code></a>) – <p>one of the following:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.constants.POSITION.BYTE.html#Bass4Py.constants.POSITION.BYTE" title="Bass4Py.constants.POSITION.BYTE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.BYTE</span></code></a> (default): Get the length in
+bytes.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.POSITION.MUSIC_ORDER.html#Bass4Py.constants.POSITION.MUSIC_ORDER" title="Bass4Py.constants.POSITION.MUSIC_ORDER"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.MUSIC_ORDER</span></code></a>: Get the length in
+orders. (available for <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> only)</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.POSITION.OGG.html#Bass4Py.constants.POSITION.OGG" title="Bass4Py.constants.POSITION.OGG"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.OGG</span></code></a>: Get the number of bitstreams in
+an OGG file.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the length in the format determined by the mode parameter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="Bass4Py.exceptions.BassNotAvailableError.html#Bass4Py.exceptions.BassNotAvailableError" title="Bass4Py.exceptions.BassNotAvailableError"><strong>Bass4Py.exceptions.BassNotAvailableError</strong></a> – The requested length is not available.</p>
+</dd>
+</dl>
+<p>The exact length of a stream will be returned once the whole file has been
+streamed, but until then it is not always possible to 100% accurately
+estimate the length. The length is always exact for MP3/MP2/MP1 files when
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.STREAM.PRESCAN</span></code> flag is used in the
+<a class="reference internal" href="Bass4Py.bass.OutputDevice.create_stream_from_file.html#Bass4Py.bass.OutputDevice.create_stream_from_file" title="Bass4Py.bass.OutputDevice.create_stream_from_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.create_stream_from_file()</span></code></a> call, otherwise
+it is an (usually accurate) estimation based on the file size. The length
+returned for OGG files will usually be exact (assuming the file is not
+corrupt), but when streaming from the internet (or “buffered” user file),
+it can be a very rough estimation until the whole file has been downloaded.
+Retrieving the byte length of a <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> requires that
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.MUSIC.PRESCAN</span></code> flag was used in the
+<a class="reference internal" href="Bass4Py.bass.OutputDevice.create_music_from_file.html#Bass4Py.bass.OutputDevice.create_music_from_file" title="Bass4Py.bass.OutputDevice.create_music_from_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.create_music_from_file()</span></code></a> call.</p>
+</dd></dl>
 
 </section>
 

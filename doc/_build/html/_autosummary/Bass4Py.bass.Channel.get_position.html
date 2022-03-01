@@ -38,7 +38,38 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Channel.get_position">
 <span class="sig-prename descclassname"><span class="pre">Channel.</span></span><span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Channel.get_position" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Retrieves the playback position of this channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the position as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> when mode is set to
+<a class="reference internal" href="Bass4Py.constants.POSITION.MUSIC_ORDER.html#Bass4Py.constants.POSITION.MUSIC_ORDER" title="Bass4Py.constants.POSITION.MUSIC_ORDER"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.MUSIC_ORDER</span></code></a>, otherwise <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+</dd>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference internal" href="Bass4Py.constants.POSITION.html#Bass4Py.constants.POSITION" title="Bass4Py.constants.POSITION"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION</span></code></a>) – <p>how to retrieve the position. One of the following:</p>
+<ul>
+<li><p><a class="reference internal" href="Bass4Py.constants.POSITION.BYTE.html#Bass4Py.constants.POSITION.BYTE" title="Bass4Py.constants.POSITION.BYTE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.BYTE</span></code></a> (default): Get the position in bytes.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.POSITION.MUSIC_ORDER.html#Bass4Py.constants.POSITION.MUSIC_ORDER" title="Bass4Py.constants.POSITION.MUSIC_ORDER"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.POSITION.MUSIC_ORDER</span></code></a>: get the position as
+order, row tuple. (available only for <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> only)</p></li>
+</ul>
+</p></li>
+<li><p><strong>decode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Get the decoding/rendering position, which may be ahead of the playback
+position due to buffering. This flag is unnecessary with decoding
+channels because the decoding position will always be given for them
+anyway, as they do not have playback buffers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassNotAvailableError.html#Bass4Py.exceptions.BassNotAvailableError" title="Bass4Py.exceptions.BassNotAvailableError"><strong>Bass4Py.exceptions.BassNotAvailableError</strong></a> – The requested position is not available.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassUnknownError.html#Bass4Py.exceptions.BassUnknownError" title="Bass4Py.exceptions.BassUnknownError"><strong>Bass4Py.exceptions.BassUnknownError</strong></a> – Some other mystery problem!</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

@@ -41,6 +41,17 @@ TODOs loosely listed below. Feel free to
 feel inspired or want to leave a comment upon one of the things mentioned here.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">Todo</p>
+<p>I’d really like to either have all those properties and methods available
+at module level, or at least direct access to an BASS object instead of
+always have to instanciate the class myself, similar to how twisted
+handles its reactor access. That’d be much more comfortable, since nothing
+within this class requires saving any object-specific niformation and the
+properties are global anyway, which might confuse one or another because
+of the way classes and objects usually contain local data only.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.BASS.html#id1"><em>original entry</em></a> is located in docstring of Bass4Py.bass.bass.BASS, line 12.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
 <p>The reset parameter to <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.set_position.html#Bass4Py.bass.Channel.set_position" title="Bass4Py.bass.Channel.set_position"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.set_position()</span></code></a> isn’t yet
 supported and requires a new method (reset?) for the channel class.</p>
 </div>
@@ -71,6 +82,27 @@ handle it as an external class which can be executed by handing it the
 </ul>
 </div>
 <p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.Channel.html#id3"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel.Channel, line 14.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p><a class="reference internal" href="_autosummary/Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_levels()</span></code></a> has a flags parameter; rewrite
+to have pythonic boolean parameter flags instead.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.ChannelBase.html#id1"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel_base.ChannelBase, line 1.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>Add support for all the fft flags to
+<a class="reference internal" href="_autosummary/Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a> or add a separate method for
+that purpose.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.ChannelBase.html#id2"><em>original entry</em></a> is located in docstring of Bass4Py.bass.channel_base.ChannelBase, line 6.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>add support for the HRECORD-specific options in BASS_ChannelGetData(),
+like discarding any recorded data by handing buffer = NULL, or
+BASS_DATA_NOREMOVE to prevent removal of data when requesting it via
+<a class="reference internal" href="_autosummary/Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.ChannelBase.get_data()</span></code></a>.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="_autosummary/Bass4Py.bass.Record.html#id1"><em>original entry</em></a> is located in docstring of Bass4Py.bass.record.Record, line 1.)</p>
 </section>
 
 

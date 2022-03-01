@@ -160,3 +160,8 @@ class POSITION(IntEnum):
   MUSIC_ORDER: int
   OGG: int
   END: int
+
+class DATA(IntEnum):
+  SRC: int
+  FIXED: int
+  FLOAT: int
