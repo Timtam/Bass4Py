@@ -38,7 +38,25 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Stream.pause">
 <span class="sig-prename descclassname"><span class="pre">Stream.</span></span><span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Stream.pause" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Pauses this channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>success</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassNoPlayError.html#Bass4Py.exceptions.BassNoPlayError" title="Bass4Py.exceptions.BassNoPlayError"><strong>Bass4Py.exceptions.BassNoPlayError</strong></a> – The channel is not playing.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassDecodeError.html#Bass4Py.exceptions.BassDecodeError" title="Bass4Py.exceptions.BassDecodeError"><strong>Bass4Py.exceptions.BassDecodeError</strong></a> – The channel is not playable; it is a “decoding channel”.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassAlreadyError.html#Bass4Py.exceptions.BassAlreadyError" title="Bass4Py.exceptions.BassAlreadyError"><strong>Bass4Py.exceptions.BassAlreadyError</strong></a> – The channel is already paused.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Use <a class="reference internal" href="Bass4Py.bass.Channel.play.html#Bass4Py.bass.Channel.play" title="Bass4Py.bass.Channel.play"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.play()</span></code></a> to resume a paused channel.
+<a class="reference internal" href="Bass4Py.bass.ChannelBase.stop.html#Bass4Py.bass.ChannelBase.stop" title="Bass4Py.bass.ChannelBase.stop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop()</span></code></a> can be used to stop a paused channel.</p>
+</dd></dl>
 
 </section>
 

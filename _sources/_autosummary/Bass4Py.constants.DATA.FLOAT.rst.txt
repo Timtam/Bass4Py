@@ -1,0 +1,6 @@
+DATA.FLOAT
+==========
+
+.. currentmodule:: Bass4Py.constants
+
+.. autoattribute:: DATA.FLOAT

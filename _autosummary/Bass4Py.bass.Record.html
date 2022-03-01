@@ -38,7 +38,14 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="Bass4Py.bass.Record">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><a class="headerlink" href="#Bass4Py.bass.Record" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>add support for the HRECORD-specific options in BASS_ChannelGetData(),
+like discarding any recorded data by handing buffer = NULL, or
+BASS_DATA_NOREMOVE to prevent removal of data when requesting it via
+<a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.ChannelBase.get_data()</span></code></a>.</p>
+</div>
+<p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -49,43 +56,43 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.bytes_to_seconds.html#Bass4Py.bass.Record.bytes_to_seconds" title="Bass4Py.bass.Record.bytes_to_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.bytes_to_seconds</span></code></a>(bytes)</p></td>
-<td><p></p></td>
+<td><p>Translates a byte position into time (seconds), based on a channel's format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.free.html#Bass4Py.bass.Record.free" title="Bass4Py.bass.Record.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.free</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Frees a channel, including any sync/DSP/FX it has.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.from_device.html#Bass4Py.bass.Record.from_device" title="Bass4Py.bass.Record.from_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.from_device</span></code></a>(device[, freq, chans, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.get_data.html#Bass4Py.bass.Record.get_data" title="Bass4Py.bass.Record.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.get_data</span></code></a>(length)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.get_data.html#Bass4Py.bass.Record.get_data" title="Bass4Py.bass.Record.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.get_data</span></code></a>(length[, format])</p></td>
+<td><p>Retrieves the immediate sample data of this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.get_length.html#Bass4Py.bass.Record.get_length" title="Bass4Py.bass.Record.get_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.get_length</span></code></a>([mode])</p></td>
-<td><p></p></td>
+<td><p>Retrieves the playback length of a channel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.get_levels.html#Bass4Py.bass.Record.get_levels" title="Bass4Py.bass.Record.get_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.get_levels</span></code></a>(length, flags)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.get_position.html#Bass4Py.bass.Record.get_position" title="Bass4Py.bass.Record.get_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.get_position</span></code></a>([mode, decode])</p></td>
-<td><p></p></td>
+<td><p>Retrieves the playback position of this channel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.lock.html#Bass4Py.bass.Record.lock" title="Bass4Py.bass.Record.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.lock</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Locks a channel to the current thread.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.pause.html#Bass4Py.bass.Record.pause" title="Bass4Py.bass.Record.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.pause</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Pauses this channel.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.seconds_to_bytes.html#Bass4Py.bass.Record.seconds_to_bytes" title="Bass4Py.bass.Record.seconds_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.seconds_to_bytes</span></code></a>(secs)</p></td>
-<td><p></p></td>
+<td><p>Translates a time (seconds) position into bytes, based on a channel's format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.start.html#Bass4Py.bass.Record.start" title="Bass4Py.bass.Record.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.start</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.Record.stop.html#Bass4Py.bass.Record.stop" title="Bass4Py.bass.Record.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.stop</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Stops this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.Record.unlock.html#Bass4Py.bass.Record.unlock" title="Bass4Py.bass.Record.unlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Record.unlock</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Removes the lock from this channel.</p></td>
 </tr>
 </tbody>
 </table>

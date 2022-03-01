@@ -38,7 +38,21 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.Stream.bytes_to_seconds">
 <span class="sig-prename descclassname"><span class="pre">Stream.</span></span><span class="sig-name descname"><span class="pre">bytes_to_seconds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.Stream.bytes_to_seconds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Translates a byte position into time (seconds), based on a channel’s format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The position to translate.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the translated time</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p>The translation is based on the channel’s initial sample rate, when it was
+created.</p>
+</dd></dl>
 
 </section>
 
