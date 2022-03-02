@@ -70,7 +70,7 @@ cdef class Record(ChannelBase):
       ELSE:
         proc = <RECORDPROC*>CRECORDPROC
 
-    cdevice.Set()
+    cdevice.set()
     
     cflags = MAKELONG(cflags, cperiod)
     
