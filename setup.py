@@ -150,7 +150,7 @@ if USE_CYTHON:
     extensions,
     gdb_debug = DEBUG_MODE,
     compiler_directives = {
-      'embedsignature': True if DEBUG_MODE else False,
+      'embedsignature': True,
       'language_level': 3,
       'linetrace': True if DEBUG_MODE else False,
     }
