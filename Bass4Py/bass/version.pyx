@@ -18,8 +18,8 @@ cdef class Version(str):
     cdef WORD loword,hiword
     cdef int lowordcount,hiwordcount
 
-    hiword=HIWORD(self.Integer)
-    loword=LOWORD(self.Integer)
+    hiword=HIWORD(self._version)
+    loword=LOWORD(self._version)
     hiwordcount=int(hiword/0x100)
     lowordcount=int(loword/0x100)
 
