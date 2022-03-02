@@ -151,6 +151,7 @@ if USE_CYTHON:
     gdb_debug = DEBUG_MODE,
     compiler_directives = {
       'embedsignature': True,
+      "auto_pickle": False, # you can't pickle BASS channels, as they handles are managed by BASS
       'language_level': 3,
       'linetrace': True if DEBUG_MODE else False,
     }
