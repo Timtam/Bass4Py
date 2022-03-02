@@ -7,60 +7,64 @@ from ...fx cimport FX
 from cpython.mem cimport PyMem_Malloc
 
 cdef class Reverb(FX):
+  cdef BASS_DX8_REVERB *effect
+
+
+  cdef void* _get_effect(self) nogil except NULL: return <void*>&self.effect
 
   def __cinit__(Reverb self):
-    cdef BASS_DX8_REVERB *effect
+
 
     self._type = _BASS_FX_DX8_REVERB
 
-    effect = <BASS_DX8_REVERB*>PyMem_Malloc(sizeof(BASS_DX8_REVERB))
-    
-    if effect == NULL:
-      raise MemoryError()
-      
-    self._effect = effect
 
-    effect.fInGain = 0.0
-    effect.fReverbMix = 0.0
-    effect.fReverbTime = 1000.0
-    effect.fHighFreqRTRatio = 0.001
+    
+
+
+      
+
+
+    self.effect.fInGain = 0.0
+    self.effect.fReverbMix = 0.0
+    self.effect.fReverbTime = 1000.0
+    self.effect.fHighFreqRTRatio = 0.001
 
   property in_gain:
     def __get__(Reverb self):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
-      return effect.fInGain
+
+      return self.effect.fInGain
 
     def __set__(Reverb self, float value):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
+
       self._validate_range(value, -96.0, 0.0)
-      effect.fInGain = value
+      self.effect.fInGain = value
 
   property reverb_mix:
     def __get__(Reverb self):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
-      return effect.fReverbMix
+
+      return self.effect.fReverbMix
 
     def __set__(Reverb self, float value):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
+
       self._validate_range(value, -96.0, 0.0)
-      effect.fReverbMix = value
+      self.effect.fReverbMix = value
 
   property reverb_time:
     def __get__(Reverb self):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
-      return effect.fReverbTime
+
+      return self.effect.fReverbTime
 
     def __set__(Reverb self, float value):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
+
       self._validate_range(value, 0.001, 3000.0)
-      effect.fReverbTime = value
+      self.effect.fReverbTime = value
 
   property high_freq_rt_ratio:
     def __get__(Reverb self):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
-      return effect.fHighFreqRTRatio
+
+      return self.effect.fHighFreqRTRatio
 
     def __set__(Reverb self, float value):
-      cdef BASS_DX8_REVERB *effect = <BASS_DX8_REVERB*>(self._effect)
+
       self._validate_range(value, 0.01, 0.999)
-      effect.fHighFreqRTRatio = value
+      self.effect.fHighFreqRTRatio = value

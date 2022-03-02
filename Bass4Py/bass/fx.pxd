@@ -16,7 +16,9 @@ cdef class FX(Evaluable):
   cdef HFX _fx
   cdef DWORD _type
   cdef int _priority
-  cdef void *_effect
+
+
+  cdef void* _get_effect(self) nogil except NULL
 
   cpdef remove(FX self)
   cpdef reset(FX self)

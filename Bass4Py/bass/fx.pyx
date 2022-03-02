@@ -13,10 +13,10 @@ from cpython.mem cimport PyMem_Free
 
 cdef class FX(Evaluable):
 
-  def __dealloc__(FX self):
-    if self._effect != NULL:
-      PyMem_Free(self._effect)
-      self._effect = NULL
+
+
+
+
 
   cdef void _set_fx(FX self, Channel channel):
     cdef HFX fx
@@ -31,6 +31,11 @@ cdef class FX(Evaluable):
     self.channel = channel
 
     self._fx = fx
+
+  # virtual method which should be overridden by subclasses
+  # returns a pointer to the effect params struct for this effect
+  cdef void* _get_effect(self) nogil except NULL:
+    with gil: raise NotImplementedError
 
   cpdef set(FX self, Channel chan):
     """
@@ -99,7 +104,7 @@ cdef class FX(Evaluable):
     with nogil:
       res = BASS_FXReset(self._fx)
     self._evaluate()
-    BASS_FXGetParameters(self._fx, self._effect)
+    BASS_FXGetParameters(self._fx, self._get_effect())
     return res
 
   cpdef update(FX self):
@@ -107,7 +112,7 @@ cdef class FX(Evaluable):
     if self._fx == 0:
       raise BassAPIError()
 
-    BASS_FXSetParameters(self._fx, self._effect)
+    BASS_FXSetParameters(self._fx, self._get_effect())
     self._evaluate()
 
   cpdef _validate_range(FX self, PARAMETER_TYPE value, PARAMETER_TYPE lbound, PARAMETER_TYPE ubound):
