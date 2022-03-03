@@ -4,7 +4,7 @@ cdef extern from "tags.h" nogil:
 
   DWORD TAGS_GetVersion()
   bint TAGS_SetUTF8(bint)
-  char *TAGS_Read(DWORD, char *)
-  char *TAGS_ReadEx(DWORD, char *fmt, DWORD, int)
-  char *TAGS_GetLastErrorDesc()
+  const char *TAGS_Read(DWORD, char *)
+  const char *TAGS_ReadEx(DWORD, const char *fmt, DWORD, int)
+  const char *TAGS_GetLastErrorDesc()
 
