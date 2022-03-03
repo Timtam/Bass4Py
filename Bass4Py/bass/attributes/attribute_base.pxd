@@ -6,7 +6,6 @@ cdef class AttributeBase(Evaluable):
   cdef DWORD _attribute
   cdef bint _readonly
   cdef bint _not_available
-  cdef dict __dict__
 
   @staticmethod
   cdef void _clean(HCHANNEL channel)

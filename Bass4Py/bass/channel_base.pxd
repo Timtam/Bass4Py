@@ -11,7 +11,7 @@ from ..evaluable cimport Evaluable
 cdef class ChannelBase(Evaluable):
   cdef HCHANNEL _channel
   cdef object _flags_enum
-  cdef dict __dict__
+
 
   # attributes
   cdef readonly FloatAttribute frequency
