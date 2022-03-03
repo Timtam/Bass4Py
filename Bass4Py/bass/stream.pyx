@@ -1,5 +1,4 @@
 from libc.string cimport memmove
-
 from ..bindings.bass cimport (
   _BASS_ATTRIB_BITRATE,
   _BASS_ATTRIB_NET_RESUME,
@@ -97,18 +96,12 @@ cdef QWORD __stdcall CFILELENPROC_STD(void *user) with gil:
 
 cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
   cdef Stream strm = <Stream?>user
-  cdef bytes data
   cdef DWORD blen
-
+  cdef unsigned char[:] buffer_memoryview = <unsigned char[:length]>buffer # make memoryview, using buffer as the memory
   try:
-    data = strm._file.read(length)
-    blen = len(data)
+    blen = strm._file.readinto(buffer_memoryview) # read data directly from file into the buffer
 
-    if blen > length:
-      data = data[:length]
-      blen = length
-    
-    memmove(buffer, <char *>data, blen)
+
     return blen
   except Exception:
     warnings.warn(traceback.format_exc(), RuntimeWarning)
