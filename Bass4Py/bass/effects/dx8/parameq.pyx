@@ -9,28 +9,32 @@ from ....bindings.bass cimport (
 from ...channel cimport Channel
 from ...fx cimport FX
 
-from cpython.mem cimport PyMem_Malloc
+
 
 cdef class Parameq(FX):
+  cdef BASS_DX8_PARAMEQ effect
+
+  cdef void* _get_effect(self) nogil except NULL: return <void*>&self.effect
+
 
   def __cinit__(Parameq self):
-    cdef BASS_DX8_PARAMEQ *effect
+
 
     self._type = _BASS_FX_DX8_PARAMEQ
 
-    effect = <BASS_DX8_PARAMEQ*>PyMem_Malloc(sizeof(BASS_DX8_PARAMEQ))
-    
-    if effect == NULL:
-      raise MemoryError()
-      
-    self._effect = effect
 
-    effect.fCenter = 0.0
-    effect.fBandwidth = 12.0
-    effect.fGain = 0.0
+    
+
+
+      
+
+
+    self.effect.fCenter = 0.0
+    self.effect.fBandwidth = 12.0
+    self.effect.fGain = 0.0
 
   cpdef set(Parameq self, Channel chan):
-    cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
+    cdef BASS_DX8_PARAMEQ *effect = &self.effect
     cdef BASS_DX8_PARAMEQ temp
 
     self._set_fx(chan)
@@ -47,11 +51,11 @@ cdef class Parameq(FX):
 
   property center:
     def __get__(Parameq self):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
-      return effect.fCenter
+
+      return self.effect.fCenter
 
     def __set__(Parameq self, float value):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
+      cdef BASS_DX8_PARAMEQ *effect = &self.effect
       cdef BASS_CHANNELINFO info
 
       if self.channel == None:
@@ -74,20 +78,20 @@ cdef class Parameq(FX):
 
   property bandwidth:
     def __get__(Parameq self):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
-      return effect.fBandwidth
+
+      return self.effect.fBandwidth
 
     def __set__(Parameq self, float value):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
+
       self._validate_range(value, 1.0, 36.0)
-      effect.fBandwidth = value
+      self.effect.fBandwidth = value
 
   property gain:
     def __get__(Parameq self):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
-      return effect.fGain
+
+      return self.effect.fGain
 
     def __set__(Parameq self, float value):
-      cdef BASS_DX8_PARAMEQ *effect = <BASS_DX8_PARAMEQ*>(self._effect)
+
       self._validate_range(value, -15.0, 15.0)
-      effect.fGain = value
+      self.effect.fGain = value
