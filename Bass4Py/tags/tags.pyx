@@ -44,7 +44,7 @@ cdef class Tags:
   cpdef read(Tags self, object fmt = None, DWORD tagtype = -1):
 
     cdef const unsigned char[:] c_fmt
-    cdef char *res
+    cdef const char *res
 
     if fmt is not None:
 
@@ -72,4 +72,4 @@ cdef class Tags:
   
   property error:
     def __get__(Tags self):
-      return (<char*>TAGS_GetLastErrorDesc()).decode('utf-8')
+      return (<const char*>TAGS_GetLastErrorDesc()).decode('utf-8')
