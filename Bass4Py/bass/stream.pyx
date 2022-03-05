@@ -98,10 +98,13 @@ cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
   cdef Stream strm = <Stream?>user
   cdef DWORD blen
   cdef unsigned char[:] buffer_memoryview = <unsigned char[:length]>buffer # make memoryview, using buffer as the memory
+  cdef const unsigned char[:] bytes_memoryview # if readinto() is not available, we'll put the result of read() in this variable and copy the data
   try:
-    blen = strm._file.readinto(buffer_memoryview) # read data directly from file into the buffer
-
-
+    if hasattr(strm.file, "readinto"): blen = strm._file.readinto(buffer_memoryview) # read data directly from file into the buffer
+    elif hasattr(strm.file, "read"):
+      bytes_memoryview = strm.file.read(len)
+      len = bytes_memoryview.shape[0] # we might not've gotten as much data as requested
+      buffer_memoryview[:len] = bytes_memoryview[:len] # let Cython copy the data for us
     return blen
   except Exception:
     warnings.warn(traceback.format_exc(), RuntimeWarning)
