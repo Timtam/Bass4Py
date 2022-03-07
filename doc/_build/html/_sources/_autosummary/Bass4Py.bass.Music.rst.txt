@@ -122,8 +122,6 @@ Music
    
       Music.mode_3d
    
-      Music.name
-   
       Music.no_ramping
    
       Music.orientation_3d

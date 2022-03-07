@@ -37,50 +37,8 @@
 <h1>MusicPosition.set<a class="headerlink" href="#musicposition-set" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="Bass4Py.bass.syncs.MusicPosition.set">
-<span class="sig-prename descclassname"><span class="pre">MusicPosition.</span></span><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.syncs.MusicPosition.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets up this synchronizer to a channel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>chan</strong> (<a class="reference internal" href="Bass4Py.bass.Channel.html#Bass4Py.bass.Channel" title="Bass4Py.bass.Channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel</span></code></a>) – Any channel object or one of its subclasses.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="Bass4Py.exceptions.BassSyncError.html#Bass4Py.exceptions.BassSyncError" title="Bass4Py.exceptions.BassSyncError"><strong>Bass4Py.exceptions.BassSyncError</strong></a> – Either a <a class="reference internal" href="Bass4Py.bass.Sync.callback.html#Bass4Py.bass.Sync.callback" title="Bass4Py.bass.Sync.callback"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.Sync.callback</span></code></a> wasn’t provided or the
-    required parameters weren’t set beforehand. Please read the documentation
-    of the according sync object and read the raised exception for more
-    details.</p>
-</dd>
-</dl>
-<p>Multiple synchronizers may be used per channel, and they can be set before
-and while playing. Equally, synchronizers can also be removed at any time,
-using <a class="reference internal" href="Bass4Py.bass.Sync.remove.html#Bass4Py.bass.Sync.remove" title="Bass4Py.bass.Sync.remove"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove()</span></code></a>. If the
-<a class="reference internal" href="Bass4Py.bass.Sync.one_time.html#Bass4Py.bass.Sync.one_time" title="Bass4Py.bass.Sync.one_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">one_time</span></code></a> attribute is used then the sync is
-automatically removed after its first occurrence.
-The method <a class="reference internal" href="Bass4Py.bass.Sync.set_mix_time.html#Bass4Py.bass.Sync.set_mix_time" title="Bass4Py.bass.Sync.set_mix_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_mix_time()</span></code></a> (with threading disabled)
-can be used with <a class="reference internal" href="Bass4Py.bass.syncs.End.html#Bass4Py.bass.syncs.End" title="Bass4Py.bass.syncs.End"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.End</span></code></a> or
-<a class="reference internal" href="Bass4Py.bass.syncs.Position.html#Bass4Py.bass.syncs.Position" title="Bass4Py.bass.syncs.Position"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.Position</span></code></a> /
-<a class="reference internal" href="Bass4Py.bass.syncs.MusicPosition.html#Bass4Py.bass.syncs.MusicPosition" title="Bass4Py.bass.syncs.MusicPosition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.MusicPosition</span></code></a> syncs to implement custom
-looping, by using <a class="reference internal" href="Bass4Py.bass.Channel.set_position.html#Bass4Py.bass.Channel.set_position" title="Bass4Py.bass.Channel.set_position"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.set_position()</span></code></a> in the callback.
-A mixtime sync can also be used to make DSP/FX changes at specific points,
-or change a <a class="reference internal" href="Bass4Py.bass.Music.html#Bass4Py.bass.Music" title="Bass4Py.bass.Music"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.Music</span></code></a> channel’s attributes. The
-<a class="reference internal" href="Bass4Py.bass.Sync.set_mix_time.html#Bass4Py.bass.Sync.set_mix_time" title="Bass4Py.bass.Sync.set_mix_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_mix_time()</span></code></a> method can also be useful with a
-<a class="reference internal" href="Bass4Py.bass.syncs.SetPosition.html#Bass4Py.bass.syncs.SetPosition" title="Bass4Py.bass.syncs.SetPosition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.SetPosition</span></code></a> sync, to reset DSP states after
-seeking.
-Several of the sync types are triggered in the process of rendering the
-channel’s sample data; for example, <a class="reference internal" href="Bass4Py.bass.syncs.Position.html#Bass4Py.bass.syncs.Position" title="Bass4Py.bass.syncs.Position"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.Position</span></code></a>
-and <a class="reference internal" href="Bass4Py.bass.syncs.End.html#Bass4Py.bass.syncs.End" title="Bass4Py.bass.syncs.End"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.End</span></code></a> syncs, when the rendering reaches the
-sync position or the end, respectively. Those sync types should be set
-before starting playback or pre-buffering (ie. before any rendering), to
-avoid missing any early sync events.
-A channel does not need to be playing for its
-<a class="reference internal" href="Bass4Py.bass.syncs.DeviceFail.html#Bass4Py.bass.syncs.DeviceFail" title="Bass4Py.bass.syncs.DeviceFail"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.DeviceFail</span></code></a> and
-<a class="reference internal" href="Bass4Py.bass.syncs.DeviceFormat.html#Bass4Py.bass.syncs.DeviceFormat" title="Bass4Py.bass.syncs.DeviceFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.DeviceFormat</span></code></a> syncs to be triggered but the
-device does need to be active, which means it needs to be playing other
-channels or the <a class="reference internal" href="Bass4Py.bass.BASS.device_nonstop.html#Bass4Py.bass.BASS.device_nonstop" title="Bass4Py.bass.BASS.device_nonstop"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.bass.BASS.device_nonstop</span></code></a> option needs to be
-enabled.
-With recording channels, <a class="reference internal" href="Bass4Py.bass.syncs.Position.html#Bass4Py.bass.syncs.Position" title="Bass4Py.bass.syncs.Position"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.Position</span></code></a> syncs are
-triggered just before the callback receives the block of data containing
-the sync position.</p>
-</dd></dl>
+<span class="sig-prename descclassname"><span class="pre">MusicPosition.</span></span><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Channel</span> <span class="pre">chan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.syncs.MusicPosition.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 

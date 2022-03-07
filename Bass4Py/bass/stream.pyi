@@ -57,3 +57,6 @@ class Stream(Channel):
 
   @property
   def tags(self) -> Any: ...
+
+  @property
+  def name(self) -> str: ...

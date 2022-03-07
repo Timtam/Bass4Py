@@ -48,6 +48,21 @@ cdef class ChannelBase(Evaluable):
      Add support for all the fft flags to 
      :meth:`~Bass4Py.bass.ChannelBase.get_data` or add a separate method for 
      that purpose.
+
+  .. todo::
+  
+     :attr:`~Bass4Py.bass.ChannelBase.resolution` needs further support for 
+     BASS_ORIGRES_FLOAT and the corresponding bit depth.
+
+  .. todo::
+  
+     get rid of all :attr:`~Bass4Py.bass.ChannelBase.flags` properties and 
+     replace them with proper attributes, similar to all 
+     init/create_stream/create_music/... calls (more pythonic methods)
+
+  .. todo::
+  
+     documentation for attributes
   """
 
   _map = {}
@@ -428,18 +443,27 @@ cdef class ChannelBase(Evaluable):
     return NotImplemented
 
   property default_frequency:
+    """
+    :obj:`int`: default sample rate
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.freq
 
   property channels:
+    """
+    :obj:`int`: number of channels
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.chans
 
   property type:
+    """
+    :class:`Bass4Py.constants.CHANNEL_TYPE`: channel type
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
@@ -447,12 +471,19 @@ cdef class ChannelBase(Evaluable):
       return CHANNEL_TYPE(info.ctype)
 
   property resolution:
+    """
+    :obj:`int`: the original resolution (bits per sample, 0 = undefined)
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
       return info.origres
 
   property plugin:
+    """
+    :class:`Bass4Py.bass.Plugin` or :obj:`None`: the plugin that is handling 
+    the channel (:obj:`None` = no plugin)
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
@@ -461,16 +492,11 @@ cdef class ChannelBase(Evaluable):
       else:
         return None
 
-  property name:
-    def __get__(ChannelBase self):
-      cdef BASS_CHANNELINFO info = self._get_info()
-      self._evaluate()
-
-      if info.filename == NULL:
-        return u''
-      return info.filename.decode('utf-8')
-
   property sample:
+    """
+    :class:`Bass4Py.bass.Sample` or :obj:`None`: the sample that is playing on 
+    the channel (:obj:`None` if channel is not a sample channel)
+    """
     def __get__(ChannelBase self):
       cdef BASS_CHANNELINFO info = self._get_info()
       self._evaluate()
@@ -480,6 +506,37 @@ cdef class ChannelBase(Evaluable):
         return None
 
   property level:
+    """
+    :obj`tuple`: the level (peak amplitude) of a channel. 
+
+    Raises
+    ------
+    :exc:`Bass4Py.exceptions.BassNotPlayingError`
+      The channel is not playing.
+    :exc:`Bass4Py.exceptions.BassEndedError`
+      The decoding channel has reached the end.
+    
+    
+    This attribute measures the level of the channel's sample data, not its 
+    level in the final output mix, so the channel's 
+    :attr:`~Bass4Py.bass.ChannelBase.volume` and 
+    :attr:`~#Bass4Py.bass.ChannelBase.pan` does not affect it. The effect of 
+    any DSP/FX set on the channel is present in the measurement. DSP/FX are not 
+    present when a callback function is used by a recording channel (they are 
+    only present in the data received by the callback). 
+    For channels that are more than stereo, the left level will include all 
+    left channels (eg. front-left, rear-left, center), and the right will 
+    include all right (front-right, rear-right, LFE). If there are an odd 
+    number of channels then the left and right levels will include all channels. 
+    If the level of each individual channel is required, that is available from 
+    :meth:`~Bass4Py.bass.ChannelBase.get_level`. 
+    20ms of data is inspected to calculate the level. When used with a decoding 
+    channel, that means 20ms of data needs to be decoded from the channel in 
+    order to calculate the level, and that data is then gone, eg. it is not 
+    available to a subsequent :meth:`~Bass4Py.bass.ChannelBase.get_data` call. 
+    More flexible level retrieval is available with 
+    :meth:`~Bass4Py.bass.ChannelBase.get_level`. 
+    """
     def __get__(ChannelBase self):
       cdef WORD left, right
       cdef DWORD level = BASS_ChannelGetLevel(self._channel)
@@ -489,6 +546,37 @@ cdef class ChannelBase(Evaluable):
       return (left, right, )
 
   property active:
+    """
+    :class:`Bass4Py.constants.ACTIVE`: a channel is active (playing) or stalled. 
+    Can also check if a recording is in progress. 
+
+    One of the following:
+    
+    * :attr:`Bass4Py.constants.ACTIVE.STOPPED`: The channel is not active.
+    * :attr:`Bass4Py.constants.ACTIVE.PLAYING`: The channel is playing (or recording).
+    * :attr:`Bass4Py.constants.ACTIVE.PAUSED`: The channel is paused. 
+    * :attr:`Bass4Py.constants.ACTIVE.PAUSED_DEVICE`: The channel's device is paused. 
+    * :attr:`Bass4Py.constants.ACTIVE.STALLED`: Playback of the stream has been 
+      stalled due to a lack of sample data. Playback will automatically resume 
+      once there is sufficient data to do so.
+
+    When using this attribute with a decoding channel, 
+    :attr:`Bass4Py.constants.ACTIVE.PLAYING` will be returned while there is 
+    still data to decode. Once the end has been reached, 
+    :attr:`Bass4Py.constants.ACTIVE.STOPPED` will be returned. 
+    :attr:`Bass4Py.constants.ACTIVE.STALLED` is never returned for decoding 
+    channels; you can tell a decoding channel is stalled if 
+    :meth:`~Bass4Py.bass.ChannelBase.get_data` returns less data than requested 
+    and this attribute still returns :attr:`Bass4Py.constants.ACTIVE.PLAYING`. 
+    The :attr:`Bass4Py.constants.ACTIVE.PAUSED_DEVICE` state can be the result 
+    of a :meth:`Bass4Py.bass.OutputDevice.pause` call or of the device stopping 
+    unexpectedly (eg. a USB soundcard being disconnected). In either case, 
+    playback will be resumed by :meth:`Bass4Py.bass.OutputDevice.start`. 
+    Syncs can be set via :meth:`Bass4Py.bass.Channel.set_sync` to be notified 
+    when a channel reaches the end (:class:`Bass4Py.bass.syncs.End` sync) or 
+    stalls/resumes (:class:`Bass4Py.bass.syncs.Stall` sync) or pauses due to 
+    device failure (:class:`Bass4Py.bass.syncs.DeviceFail` sync). 
+    """
     def __get__(ChannelBase self):
       cdef DWORD act
 
@@ -500,6 +588,10 @@ cdef class ChannelBase(Evaluable):
 
   @property
   def data_available(ChannelBase self):
+    """
+    :obj:`int`: the amount of data available to retrieve via 
+    :meth:`~Bass4Py.bass.ChannelBase.get_data`.
+    """
     cdef DWORD res
     res = BASS_ChannelGetData(self._channel, NULL, _BASS_DATA_AVAILABLE)
     self._evaluate()

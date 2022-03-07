@@ -40,9 +40,6 @@ class ChannelBase(Evaluable):
   def plugin(self) -> Optional[Plugin]: ...
   
   @property
-  def name(self) -> str: ...
-  
-  @property
   def sample(self) -> Optional[Sample]: ...
   
   @property

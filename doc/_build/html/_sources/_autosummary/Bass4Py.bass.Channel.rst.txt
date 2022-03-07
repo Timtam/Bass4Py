@@ -96,8 +96,6 @@ Channel
    
       Channel.mode_3d
    
-      Channel.name
-   
       Channel.no_ramping
    
       Channel.orientation_3d

@@ -717,7 +717,7 @@ cdef class BASS(Evaluable):
     :meth:`Bass4Py.bass.OutputDevice.create_stream_from_file_obj` too. 
 
     When enabled, BASS will process PLS and M3U playlists, trying each URL 
-    until it finds one that it can play. :attr:`Bass4Py.bass.ChannelBase.name` 
+    until it finds one that it can play. :attr:`Bass4Py.bass.Stream.name` 
     can be used to find out the URL that was successfully opened. Nested 
     playlists are suported, that is a playlist can contain the URL of another 
     playlist. The :attr:`Bass4Py.bass.BASS.net_playlist_depth` option limits 

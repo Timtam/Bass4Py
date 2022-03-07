@@ -38,7 +38,40 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Bass4Py.bass.Record.active">
 <span class="sig-prename descclassname"><span class="pre">Record.</span></span><span class="sig-name descname"><span class="pre">active</span></span><a class="headerlink" href="#Bass4Py.bass.Record.active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>a channel is active (playing) or stalled.
+Can also check if a recording is in progress.</p>
+<p>One of the following:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.STOPPED.html#Bass4Py.constants.ACTIVE.STOPPED" title="Bass4Py.constants.ACTIVE.STOPPED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.STOPPED</span></code></a>: The channel is not active.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.PLAYING.html#Bass4Py.constants.ACTIVE.PLAYING" title="Bass4Py.constants.ACTIVE.PLAYING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PLAYING</span></code></a>: The channel is playing (or recording).</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.PAUSED.html#Bass4Py.constants.ACTIVE.PAUSED" title="Bass4Py.constants.ACTIVE.PAUSED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PAUSED</span></code></a>: The channel is paused.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.PAUSED_DEVICE.html#Bass4Py.constants.ACTIVE.PAUSED_DEVICE" title="Bass4Py.constants.ACTIVE.PAUSED_DEVICE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PAUSED_DEVICE</span></code></a>: The channel’s device is paused.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.STALLED.html#Bass4Py.constants.ACTIVE.STALLED" title="Bass4Py.constants.ACTIVE.STALLED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.STALLED</span></code></a>: Playback of the stream has been
+stalled due to a lack of sample data. Playback will automatically resume
+once there is sufficient data to do so.</p></li>
+</ul>
+<p>When using this attribute with a decoding channel,
+<a class="reference internal" href="Bass4Py.constants.ACTIVE.PLAYING.html#Bass4Py.constants.ACTIVE.PLAYING" title="Bass4Py.constants.ACTIVE.PLAYING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PLAYING</span></code></a> will be returned while there is
+still data to decode. Once the end has been reached,
+<a class="reference internal" href="Bass4Py.constants.ACTIVE.STOPPED.html#Bass4Py.constants.ACTIVE.STOPPED" title="Bass4Py.constants.ACTIVE.STOPPED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.STOPPED</span></code></a> will be returned.
+<a class="reference internal" href="Bass4Py.constants.ACTIVE.STALLED.html#Bass4Py.constants.ACTIVE.STALLED" title="Bass4Py.constants.ACTIVE.STALLED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.STALLED</span></code></a> is never returned for decoding
+channels; you can tell a decoding channel is stalled if
+<a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a> returns less data than requested
+and this attribute still returns <a class="reference internal" href="Bass4Py.constants.ACTIVE.PLAYING.html#Bass4Py.constants.ACTIVE.PLAYING" title="Bass4Py.constants.ACTIVE.PLAYING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PLAYING</span></code></a>.
+The <a class="reference internal" href="Bass4Py.constants.ACTIVE.PAUSED_DEVICE.html#Bass4Py.constants.ACTIVE.PAUSED_DEVICE" title="Bass4Py.constants.ACTIVE.PAUSED_DEVICE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE.PAUSED_DEVICE</span></code></a> state can be the result
+of a <a class="reference internal" href="Bass4Py.bass.OutputDevice.pause.html#Bass4Py.bass.OutputDevice.pause" title="Bass4Py.bass.OutputDevice.pause"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.pause()</span></code></a> call or of the device stopping
+unexpectedly (eg. a USB soundcard being disconnected). In either case,
+playback will be resumed by <a class="reference internal" href="Bass4Py.bass.OutputDevice.start.html#Bass4Py.bass.OutputDevice.start" title="Bass4Py.bass.OutputDevice.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.OutputDevice.start()</span></code></a>.
+Syncs can be set via <a class="reference internal" href="Bass4Py.bass.Channel.set_sync.html#Bass4Py.bass.Channel.set_sync" title="Bass4Py.bass.Channel.set_sync"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Bass4Py.bass.Channel.set_sync()</span></code></a> to be notified
+when a channel reaches the end (<a class="reference internal" href="Bass4Py.bass.syncs.End.html#Bass4Py.bass.syncs.End" title="Bass4Py.bass.syncs.End"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.End</span></code></a> sync) or
+stalls/resumes (<a class="reference internal" href="Bass4Py.bass.syncs.Stall.html#Bass4Py.bass.syncs.Stall" title="Bass4Py.bass.syncs.Stall"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.Stall</span></code></a> sync) or pauses due to
+device failure (<a class="reference internal" href="Bass4Py.bass.syncs.DeviceFail.html#Bass4Py.bass.syncs.DeviceFail" title="Bass4Py.bass.syncs.DeviceFail"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.bass.syncs.DeviceFail</span></code></a> sync).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="Bass4Py.constants.ACTIVE.html#Bass4Py.constants.ACTIVE" title="Bass4Py.constants.ACTIVE"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bass4Py.constants.ACTIVE</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

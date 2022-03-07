@@ -68,8 +68,6 @@ Record
    
       Record.level
    
-      Record.name
-   
       Record.pan
    
       Record.plugin

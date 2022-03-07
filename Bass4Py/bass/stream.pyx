@@ -10,6 +10,7 @@ from ..bindings.bass cimport (
   _STREAMPROC_DEVICE,
   _STREAMPROC_PUSH,
   BASS_ChannelUpdate,
+  BASS_CHANNELINFO,
   BASS_FILEPROCS,
   BASS_StreamCreate,
   BASS_StreamCreateFile,
@@ -353,3 +354,12 @@ cdef class Stream(Channel):
 
     def __set__(Channel self, bint switch):
       self._set_flags(_BASS_STREAM_RESTRATE, switch)
+
+  property name:
+    def __get__(Stream self):
+      cdef BASS_CHANNELINFO info = self._get_info()
+      self._evaluate()
+
+      if info.filename == NULL:
+        return u''
+      return info.filename.decode('utf-8')
