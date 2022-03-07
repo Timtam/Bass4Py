@@ -15,7 +15,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ChannelBase.name" href="Bass4Py.bass.ChannelBase.name.html" />
+    <link rel="next" title="ChannelBase.pan" href="Bass4Py.bass.ChannelBase.pan.html" />
     <link rel="prev" title="ChannelBase.granularity" href="Bass4Py.bass.ChannelBase.granularity.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -38,7 +38,40 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Bass4Py.bass.ChannelBase.level">
 <span class="sig-prename descclassname"><span class="pre">ChannelBase.</span></span><span class="sig-name descname"><span class="pre">level</span></span><a class="headerlink" href="#Bass4Py.bass.ChannelBase.level" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>the level (peak amplitude) of a channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Bass4Py.exceptions.BassNotPlayingError</strong> – The channel is not playing.</p></li>
+<li><p><a class="reference internal" href="Bass4Py.exceptions.BassEndedError.html#Bass4Py.exceptions.BassEndedError" title="Bass4Py.exceptions.BassEndedError"><strong>Bass4Py.exceptions.BassEndedError</strong></a> – The decoding channel has reached the end.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This attribute measures the level of the channel’s sample data, not its
+level in the final output mix, so the channel’s
+<a class="reference internal" href="Bass4Py.bass.ChannelBase.volume.html#Bass4Py.bass.ChannelBase.volume" title="Bass4Py.bass.ChannelBase.volume"><code class="xref py py-attr docutils literal notranslate"><span class="pre">volume</span></code></a> and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">pan</span></code> does not affect it. The effect of
+any DSP/FX set on the channel is present in the measurement. DSP/FX are not
+present when a callback function is used by a recording channel (they are
+only present in the data received by the callback).
+For channels that are more than stereo, the left level will include all
+left channels (eg. front-left, rear-left, center), and the right will
+include all right (front-right, rear-right, LFE). If there are an odd
+number of channels then the left and right levels will include all channels.
+If the level of each individual channel is required, that is available from
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_level()</span></code>.
+20ms of data is inspected to calculate the level. When used with a decoding
+channel, that means 20ms of data needs to be decoded from the channel in
+order to calculate the level, and that data is then gone, eg. it is not
+available to a subsequent <a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a> call.
+More flexible level retrieval is available with
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_level()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>obj`tuple`</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -74,7 +107,7 @@
   <li><a href="Bass4Py.bass.html">Bass4Py.bass</a><ul>
   <li><a href="Bass4Py.bass.ChannelBase.html">ChannelBase</a><ul>
       <li>Previous: <a href="Bass4Py.bass.ChannelBase.granularity.html" title="previous chapter">ChannelBase.granularity</a></li>
-      <li>Next: <a href="Bass4Py.bass.ChannelBase.name.html" title="next chapter">ChannelBase.name</a></li>
+      <li>Next: <a href="Bass4Py.bass.ChannelBase.pan.html" title="next chapter">ChannelBase.pan</a></li>
   </ul></li>
   </ul></li>
   </ul></li>

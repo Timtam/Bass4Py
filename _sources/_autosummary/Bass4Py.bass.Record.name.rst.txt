@@ -1,6 +1,0 @@
-Record.name
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Record.name

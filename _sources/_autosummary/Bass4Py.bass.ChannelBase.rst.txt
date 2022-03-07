@@ -62,8 +62,6 @@ ChannelBase
    
       ChannelBase.level
    
-      ChannelBase.name
-   
       ChannelBase.pan
    
       ChannelBase.plugin

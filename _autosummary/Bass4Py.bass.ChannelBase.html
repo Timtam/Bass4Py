@@ -37,7 +37,7 @@
 <h1>ChannelBase<a class="headerlink" href="#channelbase" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="Bass4Py.bass.ChannelBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">ChannelBase</span></span><a class="headerlink" href="#Bass4Py.bass.ChannelBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">ChannelBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">HCHANNEL</span> <span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.ChannelBase" title="Permalink to this definition">¶</a></dt>
 <dd><div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_levels()</span></code></a> has a flags parameter; rewrite
@@ -49,6 +49,21 @@ to have pythonic boolean parameter flags instead.</p>
 <a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a> or add a separate method for
 that purpose.</p>
 </div>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p><a class="reference internal" href="Bass4Py.bass.ChannelBase.resolution.html#Bass4Py.bass.ChannelBase.resolution" title="Bass4Py.bass.ChannelBase.resolution"><code class="xref py py-attr docutils literal notranslate"><span class="pre">resolution</span></code></a> needs further support for
+BASS_ORIGRES_FLOAT and the corresponding bit depth.</p>
+</div>
+<div class="admonition-todo admonition" id="id4">
+<p class="admonition-title">Todo</p>
+<p>get rid of all <a class="reference internal" href="Bass4Py.bass.ChannelBase.flags.html#Bass4Py.bass.ChannelBase.flags" title="Bass4Py.bass.ChannelBase.flags"><code class="xref py py-attr docutils literal notranslate"><span class="pre">flags</span></code></a> properties and
+replace them with proper attributes, similar to all
+init/create_stream/create_music/… calls (more pythonic methods)</p>
+</div>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>documentation for attributes</p>
+</div>
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -59,37 +74,37 @@ that purpose.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.__init__.html#Bass4Py.bass.ChannelBase.__init__" title="Bass4Py.bass.ChannelBase.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.__init__</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.bytes_to_seconds.html#Bass4Py.bass.ChannelBase.bytes_to_seconds" title="Bass4Py.bass.ChannelBase.bytes_to_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.bytes_to_seconds</span></code></a>(bytes)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.bytes_to_seconds.html#Bass4Py.bass.ChannelBase.bytes_to_seconds" title="Bass4Py.bass.ChannelBase.bytes_to_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.bytes_to_seconds</span></code></a>(self, QWORD bytes)</p></td>
 <td><p>Translates a byte position into time (seconds), based on a channel's format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.free.html#Bass4Py.bass.ChannelBase.free" title="Bass4Py.bass.ChannelBase.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.free</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.free.html#Bass4Py.bass.ChannelBase.free" title="Bass4Py.bass.ChannelBase.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.free</span></code></a>(self)</p></td>
 <td><p>Frees a channel, including any sync/DSP/FX it has.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_data</span></code></a>(length[, format])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_data</span></code></a>(self, DWORD length, ...)</p></td>
 <td><p>Retrieves the immediate sample data of this channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_length.html#Bass4Py.bass.ChannelBase.get_length" title="Bass4Py.bass.ChannelBase.get_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_length</span></code></a>([mode])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_length.html#Bass4Py.bass.ChannelBase.get_length" title="Bass4Py.bass.ChannelBase.get_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_length</span></code></a>(self, ...)</p></td>
 <td><p>Retrieves the playback length of a channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_levels</span></code></a>(length, flags)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_levels</span></code></a>(self, float length, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_position.html#Bass4Py.bass.ChannelBase.get_position" title="Bass4Py.bass.ChannelBase.get_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_position</span></code></a>([mode, decode])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_position.html#Bass4Py.bass.ChannelBase.get_position" title="Bass4Py.bass.ChannelBase.get_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_position</span></code></a>(self, ...)</p></td>
 <td><p>Retrieves the playback position of this channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.lock.html#Bass4Py.bass.ChannelBase.lock" title="Bass4Py.bass.ChannelBase.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.lock</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.lock.html#Bass4Py.bass.ChannelBase.lock" title="Bass4Py.bass.ChannelBase.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.lock</span></code></a>(self)</p></td>
 <td><p>Locks a channel to the current thread.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.pause.html#Bass4Py.bass.ChannelBase.pause" title="Bass4Py.bass.ChannelBase.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.pause</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.pause.html#Bass4Py.bass.ChannelBase.pause" title="Bass4Py.bass.ChannelBase.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.pause</span></code></a>(self)</p></td>
 <td><p>Pauses this channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.seconds_to_bytes.html#Bass4Py.bass.ChannelBase.seconds_to_bytes" title="Bass4Py.bass.ChannelBase.seconds_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.seconds_to_bytes</span></code></a>(secs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.seconds_to_bytes.html#Bass4Py.bass.ChannelBase.seconds_to_bytes" title="Bass4Py.bass.ChannelBase.seconds_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.seconds_to_bytes</span></code></a>(self, double secs)</p></td>
 <td><p>Translates a time (seconds) position into bytes, based on a channel's format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.stop.html#Bass4Py.bass.ChannelBase.stop" title="Bass4Py.bass.ChannelBase.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.stop</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.stop.html#Bass4Py.bass.ChannelBase.stop" title="Bass4Py.bass.ChannelBase.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.stop</span></code></a>(self)</p></td>
 <td><p>Stops this channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.unlock.html#Bass4Py.bass.ChannelBase.unlock" title="Bass4Py.bass.ChannelBase.unlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.unlock</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.unlock.html#Bass4Py.bass.ChannelBase.unlock" title="Bass4Py.bass.ChannelBase.unlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.unlock</span></code></a>(self)</p></td>
 <td><p>Removes the lock from this channel.</p></td>
 </tr>
 </tbody>
@@ -102,16 +117,16 @@ that purpose.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.active.html#Bass4Py.bass.ChannelBase.active" title="Bass4Py.bass.ChannelBase.active"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.active</span></code></a></p></td>
-<td><p></p></td>
+<td><p>a channel is active (playing) or stalled.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.channels.html#Bass4Py.bass.ChannelBase.channels" title="Bass4Py.bass.ChannelBase.channels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.channels</span></code></a></p></td>
-<td><p></p></td>
+<td><p>number of channels</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.data_available.html#Bass4Py.bass.ChannelBase.data_available" title="Bass4Py.bass.ChannelBase.data_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.data_available</span></code></a></p></td>
-<td><p></p></td>
+<td><p>the amount of data available to retrieve via <a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data()</span></code></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.default_frequency.html#Bass4Py.bass.ChannelBase.default_frequency" title="Bass4Py.bass.ChannelBase.default_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.default_frequency</span></code></a></p></td>
-<td><p></p></td>
+<td><p>default sample rate</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.flags.html#Bass4Py.bass.ChannelBase.flags" title="Bass4Py.bass.ChannelBase.flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.flags</span></code></a></p></td>
 <td><p></p></td>
@@ -123,30 +138,27 @@ that purpose.</p>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.level.html#Bass4Py.bass.ChannelBase.level" title="Bass4Py.bass.ChannelBase.level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.level</span></code></a></p></td>
+<td><p>the level (peak amplitude) of a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.pan.html#Bass4Py.bass.ChannelBase.pan" title="Bass4Py.bass.ChannelBase.pan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.pan</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.name.html#Bass4Py.bass.ChannelBase.name" title="Bass4Py.bass.ChannelBase.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.name</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.plugin.html#Bass4Py.bass.ChannelBase.plugin" title="Bass4Py.bass.ChannelBase.plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.plugin</span></code></a></p></td>
+<td><p>the plugin that is handling the channel (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> = no plugin)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.resolution.html#Bass4Py.bass.ChannelBase.resolution" title="Bass4Py.bass.ChannelBase.resolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.resolution</span></code></a></p></td>
+<td><p>the original resolution (bits per sample, 0 = undefined)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.sample.html#Bass4Py.bass.ChannelBase.sample" title="Bass4Py.bass.ChannelBase.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.sample</span></code></a></p></td>
+<td><p>the sample that is playing on the channel (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if channel is not a sample channel)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.src.html#Bass4Py.bass.ChannelBase.src" title="Bass4Py.bass.ChannelBase.src"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.src</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.pan.html#Bass4Py.bass.ChannelBase.pan" title="Bass4Py.bass.ChannelBase.pan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.pan</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.type.html#Bass4Py.bass.ChannelBase.type" title="Bass4Py.bass.ChannelBase.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.type</span></code></a></p></td>
+<td><p>channel type</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.plugin.html#Bass4Py.bass.ChannelBase.plugin" title="Bass4Py.bass.ChannelBase.plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.plugin</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.resolution.html#Bass4Py.bass.ChannelBase.resolution" title="Bass4Py.bass.ChannelBase.resolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.resolution</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.sample.html#Bass4Py.bass.ChannelBase.sample" title="Bass4Py.bass.ChannelBase.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.sample</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.src.html#Bass4Py.bass.ChannelBase.src" title="Bass4Py.bass.ChannelBase.src"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.src</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.type.html#Bass4Py.bass.ChannelBase.type" title="Bass4Py.bass.ChannelBase.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.type</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.volume.html#Bass4Py.bass.ChannelBase.volume" title="Bass4Py.bass.ChannelBase.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.volume</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.volume.html#Bass4Py.bass.ChannelBase.volume" title="Bass4Py.bass.ChannelBase.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.volume</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
