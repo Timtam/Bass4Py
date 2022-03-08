@@ -102,7 +102,7 @@ cdef DWORD CFILEREADPROC(void *buffer, DWORD length, void *user) with gil:
   try:
     if hasattr(strm.file, "readinto"): blen = strm._file.readinto(buffer_memoryview) # read data directly from file into the buffer
     elif hasattr(strm.file, "read"):
-      bytes_memoryview = strm.file.read(len)
+      bytes_memoryview = strm.file.read(length)
       len = bytes_memoryview.shape[0] # we might not've gotten as much data as requested
       buffer_memoryview[:len] = bytes_memoryview[:len] # let Cython copy the data for us
     return blen
