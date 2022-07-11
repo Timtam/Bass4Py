@@ -234,7 +234,7 @@ jobs:
       - 
         name: "Install Bass4Py wheel"
         run: |
-          pip install $(find . -name Bass4Py*.whl)
+          pip install $(/usr/bin/find . -name Bass4Py*.whl)
       - 
         name: "Build docs"
         run: |
