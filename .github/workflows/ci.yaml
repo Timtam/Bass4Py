@@ -22,7 +22,6 @@ jobs:
           7z --% x bass24-linux.zip -obass24-linux -r
           7z --% x tags18-linux.zip -otags18-linux -r
         shell: bash
-        working-directory: ${{GITHUB_WORKSPACE}}
       - 
         name: "Install python dependencies"
         run: -m pip install -r requirements-dev.txt
