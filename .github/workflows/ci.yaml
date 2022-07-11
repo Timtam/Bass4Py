@@ -30,10 +30,23 @@ jobs:
           python setup.py build_ext --inplace
           python setup.py bdist_wheel
       - 
-        name: "Upload artifact"
+        name: "Run tests"
+        run: |
+          export LD_LIBRARY_PATH=$(pwd)/bass24-linux/x64/:$(pwd)/tags18-linux/x64/
+          python -m pytest --junitxml=junit/test-results-${{matrix.python-version}}.xml
+      - 
+        name: "Upload wheel"
         uses: actions/upload-artifact@v3
         with:
+          name: "Python ${{matrix.python-version}} (Ubuntu)"
           path: dist/*.whl
+      - 
+        name: "Upload test results"
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Tests for Python ${{matrix.python-version}} (Ubuntu)"
+          path: "junit/test-results-${{matrix.python-version}}.xml"
+        if: ${{always()}}
     strategy:
       matrix:
         include:
