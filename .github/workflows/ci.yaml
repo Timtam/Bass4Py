@@ -19,8 +19,8 @@ jobs:
         run: |
           wget http://www.un4seen.com/files/bass24-linux.zip
           wget http://www.un4seen.com/files/z/3/tags18-linux.zip
-          7z --% x bass24-linux.zip -obass24-linux -r
-          7z --% x tags18-linux.zip -otags18-linux -r
+          7z x bass24-linux.zip -obass24-linux -r
+          7z x tags18-linux.zip -otags18-linux -r
         shell: bash
       - 
         name: "Install python dependencies"
@@ -37,16 +37,16 @@ jobs:
         include:
           - 
             os: ubuntu-20.04
-            python-version: 3.6
+            python-version: "3.6"
           - 
             os: ubuntu-20.04
-            python-version: 3.7
+            python-version: "3.7"
           - 
             os: ubuntu-20.04
-            python-version: 3.8
+            python-version: "3.8"
           - 
             os: ubuntu-20.04
-            python-version: 3.9
+            python-version: "3.9"
           - 
             os: ubuntu-20.04
-            python-version: 3.10
+            python-version: "3.10"
