@@ -6,16 +6,13 @@ jobs:
   ubuntu:
     runs-on: ${{matrix.os}}
   steps:
-    - 
-      name: Checkout
+    - name: Checkout
       uses: actions/checkout@v3
-    - 
-      name: "Install Python"
+    - name: "Install Python"
       uses: actions/setup-python@v4
       with:
         python-version: ${{matrix.python-version}}
-    - 
-      name: "Download BASS"
+    - name: "Download BASS"
       run: |
         wget http://www.un4seen.com/files/bass24-linux.zip
         wget http://www.un4seen.com/files/z/3/tags18-linux.zip
@@ -23,12 +20,10 @@ jobs:
         7z --% x tags18-linux.zip -otags18-linux -r
       shell: bash
       working-directory: ${{GITHUB_WORKSPACE}}
-    - 
-      name: "Install python dependencies"
+    - name: "Install python dependencies"
       run: -m pip install -r requirements-dev.txt
       shell: python
-    - 
-      name: "Build wheel"
+    - name: "Build wheel"
       run: |
         python setup.py build_ext --inplace
         python setup.py bdist_wheel
@@ -36,18 +31,13 @@ jobs:
   strategy:
     matrix:
       include:
-        - 
-          os: ubuntu-20.04
+        - os: ubuntu-20.04
           python-version: 3.6
-        - 
-          os: ubuntu-20.04
+        - os: ubuntu-20.04
           python-version: 3.7
-        - 
-          os: ubuntu-20.04
+        - os: ubuntu-20.04
           python-version: 3.8
-        - 
-          os: ubuntu-20.04
+        - os: ubuntu-20.04
           python-version: 3.9
-        - 
-          os: ubuntu-20.04
+        - os: ubuntu-20.04
           python-version: 3.10
