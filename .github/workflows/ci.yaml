@@ -29,7 +29,11 @@ jobs:
         run: |
           python setup.py build_ext --inplace
           python setup.py bdist_wheel
-
+      - 
+        name: "Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.whl
     strategy:
       matrix:
         include:
