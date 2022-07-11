@@ -233,6 +233,7 @@ jobs:
           name: "Python 3.10_x64 (Windows)"
       - 
         name: "Install Bass4Py wheel"
+        shell: bash
         run: |
           pip install $(/usr/bin/find . -name Bass4Py*.whl)
       - 
