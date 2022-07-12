@@ -1,6 +1,0 @@
-Version.center
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.center

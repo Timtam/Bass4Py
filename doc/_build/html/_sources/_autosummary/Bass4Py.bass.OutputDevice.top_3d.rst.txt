@@ -1,6 +1,0 @@
-OutputDevice.top\_3d
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.top_3d

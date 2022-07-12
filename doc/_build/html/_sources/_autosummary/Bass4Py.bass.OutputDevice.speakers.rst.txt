@@ -1,6 +1,0 @@
-OutputDevice.speakers
-=====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.speakers

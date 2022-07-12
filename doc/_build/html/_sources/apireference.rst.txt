@@ -1,9 +1,0 @@
-API Reference
-=============
-
-.. autosummary::
-   :toctree: _autosummary
-   
-   Bass4Py.bass
-   Bass4Py.constants
-   Bass4Py.exceptions

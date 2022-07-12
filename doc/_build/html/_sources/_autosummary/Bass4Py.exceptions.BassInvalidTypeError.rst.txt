@@ -1,8 +1,0 @@
-BassInvalidTypeError
-====================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassInvalidTypeError
-   :no-members:
-   :no-inherited-members:

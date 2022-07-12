@@ -1,6 +1,0 @@
-DSP.priority
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: DSP.priority

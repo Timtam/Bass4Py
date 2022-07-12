@@ -1,6 +1,0 @@
-Stream.update
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.update

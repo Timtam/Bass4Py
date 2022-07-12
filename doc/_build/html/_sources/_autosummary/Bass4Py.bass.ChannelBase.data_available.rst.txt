@@ -1,6 +1,0 @@
-ChannelBase.data\_available
-===========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.data_available

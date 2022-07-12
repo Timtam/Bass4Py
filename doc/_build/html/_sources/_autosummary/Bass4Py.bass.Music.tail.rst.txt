@@ -1,6 +1,0 @@
-Music.tail
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.tail

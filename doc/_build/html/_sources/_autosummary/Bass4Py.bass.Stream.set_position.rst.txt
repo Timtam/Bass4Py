@@ -1,6 +1,0 @@
-Stream.set\_position
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.set_position

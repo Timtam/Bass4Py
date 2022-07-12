@@ -1,6 +1,0 @@
-Stream.lock
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.lock

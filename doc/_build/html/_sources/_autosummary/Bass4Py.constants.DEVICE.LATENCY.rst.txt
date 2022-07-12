@@ -1,6 +1,0 @@
-DEVICE.LATENCY
-==============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.LATENCY

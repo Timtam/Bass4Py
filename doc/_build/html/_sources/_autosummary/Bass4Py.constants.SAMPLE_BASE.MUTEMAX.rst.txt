@@ -1,6 +1,0 @@
-SAMPLE\_BASE.MUTEMAX
-====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: SAMPLE_BASE.MUTEMAX

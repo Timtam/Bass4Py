@@ -1,6 +1,0 @@
-Record.lock
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Record.lock

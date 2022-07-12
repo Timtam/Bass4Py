@@ -1,6 +1,0 @@
-OutputDevice.init\_flags
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.init_flags

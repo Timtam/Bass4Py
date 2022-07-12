@@ -1,6 +1,0 @@
-Record.channels
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Record.channels

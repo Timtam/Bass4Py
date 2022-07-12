@@ -1,6 +1,0 @@
-Download.remove
-===============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: Download.remove

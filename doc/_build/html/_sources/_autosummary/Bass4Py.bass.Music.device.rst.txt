@@ -1,6 +1,0 @@
-Music.device
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.device

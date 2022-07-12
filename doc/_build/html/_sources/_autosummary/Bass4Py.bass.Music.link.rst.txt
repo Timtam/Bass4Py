@@ -1,6 +1,0 @@
-Music.link
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.link

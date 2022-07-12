@@ -1,6 +1,0 @@
-FX.channel
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: FX.channel

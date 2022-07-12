@@ -1,6 +1,0 @@
-OutputDevice.create\_stream\_from\_parameters
-=============================================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: OutputDevice.create_stream_from_parameters

@@ -1,6 +1,0 @@
-InputDevice.default\_communication
-==================================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: InputDevice.default_communication

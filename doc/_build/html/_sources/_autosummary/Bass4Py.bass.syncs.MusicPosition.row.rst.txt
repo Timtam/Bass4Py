@@ -1,6 +1,0 @@
-MusicPosition.row
-=================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: MusicPosition.row

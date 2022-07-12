@@ -1,6 +1,0 @@
-InputDevice.frequency
-=====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: InputDevice.frequency

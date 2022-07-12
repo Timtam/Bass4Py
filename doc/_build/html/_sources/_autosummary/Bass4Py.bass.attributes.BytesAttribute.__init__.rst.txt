@@ -1,6 +1,0 @@
-BytesAttribute.\_\_init\_\_
-===========================
-
-.. currentmodule:: Bass4Py.bass.attributes
-
-.. automethod:: BytesAttribute.__init__

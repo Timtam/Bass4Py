@@ -1,8 +1,0 @@
-BassFrequencyError
-==================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassFrequencyError
-   :no-members:
-   :no-inherited-members:

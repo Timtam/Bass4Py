@@ -1,6 +1,0 @@
-Music.plugin
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.plugin

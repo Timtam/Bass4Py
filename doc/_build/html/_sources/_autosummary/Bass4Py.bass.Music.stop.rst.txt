@@ -1,6 +1,0 @@
-Music.stop
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.stop

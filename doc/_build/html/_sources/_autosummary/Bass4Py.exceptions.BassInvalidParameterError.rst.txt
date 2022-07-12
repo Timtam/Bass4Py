@@ -1,8 +1,0 @@
-BassInvalidParameterError
-=========================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassInvalidParameterError
-   :no-members:
-   :no-inherited-members:

@@ -1,6 +1,0 @@
-STARTED.NOT\_STARTED
-====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: STARTED.NOT_STARTED

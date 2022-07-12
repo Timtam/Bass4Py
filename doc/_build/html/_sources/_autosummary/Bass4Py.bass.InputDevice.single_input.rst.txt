@@ -1,6 +1,0 @@
-InputDevice.single\_input
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: InputDevice.single_input

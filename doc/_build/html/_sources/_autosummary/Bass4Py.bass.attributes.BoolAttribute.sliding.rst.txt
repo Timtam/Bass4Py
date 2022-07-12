@@ -1,6 +1,0 @@
-BoolAttribute.sliding
-=====================
-
-.. currentmodule:: Bass4Py.bass.attributes
-
-.. autoattribute:: BoolAttribute.sliding

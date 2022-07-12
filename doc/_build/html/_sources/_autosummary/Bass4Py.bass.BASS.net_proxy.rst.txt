@@ -1,6 +1,0 @@
-BASS.net\_proxy
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_proxy

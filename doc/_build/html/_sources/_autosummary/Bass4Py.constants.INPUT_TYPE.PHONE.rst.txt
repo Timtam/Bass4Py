@@ -1,6 +1,0 @@
-INPUT\_TYPE.PHONE
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.PHONE

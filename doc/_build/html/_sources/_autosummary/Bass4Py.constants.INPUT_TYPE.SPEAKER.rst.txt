@@ -1,6 +1,0 @@
-INPUT\_TYPE.SPEAKER
-===================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.SPEAKER

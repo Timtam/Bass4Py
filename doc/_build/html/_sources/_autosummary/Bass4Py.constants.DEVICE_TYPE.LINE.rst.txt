@@ -1,6 +1,0 @@
-DEVICE\_TYPE.LINE
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE_TYPE.LINE

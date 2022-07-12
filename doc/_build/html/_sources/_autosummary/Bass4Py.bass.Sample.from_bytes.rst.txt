@@ -1,6 +1,0 @@
-Sample.from\_bytes
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.from_bytes

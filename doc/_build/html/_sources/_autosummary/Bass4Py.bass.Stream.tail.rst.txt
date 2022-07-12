@@ -1,6 +1,0 @@
-Stream.tail
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.tail

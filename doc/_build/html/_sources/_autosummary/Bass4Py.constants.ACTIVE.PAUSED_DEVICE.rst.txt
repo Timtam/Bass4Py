@@ -1,6 +1,0 @@
-ACTIVE.PAUSED\_DEVICE
-=====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: ACTIVE.PAUSED_DEVICE

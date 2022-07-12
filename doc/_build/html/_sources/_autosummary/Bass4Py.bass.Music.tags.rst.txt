@@ -1,6 +1,0 @@
-Music.tags
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.tags

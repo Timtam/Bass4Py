@@ -1,6 +1,0 @@
-DEVICE.EIGHT\_BITS
-==================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.EIGHT_BITS

@@ -1,6 +1,0 @@
-Music.play
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.play

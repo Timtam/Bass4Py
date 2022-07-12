@@ -1,6 +1,0 @@
-Channel.angle
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Channel.angle

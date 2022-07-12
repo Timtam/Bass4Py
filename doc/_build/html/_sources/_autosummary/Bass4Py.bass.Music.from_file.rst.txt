@@ -1,6 +1,0 @@
-Music.from\_file
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.from_file

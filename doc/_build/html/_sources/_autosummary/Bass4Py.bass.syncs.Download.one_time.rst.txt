@@ -1,6 +1,0 @@
-Download.one\_time
-==================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Download.one_time

@@ -1,6 +1,0 @@
-Music.velocity\_3d
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.velocity_3d

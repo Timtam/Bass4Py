@@ -1,6 +1,0 @@
-Version.title
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.title

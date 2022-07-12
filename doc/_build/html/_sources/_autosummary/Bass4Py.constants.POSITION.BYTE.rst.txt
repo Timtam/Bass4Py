@@ -1,6 +1,0 @@
-POSITION.BYTE
-=============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: POSITION.BYTE

@@ -1,6 +1,0 @@
-Version.find
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.find

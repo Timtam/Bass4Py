@@ -1,8 +1,0 @@
-BassStreamError
-===============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassStreamError
-   :no-members:
-   :no-inherited-members:

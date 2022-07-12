@@ -1,6 +1,0 @@
-INPUT\_TYPE.LINE
-================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.LINE

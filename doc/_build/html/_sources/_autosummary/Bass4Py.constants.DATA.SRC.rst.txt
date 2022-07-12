@@ -1,6 +1,0 @@
-DATA.SRC
-========
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DATA.SRC

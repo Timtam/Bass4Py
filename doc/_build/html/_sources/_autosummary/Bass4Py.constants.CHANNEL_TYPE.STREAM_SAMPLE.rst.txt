@@ -1,6 +1,0 @@
-CHANNEL\_TYPE.STREAM\_SAMPLE
-============================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: CHANNEL_TYPE.STREAM_SAMPLE

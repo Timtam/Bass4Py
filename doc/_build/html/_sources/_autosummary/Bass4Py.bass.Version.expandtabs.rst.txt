@@ -1,6 +1,0 @@
-Version.expandtabs
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.expandtabs

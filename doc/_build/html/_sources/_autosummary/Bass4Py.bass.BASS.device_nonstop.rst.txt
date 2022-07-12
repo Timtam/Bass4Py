@@ -1,6 +1,0 @@
-BASS.device\_nonstop
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.device_nonstop

@@ -1,6 +1,0 @@
-Stream.get\_length
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.get_length

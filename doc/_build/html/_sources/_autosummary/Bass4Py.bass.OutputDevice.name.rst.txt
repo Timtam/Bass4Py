@@ -1,6 +1,0 @@
-OutputDevice.name
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.name

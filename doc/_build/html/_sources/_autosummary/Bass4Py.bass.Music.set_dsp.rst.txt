@@ -1,6 +1,0 @@
-Music.set\_dsp
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.set_dsp

@@ -1,6 +1,0 @@
-OutputDevice.front\_3d
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.front_3d

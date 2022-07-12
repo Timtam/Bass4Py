@@ -1,6 +1,0 @@
-OutputDevice.latency
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.latency

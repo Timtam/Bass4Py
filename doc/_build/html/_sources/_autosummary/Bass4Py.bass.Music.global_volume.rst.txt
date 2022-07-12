@@ -1,6 +1,0 @@
-Music.global\_volume
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.global_volume

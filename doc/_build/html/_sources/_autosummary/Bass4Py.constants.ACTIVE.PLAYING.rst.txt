@@ -1,6 +1,0 @@
-ACTIVE.PLAYING
-==============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: ACTIVE.PLAYING

@@ -1,6 +1,0 @@
-Record.get\_levels
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Record.get_levels

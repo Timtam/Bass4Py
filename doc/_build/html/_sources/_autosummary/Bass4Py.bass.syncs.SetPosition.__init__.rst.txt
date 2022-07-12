@@ -1,6 +1,0 @@
-SetPosition.\_\_init\_\_
-========================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: SetPosition.__init__

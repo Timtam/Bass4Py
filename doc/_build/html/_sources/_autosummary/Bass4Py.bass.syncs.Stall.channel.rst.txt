@@ -1,6 +1,0 @@
-Stall.channel
-=============
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: Stall.channel

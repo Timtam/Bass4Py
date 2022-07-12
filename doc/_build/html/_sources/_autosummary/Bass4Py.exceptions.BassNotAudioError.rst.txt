@@ -1,8 +1,0 @@
-BassNotAudioError
-=================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassNotAudioError
-   :no-members:
-   :no-inherited-members:

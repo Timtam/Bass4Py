@@ -1,6 +1,0 @@
-MusicPosition.order
-===================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: MusicPosition.order

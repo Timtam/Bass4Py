@@ -1,6 +1,0 @@
-DEVICE\_TYPE.DISPLAYPORT
-========================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE_TYPE.DISPLAYPORT

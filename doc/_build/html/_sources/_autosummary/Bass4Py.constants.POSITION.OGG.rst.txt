@@ -1,6 +1,0 @@
-POSITION.OGG
-============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: POSITION.OGG

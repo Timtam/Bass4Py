@@ -1,8 +1,0 @@
-BassHandleError
-===============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassHandleError
-   :no-members:
-   :no-inherited-members:

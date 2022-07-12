@@ -1,6 +1,0 @@
-Version.ljust
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.ljust

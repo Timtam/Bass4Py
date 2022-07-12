@@ -1,6 +1,0 @@
-BASS.src
-========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.src

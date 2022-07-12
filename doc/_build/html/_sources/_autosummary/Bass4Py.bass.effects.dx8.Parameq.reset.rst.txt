@@ -1,6 +1,0 @@
-Parameq.reset
-=============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. automethod:: Parameq.reset

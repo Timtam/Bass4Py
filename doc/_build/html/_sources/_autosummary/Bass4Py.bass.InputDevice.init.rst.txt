@@ -1,6 +1,0 @@
-InputDevice.init
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: InputDevice.init

@@ -1,6 +1,0 @@
-Version.strip
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.strip

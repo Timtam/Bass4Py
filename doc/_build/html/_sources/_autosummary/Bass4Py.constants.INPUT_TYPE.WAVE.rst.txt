@@ -1,6 +1,0 @@
-INPUT\_TYPE.WAVE
-================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: INPUT_TYPE.WAVE

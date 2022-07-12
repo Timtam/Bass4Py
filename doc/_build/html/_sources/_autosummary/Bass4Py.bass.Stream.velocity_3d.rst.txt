@@ -1,6 +1,0 @@
-Stream.velocity\_3d
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.velocity_3d

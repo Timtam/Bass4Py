@@ -1,6 +1,0 @@
-DeviceFormat.set\_mix\_time
-===========================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: DeviceFormat.set_mix_time

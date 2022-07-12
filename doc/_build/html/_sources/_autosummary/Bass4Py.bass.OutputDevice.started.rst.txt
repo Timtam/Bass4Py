@@ -1,6 +1,0 @@
-OutputDevice.started
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: OutputDevice.started

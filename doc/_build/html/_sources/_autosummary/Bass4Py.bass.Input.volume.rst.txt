@@ -1,6 +1,0 @@
-Input.volume
-============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Input.volume

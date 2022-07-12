@@ -1,6 +1,0 @@
-BASS.net\_buffer
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.net_buffer

@@ -1,6 +1,0 @@
-Chorus.feedback
-===============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Chorus.feedback

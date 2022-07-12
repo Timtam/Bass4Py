@@ -1,6 +1,0 @@
-Record.resolution
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Record.resolution

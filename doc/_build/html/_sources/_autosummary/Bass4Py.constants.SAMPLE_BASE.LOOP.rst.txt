@@ -1,6 +1,0 @@
-SAMPLE\_BASE.LOOP
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: SAMPLE_BASE.LOOP

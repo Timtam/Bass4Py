@@ -1,6 +1,0 @@
-Music.ramp\_sensitive
-=====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Music.ramp_sensitive

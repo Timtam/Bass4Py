@@ -1,6 +1,0 @@
-Stream.default\_frequency
-=========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.default_frequency

@@ -1,6 +1,0 @@
-Stream.data\_available
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.data_available

@@ -1,6 +1,0 @@
-SAMPLE\_BASE.FX
-===============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: SAMPLE_BASE.FX

@@ -1,6 +1,0 @@
-Music.free
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.free

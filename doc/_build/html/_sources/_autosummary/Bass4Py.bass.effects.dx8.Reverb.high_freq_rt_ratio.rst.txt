@@ -1,6 +1,0 @@
-Reverb.high\_freq\_rt\_ratio
-============================
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Reverb.high_freq_rt_ratio

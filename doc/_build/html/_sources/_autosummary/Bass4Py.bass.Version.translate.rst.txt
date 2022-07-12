@@ -1,6 +1,0 @@
-Version.translate
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.translate

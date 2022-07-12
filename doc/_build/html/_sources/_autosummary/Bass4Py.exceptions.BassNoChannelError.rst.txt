@@ -1,8 +1,0 @@
-BassNoChannelError
-==================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassNoChannelError
-   :no-members:
-   :no-inherited-members:

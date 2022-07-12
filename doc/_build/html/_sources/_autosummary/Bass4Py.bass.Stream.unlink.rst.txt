@@ -1,6 +1,0 @@
-Stream.unlink
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.unlink

@@ -1,6 +1,0 @@
-Version.encode
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.encode

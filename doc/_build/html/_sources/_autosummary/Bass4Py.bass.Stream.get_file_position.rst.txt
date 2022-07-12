@@ -1,6 +1,0 @@
-Stream.get\_file\_position
-==========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.get_file_position

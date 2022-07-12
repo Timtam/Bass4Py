@@ -1,6 +1,0 @@
-DeviceFail.remove
-=================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: DeviceFail.remove

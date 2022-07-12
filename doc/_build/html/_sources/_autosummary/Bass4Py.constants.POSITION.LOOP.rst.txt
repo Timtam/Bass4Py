@@ -1,6 +1,0 @@
-POSITION.LOOP
-=============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: POSITION.LOOP

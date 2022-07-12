@@ -1,6 +1,0 @@
-End.set
-=======
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: End.set

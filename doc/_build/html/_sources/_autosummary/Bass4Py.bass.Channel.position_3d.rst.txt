@@ -1,6 +1,0 @@
-Channel.position\_3d
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Channel.position_3d

@@ -1,6 +1,0 @@
-ChannelBase.type
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: ChannelBase.type

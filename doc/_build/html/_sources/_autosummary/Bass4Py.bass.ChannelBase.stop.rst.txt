@@ -1,6 +1,0 @@
-ChannelBase.stop
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: ChannelBase.stop

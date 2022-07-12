@@ -1,6 +1,0 @@
-Music.get\_levels
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.get_levels

@@ -1,6 +1,0 @@
-extend\_int\_flag
-=================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autofunction:: extend_int_flag

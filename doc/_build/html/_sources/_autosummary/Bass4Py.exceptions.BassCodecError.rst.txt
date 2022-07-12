@@ -1,8 +1,0 @@
-BassCodecError
-==============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassCodecError
-   :no-members:
-   :no-inherited-members:

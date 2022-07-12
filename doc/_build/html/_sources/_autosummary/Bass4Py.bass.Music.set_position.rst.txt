@@ -1,6 +1,0 @@
-Music.set\_position
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.set_position

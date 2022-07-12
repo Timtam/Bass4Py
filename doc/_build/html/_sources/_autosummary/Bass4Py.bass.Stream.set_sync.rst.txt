@@ -1,6 +1,0 @@
-Stream.set\_sync
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Stream.set_sync

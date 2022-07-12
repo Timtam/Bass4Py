@@ -1,6 +1,0 @@
-DEVICE.DSOUND
-=============
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.DSOUND

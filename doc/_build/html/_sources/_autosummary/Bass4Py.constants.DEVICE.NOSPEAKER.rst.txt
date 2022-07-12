@@ -1,6 +1,0 @@
-DEVICE.NOSPEAKER
-================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.NOSPEAKER

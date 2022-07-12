@@ -1,6 +1,0 @@
-BASS.async\_buffer
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.async_buffer

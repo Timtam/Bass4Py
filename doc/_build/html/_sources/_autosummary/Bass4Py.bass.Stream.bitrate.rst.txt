@@ -1,6 +1,0 @@
-Stream.bitrate
-==============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.bitrate

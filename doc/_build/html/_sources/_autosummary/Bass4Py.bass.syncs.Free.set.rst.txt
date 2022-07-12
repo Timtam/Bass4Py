@@ -1,6 +1,0 @@
-Free.set
-========
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. automethod:: Free.set

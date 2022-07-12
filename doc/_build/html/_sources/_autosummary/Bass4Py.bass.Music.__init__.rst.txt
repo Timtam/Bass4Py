@@ -1,6 +1,0 @@
-Music.\_\_init\_\_
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.__init__

@@ -1,6 +1,0 @@
-DEVICE.DMIX
-===========
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DEVICE.DMIX

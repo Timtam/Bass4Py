@@ -1,6 +1,0 @@
-Stream.device
-=============
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.device

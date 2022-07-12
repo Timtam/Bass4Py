@@ -1,6 +1,0 @@
-Vector.z
-========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Vector.z

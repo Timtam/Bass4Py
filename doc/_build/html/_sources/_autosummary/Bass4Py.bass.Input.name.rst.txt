@@ -1,6 +1,0 @@
-Input.name
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Input.name

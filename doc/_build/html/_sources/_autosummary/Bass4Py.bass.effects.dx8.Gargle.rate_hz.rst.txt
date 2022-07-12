@@ -1,6 +1,0 @@
-Gargle.rate\_hz
-===============
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Gargle.rate_hz

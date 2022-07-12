@@ -1,6 +1,0 @@
-OggChange.callback
-==================
-
-.. currentmodule:: Bass4Py.bass.syncs
-
-.. autoattribute:: OggChange.callback

@@ -1,6 +1,0 @@
-BASS.virtual\_channels
-======================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: BASS.virtual_channels

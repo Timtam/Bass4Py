@@ -1,6 +1,0 @@
-Sample.max
-==========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Sample.max

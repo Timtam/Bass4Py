@@ -1,6 +1,0 @@
-Sync.\_\_init\_\_
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sync.__init__

@@ -1,6 +1,0 @@
-Record.stop
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Record.stop

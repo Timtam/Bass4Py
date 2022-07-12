@@ -1,6 +1,0 @@
-Stream.scan\_info
-=================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.scan_info

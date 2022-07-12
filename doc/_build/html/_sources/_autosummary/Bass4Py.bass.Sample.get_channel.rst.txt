@@ -1,6 +1,0 @@
-Sample.get\_channel
-===================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Sample.get_channel

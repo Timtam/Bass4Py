@@ -1,6 +1,0 @@
-Flanger.set
-===========
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. automethod:: Flanger.set

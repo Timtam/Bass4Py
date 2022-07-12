@@ -1,6 +1,0 @@
-Version.capitalize
-==================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.capitalize

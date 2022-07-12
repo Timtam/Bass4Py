@@ -1,6 +1,0 @@
-Stream.minimum\_distance
-========================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.minimum_distance

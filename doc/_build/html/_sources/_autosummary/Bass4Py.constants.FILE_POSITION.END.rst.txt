@@ -1,6 +1,0 @@
-FILE\_POSITION.END
-==================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: FILE_POSITION.END

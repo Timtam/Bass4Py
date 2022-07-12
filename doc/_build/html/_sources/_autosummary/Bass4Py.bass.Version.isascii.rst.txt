@@ -1,6 +1,0 @@
-Version.isascii
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Version.isascii

@@ -1,8 +1,0 @@
-BassNoHardwareError
-===================
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassNoHardwareError
-   :no-members:
-   :no-inherited-members:

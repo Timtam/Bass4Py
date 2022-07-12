@@ -1,6 +1,0 @@
-BoolAttribute.\_\_init\_\_
-==========================
-
-.. currentmodule:: Bass4Py.bass.attributes
-
-.. automethod:: BoolAttribute.__init__

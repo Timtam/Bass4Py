@@ -1,6 +1,0 @@
-Volume.remove
-=============
-
-.. currentmodule:: Bass4Py.bass.effects
-
-.. automethod:: Volume.remove

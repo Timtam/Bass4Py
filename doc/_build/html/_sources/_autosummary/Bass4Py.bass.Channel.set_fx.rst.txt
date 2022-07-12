@@ -1,6 +1,0 @@
-Channel.set\_fx
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Channel.set_fx

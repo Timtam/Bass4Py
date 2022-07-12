@@ -1,6 +1,0 @@
-Flanger.wet\_dry\_mix
-=====================
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Flanger.wet_dry_mix

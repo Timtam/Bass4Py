@@ -1,6 +1,0 @@
-Stream.outer\_volume
-====================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Stream.outer_volume

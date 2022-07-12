@@ -1,6 +1,0 @@
-Distortion.post\_eq\_center\_frequency
-======================================
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: Distortion.post_eq_center_frequency

@@ -1,8 +1,0 @@
-BassEndedError
-==============
-
-.. currentmodule:: Bass4Py.exceptions
-
-.. autoexception:: BassEndedError
-   :no-members:
-   :no-inherited-members:

@@ -1,6 +1,0 @@
-Channel.set\_dsp
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Channel.set_dsp

@@ -1,6 +1,0 @@
-SAMPLE\_BASE.FLOAT
-==================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: SAMPLE_BASE.FLOAT

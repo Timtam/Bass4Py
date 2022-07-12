@@ -1,6 +1,0 @@
-I3DL2Reverb.diffusion
-=====================
-
-.. currentmodule:: Bass4Py.bass.effects.dx8
-
-.. autoattribute:: I3DL2Reverb.diffusion

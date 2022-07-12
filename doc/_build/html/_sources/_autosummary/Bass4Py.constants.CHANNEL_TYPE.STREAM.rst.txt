@@ -1,6 +1,0 @@
-CHANNEL\_TYPE.STREAM
-====================
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: CHANNEL_TYPE.STREAM

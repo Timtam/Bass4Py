@@ -1,6 +1,0 @@
-Music.get\_tags
-===============
-
-.. currentmodule:: Bass4Py.bass
-
-.. automethod:: Music.get_tags

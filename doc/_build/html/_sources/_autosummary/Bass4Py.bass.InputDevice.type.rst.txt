@@ -1,6 +1,0 @@
-InputDevice.type
-================
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: InputDevice.type

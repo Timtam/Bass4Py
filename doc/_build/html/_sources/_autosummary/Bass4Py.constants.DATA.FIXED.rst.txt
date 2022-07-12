@@ -1,6 +1,0 @@
-DATA.FIXED
-==========
-
-.. currentmodule:: Bass4Py.constants
-
-.. autoattribute:: DATA.FIXED

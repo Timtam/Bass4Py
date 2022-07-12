@@ -1,6 +1,0 @@
-Channel.src
-===========
-
-.. currentmodule:: Bass4Py.bass
-
-.. autoattribute:: Channel.src
