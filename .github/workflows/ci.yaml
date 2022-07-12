@@ -44,11 +44,10 @@ jobs:
           name: "Python ${{matrix.python-version}} (Ubuntu)"
           path: dist/*.whl
       - 
-        name: "Upload test results"
-        uses: actions/upload-artifact@v3
+        name: "Publish test results"
+        uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          name: "Tests for Python ${{matrix.python-version}} (Ubuntu)"
-          path: "junit/test-results-${{matrix.python-version}}.xml"
+          files: "junit/test-results-${{matrix.python-version}}.xml"
         if: ${{always()}}
     strategy:
       matrix:
@@ -113,11 +112,10 @@ jobs:
           name: "Python ${{matrix.python-version}}_${{matrix.arch}} (Windows)"
           path: dist/*.whl
       - 
-        name: "Upload test results"
-        uses: actions/upload-artifact@v3
+        name: "Publish test results"
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
         with:
-          name: "Tests for Python ${{matrix.python-version}}_${{matrix.arch}} (Windows)"
-          path: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
+          files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
         if: ${{always()}}
     strategy:
       matrix:
@@ -186,11 +184,10 @@ jobs:
           name: "Python ${{matrix.python-version}}_${{matrix.arch}} (Windows)"
           path: dist/*.whl
       - 
-        name: "Upload test results"
-        uses: actions/upload-artifact@v3
+        name: "Publish test results"
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
         with:
-          name: "Tests for Python ${{matrix.python-version}}_${{matrix.arch}} (Windows)"
-          path: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
+          files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
         if: ${{always()}}
     strategy:
       matrix:
