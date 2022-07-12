@@ -17,29 +17,29 @@ DEVICE
    .. autosummary::
       :toctree:
    
-      DEVICE.NONE
-   
-      DEVICE.EIGHT_BITS
-   
-      DEVICE.MONO
-   
-      DEVICE.STEREO
-   
-      DEVICE.LATENCY
-   
       DEVICE.CPSPEAKERS
-   
-      DEVICE.SPEAKERS
-   
-      DEVICE.NOSPEAKER
    
       DEVICE.DMIX
    
-      DEVICE.FREQ
-   
       DEVICE.DSOUND
    
+      DEVICE.EIGHT_BITS
+   
+      DEVICE.FREQ
+   
+      DEVICE.LATENCY
+   
+      DEVICE.MONO
+   
+      DEVICE.NONE
+   
+      DEVICE.NOSPEAKER
+   
       DEVICE.REINIT
+   
+      DEVICE.SPEAKERS
+   
+      DEVICE.STEREO
    
    
    

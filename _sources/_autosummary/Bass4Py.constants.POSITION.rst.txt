@@ -19,13 +19,13 @@ POSITION
    
       POSITION.BYTE
    
-      POSITION.MUSIC_ORDER
-   
-      POSITION.OGG
+      POSITION.END
    
       POSITION.LOOP
    
-      POSITION.END
+      POSITION.MUSIC_ORDER
+   
+      POSITION.OGG
    
    
    

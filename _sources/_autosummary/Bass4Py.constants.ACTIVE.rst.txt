@@ -17,15 +17,15 @@ ACTIVE
    .. autosummary::
       :toctree:
    
-      ACTIVE.STOPPED
+      ACTIVE.PAUSED
+   
+      ACTIVE.PAUSED_DEVICE
    
       ACTIVE.PLAYING
    
       ACTIVE.STALLED
    
-      ACTIVE.PAUSED
-   
-      ACTIVE.PAUSED_DEVICE
+      ACTIVE.STOPPED
    
    
    
