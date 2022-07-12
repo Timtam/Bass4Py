@@ -14,7 +14,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+
+if not os.environ['GITHUB_ACTIONS']:
+    sys.path.insert(0, os.path.abspath('..'))
 
 from Bass4Py import __version__
 
