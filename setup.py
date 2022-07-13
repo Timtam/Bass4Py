@@ -8,7 +8,6 @@ from distutils.errors import (CCompilerError, DistutilsExecError,
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 
-from Bass4Py import __version__
 from setup.bass import BASSExtensionHandler
 from setup.tags import TAGSExtensionHandler
 
