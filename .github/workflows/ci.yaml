@@ -49,6 +49,14 @@ jobs:
         with:
           files: "junit/test-results-${{matrix.python-version}}.xml"
         if: ${{always()}}
+      - 
+        name: "Upload wheel to test PyPI"
+        env:
+          TWINE_USERNAME: timtam
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
     strategy:
       matrix:
         include:
@@ -117,6 +125,14 @@ jobs:
         with:
           files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
         if: ${{always()}}
+      - 
+        name: "Upload wheel to test PyPI"
+        env:
+          TWINE_USERNAME: timtam
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
     strategy:
       matrix:
         include:
@@ -189,6 +205,14 @@ jobs:
         with:
           files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
         if: ${{always()}}
+      - 
+        name: "Upload wheel to test PyPI"
+        env:
+          TWINE_USERNAME: timtam
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
     strategy:
       matrix:
         include:

@@ -1,67 +1,66 @@
 import os.path
 import platform
+
 from setuptools.extension import Extension
 
 from .extension_handler import ExtensionHandler
-from .utils import IsX64, GetCurrentDirectory
+from .utils import GetCurrentDirectory, IsX64
+
 
 class TAGSExtensionHandler(ExtensionHandler):
+    def GetExtensions(self):
+        return [
+            Extension(
+                "Bass4Py.tags.tags",
+                ["Bass4Py/tags/tags.pyx"],
+                libraries=["tags", "bass"],
+                language="c",
+            ),
+        ]
 
-  def GetExtensions(self):
-    return [
-      Extension(
-        "Bass4Py.tags.tags",
-        [
-          "Bass4Py/tags/tags.pyx"
-        ],
-        libraries = ["tags", "bass"],
-        language = "c"
-      ),
-    ]
+    def GetIncludeVariable(self):
+        return "TAGSINC"
 
-  def GetIncludeVariable(self):
-    return 'TAGSINC'
-  
-  def GetLibraryVariable(self):
-    return 'TAGSLIB'
-  
-  def GetLibraryDirectories(self):
+    def GetLibraryVariable(self):
+        return "TAGSLIB"
 
-    folders = [
-      os.path.join(GetCurrentDirectory(), 'tags18', 'c'), # Windows
-      os.path.join(GetCurrentDirectory(), 'tags18-linux'), # Linux
-    ]
+    def GetLibraryDirectories(self):
 
-    if IsX64():
-      folders = [os.path.join(f, 'x64') for f in folders]
-    
-    return folders
+        folders = [
+            os.path.join(GetCurrentDirectory(), "tags18", "c"),  # Windows
+            os.path.join(GetCurrentDirectory(), "tags18-linux"),  # Linux
+        ]
 
-  def GetIncludeDirectories(self):
+        if IsX64():
+            folders = [os.path.join(f, "x64") for f in folders]
 
-    folders = [
-      os.path.join(GetCurrentDirectory(), 'tags18', 'c'), # Windows
-      os.path.join(GetCurrentDirectory(), 'tags18-linux'), # Linux
-    ]
+        return folders
 
-    return folders
+    def GetIncludeDirectories(self):
 
-  def GetContainedPackages(self):
-    return (
-      "Bass4Py.tags",
-    )
+        folders = [
+            os.path.join(GetCurrentDirectory(), "tags18", "c"),  # Windows
+            os.path.join(GetCurrentDirectory(), "tags18-linux"),  # Linux
+        ]
 
-  def GetDataFiles(self):
-  
-    if platform.system() == 'Windows':
-      if IsX64():
-        return {'Bass4Py.tags': [os.path.join('tags18', 'x64', 'tags.dll')]}
-      else:
-        return {'Bass4Py.tags': [os.path.join('tags18', 'tags.dll')]}
-    elif platform.system() == 'Linux':
-      if IsX64():
-        return {'Bass4Py.tags': [os.path.join('tags18-linux', 'x64', 'libtags.so')]}
-      else:
-        return {'Bass4Py.tags': [os.path.join('tags18-linux', 'libtags.so')]}
+        return folders
 
-    return {}
+    def GetContainedPackages(self):
+        return ("Bass4Py.tags",)
+
+    def GetDataFiles(self):
+
+        if platform.system() == "Windows":
+            if IsX64():
+                return {"Bass4Py.tags": [os.path.join("tags18", "x64", "tags.dll")]}
+            else:
+                return {"Bass4Py.tags": [os.path.join("tags18", "tags.dll")]}
+        elif platform.system() == "Linux":
+            if IsX64():
+                return {
+                    "Bass4Py.tags": [os.path.join("tags18-linux", "x64", "libtags.so")]
+                }
+            else:
+                return {"Bass4Py.tags": [os.path.join("tags18-linux", "libtags.so")]}
+
+        return {}
