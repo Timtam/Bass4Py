@@ -220,7 +220,9 @@ setup(
     packages=packages,
     package_data=data_files,
     cmdclass={"build_ext": build_ext_compiler_check},
-    use_scm_version=True,
+    use_scm_version={
+        "local_scheme": "no-local-version",
+    },
     setup_requires = [
         "setuptools_scm",
     ],
