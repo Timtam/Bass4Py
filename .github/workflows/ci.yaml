@@ -32,7 +32,7 @@ jobs:
       - 
         name: "Build wheel"
         env:
-          CIBW_BUILD: ${{ matrix.python-whl }}
+          CIBW_BUILD: "${{ matrix.python-whl }}-manylinux*"
           CIBW_SKIP: pp*
           CIBW_ARCHS: auto64
           CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/x64/libbass.so /usr/lib/libbass.so && cp /project/tags18-linux/x64/libtags.so /usr/lib/libtags.so"
@@ -57,23 +57,23 @@ jobs:
           - 
             os: ubuntu-20.04
             python-version: "3.6"
-            python-whl: "cp36-*"
+            python-whl: "cp36"
           - 
             os: ubuntu-20.04
             python-version: "3.7"
-            python-whl: "cp37-*"
+            python-whl: "cp37"
           - 
             os: ubuntu-20.04
             python-version: "3.8"
-            python-whl: "cp38-*"
+            python-whl: "cp38"
           - 
             os: ubuntu-20.04
             python-version: "3.9"
-            python-whl: "cp39-*"
+            python-whl: "cp39"
           - 
             os: ubuntu-20.04
             python-version: "3.10"
-            python-whl: "cp310-*"
+            python-whl: "cp310"
 
   windows-x64:
     runs-on: ${{matrix.os}}
