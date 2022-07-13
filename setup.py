@@ -5,7 +5,6 @@ import warnings
 from distutils.errors import (CCompilerError, DistutilsExecError,
                               DistutilsPlatformError)
 
-import semver
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 
@@ -212,14 +211,8 @@ requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 with open(requirements_file, "r") as f:
     requirements = f.read()
 
-version = __version__
-
-if semver.VersionInfo.parse(version).prerelease and "GITHUB_RUN_NUMBER" in os.environ:
-    version = semver.replace(version, build=os.environ["GITHUB_RUN_NUMBER"])
-
 setup(
     name="Bass4Py",
-    version=version,
     author="Toni Barth",
     author_email="software@satoprogs.de",
     url="https://github.com/Timtam/Bass4Py",
@@ -228,5 +221,9 @@ setup(
     packages=packages,
     package_data=data_files,
     cmdclass={"build_ext": build_ext_compiler_check},
+    use_scm_version=True,
+    setup_requires = [
+        "setuptools_scm",
+    ],
     install_requires=requirements.split("\r\n"),
 )

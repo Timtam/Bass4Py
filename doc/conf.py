@@ -12,13 +12,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from importlib.metadata import version as packageVersion, PackageNotFoundError
+
 import os
 import sys
 
-if not os.environ['GITHUB_ACTIONS']:
+if 'GITHUB_ACTIONS' not in os.environ:
     sys.path.insert(0, os.path.abspath('..'))
-
-from Bass4Py import __version__
 
 # -- Project information -----------------------------------------------------
 
@@ -29,8 +29,14 @@ author = u'Toni Barth'
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = __version__
 
+try:
+    release = packageVersion("Bass4Py")
+except PackageNotFoundError:
+
+    from setuptools_scm import get_version
+    
+    release = get_version(root = '..', relative_to = __file__)
 
 # -- General configuration ---------------------------------------------------
 

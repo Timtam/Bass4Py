@@ -4,6 +4,6 @@ pytest==7.0.1
 pytest-cov==3.0.0;python_version > '3.6'
 pytest-order==1.0.1
 pytest-platform-markers==1.0.0
-semver==2.13.0
 setuptools
+setuptools-scm
 wheel
