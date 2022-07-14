@@ -343,19 +343,8 @@ class BASSExtensionHandler(ExtensionHandler):
                 )
             else:
                 files.update({"Bass4Py.bass": [os.path.join("bass24", "bass.dll")]})
-        elif platform.system() == "Linux":
-            if IsX64():
-                files.update(
-                    {
-                        "Bass4Py.bass": [
-                            os.path.join("bass24-linux", "x64", "libbass.so")
-                        ]
-                    }
-                )
-            else:
-                files.update(
-                    {"Bass4Py.bass": [os.path.join("bass24-linux", "libbass.so")]}
-                )
+        else:
+            files["Bass4Py.bass"] = []
 
         files["Bass4Py.bass"].append("*.pyi")
 

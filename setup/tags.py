@@ -55,12 +55,5 @@ class TAGSExtensionHandler(ExtensionHandler):
                 return {"Bass4Py.tags": [os.path.join("tags18", "x64", "tags.dll")]}
             else:
                 return {"Bass4Py.tags": [os.path.join("tags18", "tags.dll")]}
-        elif platform.system() == "Linux":
-            if IsX64():
-                return {
-                    "Bass4Py.tags": [os.path.join("tags18-linux", "x64", "libtags.so")]
-                }
-            else:
-                return {"Bass4Py.tags": [os.path.join("tags18-linux", "libtags.so")]}
 
         return {}
