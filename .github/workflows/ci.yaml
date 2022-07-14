@@ -36,7 +36,17 @@ jobs:
           CIBW_SKIP: pp*
           CIBW_ARCHS: auto64
           CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/x64/libbass.so /usr/lib64/libbass.so && cp /project/tags18-linux/x64/libtags.so /usr/lib64/libtags.so"
+          CIBW_BEFORE_TEST: "pip install -r {project}/requirements-dev.txt"
+          CIBW_TEST_COMMAND: "python -m pytest {project}/tests --junitxml={project}/junit/test-results-${{ matrix.python-version }}_x64.xml"
         run: python -m cibuildwheel --platform linux --output-dir wheelhouse64
+      - 
+        name: "Publish x64 test results"
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: "junit/test-results-${{ matrix.python-version }}_x64.xml"
+          check_name: "Unit Tests Python ${{ matrix.python-version }}_x64 (Linux)"
+          report_individual_runs: "true"
+        if: ${{ always() }}
       - 
         name: "Upload x64 wheels"
         uses: actions/upload-artifact@v3
@@ -50,7 +60,17 @@ jobs:
           CIBW_SKIP: pp*
           CIBW_ARCHS: auto32
           CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/libbass.so /usr/lib/libbass.so && cp /project/tags18-linux/libtags.so /usr/lib/libtags.so"
+          CIBW_BEFORE_TEST: "pip install -r {project}/requirements-dev.txt"
+          CIBW_TEST_COMMAND: "python -m pytest {project}/tests --junitxml={project}/junit/test-results-${{ matrix.python-version }}_i686.xml"
         run: python -m cibuildwheel --platform linux --output-dir wheelhouse86
+      - 
+        name: "Publish i686 test results"
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: "junit/test-results-${{ matrix.python-version }}_i686.xml"
+          check_name: "Unit Tests Python ${{ matrix.python-version }}_i686 (Linux)"
+          report_individual_runs: "true"
+        if: ${{ always() }}
       - 
         name: "Upload x86 wheels"
         uses: actions/upload-artifact@v3
