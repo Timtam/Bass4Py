@@ -75,6 +75,7 @@ jobs:
           python -m pip install twine
           python -m twine upload -r testpypi wheelhouse/*
     strategy:
+      fail-fast: false
       matrix:
         include:
           - 
@@ -160,6 +161,7 @@ jobs:
           python -m pip install twine
           python -m twine upload -r testpypi dist/*
     strategy:
+      fail-fast: false
       matrix:
         include:
           - 
@@ -244,6 +246,7 @@ jobs:
           python -m pip install twine
           python -m twine upload -r testpypi dist/*
     strategy:
+      fail-fast: false
       matrix:
         include:
           - 
