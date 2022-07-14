@@ -57,6 +57,7 @@ jobs:
         name: "Run tests"
         run: |
           python -m pytest --junitxml=../junit/test-results-${{ matrix.python-version }}.xml
+        working-directory: test-env
       - 
         name: "Publish test results"
         uses: EnricoMi/publish-unit-test-result-action@v1
