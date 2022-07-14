@@ -30,50 +30,42 @@ jobs:
         name: "Install python requirements"
         run: python -m pip install -r requirements-dev.txt
       - 
-        name: "Build wheel"
+        name: "Build x64 wheels"
         env:
           CIBW_BUILD: "${{ matrix.python-whl }}-manylinux*"
           CIBW_SKIP: pp*
           CIBW_ARCHS: auto64
-          CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/x64/libbass.so /usr/lib/libbass.so && cp /project/tags18-linux/x64/libtags.so /usr/lib/libtags.so"
-        run: python -m cibuildwheel --platform linux
+          CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/x64/libbass.so /usr/lib64/libbass.so && cp /project/tags18-linux/x64/libtags.so /usr/lib64/libtags.so"
+        run: python -m cibuildwheel --platform linux --output-dir wheelhouse64
       - 
-        name: "Upload wheel"
+        name: "Upload x64 wheels"
         uses: actions/upload-artifact@v3
         with:
-          name: "Python ${{matrix.python-version}} (Linux)"
-          path: wheelhouse/*.whl
+          name: "Python ${{matrix.python-version}}-x86_64 (Linux)"
+          path: wheelhouse64/*.whl
       - 
-        name: "Install Bass4Py wheel"
-        shell: bash
-        run: |
-          pip install $(find ./wheelhouse -name Bass4Py*.whl)
+        name: "Build x86 wheels"
+        env:
+          CIBW_BUILD: "${{ matrix.python-whl }}-manylinux*"
+          CIBW_SKIP: pp*
+          CIBW_ARCHS: auto32
+          CIBW_BEFORE_BUILD: "pip install -r requirements-dev.txt && cp /project/bass24-linux/libbass.so /usr/lib/libbass.so && cp /project/tags18-linux/libtags.so /usr/lib/libtags.so"
+        run: python -m cibuildwheel --platform linux --output-dir wheelhouse86
       - 
-        name: "Setup test environment"
-        run: |
-          mkdir test-env
-          cp -r tests test-env/
-      - 
-        name: "Run tests"
-        run: |
-          python -m pytest --junitxml=../junit/test-results-${{ matrix.python-version }}.xml
-        working-directory: test-env
-      - 
-        name: "Publish test results"
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        name: "Upload x86 wheels"
+        uses: actions/upload-artifact@v3
         with:
-          files: "junit/test-results-${{ matrix.python-version }}.xml"
-          check_name: "Unit Tests Python ${{ matrix.python-version }} (Linux)"
-          report_individual_runs: "true"
-        if: ${{ always() }}
+          name: "Python ${{matrix.python-version}}-i686 (Linux)"
+          path: wheelhouse86/*.whl
       - 
-        name: "Upload wheel to test PyPI"
+        name: "Upload wheels to test PyPI"
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
         run: |
           python -m pip install twine
-          python -m twine upload -r testpypi wheelhouse/*
+          cp wheelhouse86/* wheelhouse64/
+          python -m twine upload -r testpypi wheelhouse64/*
     strategy:
       fail-fast: false
       matrix:
