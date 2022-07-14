@@ -63,6 +63,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: "junit/test-results-${{ matrix.python-version }}.xml"
+          check_name: "Unit Tests Python ${{ matrix.python-version }} (Linux)"
+          report_individual_runs: "true"
         if: ${{ always() }}
       - 
         name: "Upload wheel to test PyPI"
@@ -146,6 +148,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v1
         with:
           files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
+          check_name: "Unit Tests Python ${{ matrix.python-version }}_${{ matrix.arch }} (Windows)"
+          report_individual_runs: "true"
         if: ${{always()}}
       - 
         name: "Upload wheel to test PyPI"
@@ -228,6 +232,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v1
         with:
           files: "junit/test-results-${{matrix.python-version}}_${{matrix.arch}}.xml"
+          check_name: "Unit Tests Python ${{ matrix.python-version }}_${{ matrix.arch }} (Windows)"
+          report_individual_runs: "true"
         if: ${{always()}}
       - 
         name: "Upload wheel to test PyPI"
