@@ -55,6 +55,7 @@ jobs:
           path: wheelhouse/*.whl
       - 
         name: "Upload wheels to test PyPI"
+        if: github.repository == 'Timtam/Bass4Py'
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
