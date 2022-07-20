@@ -62,6 +62,15 @@ jobs:
         run: |
           python -m pip install twine
           python -m twine upload -r testpypi wheelhouse/*
+      - 
+        name: "Upload wheels to PyPI"
+        if: "github.repository == 'Timtam/Bass4Py' and startsWith(github.ref, 'refs/tags/')"
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload wheelhouse/*
     strategy:
       fail-fast: false
       matrix:
@@ -143,6 +152,15 @@ jobs:
         run: |
           python -m pip install twine
           python -m twine upload -r testpypi wheelhouse/*
+      - 
+        name: "Upload wheels to PyPI"
+        if: "github.repository == 'Timtam/Bass4Py' and startsWith(github.ref, 'refs/tags/')"
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload wheelhouse/*
     strategy:
       fail-fast: false
       matrix:
@@ -229,6 +247,15 @@ jobs:
         run: |
           python -m pip install twine
           python -m twine upload -r testpypi dist/*
+      - 
+        name: "Upload wheels to PyPI"
+        if: "github.repository == 'Timtam/Bass4Py' and startsWith(github.ref, 'refs/tags/')"
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
     strategy:
       fail-fast: false
       matrix:
@@ -314,6 +341,15 @@ jobs:
         run: |
           python -m pip install twine
           python -m twine upload -r testpypi dist/*
+      - 
+        name: "Upload wheels to PyPI"
+        if: "github.repository == 'Timtam/Bass4Py' and startsWith(github.ref, 'refs/tags/')"
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
     strategy:
       fail-fast: false
       matrix:
