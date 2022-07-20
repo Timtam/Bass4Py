@@ -17,11 +17,11 @@ STARTED
    .. autosummary::
       :toctree:
    
+      STARTED.NOT_STARTED
+   
       STARTED.ACTIVE
    
       STARTED.INACTIVE
-   
-      STARTED.NOT_STARTED
    
    
    

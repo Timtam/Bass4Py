@@ -17,11 +17,7 @@ INPUT\_TYPE
    .. autosummary::
       :toctree:
    
-      INPUT_TYPE.ANALOG
-   
-      INPUT_TYPE.AUX
-   
-      INPUT_TYPE.CD
+      INPUT_TYPE.UNDEF
    
       INPUT_TYPE.DIGITAL
    
@@ -29,15 +25,19 @@ INPUT\_TYPE
    
       INPUT_TYPE.MIC
    
+      INPUT_TYPE.SYNTH
+   
+      INPUT_TYPE.CD
+   
       INPUT_TYPE.PHONE
    
       INPUT_TYPE.SPEAKER
    
-      INPUT_TYPE.SYNTH
-   
-      INPUT_TYPE.UNDEF
-   
       INPUT_TYPE.WAVE
+   
+      INPUT_TYPE.AUX
+   
+      INPUT_TYPE.ANALOG
    
    
    

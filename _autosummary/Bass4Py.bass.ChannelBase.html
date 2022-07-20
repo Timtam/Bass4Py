@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>ChannelBase &#8212; Bass4Py 0.1.dev379 documentation</title>
+    <title>ChannelBase &#8212; Bass4Py 0.1.dev380 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -34,10 +35,10 @@
           <div class="body" role="main">
             
   <section id="channelbase">
-<h1>ChannelBase<a class="headerlink" href="#channelbase" title="Permalink to this headline">¶</a></h1>
+<h1>ChannelBase<a class="headerlink" href="#channelbase" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="Bass4Py.bass.ChannelBase">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">ChannelBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">HCHANNEL</span> <span class="pre">channel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.ChannelBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Bass4Py.bass.</span></span><span class="sig-name descname"><span class="pre">ChannelBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">HCHANNEL</span> <span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Bass4Py.bass.ChannelBase" title="Permalink to this definition">¶</a></dt>
 <dd><div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_levels()</span></code></a> has a flags parameter; rewrite
@@ -65,31 +66,27 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
 <p>documentation for attributes</p>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.__init__.html#Bass4Py.bass.ChannelBase.__init__" title="Bass4Py.bass.ChannelBase.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.__init__</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Initialize self.</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.bytes_to_seconds.html#Bass4Py.bass.ChannelBase.bytes_to_seconds" title="Bass4Py.bass.ChannelBase.bytes_to_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.bytes_to_seconds</span></code></a>(self, QWORD bytes)</p></td>
-<td><p>Translates a byte position into time (seconds), based on a channel’s format.</p></td>
+<td><p>Translates a byte position into time (seconds), based on a channel's format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.free.html#Bass4Py.bass.ChannelBase.free" title="Bass4Py.bass.ChannelBase.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.free</span></code></a>(self)</p></td>
 <td><p>Frees a channel, including any sync/DSP/FX it has.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_data</span></code></a>(self, DWORD length, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_data.html#Bass4Py.bass.ChannelBase.get_data" title="Bass4Py.bass.ChannelBase.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_data</span></code></a>(self, DWORD length, ...)</p></td>
 <td><p>Retrieves the immediate sample data of this channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_length.html#Bass4Py.bass.ChannelBase.get_length" title="Bass4Py.bass.ChannelBase.get_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_length</span></code></a>(self, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_length.html#Bass4Py.bass.ChannelBase.get_length" title="Bass4Py.bass.ChannelBase.get_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_length</span></code></a>(self, ...)</p></td>
 <td><p>Retrieves the playback length of a channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_levels</span></code></a>(self, float length, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_levels.html#Bass4Py.bass.ChannelBase.get_levels" title="Bass4Py.bass.ChannelBase.get_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_levels</span></code></a>(self, float length, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_position.html#Bass4Py.bass.ChannelBase.get_position" title="Bass4Py.bass.ChannelBase.get_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_position</span></code></a>(self, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.get_position.html#Bass4Py.bass.ChannelBase.get_position" title="Bass4Py.bass.ChannelBase.get_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.get_position</span></code></a>(self, ...)</p></td>
 <td><p>Retrieves the playback position of this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.lock.html#Bass4Py.bass.ChannelBase.lock" title="Bass4Py.bass.ChannelBase.lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.lock</span></code></a>(self)</p></td>
@@ -99,7 +96,7 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
 <td><p>Pauses this channel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.seconds_to_bytes.html#Bass4Py.bass.ChannelBase.seconds_to_bytes" title="Bass4Py.bass.ChannelBase.seconds_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.seconds_to_bytes</span></code></a>(self, double secs)</p></td>
-<td><p>Translates a time (seconds) position into bytes, based on a channel’s format.</p></td>
+<td><p>Translates a time (seconds) position into bytes, based on a channel's format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.stop.html#Bass4Py.bass.ChannelBase.stop" title="Bass4Py.bass.ChannelBase.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.stop</span></code></a>(self)</p></td>
 <td><p>Stops this channel.</p></td>
@@ -110,11 +107,7 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="Bass4Py.bass.ChannelBase.active.html#Bass4Py.bass.ChannelBase.active" title="Bass4Py.bass.ChannelBase.active"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelBase.active</span></code></a></p></td>
 <td><p>a channel is active (playing) or stalled.</p></td>
@@ -184,7 +177,7 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apireference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changes.html">Bass4Py Changelog</a></li>
@@ -208,12 +201,12 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -230,7 +223,7 @@ init/create_stream/create_music/… calls (more pythonic methods)</p>
       &copy;2019-2021, Toni Barth.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

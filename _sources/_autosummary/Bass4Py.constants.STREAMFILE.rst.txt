@@ -17,11 +17,11 @@ STREAMFILE
    .. autosummary::
       :toctree:
    
+      STREAMFILE.NOBUFFER
+   
       STREAMFILE.BUFFER
    
       STREAMFILE.BUFFERPUSH
-   
-      STREAMFILE.NOBUFFER
    
    
    

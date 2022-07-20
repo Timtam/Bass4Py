@@ -17,11 +17,11 @@ DATA
    .. autosummary::
       :toctree:
    
+      DATA.SRC
+   
       DATA.FIXED
    
       DATA.FLOAT
-   
-      DATA.SRC
    
    
    
