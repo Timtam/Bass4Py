@@ -33,7 +33,10 @@ if USE_CYTHON and not HAVE_CYTHON:
 extensions = []
 library_dirs = []
 include_dirs = []
-packages = []
+packages = [
+    'Bass4Py.__pyinstaller',
+]
+
 requirement_flags = []
 data_files = {}
 
@@ -227,4 +230,9 @@ setup(
         "setuptools_scm",
     ],
     install_requires=requirements.split("\r\n"),
+    entry_points = {
+        "pyinstaller40": [
+            "hook-dirs = Bass4Py.__pyinstaller:get_hook_dirs",
+        ],
+    },
 )
